@@ -13,7 +13,7 @@ class Mermaid(Kwargs_To_Self):
 
     # todo add support for storing the data in sqlite so that the search for existing nodes is efficient
     def add_edge(self, from_node_key, to_node_key, label=None,attributes=None):
-        nodes_by_id = self.graph.data().nodes__by_key()
+        nodes_by_id = self.graph.data().nodes__by_id()
         from_node   = nodes_by_id.get(from_node_key)
         to_node     = nodes_by_id.get(to_node_key)
         if not from_node:

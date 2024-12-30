@@ -32,16 +32,14 @@ class test_MGraph(TestCase):
                                                label      = label           )
 
     def test_add_edge(self):
-        label_1 = random_text()
-        label_2 = random_text()
         with self.mgraph as _:
-            from_node  = _.add_node(key=label_1)
-            to_node    = _.add_node(key=label_2)
+            from_node  = _.add_node()
+            to_node    = _.add_node()
             new_edge   = _.add_edge(from_node=from_node, to_node=to_node)
             assert _.edges               == [new_edge]
             assert new_edge.from_node    == from_node
             assert new_edge.to_node      == to_node
-            assert new_edge.__locals__() == {'attributes': {}, 'from_node': from_node, 'label':'', 'to_node': to_node}
+            assert new_edge.__locals__() == {'attributes': {}, 'from_node': from_node, 'to_node': to_node}
 
             with Stdout() as stdout:
                 _.print()
@@ -50,6 +48,6 @@ class test_MGraph(TestCase):
                                       '┌───────────────────────────────────────────┐\n'
                                       '│ key               │ edges                 │\n'
                                       '├───────────────────────────────────────────┤\n'
-                                     f"│ {from_node.key  } │ ['{to_node.key    }'] │\n"
-                                     f'│ {to_node.key    } │ []                    │\n'
+                                     f"│ {from_node.node_id} │ ['{to_node.node_id}'] │\n"
+                                     f'│ {to_node  .node_id  } │ []                │\n'
                                       '└───────────────────────────────────────────┘\n')

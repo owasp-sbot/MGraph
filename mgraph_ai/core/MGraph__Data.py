@@ -32,23 +32,23 @@ class MGraph__Data(Type_Safe):
         return nodes_data
 
 
-    def nodes__by_key(self):
+    def nodes__by_id(self):
         by_key = {}
         for node in self.nodes():
-            by_key[node.key] = node
+            by_key[node.node_id] = node
         return by_key
 
-    def nodes__keys(self):
-        return [node.key for node in self.nodes()]
+    def nodes__ids(self):
+        return [node.node_id for node in self.nodes()]
 
     def nodes_edges(self):
         nodes__edges = {}
         for node in self.nodes():
-            nodes__edges[node.key] = []
+            nodes__edges[node.node_id] = []
         for edge in self.edges():
-            from_key = edge.from_node.key
+            from_key = edge.from_node.node_id
             if from_key in nodes__edges:                                        # todo: add a better way to handle this, which is a weird situation, look also at a better way to do this assigment
-                nodes__edges[from_key].append(edge.to_node.key)
+                nodes__edges[from_key].append(edge.to_node.node_id)
         for node_key, edges_keys in nodes__edges.items():
             nodes__edges[node_key] = sorted(edges_keys)
         return nodes__edges
@@ -95,11 +95,11 @@ class MGraph__Data(Type_Safe):
 
     def print_adjacency_matrix(self):
         adjacency_matrix = self.nodes_edges__adjacency_matrix()
-        node_keys        = sorted(self.nodes__keys())
+        node_keys        = sorted(self.nodes__ids())
         with Print_Table() as _:
             for row in adjacency_matrix:
                 _.add_data(row)
-            _.set_order('key', *node_keys)
+            _.set_order('node_id', *node_keys)
             _.print()
 
 
@@ -132,7 +132,7 @@ class MGraph__Data(Type_Safe):
 
         table_data = []
         for i, row in enumerate(matrix):
-            row_data = {'key': node_keys[i]}
+            row_data = {'node_id': node_keys[i]}
             row_data.update({node_keys[j]: row[j] for j in range(size)})
             table_data.append(row_data)
         return table_data

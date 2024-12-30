@@ -40,7 +40,7 @@ class test_Mermaid(TestCase):
             from_node_key = 'from_key'
             to_node_key   =  'to_key'
             edge          = _.add_edge(from_node_key=from_node_key, to_node_key=to_node_key, label='an_label', attributes={'answer': '42'})
-            nodes_by_id   = _.graph.data().nodes__by_key()
+            nodes_by_id   = _.graph.data().nodes__by_id()
             from_node     = nodes_by_id.get(from_node_key)
             to_node       = nodes_by_id.get(to_node_key)
 

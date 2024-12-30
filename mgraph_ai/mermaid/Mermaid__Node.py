@@ -6,6 +6,8 @@ LINE_PADDING = '    '
 
 class Mermaid__Node(MGraph__Node):
     config : Mermaid__Node__Config
+    key    : str
+    label  : str
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

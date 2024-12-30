@@ -8,6 +8,7 @@ class Mermaid__Edge(MGraph__Edge):
     config    : Mermaid__Edge__Config
     from_node : Mermaid__Node
     to_node   : Mermaid__Node
+    label     : str
 
     def edge_mode(self, edge_mode):
         self.config.edge_mode = edge_mode

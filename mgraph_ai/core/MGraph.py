@@ -19,7 +19,7 @@ class MGraph(Type_Safe):
         if not self.key:
             self.key = random_text("mgraph", lowercase=True)                 # make sure there is always a key
 
-    def add_edge(self, from_node, to_node, label=None,attributes=None):
+    def add_edge(self, from_node, to_node, attributes=None):
         if self.config.allow_circle_edges is False:
             if from_node == to_node:
                 return None
@@ -27,12 +27,12 @@ class MGraph(Type_Safe):
             for edge in self.edges:
                 if edge.from_node == from_node and edge.to_node == to_node:
                     return None
-        new_edge = MGraph__Edge(from_node=from_node, to_node=to_node, label=label, attributes=attributes)
+        new_edge = MGraph__Edge(from_node=from_node, to_node=to_node, attributes=attributes)
         self.edges.append(new_edge)
         return new_edge
 
-    def add_node(self, key=None, label=None, attributes=None):
-        new_node = MGraph__Node(key=key, label=label, attributes=attributes)
+    def add_node(self, attributes=None):
+        new_node = MGraph__Node(attributes=attributes)
         self.nodes.append(new_node)
         return new_node
 

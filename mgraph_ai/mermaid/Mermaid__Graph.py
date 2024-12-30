@@ -1,5 +1,4 @@
 from typing                             import List
-from mgraph_ai.core.MGraph__Node        import MGraph__Node
 from mgraph_ai.mermaid.Mermaid__Edge    import Mermaid__Edge
 from mgraph_ai.mermaid.Mermaid__Node    import Mermaid__Node
 from mgraph_ai.core.MGraph              import MGraph
