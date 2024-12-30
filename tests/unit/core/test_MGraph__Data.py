@@ -1,14 +1,11 @@
-from collections import defaultdict
-from unittest import TestCase
-
-import pytest
-
-from mgraph_ai.core.MGraph import MGraph
-from mgraph_ai.core.MGraph__Data import MGraph__Data
-from mgraph_ai.core.MGraph__Edge import MGraph__Edge
-from osbot_utils.testing.Stdout import Stdout
-from osbot_utils.utils.Misc import list_set
-from mgraph_ai.core.MGraph__Random_Graphs import MGraph__Random_Graphs
+from collections                            import defaultdict
+from unittest                               import TestCase
+from mgraph_ai.core.MGraph                  import MGraph
+from mgraph_ai.core.MGraph__Data            import MGraph__Data
+from mgraph_ai.core.MGraph__Edge            import MGraph__Edge
+from osbot_utils.testing.Stdout             import Stdout
+from osbot_utils.utils.Misc                 import list_set
+from mgraph_ai.core.MGraph__Random_Graphs   import MGraph__Random_Graphs
 
 
 class test_MGraph__Data(TestCase):
@@ -22,9 +19,10 @@ class test_MGraph__Data(TestCase):
 
     def test___init__(self):
         assert self.graph_data.__class__.__name__ == 'MGraph__Data'
-        assert self.graph_data.mgraph    == self.mgraph
-        assert self.graph_data.nodes()   == self.mgraph.nodes
-        assert self.graph_data.edges()   == self.mgraph.edges
+        assert self.graph_data.mgraph        == self.mgraph
+        assert list(self.graph_data.nodes()) == list(self.mgraph.nodes.values())
+        assert self.graph_data.nodes_ids ()  == list(self.mgraph.nodes.keys())
+        assert self.graph_data.edges     ()  == self.mgraph.edges
 
         assert list_set(MGraph__Data().__attr_names__()) == ['mgraph']
         assert type(MGraph__Data().mgraph)               is MGraph
@@ -34,18 +32,18 @@ class test_MGraph__Data(TestCase):
                                                 'edges': self.graph_data.edges_data()}
 
     def test_nodes__by_key(self):
-        assert list(self.graph_data.nodes__by_id().keys  ()) == list(self.graph_data.nodes__ids())
-        assert list(self.graph_data.nodes__by_id().values()) == self.mgraph.nodes
+        assert list(self.graph_data.nodes__by_id().keys  ()) == list(self.graph_data.nodes_ids())
+        assert list(self.graph_data.nodes__by_id().values()) == list(self.mgraph.nodes.values())
 
     def test_nodes_edges(self):
         with self.graph_data as _:                                          # Use graph_data in a context manager
             nodes_edges = _.nodes_edges()                                   # Retrieve nodes and their edges
-            assert list_set(nodes_edges) == sorted(_.nodes__ids())         # Assert equality of nodes_edges and nodes_keys
+            assert list_set(nodes_edges) == sorted(_.nodes_ids())         # Assert equality of nodes_edges and nodes_keys
 
             expected_data = defaultdict(list)                               # Defaultdict for storing expected data
             for edge in _.edges():                                          # Iterate over all edges in the graph
-                from_key = edge.from_node.node_id                            # Get key of the from_node
-                to_key  = edge.to_node.node_id                               # Get key of the to_node
+                from_key = edge.from_node_id                                # Get key of the from_node
+                to_key  = edge.to_node_id                                   # Get key of the to_node
                 expected_data[from_key].append(to_key)                      # Append to_key to the list of from_key
 
             for node_key, nodes_edges_keys in expected_data.items():        # Iterate over expected data items
@@ -72,7 +70,7 @@ class test_MGraph__Data(TestCase):
     def test_node_edges__to_from(self):
         node_edges__to_from = self.graph_data.node_edges__to_from()
 
-        assert list_set(node_edges__to_from) == list_set(self.graph_data.nodes__ids())
+        assert list_set(node_edges__to_from) == list_set(self.graph_data.nodes_ids())
         assert len(list_set(node_edges__to_from)) == self.x
 
     def test_print(self):

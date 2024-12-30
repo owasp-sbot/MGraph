@@ -1,4 +1,5 @@
-from typing                             import List
+from typing                             import List, Dict
+from osbot_utils.helpers.Random_Guid    import Random_Guid
 from osbot_utils.base_classes.Type_Safe import Type_Safe
 from osbot_utils.utils.Misc             import random_text, lower
 from mgraph_ai.core.MGraph__Config      import MGraph__Config
@@ -11,7 +12,7 @@ class MGraph(Type_Safe):
     config : MGraph__Config
     edges  : List[MGraph__Edge]
     key    : str
-    nodes  : List[MGraph__Node]
+    nodes  : Dict[Random_Guid, MGraph__Node]
 
 
     def __init__(self, **kwargs):
@@ -19,26 +20,29 @@ class MGraph(Type_Safe):
         if not self.key:
             self.key = random_text("mgraph", lowercase=True)                 # make sure there is always a key
 
-    def add_edge(self, from_node, to_node, attributes=None):
+    def add_edge(self, from_node_id, to_node_id, attributes=None):
         if self.config.allow_circle_edges is False:
-            if from_node == to_node:
+            if from_node_id == to_node_id:
                 return None
         if self.config.allow_duplicate_edges is False:                          # todo: figure out if there is a more efficient way to do this
             for edge in self.edges:
-                if edge.from_node == from_node and edge.to_node == to_node:
+                if edge.from_node_id == from_node_id and edge.to_node_id == to_node_id:
                     return None
-        new_edge = MGraph__Edge(from_node=from_node, to_node=to_node, attributes=attributes)
+        new_edge = MGraph__Edge(from_node_id=from_node_id, to_node_id=to_node_id, attributes=attributes)
         self.edges.append(new_edge)
         return new_edge
 
-    def add_node(self, attributes=None):
-        new_node = MGraph__Node(attributes=attributes)
-        self.nodes.append(new_node)
+    def add_node(self, new_node: MGraph__Node):
+        self.nodes[new_node.node_id] = new_node
         return new_node
+
 
     def data(self):
         from mgraph_ai.core.MGraph__Data import MGraph__Data
         return MGraph__Data(mgraph=self)
+
+    def node(self, node_id):
+        return self.nodes.get(node_id)
 
     # def save(self, format='pickle'):
     #     if format == 'pickle':
@@ -52,3 +56,8 @@ class MGraph(Type_Safe):
     def print(self):
         print()
         return self.data().print()
+
+    def new_node(self, attributes=None):
+        new_node = MGraph__Node(attributes=attributes)
+        self.nodes[new_node.node_id] = new_node
+        return new_node

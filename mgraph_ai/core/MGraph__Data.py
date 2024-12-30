@@ -23,7 +23,7 @@ class MGraph__Data(Type_Safe):
         return edges_data
 
     def nodes(self):
-        return self.mgraph.nodes
+        return self.mgraph.nodes.values()
 
     def nodes_data(self):
         nodes_data = []
@@ -38,17 +38,17 @@ class MGraph__Data(Type_Safe):
             by_key[node.node_id] = node
         return by_key
 
-    def nodes__ids(self):
-        return [node.node_id for node in self.nodes()]
+    def nodes_ids(self):
+        return list(self.mgraph.nodes.keys())
 
     def nodes_edges(self):
         nodes__edges = {}
         for node in self.nodes():
             nodes__edges[node.node_id] = []
         for edge in self.edges():
-            from_key = edge.from_node.node_id
+            from_key = edge.from_node_id
             if from_key in nodes__edges:                                        # todo: add a better way to handle this, which is a weird situation, look also at a better way to do this assigment
-                nodes__edges[from_key].append(edge.to_node.node_id)
+                nodes__edges[from_key].append(edge.to_node_id)
         for node_key, edges_keys in nodes__edges.items():
             nodes__edges[node_key] = sorted(edges_keys)
         return nodes__edges
@@ -95,7 +95,7 @@ class MGraph__Data(Type_Safe):
 
     def print_adjacency_matrix(self):
         adjacency_matrix = self.nodes_edges__adjacency_matrix()
-        node_keys        = sorted(self.nodes__ids())
+        node_keys        = sorted(self.nodes_ids())
         with Print_Table() as _:
             for row in adjacency_matrix:
                 _.add_data(row)
