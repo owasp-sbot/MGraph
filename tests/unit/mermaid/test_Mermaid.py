@@ -17,12 +17,9 @@ class test_Mermaid(TestCase):
 
     def test__init__(self):
         with self.mermaid as _:
-            expected_vars = {'logger'           : _.logger              ,
-                             'graph'            : _.graph               ,
+            expected_vars = {'graph'            : _.graph               ,
                              'renderer'         : _.renderer            }
             assert _.__locals__() == expected_vars
-            assert _.logger  .logger_name        == 'Python_Logger__Mermaid'
-            assert _.logger  .__class__.__name__ == 'Python_Logger'
             assert _.graph   .__class__.__name__ == 'Mermaid__Graph'
             assert _.renderer.__class__.__name__ == 'Mermaid__Renderer'
 
@@ -40,12 +37,12 @@ class test_Mermaid(TestCase):
             from_node_key = 'from_key'
             to_node_key   =  'to_key'
             edge          = _.add_edge(from_node_key=from_node_key, to_node_key=to_node_key, label='an_label', attributes={'answer': '42'})
-            nodes_by_id   = _.graph.data().nodes__by_id()
-            from_node     = nodes_by_id.get(from_node_key)
-            to_node       = nodes_by_id.get(to_node_key)
+            nodes__by_key   = _.graph.data().nodes__by_key()
+            from_node     = nodes__by_key.get(from_node_key)
+            to_node       = nodes__by_key.get(to_node_key)
 
-            assert from_node.key == from_node_key
-            assert to_node.key   == to_node_key
+            assert from_node.key     == from_node_key
+            assert to_node.key       == to_node_key
             assert type(edge)        == Mermaid__Edge
             assert edge.__locals__() == { 'attributes': {'answer': '42'} ,
                                           'config'    : edge.config      ,

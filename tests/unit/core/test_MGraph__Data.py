@@ -86,10 +86,10 @@ class test_MGraph__Data(TestCase):
     def test_print_adjacency_matrix(self):
         with Stdout() as stdout:
              self.graph_data.print_adjacency_matrix()
-        # for node in self.graph_data.nodes():
-        #     assert node.node_id in stdout.value()
-        from osbot_utils.utils.Dev import pprint
-        pprint(stdout.value())                     # use this to see what the adjacency_matrix looks like
+        for node in self.graph_data.nodes():
+            assert node.node_id in stdout.value()
+        #from osbot_utils.utils.Dev import pprint
+        #pprint(stdout.value())                     # use this to see what the adjacency_matrix looks like
 
 
 

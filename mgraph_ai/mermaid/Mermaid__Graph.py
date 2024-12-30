@@ -9,27 +9,14 @@ class Mermaid__Graph(MGraph):
     mermaid_code : List
     nodes        : List[Mermaid__Node]
 
-    # def __init__(self, mgraph=None):
-    #     super().__init__()
-    #     if mgraph is None:
-    #         mgraph = MGraph()
-    #     self.__dict__ = mgraph.__dict__
-    #     self.convert_nodes().convert_edges()
-
-    # def cast(self, source):
-    #     self.__dict__ = source.__dict__
-    #     return self
-
-    # def add_edge(self, **kwargs):
-    #     #new_edge = super().add_edge(*args, **kwargs)
-    #     mermaid_edge = Mermaid__Edge(**kwargs)
-    #     self.edges.append(mermaid_edge)
-    #     return mermaid_edge
-    #
     def add_node(self, **kwargs):
         mermaid_node = Mermaid__Node(**kwargs)
         self.nodes.append(mermaid_node)
         return mermaid_node
+
+    def data(self):
+        from mgraph_ai.mermaid.Mermaid__Data import Mermaid__Data
+        return Mermaid__Data(mgraph=self)
 
     #
     #

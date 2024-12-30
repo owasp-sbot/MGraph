@@ -22,14 +22,11 @@ class test_MGraph(TestCase):
         key   = random_text()
         label = random_text()
         with self.mgraph as _:
-            new_node = _.add_node(key=key, label=label)
+            new_node = _.add_node()
             assert _.nodes               == [new_node]
-            assert new_node.label        == label
 
             assert new_node.obj()        == __(node_id    = new_node.node_id,
-                                               attributes = __()            ,
-                                               key        = key             ,
-                                               label      = label           )
+                                               attributes = __()            )
 
     def test_add_edge(self):
         with self.mgraph as _:
@@ -43,11 +40,12 @@ class test_MGraph(TestCase):
 
             with Stdout() as stdout:
                 _.print()
+
             assert stdout.value() == ('\n'
                                       '\n'
-                                      '┌───────────────────────────────────────────┐\n'
-                                      '│ key               │ edges                 │\n'
-                                      '├───────────────────────────────────────────┤\n'
+                                      '┌─────────────────────────────────────────────────────────────────────────────────┐\n'
+                                      '│ key                                  │ edges                                    │\n'
+                                      '├─────────────────────────────────────────────────────────────────────────────────┤\n'
                                      f"│ {from_node.node_id} │ ['{to_node.node_id}'] │\n"
-                                     f'│ {to_node  .node_id  } │ []                │\n'
-                                      '└───────────────────────────────────────────┘\n')
+                                     f'│ {to_node  .node_id} │ []                                       │\n'
+                                      '└─────────────────────────────────────────────────────────────────────────────────┘\n')

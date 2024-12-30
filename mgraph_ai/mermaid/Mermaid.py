@@ -3,19 +3,17 @@ from mgraph_ai.mermaid.Mermaid__Edge                       import Mermaid__Edge
 from mgraph_ai.mermaid.Mermaid__Graph                      import Mermaid__Graph
 from mgraph_ai.mermaid.models.Mermaid__Diagram_Direction   import Diagram__Direction
 from mgraph_ai.mermaid.models.Mermaid__Diagram__Type       import Diagram__Type
-from osbot_utils.utils.Python_Logger                       import Python_Logger
 from osbot_utils.base_classes.Kwargs_To_Self               import Kwargs_To_Self
 
 class Mermaid(Kwargs_To_Self):
     graph             : Mermaid__Graph
     renderer          : Mermaid__Renderer
-    logger            : Python_Logger
 
     # todo add support for storing the data in sqlite so that the search for existing nodes is efficient
     def add_edge(self, from_node_key, to_node_key, label=None,attributes=None):
-        nodes_by_id = self.graph.data().nodes__by_id()
-        from_node   = nodes_by_id.get(from_node_key)
-        to_node     = nodes_by_id.get(to_node_key)
+        nodes__by_key = self.graph.data().nodes__by_key()
+        from_node    = nodes__by_key.get(from_node_key)
+        to_node      = nodes__by_key.get(to_node_key)
         if not from_node:
             from_node = self.add_node(key=from_node_key, label=from_node_key)
         if not to_node:

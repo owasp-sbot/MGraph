@@ -63,6 +63,7 @@ class test__regression__mermaid(TestCase):
 
         assert Mermaid__Edge.__annotations__ == { 'config'   : Mermaid__Edge__Config ,
                                                   'from_node': Mermaid__Node         ,           # confirm the type annotations
+                                                  'label'    : str                   ,
                                                   'to_node'  : Mermaid__Node         }
         assert type(from_node) is str                                                           # confirm that both variables are of type str
         assert type(to_node  ) is str
