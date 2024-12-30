@@ -1,4 +1,3 @@
 # for testing
 osbot-utils
 pytest
-pytest-cov
