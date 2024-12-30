@@ -19,7 +19,7 @@ class MGraph__Data(Type_Safe):
     def edges_data(self):
         edges_data = []
         for edge in self.edges():
-            edges_data.append(edge.data())
+            edges_data.append(edge.json())
         return edges_data
 
     def nodes(self):

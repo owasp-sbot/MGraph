@@ -14,7 +14,7 @@ class MGraph__Random_Graphs(Type_Safe):
         MGraph = self.new_graph()
         if x >0  and y > 0 :
             for i in range(x):
-                MGraph.add_node(label=f'node_{i}')
+                MGraph.add_node(key=f'node_{i}', label=f'node_{i}')
             for i in range(y):
                 from_node_id = random_int(max=x) - 1
                 to_node_id   = random_int(max=x) - 1

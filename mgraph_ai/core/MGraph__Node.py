@@ -1,11 +1,6 @@
-from typing import Dict, Any
-
-from osbot_utils.helpers.Safe_Id import Safe_Id
-
-from osbot_utils.helpers.Random_Guid import Random_Guid
-
+from typing                             import Dict, Any
+from osbot_utils.helpers.Random_Guid    import Random_Guid
 from osbot_utils.base_classes.Type_Safe import Type_Safe
-from osbot_utils.utils.Misc             import random_id
 
 
 class MGraph__Node(Type_Safe):
@@ -13,13 +8,6 @@ class MGraph__Node(Type_Safe):
     attributes : Dict[str, Any]
     key        : str
     label      : str
-
-    # def __init__(self, **kwargs):
-    #     super().__init__(**kwargs)
-    #     if not self.key:
-    #         self.key = random_id()
-    #     if not self.label:
-    #         self.label = self.key
 
     def __repr__(self):
         return self.__str__()

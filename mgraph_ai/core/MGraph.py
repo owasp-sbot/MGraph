@@ -46,7 +46,7 @@ class MGraph(Type_Safe):
 
     #todo: add save that return saved object
     # def save(self):
-    #     from osbot_utils.graphs.mgraph.MGraph__Serializer import MGraph__Serializer        # due to circular dependency
+    #     from mgraph_ai.core.MGraph__Serializer import MGraph__Serializer        # due to circular dependency
     #     return MGraph__Serializer(mgraph=self).save()
 
     def print(self):
