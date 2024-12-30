@@ -1,0 +1,21 @@
+name: "run-tests"
+description: "run-tests"
+
+runs:
+  using: "composite"
+  steps:
+
+    - name: Install Dependencies
+      uses: owasp-sbot/OSBot-GitHub-Actions/.github/actions/poetry__install@dev
+      with:
+        pip_install: '-r requirements-test.txt'
+
+    - name: Run Unit Tests (Unit)
+      uses: owasp-sbot/OSBot-GitHub-Actions/.github/actions/poetry__run-unit-tests@dev
+      with:
+        test_target: 'tests/unit'
+
+    - name: Run Unit Tests (Integration)
+      uses: owasp-sbot/OSBot-GitHub-Actions/.github/actions/poetry__run-unit-tests@dev
+      with:
+        test_target: 'tests/integration'

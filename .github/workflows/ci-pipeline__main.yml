@@ -1,0 +1,51 @@
+name : CI Pipeline - Main
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+env:
+  GIT__BRANCH      : 'main'
+  RELEASE_TYPE     : 'major'
+  PACKAGE_NAME     : 'mgraph_ai'
+
+jobs:
+
+  run-tests:
+    name: "Run tests"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: "run-tests"
+        uses: ./.github/actions/run-tests
+
+  increment-tag:
+    name: Increment Tag - Main
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Increment Tag
+        uses: owasp-sbot/OSBot-GitHub-Actions/.github/actions/git__increment-tag@dev
+        with:
+          release_type: ${{ env.RELEASE_TYPE }}
+    needs:
+      - run-tests
+
+  publish-to-pypi:
+    #if: False
+    name: "Publish to: PYPI"
+    permissions:
+      id-token: write
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Git Update Current Branch
+        uses: owasp-sbot/OSBot-GitHub-Actions/.github/actions/git__update_branch@dev
+
+      - name: publish-to-pypi
+        uses: owasp-sbot/OSBot-GitHub-Actions/.github/actions/pypi__publish@dev
+    needs:
+      - increment-tag
