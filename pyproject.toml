@@ -5,8 +5,8 @@ description = "MGraph-AI"
 authors     = ["Dinis Cruz <dinis.cruz@owasp.org>"]
 license     = "Apache 2.0"
 readme      = "README.md"
-homepage    = "https://github.com/owasp-sbot/MGraph_AI"
-repository  = "https://github.com/owasp-sbot/MGraph_AI"
+homepage    = "https://github.com/owasp-sbot/MGraph-AI"
+repository  = "https://github.com/owasp-sbot/MGraph-AI"
 
 [tool.poetry.dependencies]
 python          = "^3.11"
