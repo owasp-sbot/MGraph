@@ -1,14 +1,11 @@
-from collections import defaultdict
-from unittest import TestCase
-
-import pytest
-
-from osbot_utils.graphs.mgraph.MGraph import MGraph
-from osbot_utils.graphs.mgraph.MGraph__Data import MGraph__Data
-from osbot_utils.graphs.mgraph.MGraph__Edge import MGraph__Edge
-from osbot_utils.testing.Stdout import Stdout
-from osbot_utils.utils.Misc import list_set
-from osbot_utils.graphs.mgraph.MGraph__Random_Graphs import MGraph__Random_Graphs
+from collections                            import defaultdict
+from unittest                               import TestCase
+from mgraph_ai.core.MGraph                  import MGraph
+from mgraph_ai.core.MGraph__Data            import MGraph__Data
+from mgraph_ai.core.MGraph__Edge            import MGraph__Edge
+from osbot_utils.testing.Stdout             import Stdout
+from osbot_utils.utils.Misc                 import list_set
+from mgraph_ai.core.MGraph__Random_Graphs   import MGraph__Random_Graphs
 
 
 class test_MGraph__Data(TestCase):
@@ -17,35 +14,36 @@ class test_MGraph__Data(TestCase):
     def setUpClass(cls):
         cls.x          = 5
         cls.y          = 10
-        cls.mgraph     = MGraph__Random_Graphs().with_x_nodes_and_y_edges(x=cls.x, y=cls.y)
-        cls.graph_data = cls.mgraph.data()
+        cls.graph      = MGraph__Random_Graphs().with_x_nodes_and_y_edges(x=cls.x, y=cls.y)
+        cls.graph_data = MGraph__Data(graph=cls.graph)
 
     def test___init__(self):
         assert self.graph_data.__class__.__name__ == 'MGraph__Data'
-        assert self.graph_data.mgraph    == self.mgraph
-        assert self.graph_data.nodes()   == self.mgraph.nodes
-        assert self.graph_data.edges()   == self.mgraph.edges
+        assert self.graph_data.graph == self.graph
+        assert list(self.graph_data.nodes()) == list(self.graph.nodes.values())
+        assert self.graph_data.nodes_ids ()  == list(self.graph.nodes.keys())
+        assert self.graph_data.edges     ()  == self.graph.edges
 
-        assert list_set(MGraph__Data().__attr_names__()) == ['mgraph']
-        assert type(MGraph__Data().mgraph)               is MGraph
+        assert list_set(MGraph__Data().__attr_names__()) == ['graph']
+        assert type(MGraph__Data().graph) is MGraph
 
     def test_graph_data(self):
         assert self.graph_data.graph_data() == {'nodes': self.graph_data.nodes_data(),
                                                 'edges': self.graph_data.edges_data()}
 
     def test_nodes__by_key(self):
-        assert list(self.graph_data.nodes__by_key().keys  ()) == list(self.graph_data.nodes__keys())
-        assert list(self.graph_data.nodes__by_key().values()) == self.mgraph.nodes
+        assert list(self.graph_data.nodes__by_id().keys  ()) == list(self.graph_data.nodes_ids())
+        assert list(self.graph_data.nodes__by_id().values()) == list(self.graph.nodes.values())
 
     def test_nodes_edges(self):
         with self.graph_data as _:                                          # Use graph_data in a context manager
             nodes_edges = _.nodes_edges()                                   # Retrieve nodes and their edges
-            assert list_set(nodes_edges) == sorted(_.nodes__keys())         # Assert equality of nodes_edges and nodes_keys
+            assert list_set(nodes_edges) == sorted(_.nodes_ids())         # Assert equality of nodes_edges and nodes_keys
 
             expected_data = defaultdict(list)                               # Defaultdict for storing expected data
             for edge in _.edges():                                          # Iterate over all edges in the graph
-                from_key = edge.from_node.key                               # Get key of the from_node
-                to_key  = edge.to_node.key                                  # Get key of the to_node
+                from_key = edge.from_node_id                                # Get key of the from_node
+                to_key  = edge.to_node_id                                   # Get key of the to_node
                 expected_data[from_key].append(to_key)                      # Append to_key to the list of from_key
 
             for node_key, nodes_edges_keys in expected_data.items():        # Iterate over expected data items
@@ -72,7 +70,7 @@ class test_MGraph__Data(TestCase):
     def test_node_edges__to_from(self):
         node_edges__to_from = self.graph_data.node_edges__to_from()
 
-        assert list_set(node_edges__to_from) == list_set(self.graph_data.nodes__keys())
+        assert list_set(node_edges__to_from) == list_set(self.graph_data.nodes_ids())
         assert len(list_set(node_edges__to_from)) == self.x
 
     def test_print(self):
@@ -80,7 +78,6 @@ class test_MGraph__Data(TestCase):
             with self.graph_data as _:
                 _.print()
         third_line = stdout.value().split('\n')[2]          # todo: improve this test
-        assert 'key'   in third_line
         assert 'edges' in third_line
 
 
@@ -88,7 +85,8 @@ class test_MGraph__Data(TestCase):
         with Stdout() as stdout:
              self.graph_data.print_adjacency_matrix()
         for node in self.graph_data.nodes():
-            assert node.key in stdout.value()
+            assert node.node_id in stdout.value()
+        #from osbot_utils.utils.Dev import pprint
         #pprint(stdout.value())                     # use this to see what the adjacency_matrix looks like
 
 

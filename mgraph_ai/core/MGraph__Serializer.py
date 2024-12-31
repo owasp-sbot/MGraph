@@ -1,8 +1,9 @@
-from enum                                    import Enum, auto
-from osbot_utils.base_classes.Type_Safe      import Type_Safe
-from osbot_utils.utils.Str                   import safe_str
-from osbot_utils.helpers.Local_Cache         import Local_Cache
-from mgraph_ai.core.MGraph                   import MGraph
+from enum                               import Enum, auto
+from mgraph_ai.core.MGraph__Data        import MGraph__Data
+from osbot_utils.base_classes.Type_Safe import Type_Safe
+from osbot_utils.utils.Str              import safe_str
+from osbot_utils.helpers.Local_Cache    import Local_Cache
+from mgraph_ai.core.MGraph              import MGraph
 
 
 class Serialization_Mode(Enum):
@@ -16,11 +17,11 @@ class MGraph__Serializer(Type_Safe):
 
     local_cache : Local_Cache                                           # todo, refactor this into an MGraph__Storage__Disk class
     key         : str
-    mgraph      : MGraph
+    graph      : MGraph
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.key         = safe_str(f'serialiser_for__{self.mgraph.key}')
+        self.key         = safe_str(f'serialiser_for__{self.graph.key}')
 
         self.local_cache = Local_Cache(cache_name=self.key, caches_name=self.caches_name)
 
@@ -32,7 +33,7 @@ class MGraph__Serializer(Type_Safe):
             return self.save_to_pickle()
 
     def save_to_json(self):
-        graph_data = self.mgraph.data().graph_data()
+        graph_data = MGraph__Data(graph=self.graph).graph_data()
         #pprint(graph_data)
         self.local_cache.set('graph_data', graph_data)
         return True

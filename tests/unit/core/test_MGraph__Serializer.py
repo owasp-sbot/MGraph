@@ -1,4 +1,5 @@
 from unittest                           import TestCase
+from mgraph_ai.core.MGraph__Data        import MGraph__Data
 from osbot_utils.utils.Files            import current_temp_folder, file_create
 from osbot_utils.helpers.Local_Cache    import Local_Cache
 from osbot_utils.utils.Misc             import list_set
@@ -13,8 +14,8 @@ class test_MGraph__Serializer(TestCase):
     def setUpClass(cls):
         cls.graph_key = __name__
         with Random_Seed(enabled=False):
-            cls.mgraph       = MGraphs().new__random(graph_key=cls.graph_key)              # todo: see if we need to make this non-random
-        cls.graph_serializer = MGraph__Serializer(mgraph = cls.mgraph)
+            cls.graph        = MGraphs().new__random(graph_key=cls.graph_key)              # todo: see if we need to make this non-random
+        cls.graph_serializer = MGraph__Serializer   (graph = cls.graph)
 
     @classmethod
     def tearDownClass(cls):
@@ -23,13 +24,13 @@ class test_MGraph__Serializer(TestCase):
 
 
     def test__init__(self):
-        expected_attrs = ['caches_name', 'key', 'local_cache', 'mgraph', 'mode']
+        expected_attrs = ['caches_name', 'graph','key', 'local_cache', 'mode']
         with self.graph_serializer as _:
             assert _.__attr_names__() == expected_attrs
-            assert _.caches_name     == 'mgraph_tests'
-            assert _.mgraph.__class__ is MGraph
+            assert _.caches_name      == 'mgraph_tests'
+            assert _.graph.__class__  is MGraph
             assert _.mode             == Serialization_Mode.PICKLE
-            assert _.key              == f'serialiser_for__{self.mgraph.key}'
+            assert _.key              == f'serialiser_for__{self.graph.key}'
 
             assert _.__annotations__.get('local_cache') is Local_Cache
             assert type(_.local_cache) is Local_Cache
@@ -52,7 +53,7 @@ class test_MGraph__Serializer(TestCase):
     def test_save_to_json(self):
         with self.graph_serializer as _:
             assert _.save_to_json() is True
-            assert _.mgraph.data().graph_data() == _.local_cache.get('graph_data')
+            assert MGraph__Data(graph=_.graph).graph_data() == _.local_cache.get('graph_data')
             #_.mgraph.print()
 
     def test_save_to_pickle(self):

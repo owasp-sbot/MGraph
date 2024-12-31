@@ -1,0 +1,3 @@
+[submodule "modules/OSBot-Utils"]
+	path = modules/OSBot-Utils
+	url = git@github.com:owasp-sbot/OSBot-Utils.git

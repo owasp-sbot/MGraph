@@ -1,11 +1,10 @@
-from osbot_utils.base_classes.Type_Safe     import Type_Safe
-from osbot_utils.helpers.Print_Table        import Print_Table
-from mgraph_ai.core.MGraph                  import MGraph
+from osbot_utils.base_classes.Type_Safe import Type_Safe
+from osbot_utils.helpers.Print_Table    import Print_Table
+from mgraph_ai.core.MGraph              import MGraph
 
 
 class MGraph__Data(Type_Safe):
-
-    mgraph : MGraph
+    graph : MGraph
 
     def graph_data(self):
         nodes_data = self.nodes_data()
@@ -14,16 +13,16 @@ class MGraph__Data(Type_Safe):
         return graph_data
 
     def edges(self):
-        return self.mgraph.edges
+        return self.graph.edges
 
     def edges_data(self):
         edges_data = []
         for edge in self.edges():
-            edges_data.append(edge.data())
+            edges_data.append(edge.json())
         return edges_data
 
     def nodes(self):
-        return self.mgraph.nodes
+        return self.graph.nodes.values()
 
     def nodes_data(self):
         nodes_data = []
@@ -32,23 +31,23 @@ class MGraph__Data(Type_Safe):
         return nodes_data
 
 
-    def nodes__by_key(self):
+    def nodes__by_id(self):
         by_key = {}
         for node in self.nodes():
-            by_key[node.key] = node
+            by_key[node.node_id] = node
         return by_key
 
-    def nodes__keys(self):
-        return [node.key for node in self.nodes()]
+    def nodes_ids(self):
+        return list(self.graph.nodes.keys())
 
     def nodes_edges(self):
         nodes__edges = {}
         for node in self.nodes():
-            nodes__edges[node.key] = []
+            nodes__edges[node.node_id] = []
         for edge in self.edges():
-            from_key = edge.from_node.key
+            from_key = edge.from_node_id
             if from_key in nodes__edges:                                        # todo: add a better way to handle this, which is a weird situation, look also at a better way to do this assigment
-                nodes__edges[from_key].append(edge.to_node.key)
+                nodes__edges[from_key].append(edge.to_node_id)
         for node_key, edges_keys in nodes__edges.items():
             nodes__edges[node_key] = sorted(edges_keys)
         return nodes__edges
@@ -73,7 +72,7 @@ class MGraph__Data(Type_Safe):
 
             # for edge_key in key_edges:
             #     self.map_paths(edge_key, paths, nodes_edges)
-        return paths
+        #return paths
 
     # def nodes__find_all_paths(self):
     #     key         = self.nodes__keys()[0]
@@ -86,7 +85,7 @@ class MGraph__Data(Type_Safe):
 
     def print(self):
         with Print_Table() as _:
-            _.set_title(self.mgraph.config.graph_title)
+            _.set_title(self.graph.config.graph_title)
             for node_key, edges_keys in self.nodes_edges().items():
                 row = {'key': node_key,  'edges': edges_keys}
                 _.add_data(row)
@@ -95,11 +94,11 @@ class MGraph__Data(Type_Safe):
 
     def print_adjacency_matrix(self):
         adjacency_matrix = self.nodes_edges__adjacency_matrix()
-        node_keys        = sorted(self.nodes__keys())
+        node_keys        = sorted(self.nodes_ids())
         with Print_Table() as _:
             for row in adjacency_matrix:
                 _.add_data(row)
-            _.set_order('key', *node_keys)
+            _.set_order('node_id', *node_keys)
             _.print()
 
 
@@ -132,7 +131,7 @@ class MGraph__Data(Type_Safe):
 
         table_data = []
         for i, row in enumerate(matrix):
-            row_data = {'key': node_keys[i]}
+            row_data = {'node_id': node_keys[i]}
             row_data.update({node_keys[j]: row[j] for j in range(size)})
             table_data.append(row_data)
         return table_data
