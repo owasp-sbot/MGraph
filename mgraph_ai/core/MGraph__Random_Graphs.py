@@ -1,4 +1,4 @@
-from mgraph_ai.core.MGraph__Data import MGraph__Data
+from mgraph_ai.core.MGraph__Data        import MGraph__Data
 from osbot_utils.base_classes.Type_Safe import Type_Safe
 from osbot_utils.utils.Misc             import random_int
 from mgraph_ai.core.MGraph              import MGraph

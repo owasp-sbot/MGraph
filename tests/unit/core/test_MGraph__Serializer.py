@@ -1,6 +1,5 @@
 from unittest                           import TestCase
-
-from mgraph_ai.core.MGraph__Data import MGraph__Data
+from mgraph_ai.core.MGraph__Data        import MGraph__Data
 from osbot_utils.utils.Files            import current_temp_folder, file_create
 from osbot_utils.helpers.Local_Cache    import Local_Cache
 from osbot_utils.utils.Misc             import list_set

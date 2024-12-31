@@ -1,16 +1,13 @@
 import sys
-from unittest import TestCase
-
 import pytest
-
-from osbot_utils.base_classes.Kwargs_To_Self import Kwargs_To_Self
-from mgraph_ai.mermaid.Mermaid import Mermaid
-from mgraph_ai.mermaid.models.Mermaid__Node__Shape import Mermaid__Node__Shape
-from mgraph_ai.core.MGraph__Node import MGraph__Node
-from osbot_utils.utils.Misc import list_set
-
-from mgraph_ai.mermaid.Mermaid__Node import Mermaid__Node
-from osbot_utils.utils.Objects import type_mro
+from unittest                                       import TestCase
+from osbot_utils.base_classes.Kwargs_To_Self        import Kwargs_To_Self
+from mgraph_ai.mermaid.Mermaid                      import Mermaid
+from mgraph_ai.mermaid.models.Mermaid__Node__Shape  import Mermaid__Node__Shape
+from mgraph_ai.core.MGraph__Node                    import MGraph__Node
+from osbot_utils.utils.Misc                         import list_set
+from mgraph_ai.mermaid.Mermaid__Node                import Mermaid__Node
+from osbot_utils.utils.Objects                      import type_mro
 
 
 class test_Mermaid_Node(TestCase):

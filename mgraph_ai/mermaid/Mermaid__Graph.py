@@ -1,7 +1,5 @@
-from typing import List, Dict
-
-from osbot_utils.helpers.Random_Guid import Random_Guid
-
+from typing                             import List, Dict
+from osbot_utils.helpers.Random_Guid    import Random_Guid
 from mgraph_ai.mermaid.Mermaid__Edge    import Mermaid__Edge
 from mgraph_ai.mermaid.Mermaid__Node    import Mermaid__Node
 from mgraph_ai.core.MGraph              import MGraph
