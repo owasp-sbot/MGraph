@@ -14,27 +14,6 @@ class Mermaid__Node(MGraph__Node):
         if not self.label:
             self.label = self.key
 
-    def render_node(self, include_padding=True):
-        left_char, right_char = self.config.node_shape.value
-
-        if self.config.markdown:
-            label = f'`{self.label}`'
-        else:
-            label = self.label
-
-
-        if self.config.show_label is False:
-            node_code = f'{self.key}'
-        else:
-            if self.config.wrap_with_quotes is False:
-                node_code = f'{self.key}{left_char}{label}{right_char}'
-            else:
-                node_code = f'{self.key}{left_char}"{label}"{right_char}'
-
-        if include_padding:
-            node_code = f'{LINE_PADDING}{node_code}'
-        return node_code
-
     def markdown(self, value=True):
         self.config.markdown = value
         return self

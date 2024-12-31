@@ -44,8 +44,8 @@ class test__regression__mermaid(TestCase):
         MGraph__Edge()                                                  # MGraph__Edge  ctor doesn't raise an exception
         mermaid_edge = Mermaid__Edge()                                  # FIXED: MGraph__Edge also now doesn't raise an exception
 
-        assert type(mermaid_edge.from_node) is Mermaid__Node            # confirm that correct types of
-        assert type(mermaid_edge.to_node  ) is Mermaid__Node            # both from_node and to_node vars
+        assert mermaid_edge.from_node_type is Mermaid__Node            # confirm that correct types of
+        assert mermaid_edge.to_node_type   is Mermaid__Node            # both from_node and to_node vars
 
         # with self.assertRaises(Exception) as context:
         #     Mermaid__Edge()                                             # Mermaid__Edge ctor raises an exception
@@ -62,16 +62,14 @@ class test__regression__mermaid(TestCase):
         to_node       = to_node_key
 
         assert Mermaid__Edge.__annotations__ == { 'config'   : Mermaid__Edge__Config ,
-                                                  'from_node': Mermaid__Node         ,           # confirm the type annotations
-                                                  'label'    : str                   ,
-                                                  'to_node'  : Mermaid__Node         }
+                                                  'label'    : str                   }
         assert type(from_node) is str                                                           # confirm that both variables are of type str
         assert type(to_node  ) is str
 
         with self.assertRaises(Exception) as context:
-            Mermaid__Edge(from_node=from_node, to_node=to_node)                  # FIXED: this now raises exception: BUG, this should have not worked (an exception should have been raised)
-        assert str(context.exception) == ("Invalid type for attribute 'from_node'. Expected '<class "
-                                          "'mgraph_ai.mermaid.Mermaid__Node.Mermaid__Node'>' but got '<class "
+            Mermaid__Edge(to_node_id=to_node)                  # FIXED: this now raises exception: BUG, this should have not worked (an exception should have been raised)
+        assert str(context.exception) == ("Invalid type for attribute 'to_node_id'. Expected '<class "
+                                          "'osbot_utils.helpers.Random_Guid.Random_Guid'>' but got '<class "
                                           "'str'>'")
 
         # assert new_edge.from_node       == from_node                                    # confirm that assigment worked

@@ -1,9 +1,8 @@
-from enum import Enum, auto
-
+from enum import Enum
 
 class Diagram__Direction(Enum):
-    BT = auto()
-    LR = auto()
-    TB = auto()
-    TD = auto()
-    RL = auto()
+    BT = 'BT'
+    LR = 'LR'
+    TB = 'TB'
+    TD = 'TD'
+    RL = 'RL'

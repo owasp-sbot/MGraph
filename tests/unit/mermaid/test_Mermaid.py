@@ -1,14 +1,12 @@
-import sys
-from unittest                               import TestCase
-
-import pytest
-
-from mgraph_ai.mermaid.Mermaid__Edge                   import Mermaid__Edge
-from mgraph_ai.mermaid.models.Mermaid__Diagram__Type   import Diagram__Type
-from osbot_utils.testing.Stdout                                 import Stdout
-from osbot_utils.testing.Temp_File                              import Temp_File
-from mgraph_ai.mermaid.Mermaid                         import Mermaid, Diagram__Direction
-
+from unittest                                            import TestCase
+from mgraph_ai.mermaid.Mermaid__Renderer                 import Mermaid__Renderer
+from osbot_utils.utils.Objects                           import __
+from mgraph_ai.mermaid.Mermaid                           import Mermaid
+from mgraph_ai.mermaid.Mermaid__Edge                     import Mermaid__Edge
+from mgraph_ai.mermaid.models.Mermaid__Diagram__Type     import Diagram__Type
+from mgraph_ai.mermaid.models.Mermaid__Diagram_Direction import Diagram__Direction
+from osbot_utils.testing.Stdout                          import Stdout
+from osbot_utils.testing.Temp_File                       import Temp_File
 
 class test_Mermaid(TestCase):
 
@@ -17,11 +15,9 @@ class test_Mermaid(TestCase):
 
     def test__init__(self):
         with self.mermaid as _:
-            expected_vars = {'graph'            : _.graph               ,
-                             'renderer'         : _.renderer            }
+            expected_vars = {'graph'            : _.graph               }
             assert _.__locals__() == expected_vars
             assert _.graph   .__class__.__name__ == 'Mermaid__Graph'
-            assert _.renderer.__class__.__name__ == 'Mermaid__Renderer'
 
     def test_add_directive(self):
         with self.mermaid as _:
@@ -37,20 +33,21 @@ class test_Mermaid(TestCase):
             from_node_key = 'from_key'
             to_node_key   =  'to_key'
             edge          = _.add_edge(from_node_key=from_node_key, to_node_key=to_node_key, label='an_label', attributes={'answer': '42'})
-            nodes__by_key   = _.graph.data().nodes__by_key()
+            nodes__by_key   = _.data().nodes__by_key()
             from_node     = nodes__by_key.get(from_node_key)
             to_node       = nodes__by_key.get(to_node_key)
-
-            assert from_node.key     == from_node_key
-            assert to_node.key       == to_node_key
-            assert type(edge)        == Mermaid__Edge
-            assert edge.__locals__() == { 'attributes': {'answer': '42'} ,
-                                          'config'    : edge.config      ,
-                                          'from_node': from_node         ,
-                                          'label'    : 'an_label'        ,
-                                          'to_node'  : to_node           }
+            assert from_node.key == from_node_key
+            assert to_node.key   == to_node_key
+            assert type(edge)    == Mermaid__Edge
+            assert edge.obj()    == __(config         = __(output_node_from=False, output_node_to=False, edge_mode='') ,
+                                       from_node_id   = from_node.node_id                               ,
+                                       attributes     = __(answer='42')                                 ,
+                                       from_node_type = 'mgraph_ai.mermaid.Mermaid__Node.Mermaid__Node' ,
+                                       label          = 'an_label'                                      ,
+                                       to_node_id     = to_node.node_id                                 ,
+                                       to_node_type   = 'mgraph_ai.mermaid.Mermaid__Node.Mermaid__Node' )
     def test_config(self):
-        assert self.mermaid.renderer.config.add_nodes is True
+        assert self.mermaid.renderer().config.add_nodes is True
 
     def test_print_code(self):
         self.mermaid.add_edge(from_node_key='from_node', to_node_key='to_node')
@@ -64,11 +61,11 @@ class test_Mermaid(TestCase):
 
     def test_set_direction(self):
         with self.mermaid as _:
-            assert _.renderer is not None
+            assert type(_.renderer()) is Mermaid__Renderer
             assert _.set_direction(Diagram__Direction.LR) is _
-            assert _.renderer.diagram_direction == Diagram__Direction.LR
+            assert _.renderer().diagram_direction == Diagram__Direction.LR
             assert _.set_direction('RL') is _
-            assert _.renderer.diagram_direction == Diagram__Direction.RL
+            assert _.renderer().diagram_direction == Diagram__Direction.RL
 
     def test_save(self):
         with Temp_File() as temp_file:

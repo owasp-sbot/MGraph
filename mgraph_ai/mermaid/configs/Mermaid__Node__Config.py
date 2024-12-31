@@ -1,8 +1,8 @@
-from osbot_utils.base_classes.Kwargs_To_Self                       import Kwargs_To_Self
+from osbot_utils.base_classes.Type_Safe            import Type_Safe
 from mgraph_ai.mermaid.models.Mermaid__Node__Shape import Mermaid__Node__Shape
 
 
-class Mermaid__Node__Config(Kwargs_To_Self):
+class Mermaid__Node__Config(Type_Safe):
     markdown         : bool
     node_shape       : Mermaid__Node__Shape = Mermaid__Node__Shape.default
     show_label       : bool = True

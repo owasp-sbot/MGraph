@@ -37,9 +37,9 @@ class MGraph(Type_Safe):
         return new_node
 
 
-    def data(self):
-        from mgraph_ai.core.MGraph__Data import MGraph__Data
-        return MGraph__Data(mgraph=self)
+    # def data(self):
+    #     from mgraph_ai.core.MGraph__Data import MGraph__Data
+    #     return MGraph__Data(graph=self.graph)
 
     def node(self, node_id):
         return self.nodes.get(node_id)
@@ -53,9 +53,9 @@ class MGraph(Type_Safe):
     #     from mgraph_ai.core.MGraph__Serializer import MGraph__Serializer        # due to circular dependency
     #     return MGraph__Serializer(mgraph=self).save()
 
-    def print(self):
-        print()
-        return self.data().print()
+    # def print(self):
+    #     print()
+    #     return self.data().print()
 
     def new_node(self, attributes=None):
         new_node = MGraph__Node(attributes=attributes)

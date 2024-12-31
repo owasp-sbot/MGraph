@@ -14,18 +14,18 @@ class test_MGraph__Data(TestCase):
     def setUpClass(cls):
         cls.x          = 5
         cls.y          = 10
-        cls.mgraph     = MGraph__Random_Graphs().with_x_nodes_and_y_edges(x=cls.x, y=cls.y)
-        cls.graph_data = cls.mgraph.data()
+        cls.graph      = MGraph__Random_Graphs().with_x_nodes_and_y_edges(x=cls.x, y=cls.y)
+        cls.graph_data = MGraph__Data(graph=cls.graph)
 
     def test___init__(self):
         assert self.graph_data.__class__.__name__ == 'MGraph__Data'
-        assert self.graph_data.mgraph        == self.mgraph
-        assert list(self.graph_data.nodes()) == list(self.mgraph.nodes.values())
-        assert self.graph_data.nodes_ids ()  == list(self.mgraph.nodes.keys())
-        assert self.graph_data.edges     ()  == self.mgraph.edges
+        assert self.graph_data.graph == self.graph
+        assert list(self.graph_data.nodes()) == list(self.graph.nodes.values())
+        assert self.graph_data.nodes_ids ()  == list(self.graph.nodes.keys())
+        assert self.graph_data.edges     ()  == self.graph.edges
 
-        assert list_set(MGraph__Data().__attr_names__()) == ['mgraph']
-        assert type(MGraph__Data().mgraph)               is MGraph
+        assert list_set(MGraph__Data().__attr_names__()) == ['graph']
+        assert type(MGraph__Data().graph) is MGraph
 
     def test_graph_data(self):
         assert self.graph_data.graph_data() == {'nodes': self.graph_data.nodes_data(),
@@ -33,7 +33,7 @@ class test_MGraph__Data(TestCase):
 
     def test_nodes__by_key(self):
         assert list(self.graph_data.nodes__by_id().keys  ()) == list(self.graph_data.nodes_ids())
-        assert list(self.graph_data.nodes__by_id().values()) == list(self.mgraph.nodes.values())
+        assert list(self.graph_data.nodes__by_id().values()) == list(self.graph.nodes.values())
 
     def test_nodes_edges(self):
         with self.graph_data as _:                                          # Use graph_data in a context manager

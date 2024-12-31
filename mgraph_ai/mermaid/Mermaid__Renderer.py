@@ -1,16 +1,21 @@
-from typing import List
+from typing                                              import List
 
-from osbot_utils.base_classes.Kwargs_To_Self                        import Kwargs_To_Self
-from mgraph_ai.mermaid.configs.Mermaid__Render__Config     import Mermaid__Render__Config
-from mgraph_ai.mermaid.models.Mermaid__Diagram_Direction   import Diagram__Direction
-from mgraph_ai.mermaid.models.Mermaid__Diagram__Type       import Diagram__Type
+from mgraph_ai.mermaid.Mermaid__Node import LINE_PADDING
+from osbot_utils.utils.Str import safe_str
+
+from mgraph_ai.mermaid.Mermaid__Graph import Mermaid__Graph
+from osbot_utils.base_classes.Type_Safe                  import Type_Safe
+from mgraph_ai.mermaid.configs.Mermaid__Render__Config   import Mermaid__Render__Config
+from mgraph_ai.mermaid.models.Mermaid__Diagram_Direction import Diagram__Direction
+from mgraph_ai.mermaid.models.Mermaid__Diagram__Type     import Diagram__Type
 
 
-class Mermaid__Renderer(Kwargs_To_Self):
+class Mermaid__Renderer(Type_Safe):
     config            : Mermaid__Render__Config
-    mermaid_code      : List
     diagram_direction : Diagram__Direction = Diagram__Direction.LR
     diagram_type      : Diagram__Type      = Diagram__Type.graph
+    graph             : Mermaid__Graph
+    mermaid_code      : List
 
 
     def add_line(self, line):
@@ -31,13 +36,13 @@ class Mermaid__Renderer(Kwargs_To_Self):
                 _.add_line(f'%%{{{directive}}}%%')
             _.add_line(self.graph_header())
             if self.config.add_nodes:
-                for node in nodes:
-                    node_code = node.render_node()
+                for node in nodes.values():
+                    node_code = self.render_node(node)
                     _.add_line(node_code)
             if self.config.line_before_edges:
                 _.add_line('')
             for edge in edges:
-                edge_code = edge.render_edge()
+                edge_code = self.render_edge(edge)
                 _.add_line(edge_code)
         return self
 
@@ -50,6 +55,44 @@ class Mermaid__Renderer(Kwargs_To_Self):
         #     value = self.diagram_type.name
         value = self.diagram_type.name
         return f'{value} {self.diagram_direction.name}'
+
+    def render_edge(self,edge):
+        from_node     = self.graph.node(edge.from_node_id)
+        to_node       = self.graph.node(edge.to_node_id)
+        from_node_key = safe_str(from_node.key)
+        to_node_key   = safe_str(to_node  .key)
+        if edge.config.output_node_from:
+            from_node_key =  self.render_node(from_node, include_padding=False)
+        if edge.config.output_node_to:
+            to_node_key   = self.render_node(to_node, include_padding=False   )
+        if edge.config.edge_mode == 'lr_using_pipe':
+            link_code      = f'-->|{edge.label}|'
+        elif edge.label:
+            link_code      = f'--"{edge.label}"-->'
+        else:
+            link_code      = '-->'
+        edge_code      = f'{LINE_PADDING}{from_node_key} {link_code} {to_node_key}'
+        return edge_code
+
+    def render_node(self, node, include_padding=True):
+        left_char, right_char = node.config.node_shape.value
+
+        if node.config.markdown:
+            label = f'`{node.label}`'
+        else:
+            label = node.label
+
+        if node.config.show_label is False:
+            node_code = f'{node.key}'
+        else:
+            if node.config.wrap_with_quotes is False:
+                node_code = f'{node.key}{left_char}{label}{right_char}'
+            else:
+                node_code = f'{node.key}{left_char}"{label}"{right_char}'
+
+        if include_padding:
+            node_code = f'{LINE_PADDING}{node_code}'
+        return node_code
 
     def reset_code(self):
         self.mermaid_code = []

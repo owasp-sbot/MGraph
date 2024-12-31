@@ -1,6 +1,7 @@
 from typing import Dict
 from unittest                           import TestCase
 
+from mgraph_ai.core.MGraph__Data import MGraph__Data
 from mgraph_ai.core.MGraph__Node import MGraph__Node
 from osbot_utils.helpers import Random_Guid
 from osbot_utils.utils.Objects          import __
@@ -44,7 +45,8 @@ class test_MGraph(TestCase):
                                                  to_node_type   = None              )
 
             with Stdout() as stdout:
-                _.print()
+                print()
+                MGraph__Data(graph=_).print()
 
             assert stdout.value() == ('\n'
                                       '\n'

@@ -55,19 +55,6 @@ class test_Mermaid_Node(TestCase):
         assert self.mermaid_node.wrap_with_quotes(False).config.wrap_with_quotes == False
         assert self.mermaid_node.wrap_with_quotes(True ).config.wrap_with_quotes == True
 
-    def test__render_node__node_shape(self):
-        with Mermaid().add_node(key='id') as _:
-            assert _                     .render_node() == '    id["id"]'
-            assert _.shape(''           ).render_node() == '    id["id"]'
-            assert _.shape('aaaaa'      ).render_node() == '    id["id"]'
-            assert _.shape('round_edges').render_node() == '    id("id")'
-            assert _.shape('rhombus'    ).render_node() == '    id{"id"}'
-
-            assert _.shape(Mermaid__Node__Shape.default    ).render_node() == '    id["id"]'
-            assert _.shape(Mermaid__Node__Shape.rectangle  ).render_node() == '    id["id"]'
-            assert _.shape(Mermaid__Node__Shape.round_edges).render_node() == '    id("id")'
-            assert _.shape(Mermaid__Node__Shape.rhombus    ).render_node() == '    id{"id"}'
-
 
     def test__config__wrap_with_quotes(self):
         new_node = self.mermaid_node.set_key('id').set_label('id')

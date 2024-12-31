@@ -1,11 +1,10 @@
-from osbot_utils.base_classes.Type_Safe     import Type_Safe
-from osbot_utils.helpers.Print_Table        import Print_Table
-from mgraph_ai.core.MGraph                  import MGraph
+from osbot_utils.base_classes.Type_Safe import Type_Safe
+from osbot_utils.helpers.Print_Table    import Print_Table
+from mgraph_ai.core.MGraph              import MGraph
 
 
 class MGraph__Data(Type_Safe):
-
-    mgraph : MGraph
+    graph : MGraph
 
     def graph_data(self):
         nodes_data = self.nodes_data()
@@ -14,7 +13,7 @@ class MGraph__Data(Type_Safe):
         return graph_data
 
     def edges(self):
-        return self.mgraph.edges
+        return self.graph.edges
 
     def edges_data(self):
         edges_data = []
@@ -23,7 +22,7 @@ class MGraph__Data(Type_Safe):
         return edges_data
 
     def nodes(self):
-        return self.mgraph.nodes.values()
+        return self.graph.nodes.values()
 
     def nodes_data(self):
         nodes_data = []
@@ -39,7 +38,7 @@ class MGraph__Data(Type_Safe):
         return by_key
 
     def nodes_ids(self):
-        return list(self.mgraph.nodes.keys())
+        return list(self.graph.nodes.keys())
 
     def nodes_edges(self):
         nodes__edges = {}
@@ -73,7 +72,7 @@ class MGraph__Data(Type_Safe):
 
             # for edge_key in key_edges:
             #     self.map_paths(edge_key, paths, nodes_edges)
-        return paths
+        #return paths
 
     # def nodes__find_all_paths(self):
     #     key         = self.nodes__keys()[0]
@@ -86,7 +85,7 @@ class MGraph__Data(Type_Safe):
 
     def print(self):
         with Print_Table() as _:
-            _.set_title(self.mgraph.config.graph_title)
+            _.set_title(self.graph.config.graph_title)
             for node_key, edges_keys in self.nodes_edges().items():
                 row = {'key': node_key,  'edges': edges_keys}
                 _.add_data(row)
