@@ -1,6 +1,6 @@
 from osbot_utils.decorators.methods.cache_on_self          import cache_on_self
 from mgraph_ai.mermaid.Mermaid__Node                       import Mermaid__Node
-from osbot_utils.base_classes.Type_Safe                    import Type_Safe
+from osbot_utils.type_safe.Type_Safe                    import Type_Safe
 from mgraph_ai.mermaid.Mermaid__Data                       import Mermaid__Data
 from mgraph_ai.mermaid.Mermaid__Renderer                   import Mermaid__Renderer
 from mgraph_ai.mermaid.Mermaid__Edge                       import Mermaid__Edge

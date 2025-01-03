@@ -1,15 +1,12 @@
 from mgraph_ai.core.MGraph__Data        import MGraph__Data
-from osbot_utils.base_classes.Type_Safe import Type_Safe
+from osbot_utils.type_safe.Type_Safe    import Type_Safe
 from osbot_utils.utils.Misc             import random_int
 from mgraph_ai.core.MGraph              import MGraph
-from mgraph_ai.core.MGraph__Config      import MGraph__Config
 
 class MGraph__Random_Graphs(Type_Safe):
-    config     : MGraph__Config
-    graph_key : str
 
     def new_graph(self):
-        return MGraph(config=self.config, key=self.graph_key)
+        return MGraph()
 
     def with_x_nodes_and_y_edges(self, x=10, y=20):
         mgraph     = self.new_graph()

@@ -1,15 +1,17 @@
-from unittest                       import TestCase
-from osbot_utils.utils.Misc         import is_guid
-from osbot_utils.utils.Objects      import __
-from mgraph_ai.base.MGraph__Edge    import MGraph__Edge
+from unittest                               import TestCase
+from osbot_utils.utils.Misc                 import is_guid
+from osbot_utils.utils.Objects              import __
+from mgraph_ai.models.Model__MGraph__Edge   import Model__MGraph__Edge
+from mgraph_ai.schemas.Schema__MGraph__Edge import Schema__MGraph__Edge
 
-class test_MGraph__Edge(TestCase):
+class test_Model__MGraph__Edge(TestCase):
 
     def setUp(self):
-        self.edge = MGraph__Edge()
+        self.edge = Model__MGraph__Edge()
 
     def test__init__(self):
-        with self.edge as _:
+        with self.edge.data as _:
+            assert type(_) is Schema__MGraph__Edge
             assert _.obj() == __(attributes     = __()           ,
                                  edge_id        = _.edge_id      ,
                                  from_node_id   = _.from_node_id ,

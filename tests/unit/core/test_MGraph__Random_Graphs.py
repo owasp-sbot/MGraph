@@ -1,4 +1,5 @@
 from unittest                             import TestCase
+from mgraph_ai.core.MGraph                import MGraph
 from osbot_utils.utils.Misc               import random_int
 from mgraph_ai.core.MGraph__Random_Graphs import MGraph__Random_Graphs
 
@@ -7,17 +8,18 @@ class test_MGraph__Random_Graphs(TestCase):
 
     def setUp(self):
         self.ramdom_graphs = MGraph__Random_Graphs()
-        self.config        = self.ramdom_graphs.config
+
 
     def test_with_x_nodes_and_y_edges(self):
-        self.config.allow_circle_edges    = True            # need to set this or the test below will fail
-        self.config.allow_duplicate_edges = True
+        # self.config.allow_circle_edges    = True            # need to set this or the test below will fail
+        # self.config.allow_duplicate_edges = True
         x = random_int(max=10)
         y = random_int(max=20)
         new_graph = self.ramdom_graphs.with_x_nodes_and_y_edges(x, y)
+        assert type(new_graph) == MGraph
         assert type(new_graph).__name__ == 'MGraph'
-        assert len(new_graph.nodes)    == x
-        assert len(new_graph.edges)    == y
+        assert len(new_graph.nodes())    == x
+        assert len(new_graph.edges())    == y
 
     # @pytest.mark.skip("remove hard coded path")
     # def test_save_graph(self):

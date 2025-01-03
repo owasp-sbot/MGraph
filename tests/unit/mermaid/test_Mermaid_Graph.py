@@ -1,5 +1,5 @@
 from unittest                           import TestCase
-from osbot_utils.base_classes.Type_Safe import Type_Safe
+from osbot_utils.type_safe.Type_Safe import Type_Safe
 from osbot_utils.utils.Misc             import list_set
 from osbot_utils.utils.Objects          import base_types
 from mgraph_ai.core.MGraph              import MGraph

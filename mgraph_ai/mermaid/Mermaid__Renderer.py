@@ -4,7 +4,7 @@ from mgraph_ai.mermaid.Mermaid__Node import LINE_PADDING
 from osbot_utils.utils.Str import safe_str
 
 from mgraph_ai.mermaid.Mermaid__Graph import Mermaid__Graph
-from osbot_utils.base_classes.Type_Safe                  import Type_Safe
+from osbot_utils.type_safe.Type_Safe                  import Type_Safe
 from mgraph_ai.mermaid.configs.Mermaid__Render__Config   import Mermaid__Render__Config
 from mgraph_ai.mermaid.models.Mermaid__Diagram_Direction import Diagram__Direction
 from mgraph_ai.mermaid.models.Mermaid__Diagram__Type     import Diagram__Type

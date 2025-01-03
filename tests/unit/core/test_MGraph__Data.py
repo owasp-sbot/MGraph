@@ -2,7 +2,7 @@ from collections                            import defaultdict
 from unittest                               import TestCase
 from mgraph_ai.core.MGraph                  import MGraph
 from mgraph_ai.core.MGraph__Data            import MGraph__Data
-from mgraph_ai.base.MGraph__Edge            import MGraph__Edge
+from mgraph_ai.schemas.Schema__MGraph__Edge import Schema__MGraph__Edge
 from osbot_utils.testing.Stdout             import Stdout
 from osbot_utils.utils.Misc                 import list_set
 from mgraph_ai.core.MGraph__Random_Graphs   import MGraph__Random_Graphs
@@ -20,9 +20,9 @@ class test_MGraph__Data(TestCase):
     def test___init__(self):
         assert self.graph_data.__class__.__name__ == 'MGraph__Data'
         assert self.graph_data.graph == self.graph
-        assert list(self.graph_data.nodes()) == list(self.graph.nodes.values())
-        assert self.graph_data.nodes_ids ()  == list(self.graph.nodes.keys())
-        assert self.graph_data.edges     ()  == self.graph.edges
+        assert list(self.graph_data.nodes())  == list(self.graph.nodes().values())
+        assert self.graph_data.nodes_ids ()   == list(self.graph.nodes().keys())
+        assert f'{self.graph_data.edges  ()}' == f'{self.graph.edges().values()}'       # todo find a better way to compare these objects (which are the same)
 
         assert list_set(MGraph__Data().__attr_names__()) == ['graph']
         assert type(MGraph__Data().graph) is MGraph
@@ -33,7 +33,7 @@ class test_MGraph__Data(TestCase):
 
     def test_nodes__by_key(self):
         assert list(self.graph_data.nodes__by_id().keys  ()) == list(self.graph_data.nodes_ids())
-        assert list(self.graph_data.nodes__by_id().values()) == list(self.graph.nodes.values())
+        assert list(self.graph_data.nodes__by_id().values()) == list(self.graph.nodes().values())
 
     def test_nodes_edges(self):
         with self.graph_data as _:                                          # Use graph_data in a context manager
@@ -65,7 +65,7 @@ class test_MGraph__Data(TestCase):
     def test_edges(self):
         with self.graph_data as _:
             for edge in _.edges():
-                assert type(edge) is MGraph__Edge
+                assert type(edge) is Schema__MGraph__Edge
 
     def test_node_edges__to_from(self):
         node_edges__to_from = self.graph_data.node_edges__to_from()

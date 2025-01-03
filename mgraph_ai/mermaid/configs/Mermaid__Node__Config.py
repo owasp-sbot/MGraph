@@ -1,4 +1,4 @@
-from osbot_utils.base_classes.Type_Safe            import Type_Safe
+from osbot_utils.type_safe.Type_Safe            import Type_Safe
 from mgraph_ai.mermaid.models.Mermaid__Node__Shape import Mermaid__Node__Shape
 
 

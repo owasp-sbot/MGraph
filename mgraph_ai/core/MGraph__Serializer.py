@@ -1,6 +1,6 @@
 from enum                               import Enum, auto
 from mgraph_ai.core.MGraph__Data        import MGraph__Data
-from osbot_utils.base_classes.Type_Safe import Type_Safe
+from osbot_utils.type_safe.Type_Safe import Type_Safe
 from osbot_utils.utils.Str              import safe_str
 from osbot_utils.helpers.Local_Cache    import Local_Cache
 from mgraph_ai.core.MGraph              import MGraph
@@ -21,7 +21,7 @@ class MGraph__Serializer(Type_Safe):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.key         = safe_str(f'serialiser_for__{self.graph.key}')
+        self.key         = safe_str(f'serialiser_for__{self.graph.data.graph_id}')
 
         self.local_cache = Local_Cache(cache_name=self.key, caches_name=self.caches_name)
 

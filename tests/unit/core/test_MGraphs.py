@@ -11,10 +11,10 @@ class test_MGraphs(TestCase):
 
     #@pytest.mark.skip("todo: implement pickle save")
     def test_new__random(self):
-        self.config.graph_title = 'Random Graph - from tests'
-        mgraph = self.MGraphs.new__random(self.config)
-        assert len(mgraph.nodes) == 10
-        assert len(mgraph.edges)  > 10
+        #self.config.graph_title = 'Random Graph - from tests'
+        mgraph = self.MGraphs.new__random()
+        assert len(mgraph.nodes()) == 10
+        assert len(mgraph.edges())  > 10
         #pprint(MGraph)
         #MGraph.data().print()
         # saved_graph = MGraph.save()
