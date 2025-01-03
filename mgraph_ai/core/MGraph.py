@@ -3,8 +3,8 @@ from osbot_utils.helpers.Random_Guid    import Random_Guid
 from osbot_utils.base_classes.Type_Safe import Type_Safe
 from osbot_utils.utils.Misc             import random_text, lower
 from mgraph_ai.core.MGraph__Config      import MGraph__Config
-from mgraph_ai.core.MGraph__Edge        import MGraph__Edge
-from mgraph_ai.core.MGraph__Node        import MGraph__Node
+from mgraph_ai.base.MGraph__Edge        import MGraph__Edge
+from mgraph_ai.base.MGraph__Node        import MGraph__Node
 
 
 # todo add support for storing the data in sqlite so that we get the ability to search nodes and edges

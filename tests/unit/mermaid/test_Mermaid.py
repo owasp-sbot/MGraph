@@ -40,6 +40,7 @@ class test_Mermaid(TestCase):
             assert to_node.key   == to_node_key
             assert type(edge)    == Mermaid__Edge
             assert edge.obj()    == __(config         = __(output_node_from=False, output_node_to=False, edge_mode='') ,
+                                       edge_id        = edge.edge_id                                    ,
                                        from_node_id   = from_node.node_id                               ,
                                        attributes     = __(answer='42')                                 ,
                                        from_node_type = 'mgraph_ai.mermaid.Mermaid__Node.Mermaid__Node' ,

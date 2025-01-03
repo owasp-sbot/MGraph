@@ -1,6 +1,6 @@
 from mgraph_ai.mermaid.configs.Mermaid__Node__Config   import Mermaid__Node__Config
 from mgraph_ai.mermaid.models.Mermaid__Node__Shape     import Mermaid__Node__Shape
-from mgraph_ai.core.MGraph__Node                       import MGraph__Node
+from mgraph_ai.base.MGraph__Node                       import MGraph__Node
 
 LINE_PADDING = '    '
 

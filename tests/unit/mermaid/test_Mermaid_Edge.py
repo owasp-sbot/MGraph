@@ -25,6 +25,7 @@ class test_Mermaid_Edge(TestCase):
                                                                      edge_mode        = ''                      ),
                                                  label          = ''                                             ,
                                                  attributes     = __()                                           ,
+                                                 edge_id        = _.edge_id                                      ,
                                                  from_node_id   = _.from_node_id                                 ,
                                                  from_node_type = 'mgraph_ai.mermaid.Mermaid__Node.Mermaid__Node',
                                                  to_node_id     = _.to_node_id                ,

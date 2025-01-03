@@ -1,4 +1,4 @@
-from mgraph_ai.core.MGraph__Edge                     import MGraph__Edge
+from mgraph_ai.base.MGraph__Edge                     import MGraph__Edge
 from mgraph_ai.mermaid.Mermaid__Node                 import Mermaid__Node
 from mgraph_ai.mermaid.configs.Mermaid__Edge__Config import Mermaid__Edge__Config
 

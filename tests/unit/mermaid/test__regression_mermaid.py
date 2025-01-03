@@ -5,7 +5,7 @@ from mgraph_ai.mermaid.Mermaid                       import Mermaid
 from mgraph_ai.mermaid.Mermaid__Edge                 import Mermaid__Edge
 from mgraph_ai.mermaid.Mermaid__Node                 import Mermaid__Node
 from mgraph_ai.mermaid.configs.Mermaid__Edge__Config import Mermaid__Edge__Config
-from mgraph_ai.core.MGraph__Edge                     import MGraph__Edge
+from mgraph_ai.base.MGraph__Edge                     import MGraph__Edge
 from osbot_utils.utils.Misc                          import list_set
 from osbot_utils.utils.Objects                       import obj_data
 
@@ -49,7 +49,7 @@ class test__regression__mermaid(TestCase):
         #     Mermaid__Edge()                                             # Mermaid__Edge ctor raises an exception
         # assert str(context.exception) == ("Invalid type for attribute 'from_node'. Expected '<class "
         #                                   "'mgraph_ai.mermaid.Mermaid__Node.Mermaid__Node'>' but got '<class "
-        #                                   "'mgraph_ai.core.MGraph__Node.MGraph__Node'>'")
+        #                                   "'mgraph_ai.base.MGraph__Node.MGraph__Node'>'")
 
 
 

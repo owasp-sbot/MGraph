@@ -33,6 +33,7 @@ class test_MGraph(TestCase):
             assert new_edge.from_node_id == from_node.node_id
             assert new_edge.to_node_id   == to_node.node_id
             assert new_edge.__locals__() == dict(attributes     = {}                ,
+                                                 edge_id        =  new_edge.edge_id ,
                                                  from_node_id   =  from_node.node_id,
                                                  from_node_type = None              ,
                                                  to_node_id     =  to_node.node_id  ,

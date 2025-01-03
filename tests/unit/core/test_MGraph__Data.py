@@ -2,7 +2,7 @@ from collections                            import defaultdict
 from unittest                               import TestCase
 from mgraph_ai.core.MGraph                  import MGraph
 from mgraph_ai.core.MGraph__Data            import MGraph__Data
-from mgraph_ai.core.MGraph__Edge            import MGraph__Edge
+from mgraph_ai.base.MGraph__Edge            import MGraph__Edge
 from osbot_utils.testing.Stdout             import Stdout
 from osbot_utils.utils.Misc                 import list_set
 from mgraph_ai.core.MGraph__Random_Graphs   import MGraph__Random_Graphs
