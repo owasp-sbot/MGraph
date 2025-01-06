@@ -15,9 +15,17 @@ class test_Mermaid(TestCase):
 
     def test__init__(self):
         with self.mermaid as _:
-            expected_vars = {'graph'            : _.graph               }
-            assert _.__locals__() == expected_vars
+            expected_vars = {'graph'     : _.graph               }
+            assert _.__locals__()                == expected_vars
             assert _.graph   .__class__.__name__ == 'Mermaid__Graph'
+            assert _.obj() == __(graph=(__(data   = __(edges        = __()                 ,
+                                                       mermaid_code = []                   ,
+                                                       nodes        = __()                 ,
+                                                       graph_id     = _.graph.data.graph_id,
+                                                       graph_type   = None                 ),
+                                           config = __(allow_circle_edges    = False,
+                                                       allow_duplicate_edges = False,
+                                                       graph_title           =''    ))))
 
     def test_add_directive(self):
         with self.mermaid as _:
@@ -48,7 +56,7 @@ class test_Mermaid(TestCase):
                                        to_node_id     = to_node.node_id                                 ,
                                        to_node_type   = 'mgraph_ai.mermaid.Mermaid__Node.Mermaid__Node' )
     def test_config(self):
-        assert self.mermaid.renderer().config.add_nodes is True
+        assert self.mermaid.render().config.add_nodes is True
 
     def test_print_code(self):
         self.mermaid.add_edge(from_node_key='from_node', to_node_key='to_node')
@@ -62,11 +70,11 @@ class test_Mermaid(TestCase):
 
     def test_set_direction(self):
         with self.mermaid as _:
-            assert type(_.renderer()) is Mermaid__Renderer
+            assert type(_.render()) is Mermaid__Renderer
             assert _.set_direction(Diagram__Direction.LR) is _
-            assert _.renderer().diagram_direction == Diagram__Direction.LR
+            assert _.render().diagram_direction == Diagram__Direction.LR
             assert _.set_direction('RL') is _
-            assert _.renderer().diagram_direction == Diagram__Direction.RL
+            assert _.render().diagram_direction == Diagram__Direction.RL
 
     def test_save(self):
         with Temp_File() as temp_file:

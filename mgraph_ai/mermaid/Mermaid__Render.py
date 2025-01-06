@@ -1,16 +1,14 @@
 from typing                                              import List
-
-from mgraph_ai.mermaid.Mermaid__Node import LINE_PADDING
-from osbot_utils.utils.Str import safe_str
-
-from mgraph_ai.mermaid.Mermaid__Graph import Mermaid__Graph
-from osbot_utils.type_safe.Type_Safe                  import Type_Safe
+from mgraph_ai.mermaid.Mermaid__Node                     import LINE_PADDING
+from osbot_utils.utils.Str                               import safe_str
+from mgraph_ai.mermaid.Mermaid__Graph                    import Mermaid__Graph
+from osbot_utils.type_safe.Type_Safe                     import Type_Safe
 from mgraph_ai.mermaid.configs.Mermaid__Render__Config   import Mermaid__Render__Config
 from mgraph_ai.mermaid.models.Mermaid__Diagram_Direction import Diagram__Direction
 from mgraph_ai.mermaid.models.Mermaid__Diagram__Type     import Diagram__Type
 
 
-class Mermaid__Renderer(Type_Safe):
+class Mermaid__Render(Type_Safe):
     config            : Mermaid__Render__Config
     diagram_direction : Diagram__Direction = Diagram__Direction.LR
     diagram_type      : Diagram__Type      = Diagram__Type.graph
@@ -22,11 +20,11 @@ class Mermaid__Renderer(Type_Safe):
         self.mermaid_code.append(line)
         return line
 
-    def code(self, nodes, edges):
-        self.code_create(nodes, edges)
+    def code(self):
+        self.code_create()
         return '\n'.join(self.mermaid_code)
 
-    def code_create(self, nodes, edges, recreate=False):
+    def code_create(self, recreate=False):
         with self as _:
             if recreate:                            # if recreate is True, reset the code
                 _.reset_code()
@@ -36,12 +34,12 @@ class Mermaid__Renderer(Type_Safe):
                 _.add_line(f'%%{{{directive}}}%%')
             _.add_line(self.graph_header())
             if self.config.add_nodes:
-                for node in nodes.values():
+                for node in self.graph.nodes():
                     node_code = self.render_node(node)
                     _.add_line(node_code)
             if self.config.line_before_edges:
                 _.add_line('')
-            for edge in edges:
+            for edge in self.graph.edges():
                 edge_code = self.render_edge(edge)
                 _.add_line(edge_code)
         return self

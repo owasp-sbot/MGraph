@@ -5,7 +5,6 @@ from mgraph_ai.mermaid.Mermaid                       import Mermaid
 from mgraph_ai.mermaid.Mermaid__Edge                 import Mermaid__Edge
 from mgraph_ai.mermaid.Mermaid__Node                 import Mermaid__Node
 from mgraph_ai.mermaid.configs.Mermaid__Edge__Config import Mermaid__Edge__Config
-from mgraph_ai.base.MGraph__Edge                     import MGraph__Edge
 from osbot_utils.utils.Misc                          import list_set
 from osbot_utils.utils.Objects                       import obj_data
 
@@ -39,7 +38,6 @@ class test__regression__mermaid(TestCase):
 
 
     def test__regression__Mermaid__Edge__is_failing_on_ctor(self):
-        MGraph__Edge()                                                  # MGraph__Edge  ctor doesn't raise an exception
         mermaid_edge = Mermaid__Edge()                                  # FIXED: MGraph__Edge also now doesn't raise an exception
 
         assert mermaid_edge.from_node_type is Mermaid__Node            # confirm that correct types of

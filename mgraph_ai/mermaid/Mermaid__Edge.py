@@ -1,9 +1,11 @@
-from mgraph_ai.base.MGraph__Edge                     import MGraph__Edge
+from mgraph_ai.core.MGraph__Edge                     import MGraph__Edge
 from mgraph_ai.mermaid.Mermaid__Node                 import Mermaid__Node
 from mgraph_ai.mermaid.configs.Mermaid__Edge__Config import Mermaid__Edge__Config
+from mgraph_ai.mermaid.models.Model__Mermaid__Edge   import Model__Mermaid__Edge
 
 
 class Mermaid__Edge(MGraph__Edge):
+    model          : Model__Mermaid__Edge    
     config         : Mermaid__Edge__Config
     label          : str
 

@@ -10,7 +10,7 @@ class test_Mermaid_Renderer(TestCase):
 
     def setUp(self):
         self.mermaid      = Mermaid()
-        self.renderer     = self.mermaid.renderer()
+        self.renderer     = self.mermaid.render()
 
     def test__init__(self):
         with self.renderer as _:
@@ -36,8 +36,8 @@ class test_Mermaid_Renderer(TestCase):
                                             """)
 
         with self.mermaid as _:
-            _.renderer().config.add_nodes         = False
-            _.renderer().config.line_before_edges = False
+            _.render().config.add_nodes         = False
+            _.render().config.line_before_edges = False
             _.set_direction(Diagram__Direction.TD)
             _.set_diagram_type(Diagram__Type.flowchart)
             _.add_node(key='A').set_label('Christmas'    ).wrap_with_quotes(False).shape_default    ()
@@ -59,10 +59,10 @@ class test_Mermaid_Renderer(TestCase):
             with Stdout() as stdout:
                 _.print_code()
             assert stdout.value() == expected_code + '\n'
-            assert _.renderer().mermaid_code == expected_code.splitlines()
+            assert _.render().mermaid_code == expected_code.splitlines()
 
-            _.renderer().reset_code()
-            assert _.renderer().mermaid_code == []
+            _.render().reset_code()
+            assert _.render().mermaid_code == []
 
             assert expected_code == _.code()
 
@@ -74,7 +74,7 @@ class test_Mermaid_Renderer(TestCase):
 
             _.add_node(key='markdown', label='This **is** _Markdown_').markdown()
 
-            _.renderer().code_create(_.nodes(), _.edges(),recreate=True)
+            _.render().code_create(_.nodes(), _.edges(), recreate=True)
             assert _.code() == ('%%{init: {"flowchart": {"htmlLabels": false}} }%%\n'
                                 'graph LR\n'
                                 '    markdown["`This **is** _Markdown_`"]\n')

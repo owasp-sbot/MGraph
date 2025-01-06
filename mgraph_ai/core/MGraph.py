@@ -1,15 +1,11 @@
+from mgraph_ai.mermaid.models.Model__Mermaid__Graph import Model__Mermaid__Graph
 from mgraph_ai.schemas.Schema__MGraph__Edge  import Schema__MGraph__Edge
-from mgraph_ai.schemas.Schema__MGraph__Graph import Schema__MGraph__Graph
 from mgraph_ai.schemas.Schema__MGraph__Node  import Schema__MGraph__Node
 from osbot_utils.type_safe.Type_Safe         import Type_Safe
-from mgraph_ai.core.MGraph__Config           import MGraph__Config
-
-
 
 # todo add support for storing the data in sqlite so that we get the ability to search nodes and edges
 class MGraph(Type_Safe):
-    data   : Schema__MGraph__Graph
-    config : MGraph__Config
+    model: Model__Mermaid__Graph
 
     def add_edge(self, from_node_id, to_node_id, attributes=None) -> Schema__MGraph__Edge:
         # if self.config.allow_circle_edges is False:                           # these checks should not exist in the core
@@ -23,9 +19,8 @@ class MGraph(Type_Safe):
         self.data.edges[new_edge.edge_id] = new_edge
         return new_edge
 
-    def add_node(self, new_node: Schema__MGraph__Node):
-        self.data.nodes[new_node.node_id] = new_node
-        return new_node
+    def add_node(self, **kwargs):
+        return self.model.add_node(**kwargs)
 
     def edges(self):
         return self.data.edges

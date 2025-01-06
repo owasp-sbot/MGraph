@@ -52,14 +52,14 @@ class test_Mermaid_Examples__FlowChart(TestCase):
     Line 2
     Line 3""").markdown()
             _.add_edge('markdown', 'newLines')
-            _.renderer().config.line_before_edges = False
+            _.render().config.line_before_edges = False
 
 
     def test_example_5__direction__from_top_to_bottom(self):
         with self.mermaid as _:
             _.set_diagram_type(Diagram__Type.flowchart)
-            _.renderer().config.line_before_edges = False
-            _.renderer().config.add_nodes         = False
+            _.render().config.line_before_edges = False
+            _.render().config.add_nodes         = False
             _.set_direction('TD')
             _.add_edge('Start', 'Stop')
 
@@ -67,8 +67,8 @@ class test_Mermaid_Examples__FlowChart(TestCase):
     def test_example_6__direction__from_left_to_right(self):
         with self.mermaid as _:
             _.set_diagram_type(Diagram__Type.flowchart)
-            _.renderer().config.line_before_edges = False
-            _.renderer().config.add_nodes         = False
+            _.render().config.line_before_edges = False
+            _.render().config.add_nodes         = False
             _.set_direction('LR')
             _.add_edge('Start', 'Stop')
 

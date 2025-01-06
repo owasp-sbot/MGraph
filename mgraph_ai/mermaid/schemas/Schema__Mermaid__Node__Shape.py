@@ -2,7 +2,7 @@ from __future__ import annotations
 from enum import Enum
 
 
-class Mermaid__Node__Shape(Enum):
+class Schema__Mermaid__Node__Shape(Enum):
     asymmetric          = ('>'  ,  ']'  )        # Asymmetric
     circle              = ('((' ,  '))' )        # Circle, used for endpoints or start/end points
     cylindrical         = ('[(' ,  ')]' )        # Cylindrical
@@ -19,12 +19,13 @@ class Mermaid__Node__Shape(Enum):
     trapezoid           = ('[/' , r'\]' )        # Trapezoid, used for manual operations             # todo: figure out why this line is throwing the compile error of: SyntaxWarning: invalid escape sequence '\]'
     trapezoid_alt       = ('[\\',  '/]' )        # Inverted trapezoid, also used for manual operations
 
+    # todo: see if there is a better way to do this (and if we can move this to a base class)
     @staticmethod
-    def get_shape(value = None) -> Mermaid__Node__Shape:
-        if isinstance(value, Mermaid__Node__Shape):
+    def get_shape(value = None) -> Schema__Mermaid__Node__Shape:
+        if isinstance(value, Schema__Mermaid__Node__Shape):
             return value
         if type(value) is str:
-            for shape in Mermaid__Node__Shape:
+            for shape in Schema__Mermaid__Node__Shape:
                 if value == shape.name:
                     return shape
-        return Mermaid__Node__Shape.default
+        return Schema__Mermaid__Node__Shape.default
