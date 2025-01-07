@@ -1,4 +1,7 @@
 from unittest                             import TestCase
+
+from osbot_utils.utils.Objects import __
+
 from mgraph_ai.models.Model__MGraph__Node import Model__MGraph__Node
 
 
@@ -9,6 +12,9 @@ class test_Model__MGraph__Node(TestCase):
 
     def test__init__(self):
         with self.node.data as _:
-            assert _.attributes     == {}
-            assert _.node_id        == _.node_id
-            assert _.node_type      is None
+            node_id = _.node_config.node_id
+            assert _.obj() == __(attributes=__(),
+                                 node_config=__(node_id    = node_id,
+                                                node_type  = None   ,
+                                                value_type = None   ),
+                                 value=None)
