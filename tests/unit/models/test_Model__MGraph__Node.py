@@ -1,8 +1,6 @@
-from unittest                             import TestCase
-
-from osbot_utils.utils.Objects import __
-
-from mgraph_ai.models.Model__MGraph__Node import Model__MGraph__Node
+from unittest                               import TestCase
+from osbot_utils.utils.Objects              import __
+from mgraph_ai.models.Model__MGraph__Node   import Model__MGraph__Node
 
 
 class test_Model__MGraph__Node(TestCase):
