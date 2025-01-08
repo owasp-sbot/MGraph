@@ -1,4 +1,5 @@
 from typing                                         import Any, List
+from osbot_utils.helpers.Safe_Id                    import Safe_Id
 from mgraph_ai.domain.MGraph__Node                  import MGraph__Node
 from mgraph_ai.models.Model__MGraph__Attribute      import Model__MGraph__Attribute
 from mgraph_ai.models.Model__MGraph__Node           import Model__MGraph__Node
@@ -17,18 +18,18 @@ class MGraph__Edge(Type_Safe):                                                  
         return self.edge.data.edge_config.edge_id
 
     def from_node(self) -> MGraph__Node:                                                    # Get source node
-        data = self.graph.get_node(self.edge.from_node_id())
+        data = self.graph.node(self.edge.from_node_id())
         if data:
             return MGraph__Node(node  = Model__MGraph__Node(data=data),
                                 graph = self.graph                    )
 
     def to_node(self) -> MGraph__Node:                                                      # Get target node
-        data = self.graph.get_node(self.edge.to_node_id())
+        data = self.graph.node(self.edge.to_node_id())
         if data:
             return MGraph__Node(node  = Model__MGraph__Node(data=data),
                                 graph = self.graph                    )
 
-    def add_attribute(self, name     : str        ,
+    def add_attribute(self, name     : Safe_Id    ,
                             value    : Any        ,                                          # Add a new attribute to edge
                             attr_type: type = None) -> 'MGraph__Edge':
 

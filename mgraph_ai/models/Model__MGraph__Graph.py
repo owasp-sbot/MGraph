@@ -1,4 +1,5 @@
-from typing                                         import Any
+from typing                                         import Any, Type, Dict
+from mgraph_ai.schemas.Schema__MGraph__Attribute    import Schema__MGraph__Attribute
 from osbot_utils.type_safe.decorators.type_safe     import type_safe
 from osbot_utils.type_safe.Type_Safe                import Type_Safe
 from osbot_utils.helpers.Random_Guid                import Random_Guid
@@ -27,12 +28,14 @@ class Model__MGraph__Graph(Type_Safe):
         return edge
 
     @type_safe
-    def new_node(self, value: Any, node_type: type = None, attributes=None) -> Schema__MGraph__Node:               # Create and add a new node to the graph
+    def new_node(self, value     : Any                                                ,
+                       node_type : Type[Schema__MGraph__Node                  ] = None,
+                       attributes: Dict[Random_Guid, Schema__MGraph__Attribute] = None) -> Schema__MGraph__Node:        # Create and add a new node to the graph
+
         if node_type is None:
             node_type = self.data.graph_config.default_node_type
 
-        node_config = Schema__MGraph__Node_Config(node_id     = Random_Guid(),
-                                                  value_type  = type(value)  )
+        node_config = Schema__MGraph__Node_Config(value_type  = type(value)  )
         node        = Schema__MGraph__Node       (attributes  = attributes   ,
                                                   node_config = node_config  ,
                                                   node_type   = node_type    ,
@@ -41,7 +44,9 @@ class Model__MGraph__Graph(Type_Safe):
         return self.add_node(node)
 
     @type_safe
-    def new_edge(self, from_node_id: Random_Guid, to_node_id: Random_Guid) -> Schema__MGraph__Edge: # Create and add a new edge between nodes"""
+    def new_edge(self, from_node_id: Random_Guid,
+                       to_node_id  : Random_Guid) -> Schema__MGraph__Edge:                                              # Create and add a new edge between nodes
+
         from_node = self.data.nodes.get(from_node_id)
         to_node   = self.data.nodes.get(to_node_id  )
         if from_node is None:
@@ -62,14 +67,14 @@ class Model__MGraph__Graph(Type_Safe):
     def edges(self):
         return self.data.edges.values()
 
-    def get_node(self, node_id: Random_Guid) -> Schema__MGraph__Node:
-        return self.data.nodes.get(node_id)
-
-    def get_edge(self, edge_id: Random_Guid) -> Schema__MGraph__Edge:
+    def edge(self, edge_id: Random_Guid) -> Schema__MGraph__Edge:
         return self.data.edges.get(edge_id)
 
     def graph(self):
         return self.data
+
+    def node(self, node_id: Random_Guid) -> Schema__MGraph__Node:
+        return self.data.nodes.get(node_id)
 
     def nodes(self):
         return self.data.nodes.values()

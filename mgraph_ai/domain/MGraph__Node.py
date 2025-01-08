@@ -1,4 +1,5 @@
 from typing                                         import Any, List
+from osbot_utils.helpers.Safe_Id                    import Safe_Id
 from mgraph_ai.models.Model__MGraph__Attribute      import Model__MGraph__Attribute
 from mgraph_ai.schemas.Schema__MGraph__Attribute    import Schema__MGraph__Attribute
 from osbot_utils.helpers.Random_Guid                import Random_Guid
@@ -22,7 +23,7 @@ class MGraph__Node(Type_Safe):                                                  
     def id(self) -> Random_Guid:                                                           # Get node ID
         return self.node.data.node_config.node_id
 
-    def add_attribute(self, name     : str        ,
+    def add_attribute(self, name     : Safe_Id    ,
                             value    : Any        ,
                             attr_type: type = None) -> 'MGraph__Node':                      # Add a new attribute to node
 

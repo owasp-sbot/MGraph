@@ -35,7 +35,7 @@ class test_Model__MGraph__Graph(TestCase):
         assert type(node.node_config.value_type)  is type(str)
         assert node.node_config.node_id           in self.model.data.nodes
 
-        retrieved = self.model.get_node(node.node_config.node_id)                           # Test node retrieval
+        retrieved = self.model.node(node.node_config.node_id)                           # Test node retrieval
         assert retrieved == node
 
         assert self.model.delete_node(node.node_config.node_id) is True                     # Test node removal
