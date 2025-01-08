@@ -17,10 +17,10 @@ class Model__MGraph__Graph(Type_Safe):
             node_type = self.data.graph_config.default_node_type
 
         node_config = Schema__MGraph__Node_Config(node_id     = Random_Guid(),
-                                                  node_type   = node_type    ,
                                                   value_type  = type(value)  )
         node        = Schema__MGraph__Node       (attributes  = attributes   ,
                                                   node_config = node_config  ,
+                                                  node_type   = node_type    ,
                                                   value       = value        )
 
         return self.add_node(node)
@@ -34,8 +34,8 @@ class Model__MGraph__Graph(Type_Safe):
         if to_node is None:
             raise ValueError(f"Node {to_node_id} not found")
         edge_config = Schema__MGraph__Edge_Config(edge_id        = Random_Guid(),
-                                                  from_node_type = self.data.nodes[from_node_id].node_config.node_type,
-                                                  to_node_type   = self.data.nodes[to_node_id  ].node_config.node_type)
+                                                  from_node_type = self.data.nodes[from_node_id].node_type,
+                                                  to_node_type   = self.data.nodes[to_node_id  ].node_type)
 
         edge = Schema__MGraph__Edge(attributes   = {}          ,
                                     edge_config  = edge_config ,
@@ -58,6 +58,12 @@ class Model__MGraph__Graph(Type_Safe):
 
         self.data.edges[edge.edge_config.edge_id] = edge
         return edge
+
+    def get_node(self, node_id: Random_Guid) -> Schema__MGraph__Node:
+        return self.data.nodes.get(node_id)
+
+    def get_edge(self, edge_id: Random_Guid) -> Schema__MGraph__Edge:
+        return self.data.edges.get(edge_id)
 
     def graph(self):
         return self.data
