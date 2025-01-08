@@ -12,6 +12,21 @@ class Model__MGraph__Graph(Type_Safe):
     data: Schema__MGraph__Graph
 
     @type_safe
+    def add_node(self, node: Schema__MGraph__Node) -> Schema__MGraph__Node:                           # Add a node to the graph
+        self.data.nodes[node.node_config.node_id] = node
+        return node
+
+    @type_safe
+    def add_edge(self, edge: Schema__MGraph__Edge) -> Schema__MGraph__Edge:                           # Add an edge to the graph
+        if edge.from_node_id not in self.data.nodes:
+            raise ValueError(f"Source node {edge.from_node_id} not found")
+        if edge.to_node_id not in self.data.nodes:
+            raise ValueError(f"Target node {edge.to_node_id} not found")
+
+        self.data.edges[edge.edge_config.edge_id] = edge
+        return edge
+
+    @type_safe
     def new_node(self, value: Any, node_type: type = None, attributes=None) -> Schema__MGraph__Node:               # Create and add a new node to the graph
         if node_type is None:
             node_type = self.data.graph_config.default_node_type
@@ -44,20 +59,8 @@ class Model__MGraph__Graph(Type_Safe):
 
         return self.add_edge(edge)
 
-    @type_safe
-    def add_node(self, node: Schema__MGraph__Node) -> Schema__MGraph__Node:                           # Add a node to the graph
-        self.data.nodes[node.node_config.node_id] = node
-        return node
-
-    @type_safe
-    def add_edge(self, edge: Schema__MGraph__Edge) -> Schema__MGraph__Edge:                           # Add an edge to the graph
-        if edge.from_node_id not in self.data.nodes:
-            raise ValueError(f"Source node {edge.from_node_id} not found")
-        if edge.to_node_id not in self.data.nodes:
-            raise ValueError(f"Target node {edge.to_node_id} not found")
-
-        self.data.edges[edge.edge_config.edge_id] = edge
-        return edge
+    def edges(self):
+        return self.data.edges.values()
 
     def get_node(self, node_id: Random_Guid) -> Schema__MGraph__Node:
         return self.data.nodes.get(node_id)
@@ -72,7 +75,7 @@ class Model__MGraph__Graph(Type_Safe):
         return self.data.nodes.values()
 
     @type_safe
-    def remove_node(self, node_id: Random_Guid) -> 'Model__MGraph__Graph':                              # Remove a node and all its connected edges
+    def delete_node(self, node_id: Random_Guid) -> 'Model__MGraph__Graph':                              # Remove a node and all its connected edges
         if node_id not in self.data.nodes:
             return False
 
@@ -88,7 +91,7 @@ class Model__MGraph__Graph(Type_Safe):
         return True
 
     @type_safe
-    def remove_edge(self, edge_id: Random_Guid) -> 'Model__MGraph__Graph':                              # Remove an edge from the graph
+    def delete_edge(self, edge_id: Random_Guid) -> 'Model__MGraph__Graph':                              # Remove an edge from the graph
         if edge_id not in self.data.edges:
             return False
 

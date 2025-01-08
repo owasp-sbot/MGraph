@@ -38,10 +38,10 @@ class test_Model__MGraph__Graph(TestCase):
         retrieved = self.model.get_node(node.node_config.node_id)                           # Test node retrieval
         assert retrieved == node
 
-        assert self.model.remove_node(node.node_config.node_id) is True                     # Test node removal
+        assert self.model.delete_node(node.node_config.node_id) is True                     # Test node removal
         assert node.node_config.node_id                     not in self.model.data.nodes
 
-        assert self.model.remove_node(Random_Guid())            is False                    # Test removing non-existent node
+        assert self.model.delete_node(Random_Guid()) is False                    # Test removing non-existent node
 
     def test_edge_operations(self):                                                         # Tests edge creation, addition, and removal
         node1 = self.model.new_node("node1")                                                # Create two nodes
@@ -55,10 +55,10 @@ class test_Model__MGraph__Graph(TestCase):
         retrieved = self.model.get_edge(edge.edge_config.edge_id)                           # Test edge retrieval
         assert retrieved == edge
 
-        assert self.model.remove_edge(edge.edge_config.edge_id) is True                     # Test edge removal
+        assert self.model.delete_edge(edge.edge_config.edge_id) is True                     # Test edge removal
         assert edge.edge_config.edge_id not in self.model.data.edges
 
-        assert self.model.remove_edge(Random_Guid()) is False                               # Test removing non-existent edge
+        assert self.model.delete_edge(Random_Guid()) is False                               # Test removing non-existent edge
 
     def test_node_removal_cascades_to_edges(self):                                          # Tests that removing a node removes connected edges
         node1 = self.model.new_node("node1")
@@ -70,7 +70,7 @@ class test_Model__MGraph__Graph(TestCase):
 
         assert len(self.model.data.edges) == 2                                              # Verify initial state
 
-        self.model.remove_node(node2.node_config.node_id)                                   # Remove node2 (should remove both edges)
+        self.model.delete_node(node2.node_config.node_id)                                   # Remove node2 (should remove both edges)
 
         assert len(self.model.data.edges) == 0                                              # Verify edges were removed
         assert edge1.edge_config.edge_id not in self.model.data.edges
@@ -129,7 +129,7 @@ class test_Model__MGraph__Graph(TestCase):
         assert edge.edge_config.from_node_type == Simple_Node                               # Verify edge node types
         assert edge.edge_config.to_node_type   == Another_Node
 
-        self.model.remove_node(node1.node_config.node_id)                                   # Test edge validation with deleted node
+        self.model.delete_node(node1.node_config.node_id)                                   # Test edge validation with deleted node
         with self.assertRaises(ValueError) as context:
             self.model.add_edge(edge)
         assert "Source node" in str(context.exception)
