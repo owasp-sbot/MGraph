@@ -20,26 +20,26 @@ class MGraph__Graph(Type_Safe):
     def edge(self, edge_id: Random_Guid) -> MGraph__Edge:
         edge = self.graph.edge(edge_id)
         if edge:
-            return MGraph__Edge(edge=edge, graph=self)
+            return MGraph__Edge(edge=edge, graph=self.graph)
 
     def edges(self) -> List[MGraph__Edge]:
-        return [MGraph__Edge(edge=edge, graph=self) for edge in self.graph.edges()]
+        return [MGraph__Edge(edge=edge, graph=self.graph) for edge in self.graph.edges()]
 
     def new_edge(self, from_node_id: Random_Guid, to_node_id  : Random_Guid) -> MGraph__Edge:
         edge = self.graph.new_edge(from_node_id=from_node_id, to_node_id=to_node_id)
-        return MGraph__Edge(edge=edge, graph=self)
+        return MGraph__Edge(edge=edge, graph=self.graph)
 
     def new_node(self, value     : Any                                                ,
                        node_type : Type[Schema__MGraph__Node                  ] = None,
                        attributes: Dict[Random_Guid, Schema__MGraph__Attribute] = None)-> MGraph__Node:
         node = self.graph.new_node(value=value, node_type=node_type, attributes=attributes)
-        return MGraph__Node(node=node, graph=self)
+        return MGraph__Node(node=node, graph=self.graph)
 
     def node(self, node_id: Random_Guid) -> MGraph__Node:
         node = self.graph.node(node_id)
         if node:
-            return MGraph__Node(node=node, graph=self)
+            return MGraph__Node(node=node, graph=self.graph)
 
     def nodes(self) -> List[MGraph__Node]:
-        return [MGraph__Node(node=node, graph=self) for node in self.graph.nodes()]
+        return [MGraph__Node(node=node, graph=self.graph) for node in self.graph.nodes()]
 

@@ -18,16 +18,14 @@ class MGraph__Edge(Type_Safe):                                                  
         return self.edge.data.edge_config.edge_id
 
     def from_node(self) -> MGraph__Node:                                                    # Get source node
-        data = self.graph.node(self.edge.from_node_id())
-        if data:
-            return MGraph__Node(node  = Model__MGraph__Node(data=data),
-                                graph = self.graph                    )
+        node = self.graph.node(self.edge.from_node_id())
+        if node:
+            return MGraph__Node(node=node, graph=self.graph )
 
     def to_node(self) -> MGraph__Node:                                                      # Get target node
-        data = self.graph.node(self.edge.to_node_id())
-        if data:
-            return MGraph__Node(node  = Model__MGraph__Node(data=data),
-                                graph = self.graph                    )
+        node = self.graph.node(self.edge.to_node_id())
+        if node:
+            return MGraph__Node(node=node, graph=self.graph)
 
     def add_attribute(self, name     : Safe_Id    ,
                             value    : Any        ,                                          # Add a new attribute to edge
