@@ -1,6 +1,6 @@
+from mgraph_ai.domain.MGraph import MGraph
 from osbot_utils.type_safe.Type_Safe    import Type_Safe
 from osbot_utils.helpers.Print_Table    import Print_Table
-from mgraph_ai.core.MGraph              import MGraph
 
 
 class MGraph__Data(Type_Safe):
