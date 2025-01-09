@@ -3,7 +3,7 @@ from mgraph_ai.providers.mermaid.Mermaid__Render                            impo
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node              import Schema__Mermaid__Node
 from mgraph_ai.providers.mermaid.actions.Mermaid__Data                      import Mermaid__Data
 from mgraph_ai.providers.mermaid.Mermaid__Edge                              import Mermaid__Edge
-from mgraph_ai.providers.mermaid.Mermaid__Graph                             import Mermaid__Graph
+from mgraph_ai.providers.mermaid.domain.Mermaid__Graph                      import Mermaid__Graph
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Diagram_Direction import Schema__Mermaid__Diagram__Direction
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Diagram__Type     import Schema__Mermaid__Diagram__Type
 from osbot_utils.type_safe.Type_Safe                                        import Type_Safe

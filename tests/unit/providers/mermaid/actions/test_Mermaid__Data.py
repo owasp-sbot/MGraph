@@ -35,7 +35,7 @@ class test_Mermaid__Data(TestCase):
         empty_data_instance = Mermaid__Data(graph=empty_data['graph'])
 
         assert len(empty_data_instance.nodes__by_key()) == 0
-        assert len(empty_data_instance.nodes__keys()) == 0
+        assert len(empty_data_instance.nodes__keys  ()) == 0
 
     def test_inherited_methods(self):                                              # Tests inherited MGraph__Data methods
         assert len(self.data.nodes()) == len(self.nodes)

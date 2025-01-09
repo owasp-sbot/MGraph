@@ -1,11 +1,11 @@
 import pytest
-from unittest                                   import TestCase
-from mgraph_ai.mgraph.domain.MGraph             import MGraph
-from osbot_utils.type_safe.Type_Safe            import Type_Safe
-from osbot_utils.utils.Misc                     import list_set
-from osbot_utils.utils.Objects                  import base_types
-from mgraph_ai.core.MGraphs                     import MGraphs
-from mgraph_ai.providers.mermaid.Mermaid__Graph import Mermaid__Graph
+from unittest                                           import TestCase
+from mgraph_ai.mgraph.domain.MGraph                     import MGraph
+from osbot_utils.type_safe.Type_Safe                    import Type_Safe
+from osbot_utils.utils.Misc                             import list_set
+from osbot_utils.utils.Objects                          import base_types
+from mgraph_ai.core.MGraphs                             import MGraphs
+from mgraph_ai.providers.mermaid.domain.Mermaid__Graph  import Mermaid__Graph
 
 
 class test_Mermaid_MGraph(TestCase):

@@ -1,8 +1,8 @@
 import sys
 import pytest
 from unittest                                                  import TestCase
-from mgraph_ai.providers.mermaid.Mermaid                       import Mermaid
-from mgraph_ai.providers.mermaid.Mermaid__Edge                 import Mermaid__Edge
+from mgraph_ai.providers.mermaid.domain.Mermaid                import Mermaid
+from mgraph_ai.providers.mermaid.domain.Mermaid__Edge          import Mermaid__Edge
 from mgraph_ai.providers.mermaid.domain.Mermaid__Node          import Mermaid__Node
 from mgraph_ai.providers.mermaid.configs.Mermaid__Edge__Config import Mermaid__Edge__Config
 from osbot_utils.utils.Misc                                    import list_set

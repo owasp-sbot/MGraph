@@ -1,14 +1,16 @@
 from mgraph_ai.mgraph.domain.MGraph__Node                             import MGraph__Node
+from mgraph_ai.providers.mermaid.models.Model__Mermaid__Graph import Model__Mermaid__Graph
 from mgraph_ai.providers.mermaid.models.Model__Mermaid__Node          import Model__Mermaid__Node
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Shape import Schema__Mermaid__Node__Shape
 
 LINE_PADDING = '    '
 
 class Mermaid__Node(MGraph__Node):
-    model : Model__Mermaid__Node
+    node : Model__Mermaid__Node
+    graph: Model__Mermaid__Graph
 
     def config(self):
-        return self.model.config
+        return self.node.data.node_config
 
     def markdown(self, value=True):
         self.config().markdown = value

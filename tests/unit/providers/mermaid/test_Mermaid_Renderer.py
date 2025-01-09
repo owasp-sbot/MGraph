@@ -5,7 +5,7 @@ from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Diagram_Direction impo
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Diagram__Type     import Schema__Mermaid__Diagram__Type
 from mgraph_ai.providers.mermaid.configs.Mermaid__Render__Config            import Mermaid__Render__Config
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Shape       import Schema__Mermaid__Node__Shape
-from mgraph_ai.providers.mermaid.Mermaid                                    import Mermaid
+from mgraph_ai.providers.mermaid.domain.Mermaid                             import Mermaid
 from osbot_utils.testing.Stdout                                             import Stdout
 from osbot_utils.utils.Str                                                  import str_dedent
 

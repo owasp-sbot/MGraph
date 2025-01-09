@@ -1,9 +1,9 @@
-from mgraph_ai.core.MGraph__Random_Graphs import MGraph__Random_Graphs
+
 
 class MGraphs:
-
-    def new__random(self, x_nodes=10, y_edges=20):
-        return MGraph__Random_Graphs().with_x_nodes_and_y_edges(x=x_nodes, y=y_edges)
+    pass
+    # def new__random(self, x_nodes=10, y_edges=20):
+    #     return MGraph__Random_Graphs().with_x_nodes_and_y_edges(x=x_nodes, y=y_edges)
 
     # todo : implement based on multiple save a load methods
     # def load(self, file_path):

@@ -1,10 +1,10 @@
 import pytest
-from unittest                                                      import TestCase
+from unittest                                                               import TestCase
 
 from osbot_utils.utils.Objects                                              import __
 from mgraph_ai.providers.mermaid.Mermaid__Render                            import Mermaid__Render
-from mgraph_ai.providers.mermaid.Mermaid                                    import Mermaid
-from mgraph_ai.providers.mermaid.Mermaid__Edge                              import Mermaid__Edge
+from mgraph_ai.providers.mermaid.domain.Mermaid                             import Mermaid
+from mgraph_ai.providers.mermaid.domain.Mermaid__Edge                       import Mermaid__Edge
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Diagram__Type     import Schema__Mermaid__Diagram__Type
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Diagram_Direction import Schema__Mermaid__Diagram__Direction
 from osbot_utils.testing.Stdout                                             import Stdout

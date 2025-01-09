@@ -1,6 +1,6 @@
 import pytest
 from unittest                                                           import TestCase
-from mgraph_ai.providers.mermaid.Mermaid                                import Mermaid
+from mgraph_ai.providers.mermaid.domain.Mermaid                         import Mermaid
 from mgraph_ai.providers.mermaid.examples.Mermaid_Examples__FlowChart   import Mermain_Examples__FlowChart
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Diagram__Type import Schema__Mermaid__Diagram__Type
 from osbot_utils.utils.Str                                              import str_dedent

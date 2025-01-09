@@ -1,7 +1,9 @@
-from mgraph_ai.mgraph.actions.MGraph__Data import MGraph__Data
-
+from mgraph_ai.mgraph.actions.MGraph__Data              import MGraph__Data
+from mgraph_ai.providers.mermaid.domain.Mermaid__Graph  import Mermaid__Graph
 
 class Mermaid__Data(MGraph__Data):
+    graph: Mermaid__Graph
+
     def nodes__by_key(self):
         by_key = {}
         for node in self.nodes():

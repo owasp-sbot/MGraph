@@ -4,7 +4,7 @@ from osbot_utils.utils.Misc                                            import li
 from mgraph_ai.providers.mermaid.models.Model__Mermaid__Node           import Model__Mermaid__Node
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node         import Schema__Mermaid__Node
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Shape  import Schema__Mermaid__Node__Shape
-from mgraph_ai.providers.mermaid.Mermaid                               import Mermaid
+from mgraph_ai.providers.mermaid.domain.Mermaid                        import Mermaid
 from mgraph_ai.providers.mermaid.domain.Mermaid__Node                  import Mermaid__Node
 
 
