@@ -12,11 +12,9 @@ class test_Model__MGraph__Edge(TestCase):
     def setUp(self):    # Initialize test data
         self.from_node_id = Random_Guid()
         self.to_node_id   = Random_Guid()
-        self.edge_config  = Schema__MGraph__Edge__Config(
-            edge_id        = Random_Guid(),
-            from_node_type = Schema__MGraph__Node,
-            to_node_type   = Schema__MGraph__Node
-        )
+        self.edge_config  = Schema__MGraph__Edge__Config(edge_id        = Random_Guid(),
+                                                         from_node_type = Schema__MGraph__Node,
+                                                         to_node_type   = Schema__MGraph__Node)
         self.edge = Schema__MGraph__Edge(
             attributes   = {},
             edge_config  = self.edge_config,

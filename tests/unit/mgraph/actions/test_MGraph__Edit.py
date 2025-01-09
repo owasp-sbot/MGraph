@@ -1,4 +1,7 @@
 from unittest                                           import TestCase
+
+from osbot_utils.utils.Objects import __
+
 from mgraph_ai.mgraph.actions.MGraph__Edit              import MGraph__Edit
 from mgraph_ai.mgraph.domain.MGraph__Graph              import MGraph__Graph
 from mgraph_ai.mgraph.models.Model__MGraph__Graph       import Model__MGraph__Graph
@@ -61,9 +64,16 @@ class test_MGraph__Edit(TestCase):
             assert _.graph.edge (edge_2.id()) is None
 
     def test_node_with_custom_type(self):
-        class CustomNode(Schema__MGraph__Node): pass
+        class Custom_Node(Schema__MGraph__Node): pass
+        custom_node = Custom_Node()
 
-        node = self.edit.new_node("custom_value", node_type=CustomNode)     # Create node with custom type
+        assert custom_node.obj() == __(attributes  = __(),
+                                       node_config = __(node_id    = custom_node.node_config.node_id,
+                                                        value_type = None                          ),
+                                       node_type   = 'test_MGraph__Edit.Custom_Node'                ,
+                                       value       = None                                           )
 
-        assert node.node.data.node_type is CustomNode
+        node = self.edit.new_node("custom_value", node_type=Custom_Node)     # Create node with custom type
+
+        assert node.node.data.node_type is Custom_Node
         assert node.value()             == "custom_value"

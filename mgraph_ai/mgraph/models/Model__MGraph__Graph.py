@@ -36,13 +36,14 @@ class Model__MGraph__Graph(Type_Safe):
                        attributes: Dict[Random_Guid, Schema__MGraph__Attribute] = None) -> Model__MGraph__Node:         # Create and add a new node to the graph
 
         if node_type is None:
-            node_type = self.data.graph_config.default_node_type
+            node_type = self.data.default_types.node_type or Schema__MGraph__Node
+        config_type = self.data.default_types.node_config_type or Schema__MGraph__Node__Config
 
-        node_config = Schema__MGraph__Node__Config(value_type  = type(value))
-        node        = Schema__MGraph__Node       (attributes  = attributes   ,
-                                                  node_config = node_config  ,
-                                                  node_type   = node_type    ,
-                                                  value       = value        )
+        node_config = config_type(value_type  = type(value))
+        node        = node_type  (attributes  = attributes   ,
+                                  node_config = node_config  ,
+                                  node_type   = node_type    ,
+                                  value       = value        )
 
         return self.add_node(node)
 
@@ -57,13 +58,16 @@ class Model__MGraph__Graph(Type_Safe):
         if to_node is None:
             raise ValueError(f"To node {to_node_id} not found")
 
-        edge_config = Schema__MGraph__Edge__Config(edge_id        = Random_Guid(),
-                                                   from_node_type = self.data.nodes[from_node_id].node_type,
-                                                   to_node_type   = self.data.nodes[to_node_id  ].node_type)
-        edge        = Schema__MGraph__Edge       (attributes     = {}                                       ,
-                                                  edge_config    = edge_config                              ,
-                                                  from_node_id   = from_node_id                             ,
-                                                  to_node_id     = to_node_id                               )
+        edge_type   = self.data.default_types.edge_type        or Schema__MGraph__Edge
+        config_type = self.data.default_types.edge_config_type or Schema__MGraph__Edge__Config
+
+        edge_config = config_type(edge_id        = Random_Guid(),
+                                  from_node_type = self.data.nodes[from_node_id].node_type,
+                                  to_node_type   = self.data.nodes[to_node_id  ].node_type)
+        edge        = edge_type  (attributes     = {}                                       ,
+                                  edge_config    = edge_config                              ,
+                                  from_node_id   = from_node_id                             ,
+                                  to_node_id     = to_node_id                               )
 
         return self.add_edge(edge)
 

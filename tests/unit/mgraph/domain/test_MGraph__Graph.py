@@ -1,4 +1,6 @@
 from unittest                                               import TestCase
+
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Default__Types import Schema__MGraph__Default__Types
 from osbot_utils.helpers.Safe_Id                            import Safe_Id
 from mgraph_ai.mgraph.domain.MGraph__Edge                   import MGraph__Edge
 from mgraph_ai.mgraph.domain.MGraph__Node                   import MGraph__Node
@@ -16,17 +18,17 @@ class Simple_Node(Schema__MGraph__Node): pass                                   
 class test_MGraph__Graph(TestCase):
 
     def setUp(self):                                                                            # Initialize test data
-        self.graph_config = Schema__MGraph__Graph__Config(graph_id          = Random_Guid(),
-                                                          default_node_type = Simple_Node,
-                                                          default_edge_type = None)
-        self.schema_graph = Schema__MGraph__Graph       (nodes        = {}                   ,
-                                                         edges        = {}                   ,
-                                                         graph_config = self.graph_config    ,
-                                                         graph_type   = Schema__MGraph__Graph)
+        self.default_types = Schema__MGraph__Default__Types (node_type     = Simple_Node          ,
+                                                             edge_type     = None                 )
+        self.graph_config = Schema__MGraph__Graph__Config   (graph_id      = Random_Guid()        )
+        self.schema_graph = Schema__MGraph__Graph           (default_types = self.default_types   ,
+                                                             nodes         = {}                   ,
+                                                             edges         = {}                   ,
+                                                             graph_config  = self.graph_config    ,
+                                                             graph_type    = Schema__MGraph__Graph)
 
-
-        self.model_graph = Model__MGraph__Graph(data=self.schema_graph)                         # Create model graph
-        self.graph       = MGraph__Graph       (graph=self.model_graph)
+        self.model_graph = Model__MGraph__Graph             (data=self.schema_graph)                         # Create model graph
+        self.graph       = MGraph__Graph                    (graph=self.model_graph)
 
     def test_init(self):                                                                        # Tests basic initialization
         assert type(self.graph)   is MGraph__Graph
@@ -40,7 +42,7 @@ class test_MGraph__Graph(TestCase):
         assert node.value()         == "test_value"
         assert type(node          ) is MGraph__Node
         assert type(node.node     ) is Model__MGraph__Node
-        assert type(node.node.data) is Schema__MGraph__Node
+        assert type(node.node.data) is Simple_Node
 
         retrieved_node = self.graph.node(node.id())                                             # Retrieve node by ID
         assert retrieved_node         is not None

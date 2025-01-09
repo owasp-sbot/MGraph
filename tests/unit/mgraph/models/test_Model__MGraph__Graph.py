@@ -1,34 +1,37 @@
 import pytest
-from unittest                                               import TestCase
-from osbot_utils.helpers.Safe_Id                            import Safe_Id
-from osbot_utils.utils.Misc                                 import is_guid
-from mgraph_ai.mgraph.models.Model__MGraph__Edge            import Model__MGraph__Edge
-from mgraph_ai.mgraph.models.Model__MGraph__Node            import Model__MGraph__Node
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Attribute     import Schema__MGraph__Attribute
-from mgraph_ai.mgraph.models.Model__MGraph__Graph           import Model__MGraph__Graph
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph         import Schema__MGraph__Graph
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph__Config import Schema__MGraph__Graph__Config
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node          import Schema__MGraph__Node
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge          import Schema__MGraph__Edge
-from osbot_utils.helpers.Random_Guid                        import Random_Guid
+from unittest                                                import TestCase
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Default__Types import Schema__MGraph__Default__Types
+from osbot_utils.helpers.Safe_Id                             import Safe_Id
+from osbot_utils.utils.Misc                                  import is_guid
+from mgraph_ai.mgraph.models.Model__MGraph__Edge             import Model__MGraph__Edge
+from mgraph_ai.mgraph.models.Model__MGraph__Node             import Model__MGraph__Node
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Attribute      import Schema__MGraph__Attribute
+from mgraph_ai.mgraph.models.Model__MGraph__Graph            import Model__MGraph__Graph
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph          import Schema__MGraph__Graph
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph__Config  import Schema__MGraph__Graph__Config
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Node           import Schema__MGraph__Node
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge           import Schema__MGraph__Edge
+from osbot_utils.helpers.Random_Guid                         import Random_Guid
 
 class Simple_Node(Schema__MGraph__Node): pass                                               # Helper class for testing
 
 class test_Model__MGraph__Graph(TestCase):
 
     def setUp(self):                                                                        # Initialize test data
-        self.graph_config = Schema__MGraph__Graph__Config(graph_id          = Random_Guid(),
-                                                          default_node_type = Simple_Node,
-                                                          default_edge_type = Schema__MGraph__Edge)
-        self.graph_data  = Schema__MGraph__Graph              (edges             = {}                    ,
-                                                         nodes             = {}                    ,
-                                                         graph_config      = self.graph_config     ,
-                                                         graph_type        = Schema__MGraph__Graph )
-        self.graph = Model__MGraph__Graph(data=self.graph_data)
+        self.default_types = Schema__MGraph__Default__Types (node_type = Simple_Node         ,
+                                                             edge_type = Schema__MGraph__Edge)
+        self.graph_config  = Schema__MGraph__Graph__Config  (graph_id          = Random_Guid())
+        self.graph_data    = Schema__MGraph__Graph          (default_types     = self.default_types    ,
+                                                             edges             = {}                    ,
+                                                             nodes             = {}                    ,
+                                                             graph_config      = self.graph_config     ,
+                                                             graph_type        = Schema__MGraph__Graph )
+        self.graph        = Model__MGraph__Graph             (data=self.graph_data)
 
     def test_init(self):                                                                    # Tests basic initialization
         assert type(self.graph)              is Model__MGraph__Graph
         assert self.graph.data               is self.graph_data
+        assert self.graph.data.default_types == self.default_types
         assert len(self.graph.data.nodes)    == 0
         assert len(self.graph.data.edges)    == 0
 
