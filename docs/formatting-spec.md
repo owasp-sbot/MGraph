@@ -4,12 +4,12 @@
 Imports should be aligned with the longest import path, using spaces between major groups:
 
 ```python
-from unittest                                       import TestCase
-from mgraph_ai.schemas.Schema__MGraph__Node         import Schema__MGraph__Node
-from mgraph_ai.schemas.Schema__MGraph__Node_Config  import Schema__MGraph__Node_Config
-from mgraph_ai.schemas.Schema__MGraph__Attribute    import Schema__MGraph__Attribute
-from osbot_utils.helpers.Random_Guid                import Random_Guid
-from osbot_utils.helpers.Safe_Id                    import Safe_Id
+from unittest                                        import TestCase
+from mgraph_ai.schemas.Schema__MGraph__Node          import Schema__MGraph__Node
+from mgraph_ai.schemas.Schema__MGraph__Node__Config  import Schema__MGraph__Node__Config
+from mgraph_ai.schemas.Schema__MGraph__Attribute     import Schema__MGraph__Attribute
+from osbot_utils.helpers.Random_Guid                 import Random_Guid
+from osbot_utils.helpers.Safe_Id                     import Safe_Id
 ```
 
 ## Method Documentation
@@ -33,8 +33,8 @@ self.attribute  = Schema__MGraph__Attribute(...)
 Constructor calls should be formatted with aligned parameters, aligned equals signs, and aligned commas:
 
 ```python
-node_config = Schema__MGraph__Node_Config(node_id    = Random_Guid(),
-                                          value_type = str          )
+node_config = Schema__MGraph__Node__Config(node_id    = Random_Guid(),
+                                           value_type = str          )
 
 attribute  = Schema__MGraph__Attribute(attribute_id    = Random_Guid()    ,
                                        attribute_name  = Safe_Id('attr_1'),

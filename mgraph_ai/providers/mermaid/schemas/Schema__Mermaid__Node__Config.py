@@ -1,8 +1,7 @@
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Config            import Schema__MGraph__Node__Config
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Shape import Schema__Mermaid__Node__Shape
-from osbot_utils.type_safe.Type_Safe                                  import Type_Safe
 
-
-class Schema__Mermaid__Node__Config(Type_Safe):
+class Schema__Mermaid__Node__Config(Schema__MGraph__Node__Config):
     markdown         : bool
     node_shape       : Schema__Mermaid__Node__Shape = Schema__Mermaid__Node__Shape.default
     show_label       : bool = True

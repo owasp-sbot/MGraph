@@ -1,17 +1,15 @@
-from typing                                                import Any, Type, Dict, List
-
-from osbot_utils.helpers.Random_Guid import Random_Guid
-
-from mgraph_ai.mgraph.models.Model__MGraph__Edge           import Model__MGraph__Edge
-from mgraph_ai.mgraph.models.Model__MGraph__Node           import Model__MGraph__Node
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Attribute    import Schema__MGraph__Attribute
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph        import Schema__MGraph__Graph
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node         import Schema__MGraph__Node
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge         import Schema__MGraph__Edge
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node_Config  import Schema__MGraph__Node_Config
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge_Config  import Schema__MGraph__Edge_Config
-from osbot_utils.type_safe.Type_Safe                       import Type_Safe
-from osbot_utils.type_safe.decorators.type_safe            import type_safe
+from typing                                                 import Any, Type, Dict, List
+from osbot_utils.helpers.Random_Guid                        import Random_Guid
+from mgraph_ai.mgraph.models.Model__MGraph__Edge            import Model__MGraph__Edge
+from mgraph_ai.mgraph.models.Model__MGraph__Node            import Model__MGraph__Node
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Attribute     import Schema__MGraph__Attribute
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph         import Schema__MGraph__Graph
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Node          import Schema__MGraph__Node
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge          import Schema__MGraph__Edge
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Config  import Schema__MGraph__Node__Config
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge__Config  import Schema__MGraph__Edge__Config
+from osbot_utils.type_safe.Type_Safe                        import Type_Safe
+from osbot_utils.type_safe.decorators.type_safe             import type_safe
 
 
 class Model__MGraph__Graph(Type_Safe):
@@ -40,7 +38,7 @@ class Model__MGraph__Graph(Type_Safe):
         if node_type is None:
             node_type = self.data.graph_config.default_node_type
 
-        node_config = Schema__MGraph__Node_Config(value_type  = type(value)  )
+        node_config = Schema__MGraph__Node__Config(value_type  = type(value))
         node        = Schema__MGraph__Node       (attributes  = attributes   ,
                                                   node_config = node_config  ,
                                                   node_type   = node_type    ,
@@ -59,9 +57,9 @@ class Model__MGraph__Graph(Type_Safe):
         if to_node is None:
             raise ValueError(f"To node {to_node_id} not found")
 
-        edge_config = Schema__MGraph__Edge_Config(edge_id        = Random_Guid()                            ,
-                                                  from_node_type = self.data.nodes[from_node_id].node_type  ,
-                                                  to_node_type   = self.data.nodes[to_node_id  ].node_type  )
+        edge_config = Schema__MGraph__Edge__Config(edge_id        = Random_Guid(),
+                                                   from_node_type = self.data.nodes[from_node_id].node_type,
+                                                   to_node_type   = self.data.nodes[to_node_id  ].node_type)
         edge        = Schema__MGraph__Edge       (attributes     = {}                                       ,
                                                   edge_config    = edge_config                              ,
                                                   from_node_id   = from_node_id                             ,

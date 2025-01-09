@@ -1,10 +1,10 @@
-from typing                                               import Type
-from osbot_utils.helpers.Random_Guid                      import Random_Guid
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge_Config import Schema__MGraph__Edge_Config
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node        import Schema__MGraph__Node
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge        import Schema__MGraph__Edge
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Attribute   import Schema__MGraph__Attribute
-from osbot_utils.type_safe.Type_Safe                      import Type_Safe
+from typing                                                import Type
+from osbot_utils.helpers.Random_Guid                       import Random_Guid
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge__Config import Schema__MGraph__Edge__Config
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Node         import Schema__MGraph__Node
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge         import Schema__MGraph__Edge
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Attribute    import Schema__MGraph__Attribute
+from osbot_utils.type_safe.Type_Safe                       import Type_Safe
 
 
 class Model__MGraph__Edge(Type_Safe):
@@ -23,7 +23,7 @@ class Model__MGraph__Edge(Type_Safe):
     def get_attribute(self, attribute_id: Random_Guid) -> Schema__MGraph__Attribute:
         return self.data.attributes.get(attribute_id)
 
-    def edge_config(self) -> Schema__MGraph__Edge_Config:
+    def edge_config(self) -> Schema__MGraph__Edge__Config:
         return self.data.edge_config
 
     def edge_id(self) -> Random_Guid:

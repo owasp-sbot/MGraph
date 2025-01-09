@@ -1,24 +1,24 @@
-from unittest                                              import TestCase
-from osbot_utils.helpers.Safe_Id                           import Safe_Id
-from mgraph_ai.mgraph.domain.MGraph__Edge                  import MGraph__Edge
-from mgraph_ai.mgraph.domain.MGraph__Node                  import MGraph__Node
-from mgraph_ai.mgraph.models.Model__MGraph__Node           import Model__MGraph__Node
-from mgraph_ai.mgraph.domain.MGraph__Graph                 import MGraph__Graph
-from mgraph_ai.mgraph.models.Model__MGraph__Graph          import Model__MGraph__Graph
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph        import Schema__MGraph__Graph
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph_Config import Schema__MGraph__Graph_Config
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node         import Schema__MGraph__Node
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Attribute    import Schema__MGraph__Attribute
-from osbot_utils.helpers.Random_Guid                       import Random_Guid
+from unittest                                               import TestCase
+from osbot_utils.helpers.Safe_Id                            import Safe_Id
+from mgraph_ai.mgraph.domain.MGraph__Edge                   import MGraph__Edge
+from mgraph_ai.mgraph.domain.MGraph__Node                   import MGraph__Node
+from mgraph_ai.mgraph.models.Model__MGraph__Node            import Model__MGraph__Node
+from mgraph_ai.mgraph.domain.MGraph__Graph                  import MGraph__Graph
+from mgraph_ai.mgraph.models.Model__MGraph__Graph           import Model__MGraph__Graph
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph         import Schema__MGraph__Graph
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph__Config import Schema__MGraph__Graph__Config
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Node          import Schema__MGraph__Node
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Attribute     import Schema__MGraph__Attribute
+from osbot_utils.helpers.Random_Guid                        import Random_Guid
 
 class Simple_Node(Schema__MGraph__Node): pass                                                   # Helper class for testing
 
 class test_MGraph__Graph(TestCase):
 
     def setUp(self):                                                                            # Initialize test data
-        self.graph_config = Schema__MGraph__Graph_Config(graph_id          = Random_Guid(),
-                                                         default_node_type = Simple_Node  ,
-                                                         default_edge_type = None         )
+        self.graph_config = Schema__MGraph__Graph__Config(graph_id          = Random_Guid(),
+                                                          default_node_type = Simple_Node,
+                                                          default_edge_type = None)
         self.schema_graph = Schema__MGraph__Graph       (nodes        = {}                   ,
                                                          edges        = {}                   ,
                                                          graph_config = self.graph_config    ,

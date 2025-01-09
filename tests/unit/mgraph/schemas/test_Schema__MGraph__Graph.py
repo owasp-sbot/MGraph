@@ -1,24 +1,24 @@
-from unittest                                              import TestCase
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph        import Schema__MGraph__Graph
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph_Config import Schema__MGraph__Graph_Config
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node         import Schema__MGraph__Node
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node_Config  import Schema__MGraph__Node_Config
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge         import Schema__MGraph__Edge
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge_Config  import Schema__MGraph__Edge_Config
-from osbot_utils.helpers.Random_Guid                       import Random_Guid
+from unittest                                               import TestCase
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph         import Schema__MGraph__Graph
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph__Config import Schema__MGraph__Graph__Config
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Node          import Schema__MGraph__Node
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Config  import Schema__MGraph__Node__Config
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge          import Schema__MGraph__Edge
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge__Config  import Schema__MGraph__Edge__Config
+from osbot_utils.helpers.Random_Guid                        import Random_Guid
 
 class Simple_Node(Schema__MGraph__Node): pass    # Helper class for testing
 
 class test_Schema__MGraph__Graph(TestCase):
 
     def setUp(self):    # Initialize test data
-        self.graph_config = Schema__MGraph__Graph_Config(
+        self.graph_config = Schema__MGraph__Graph__Config(
             graph_id          = Random_Guid(),
             default_node_type = Simple_Node,
             default_edge_type = Schema__MGraph__Edge
         )
 
-        self.node_config = Schema__MGraph__Node_Config(
+        self.node_config = Schema__MGraph__Node__Config(
             node_id    = Random_Guid(),
             value_type = str
         )
@@ -29,7 +29,7 @@ class test_Schema__MGraph__Graph(TestCase):
             value      = "test_value"
         )
 
-        self.edge_config = Schema__MGraph__Edge_Config(
+        self.edge_config = Schema__MGraph__Edge__Config(
             edge_id        = Random_Guid(),
             from_node_type = Simple_Node,
             to_node_type   = Simple_Node
@@ -77,7 +77,7 @@ class test_Schema__MGraph__Graph(TestCase):
         assert "Expected a dictionary, but got '<class 'str'>'" == str(context.exception)
 
     def test_multiple_nodes_and_edges(self):    # Tests graph with multiple nodes and edges
-        node_config_2 = Schema__MGraph__Node_Config(
+        node_config_2 = Schema__MGraph__Node__Config(
             node_id    = Random_Guid(),
             value_type = int
         )
@@ -88,7 +88,7 @@ class test_Schema__MGraph__Graph(TestCase):
             value      = 42
         )
 
-        edge_config_2 = Schema__MGraph__Edge_Config(
+        edge_config_2 = Schema__MGraph__Edge__Config(
             edge_id        = Random_Guid(),
             from_node_type = Simple_Node,
             to_node_type   = Simple_Node

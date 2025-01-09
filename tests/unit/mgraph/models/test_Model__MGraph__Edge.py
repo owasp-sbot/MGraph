@@ -1,18 +1,18 @@
-from unittest                                             import TestCase
-from mgraph_ai.mgraph.models.Model__MGraph__Edge          import Model__MGraph__Edge
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge        import Schema__MGraph__Edge
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge_Config import Schema__MGraph__Edge_Config
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node        import Schema__MGraph__Node
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Attribute   import Schema__MGraph__Attribute
-from osbot_utils.helpers.Random_Guid                      import Random_Guid
-from osbot_utils.helpers.Safe_Id                          import Safe_Id
+from unittest                                              import TestCase
+from mgraph_ai.mgraph.models.Model__MGraph__Edge           import Model__MGraph__Edge
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge         import Schema__MGraph__Edge
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge__Config import Schema__MGraph__Edge__Config
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Node         import Schema__MGraph__Node
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Attribute    import Schema__MGraph__Attribute
+from osbot_utils.helpers.Random_Guid                       import Random_Guid
+from osbot_utils.helpers.Safe_Id                           import Safe_Id
 
 class test_Model__MGraph__Edge(TestCase):
 
     def setUp(self):    # Initialize test data
         self.from_node_id = Random_Guid()
         self.to_node_id   = Random_Guid()
-        self.edge_config  = Schema__MGraph__Edge_Config(
+        self.edge_config  = Schema__MGraph__Edge__Config(
             edge_id        = Random_Guid(),
             from_node_type = Schema__MGraph__Node,
             to_node_type   = Schema__MGraph__Node

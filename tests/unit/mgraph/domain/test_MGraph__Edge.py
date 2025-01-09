@@ -1,14 +1,14 @@
-from unittest                                             import TestCase
-from osbot_utils.helpers.Safe_Id                          import Safe_Id
-from mgraph_ai.mgraph.domain.MGraph__Edge                 import MGraph__Edge
-from mgraph_ai.mgraph.models.Model__MGraph__Edge          import Model__MGraph__Edge
-from mgraph_ai.mgraph.models.Model__MGraph__Graph         import Model__MGraph__Graph
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge        import Schema__MGraph__Edge
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph       import Schema__MGraph__Graph
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node        import Schema__MGraph__Node
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge_Config import Schema__MGraph__Edge_Config
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node_Config import Schema__MGraph__Node_Config
-from osbot_utils.helpers.Random_Guid                      import Random_Guid
+from unittest                                              import TestCase
+from osbot_utils.helpers.Safe_Id                           import Safe_Id
+from mgraph_ai.mgraph.domain.MGraph__Edge                  import MGraph__Edge
+from mgraph_ai.mgraph.models.Model__MGraph__Edge           import Model__MGraph__Edge
+from mgraph_ai.mgraph.models.Model__MGraph__Graph          import Model__MGraph__Graph
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge         import Schema__MGraph__Edge
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph        import Schema__MGraph__Graph
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Node         import Schema__MGraph__Node
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge__Config import Schema__MGraph__Edge__Config
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Config import Schema__MGraph__Node__Config
+from osbot_utils.helpers.Random_Guid                       import Random_Guid
 
 class test_MGraph__Edge(TestCase):
 
@@ -16,14 +16,14 @@ class test_MGraph__Edge(TestCase):
         self.graph = Model__MGraph__Graph(data=None)                                        # Mock graph for testing
 
 
-        self.from_node_config = Schema__MGraph__Node_Config(node_id    = Random_Guid(),     # Create source and target nodes
-                                                            value_type = str         )
+        self.from_node_config = Schema__MGraph__Node__Config(node_id    = Random_Guid(),  # Create source and target nodes
+                                                             value_type = str)
         self.from_schema_node  = Schema__MGraph__Node      (attributes  = {}                    ,
                                                             node_config = self.from_node_config,
                                                             node_type   = Schema__MGraph__Node  ,
                                                             value       = "from_value"          )
-        self.to_node_config = Schema__MGraph__Node_Config  (node_id    = Random_Guid(),
-                                                            value_type = str         )
+        self.to_node_config = Schema__MGraph__Node__Config  (node_id    = Random_Guid(),
+                                                             value_type = str)
         self.to_schema_node = Schema__MGraph__Node         (attributes  = {}                  ,
                                                             node_config = self.to_node_config,
                                                             node_type   = Schema__MGraph__Node,
@@ -37,9 +37,9 @@ class test_MGraph__Edge(TestCase):
                                                 graph_type   = Schema__MGraph__Graph                                              )
 
         # Create edge configuration and schema
-        self.edge_config = Schema__MGraph__Edge_Config(edge_id        = Random_Guid(),
-                                                       from_node_type = Schema__MGraph__Node,
-                                                       to_node_type   = Schema__MGraph__Node)
+        self.edge_config = Schema__MGraph__Edge__Config(edge_id        = Random_Guid(),
+                                                        from_node_type = Schema__MGraph__Node,
+                                                        to_node_type   = Schema__MGraph__Node)
         self.schema_edge = Schema__MGraph__Edge       (attributes     = {}                   ,
                                                        edge_config    = self.edge_config     ,
                                                        edge_type      = Schema__MGraph__Edge ,
