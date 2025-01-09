@@ -27,6 +27,9 @@ class MGraph__Graph(Type_Safe):
     def edges(self) -> List[MGraph__Edge]:
         return [self.mgraph_edge(edge=edge) for edge in self.model.edges()]
 
+    def graph_id(self):
+        return self.model.data.graph_config.graph_id
+
     def mgraph_edge(self, edge: Model__MGraph__Edge) -> MGraph__Edge:
         #edge_domain_type = self.model.default_types.node_domain_type           # todo: find way to do this
         edge_domain_type = MGraph__Edge

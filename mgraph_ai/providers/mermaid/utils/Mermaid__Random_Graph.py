@@ -1,7 +1,6 @@
 from typing                                                              import Dict, Any, List
-
-from mgraph_ai.providers.mermaid.domain.Mermaid import Mermaid
-from mgraph_ai.providers.mermaid.domain.Mermaid__Graph import Mermaid__Graph
+from mgraph_ai.providers.mermaid.domain.Mermaid                          import Mermaid
+from mgraph_ai.providers.mermaid.domain.Mermaid__Graph                   import Mermaid__Graph
 from osbot_utils.helpers.Safe_Id                                         import Safe_Id
 from osbot_utils.helpers.Random_Guid                                     import Random_Guid
 from mgraph_ai.mgraph.utils.MGraph__Random_Graph                         import MGraph__Random_Graph

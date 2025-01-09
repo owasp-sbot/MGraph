@@ -1,22 +1,13 @@
 from unittest                                                            import TestCase
-
-from mgraph_ai.mgraph.domain.MGraph__Edge import MGraph__Edge
-from mgraph_ai.mgraph.domain.MGraph__Node import MGraph__Node
-from mgraph_ai.mgraph.models.Model__MGraph__Edge import Model__MGraph__Edge
-from mgraph_ai.mgraph.models.Model__MGraph__Graph import Model__MGraph__Graph
-from mgraph_ai.mgraph.models.Model__MGraph__Node import Model__MGraph__Node
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Default__Types import Schema__MGraph__Default__Types
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge import Schema__MGraph__Edge
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph import Schema__MGraph__Graph
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node import Schema__MGraph__Node
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Config import Schema__MGraph__Node__Config
+from mgraph_ai.mgraph.domain.MGraph__Edge                                import MGraph__Edge
+from mgraph_ai.mgraph.domain.MGraph__Node                                import MGraph__Node
+from mgraph_ai.mgraph.models.Model__MGraph__Edge                         import Model__MGraph__Edge
+from mgraph_ai.mgraph.models.Model__MGraph__Node                         import Model__MGraph__Node
 from mgraph_ai.providers.mermaid.domain.Mermaid                          import Mermaid
-from mgraph_ai.providers.mermaid.domain.Mermaid__Edge import Mermaid__Edge
-from mgraph_ai.providers.mermaid.domain.Mermaid__Graph import Mermaid__Graph
-from mgraph_ai.providers.mermaid.domain.Mermaid__Node import Mermaid__Node
-from mgraph_ai.providers.mermaid.models.Model__Mermaid__Edge import Model__Mermaid__Edge
+from mgraph_ai.providers.mermaid.domain.Mermaid__Graph                   import Mermaid__Graph
+from mgraph_ai.providers.mermaid.models.Model__Mermaid__Edge             import Model__Mermaid__Edge
 from mgraph_ai.providers.mermaid.models.Model__Mermaid__Graph            import Model__Mermaid__Graph
-from mgraph_ai.providers.mermaid.models.Model__Mermaid__Node import Model__Mermaid__Node
+from mgraph_ai.providers.mermaid.models.Model__Mermaid__Node             import Model__Mermaid__Node
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Default__Types import Schema__Mermaid__Default__Types
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Graph          import Schema__Mermaid__Graph
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Graph__Config  import Schema__Mermaid__Graph__Config
@@ -237,8 +228,7 @@ class test_Test_Data_Mermaid(TestCase):
             assert type(domain_edge.graph                   ) == Model__Mermaid__Graph
             assert type(domain_edge.graph.data              ) == Schema__Mermaid__Graph
             assert type(domain_edge.graph.data.default_types) == Schema__Mermaid__Default__Types
-            assert domain_edge.graph.edge_model_type          == Model__MGraph__Edge                # BUG
-            #assert domain_edge.graph.edge_model_type          == Model__Mermaid__Edge              # BUG
+            assert domain_edge.graph.edge_model_type          == Model__Mermaid__Edge
 
             assert type(model_edge                 ) == Model__MGraph__Edge                         # BUG
             #assert type(model_edge                 ) == Model__Mermaid__Edge                       # BUG
