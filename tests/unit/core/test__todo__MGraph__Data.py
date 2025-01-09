@@ -1,12 +1,12 @@
 import pytest
-from collections                            import defaultdict
-from unittest                               import TestCase
-from mgraph_ai.core.MGraph__Data            import MGraph__Data
-from mgraph_ai.domain.MGraph                import MGraph
-from mgraph_ai.schemas.Schema__MGraph__Edge import Schema__MGraph__Edge
-from osbot_utils.testing.Stdout             import Stdout
-from osbot_utils.utils.Misc                 import list_set
-from mgraph_ai.core.MGraph__Random_Graphs   import MGraph__Random_Graphs
+from collections                                   import defaultdict
+from unittest                                      import TestCase
+from mgraph_ai.core.MGraph__Data                   import MGraph__Data
+from mgraph_ai.mgraph.domain.MGraph                import MGraph
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge import Schema__MGraph__Edge
+from osbot_utils.testing.Stdout                    import Stdout
+from osbot_utils.utils.Misc                        import list_set
+from mgraph_ai.core.MGraph__Random_Graphs          import MGraph__Random_Graphs
 
 
 class test_MGraph__Data(TestCase):

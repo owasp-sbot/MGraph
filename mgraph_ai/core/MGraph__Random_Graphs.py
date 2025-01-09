@@ -1,5 +1,5 @@
 from mgraph_ai.core.MGraph__Data        import MGraph__Data
-from mgraph_ai.domain.MGraph            import MGraph
+from mgraph_ai.mgraph.domain.MGraph     import MGraph
 from osbot_utils.type_safe.Type_Safe    import Type_Safe
 from osbot_utils.utils.Misc             import random_int
 
