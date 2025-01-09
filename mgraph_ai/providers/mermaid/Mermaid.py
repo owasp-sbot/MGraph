@@ -1,12 +1,12 @@
-from osbot_utils.decorators.methods.cache_on_self                  import cache_on_self
-from mgraph_ai.providers.mermaid.Mermaid__Render                   import Mermaid__Render
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node     import Schema__Mermaid__Node
-from mgraph_ai.providers.mermaid.Mermaid__Data                     import Mermaid__Data
-from mgraph_ai.providers.mermaid.Mermaid__Edge                     import Mermaid__Edge
-from mgraph_ai.providers.mermaid.Mermaid__Graph                    import Mermaid__Graph
-from mgraph_ai.providers.mermaid.models.Mermaid__Diagram_Direction import Diagram__Direction
-from mgraph_ai.providers.mermaid.models.Mermaid__Diagram__Type     import Diagram__Type
-from osbot_utils.type_safe.Type_Safe                               import Type_Safe
+from osbot_utils.decorators.methods.cache_on_self                           import cache_on_self
+from mgraph_ai.providers.mermaid.Mermaid__Render                            import Mermaid__Render
+from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node              import Schema__Mermaid__Node
+from mgraph_ai.providers.mermaid.actions.Mermaid__Data                      import Mermaid__Data
+from mgraph_ai.providers.mermaid.Mermaid__Edge                              import Mermaid__Edge
+from mgraph_ai.providers.mermaid.Mermaid__Graph                             import Mermaid__Graph
+from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Diagram_Direction import Schema__Mermaid__Diagram__Direction
+from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Diagram__Type     import Schema__Mermaid__Diagram__Type
+from osbot_utils.type_safe.Type_Safe                                        import Type_Safe
 
 
 class Mermaid(Type_Safe):
@@ -77,14 +77,14 @@ class Mermaid(Type_Safe):
         return Mermaid__Render(graph=self.graph)
 
     def set_direction(self, direction):
-        if isinstance(direction, Diagram__Direction):
+        if isinstance(direction, Schema__Mermaid__Diagram__Direction):
             self.render().diagram_direction = direction
-        elif isinstance(direction, str) and direction in Diagram__Direction.__members__:
-            self.render().diagram_direction = Diagram__Direction[direction]
+        elif isinstance(direction, str) and direction in Schema__Mermaid__Diagram__Direction.__members__:
+            self.render().diagram_direction = Schema__Mermaid__Diagram__Direction[direction]
         return self                             # If the value can't be set (not a valid name), do nothing
 
     def set_diagram_type(self, diagram_type):
-        if isinstance(diagram_type, Diagram__Type):
+        if isinstance(diagram_type, Schema__Mermaid__Diagram__Type):
             self.render().diagram_type = diagram_type
 
     def save(self, target_file=None):

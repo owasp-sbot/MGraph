@@ -1,5 +1,4 @@
 from mgraph_ai.mgraph.domain.MGraph__Edge                      import MGraph__Edge
-from mgraph_ai.providers.mermaid.Mermaid__Node                 import Mermaid__Node
 from mgraph_ai.providers.mermaid.configs.Mermaid__Edge__Config import Mermaid__Edge__Config
 from mgraph_ai.providers.mermaid.models.Model__Mermaid__Edge   import Model__Mermaid__Edge
 
@@ -8,11 +7,6 @@ class Mermaid__Edge(MGraph__Edge):
     model          : Model__Mermaid__Edge    
     config         : Mermaid__Edge__Config
     label          : str
-
-    def __init__(self,**kwargs):
-        super().__init__(**kwargs)
-        self.from_node_type = Mermaid__Node
-        self.to_node_type   = Mermaid__Node
 
     def edge_mode(self, edge_mode):
         self.config.edge_mode = edge_mode

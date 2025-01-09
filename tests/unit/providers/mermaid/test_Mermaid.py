@@ -1,14 +1,14 @@
 import pytest
 from unittest                                                      import TestCase
 
-from osbot_utils.utils.Objects                                     import __
-from mgraph_ai.providers.mermaid.Mermaid__Render                   import Mermaid__Render
-from mgraph_ai.providers.mermaid.Mermaid                           import Mermaid
-from mgraph_ai.providers.mermaid.Mermaid__Edge                     import Mermaid__Edge
-from mgraph_ai.providers.mermaid.models.Mermaid__Diagram__Type     import Diagram__Type
-from mgraph_ai.providers.mermaid.models.Mermaid__Diagram_Direction import Diagram__Direction
-from osbot_utils.testing.Stdout                                    import Stdout
-from osbot_utils.testing.Temp_File                                 import Temp_File
+from osbot_utils.utils.Objects                                              import __
+from mgraph_ai.providers.mermaid.Mermaid__Render                            import Mermaid__Render
+from mgraph_ai.providers.mermaid.Mermaid                                    import Mermaid
+from mgraph_ai.providers.mermaid.Mermaid__Edge                              import Mermaid__Edge
+from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Diagram__Type     import Schema__Mermaid__Diagram__Type
+from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Diagram_Direction import Schema__Mermaid__Diagram__Direction
+from osbot_utils.testing.Stdout                                             import Stdout
+from osbot_utils.testing.Temp_File                                          import Temp_File
 
 class test_Mermaid(TestCase):
 
@@ -35,7 +35,7 @@ class test_Mermaid(TestCase):
 
     def test_add_directive(self):
         with self.mermaid as _:
-            _.set_diagram_type(Diagram__Type.flowchart)
+            _.set_diagram_type(Schema__Mermaid__Diagram__Type.flowchart)
             _.add_directive('init: {"flowchart": {"htmlLabels": false}} ')
             _.add_node(key='markdown', label='This **is** _Markdown_').markdown()
 
@@ -57,10 +57,10 @@ class test_Mermaid(TestCase):
                                        edge_id        = edge.edge_id                                    ,
                                        from_node_id   = from_node.node_id                               ,
                                        attributes     = __(answer='42')                                 ,
-                                       from_node_type = 'mgraph_ai.mermaid.Mermaid__Node.Mermaid__Node' ,
+                                       from_node_type = 'mgraph_ai.mermaid.domain.Mermaid__Node.Mermaid__Node' ,
                                        label          = 'an_label'                                      ,
                                        to_node_id     = to_node.node_id                                 ,
-                                       to_node_type   = 'mgraph_ai.mermaid.Mermaid__Node.Mermaid__Node' )
+                                       to_node_type   = 'mgraph_ai.mermaid.domain.Mermaid__Node.Mermaid__Node' )
     def test_config(self):
         assert self.mermaid.render().config.add_nodes is True
 
@@ -77,10 +77,10 @@ class test_Mermaid(TestCase):
     def test_set_direction(self):
         with self.mermaid as _:
             assert type(_.render()) is Mermaid__Render
-            assert _.set_direction(Diagram__Direction.LR) is _
-            assert _.render().diagram_direction == Diagram__Direction.LR
+            assert _.set_direction(Schema__Mermaid__Diagram__Direction.LR) is _
+            assert _.render().diagram_direction == Schema__Mermaid__Diagram__Direction.LR
             assert _.set_direction('RL') is _
-            assert _.render().diagram_direction == Diagram__Direction.RL
+            assert _.render().diagram_direction == Schema__Mermaid__Diagram__Direction.RL
 
     def test_save(self):
         with Temp_File() as temp_file:

@@ -5,7 +5,7 @@ from mgraph_ai.providers.mermaid.models.Model__Mermaid__Node           import Mo
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node         import Schema__Mermaid__Node
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Shape  import Schema__Mermaid__Node__Shape
 from mgraph_ai.providers.mermaid.Mermaid                               import Mermaid
-from mgraph_ai.providers.mermaid.Mermaid__Node                         import Mermaid__Node
+from mgraph_ai.providers.mermaid.domain.Mermaid__Node                  import Mermaid__Node
 
 
 class test_Mermaid_Node(TestCase):

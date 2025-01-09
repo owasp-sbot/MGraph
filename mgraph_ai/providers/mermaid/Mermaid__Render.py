@@ -1,17 +1,17 @@
-from typing                                                        import List
-from osbot_utils.utils.Str                                         import safe_str
-from mgraph_ai.providers.mermaid.Mermaid__Node                     import LINE_PADDING
-from mgraph_ai.providers.mermaid.Mermaid__Graph                    import Mermaid__Graph
-from mgraph_ai.providers.mermaid.configs.Mermaid__Render__Config   import Mermaid__Render__Config
-from mgraph_ai.providers.mermaid.models.Mermaid__Diagram_Direction import Diagram__Direction
-from mgraph_ai.providers.mermaid.models.Mermaid__Diagram__Type     import Diagram__Type
-from osbot_utils.type_safe.Type_Safe                               import Type_Safe
+from typing                                                                 import List
+from osbot_utils.utils.Str                                                  import safe_str
+from mgraph_ai.providers.mermaid.domain.Mermaid__Node                       import LINE_PADDING
+from mgraph_ai.providers.mermaid.Mermaid__Graph                             import Mermaid__Graph
+from mgraph_ai.providers.mermaid.configs.Mermaid__Render__Config            import Mermaid__Render__Config
+from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Diagram_Direction import Schema__Mermaid__Diagram__Direction
+from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Diagram__Type     import Schema__Mermaid__Diagram__Type
+from osbot_utils.type_safe.Type_Safe                                        import Type_Safe
 
 
 class Mermaid__Render(Type_Safe):
     config            : Mermaid__Render__Config
-    diagram_direction : Diagram__Direction = Diagram__Direction.LR
-    diagram_type      : Diagram__Type      = Diagram__Type.graph
+    diagram_direction : Schema__Mermaid__Diagram__Direction = Schema__Mermaid__Diagram__Direction.LR
+    diagram_type      : Schema__Mermaid__Diagram__Type      = Schema__Mermaid__Diagram__Type.graph
     graph             : Mermaid__Graph
     mermaid_code      : List
 

@@ -1,6 +1,6 @@
 from enum import Enum
 
-class Diagram__Type(Enum):
+class Schema__Mermaid__Diagram__Type(Enum):
     class_diagram                = "class_diagram"
     entity_relationship_diagram  = "entity_relationship_diagram"
     flowchart                    = "flowchart"

@@ -1,13 +1,13 @@
 import pytest
-from unittest                                                           import TestCase
-from osbot_utils.utils.Objects                                          import __
-from mgraph_ai.providers.mermaid.models.Mermaid__Diagram_Direction      import Diagram__Direction
-from mgraph_ai.providers.mermaid.models.Mermaid__Diagram__Type          import Diagram__Type
-from mgraph_ai.providers.mermaid.configs.Mermaid__Render__Config        import Mermaid__Render__Config
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Shape   import Schema__Mermaid__Node__Shape
-from mgraph_ai.providers.mermaid.Mermaid                                import Mermaid
-from osbot_utils.testing.Stdout                                         import Stdout
-from osbot_utils.utils.Str                                              import str_dedent
+from unittest                                                               import TestCase
+from osbot_utils.utils.Objects                                              import __
+from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Diagram_Direction import Schema__Mermaid__Diagram__Direction
+from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Diagram__Type     import Schema__Mermaid__Diagram__Type
+from mgraph_ai.providers.mermaid.configs.Mermaid__Render__Config            import Mermaid__Render__Config
+from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Shape       import Schema__Mermaid__Node__Shape
+from mgraph_ai.providers.mermaid.Mermaid                                    import Mermaid
+from osbot_utils.testing.Stdout                                             import Stdout
+from osbot_utils.utils.Str                                                  import str_dedent
 
 class test_Mermaid_Renderer(TestCase):
 
@@ -21,11 +21,11 @@ class test_Mermaid_Renderer(TestCase):
 
     def test__init__(self):
         with self.renderer as _:
-            expected_data = __(config            = _.config.obj()             ,
-                               diagram_direction = Diagram__Direction.LR.value,
-                               diagram_type      = Diagram__Type.graph  .value,
-                               graph             = _.graph.obj()              ,
-                               mermaid_code      = []                         )
+            expected_data = __(config            = _.config.obj(),
+                               diagram_direction = Schema__Mermaid__Diagram__Direction.LR.value,
+                               diagram_type      = Schema__Mermaid__Diagram__Type.graph  .value,
+                               graph             = _.graph.obj(),
+                               mermaid_code      = [])
             assert _              is not None
             assert _.obj()        == expected_data
             assert type(_.config) is Mermaid__Render__Config
@@ -45,8 +45,8 @@ class test_Mermaid_Renderer(TestCase):
         with self.mermaid as _:
             _.render().config.add_nodes         = False
             _.render().config.line_before_edges = False
-            _.set_direction(Diagram__Direction.TD)
-            _.set_diagram_type(Diagram__Type.flowchart)
+            _.set_direction(Schema__Mermaid__Diagram__Direction.TD)
+            _.set_diagram_type(Schema__Mermaid__Diagram__Type.flowchart)
             _.add_node(key='A').set_label('Christmas'    ).wrap_with_quotes(False).shape_default    ()
             _.add_node(key='B').set_label('Go shopping'  ).wrap_with_quotes(False).shape_round_edges()
             _.add_node(key='C').set_label('Let me think' ).wrap_with_quotes(False).shape_rhombus    ()
@@ -86,7 +86,7 @@ class test_Mermaid_Renderer(TestCase):
                                 'graph LR\n'
                                 '    markdown["`This **is** _Markdown_`"]\n')
 
-            assert self.renderer.diagram_type == Diagram__Type.graph
+            assert self.renderer.diagram_type == Schema__Mermaid__Diagram__Type.graph
 
     def test_render_edge(self):
         self.mermaid_edge = self.mermaid.new_edge()

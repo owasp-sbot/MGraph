@@ -1,6 +1,6 @@
 from enum import Enum
 
-class Diagram__Direction(Enum):
+class Schema__Mermaid__Diagram__Direction(Enum):
     BT = 'BT'
     LR = 'LR'
     TB = 'TB'

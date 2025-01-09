@@ -1,10 +1,10 @@
 import pytest
-from unittest                                  import TestCase
-from osbot_utils.utils.Misc                    import is_guid
-from osbot_utils.utils.Objects                 import __
-from mgraph_ai.providers.mermaid.Mermaid       import Mermaid
-from mgraph_ai.providers.mermaid.Mermaid__Node import Mermaid__Node
-from mgraph_ai.providers.mermaid.Mermaid__Edge import Mermaid__Edge
+from unittest                                         import TestCase
+from osbot_utils.utils.Misc                           import is_guid
+from osbot_utils.utils.Objects                        import __
+from mgraph_ai.providers.mermaid.Mermaid              import Mermaid
+from mgraph_ai.providers.mermaid.domain.Mermaid__Node import Mermaid__Node
+from mgraph_ai.providers.mermaid.Mermaid__Edge        import Mermaid__Edge
 
 class test_Mermaid_Edge(TestCase):
 
@@ -32,9 +32,9 @@ class test_Mermaid_Edge(TestCase):
                                                  attributes     = __()                                           ,
                                                  edge_id        = _.edge_id                                      ,
                                                  from_node_id   = _.from_node_id                                 ,
-                                                 from_node_type = 'mgraph_ai.mermaid.Mermaid__Node.Mermaid__Node',
+                                                 from_node_type = 'mgraph_ai.mermaid.domain.Mermaid__Node.Mermaid__Node',
                                                  to_node_id     = _.to_node_id                ,
-                                                 to_node_type   = 'mgraph_ai.mermaid.Mermaid__Node.Mermaid__Node')
+                                                 to_node_type   = 'mgraph_ai.mermaid.domain.Mermaid__Node.Mermaid__Node')
 
     def test__config__edge__output_node_from(self):
         with Mermaid() as _:

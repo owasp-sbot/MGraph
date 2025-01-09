@@ -13,7 +13,7 @@ from osbot_utils.type_safe.decorators.type_safe             import type_safe
 
 
 class Model__MGraph__Graph(Type_Safe):
-    data: Schema__MGraph__Graph
+    data         : Schema__MGraph__Graph
 
     @type_safe
     def add_node(self, node: Schema__MGraph__Node) -> Model__MGraph__Node:                            # Add a node to the graph
