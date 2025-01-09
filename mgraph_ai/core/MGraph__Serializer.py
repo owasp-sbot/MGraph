@@ -1,9 +1,9 @@
 from enum                               import Enum, auto
 from mgraph_ai.core.MGraph__Data        import MGraph__Data
-from osbot_utils.type_safe.Type_Safe import Type_Safe
+from mgraph_ai.domain.MGraph import MGraph
+from osbot_utils.type_safe.Type_Safe    import Type_Safe
 from osbot_utils.utils.Str              import safe_str
 from osbot_utils.helpers.Local_Cache    import Local_Cache
-from mgraph_ai.core.MGraph              import MGraph
 
 
 class Serialization_Mode(Enum):

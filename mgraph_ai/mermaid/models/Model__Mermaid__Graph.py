@@ -1,8 +1,8 @@
 from typing                                                   import Dict
 
-from mgraph_ai.mermaid.models.Model__Mermaid__Node import Model__Mermaid__Node
+from mgraph_ai.mermaid.models.Model__Mermaid__Node            import Model__Mermaid__Node
 from mgraph_ai.mermaid.schemas.Schema__Mermaid__Graph__Config import Schema__Mermaid__Graph__Config
-from mgraph_ai.models.Model__MGraph__Attribute                import Model__MGraph__Edge
+from mgraph_ai.models.Model__MGraph__Edge                     import Model__MGraph__Edge
 from mgraph_ai.models.Model__MGraph__Graph                    import Model__MGraph__Graph
 from mgraph_ai.models.Model__MGraph__Node                     import Model__MGraph__Node
 from osbot_utils.helpers                                      import Random_Guid

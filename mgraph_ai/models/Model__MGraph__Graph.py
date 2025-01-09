@@ -1,7 +1,6 @@
-from typing                                         import Any, Type, Dict
-
-from mgraph_ai.models.Model__MGraph__Edge import Model__MGraph__Edge
-from mgraph_ai.models.Model__MGraph__Node import Model__MGraph__Node
+from typing                                         import Any, Type, Dict, List
+from mgraph_ai.models.Model__MGraph__Edge           import Model__MGraph__Edge
+from mgraph_ai.models.Model__MGraph__Node           import Model__MGraph__Node
 from mgraph_ai.schemas.Schema__MGraph__Attribute    import Schema__MGraph__Attribute
 from osbot_utils.type_safe.decorators.type_safe     import type_safe
 from osbot_utils.type_safe.Type_Safe                import Type_Safe
@@ -16,12 +15,12 @@ class Model__MGraph__Graph(Type_Safe):
     data: Schema__MGraph__Graph
 
     @type_safe
-    def add_node(self, node: Schema__MGraph__Node) -> Schema__MGraph__Node:                           # Add a node to the graph
+    def add_node(self, node: Schema__MGraph__Node) -> Model__MGraph__Node:                            # Add a node to the graph
         self.data.nodes[node.node_config.node_id] = node
         return Model__MGraph__Node(data=node)
 
     @type_safe
-    def add_edge(self, edge: Schema__MGraph__Edge) -> Schema__MGraph__Edge:                           # Add an edge to the graph
+    def add_edge(self, edge: Schema__MGraph__Edge) -> Model__MGraph__Edge:                            # Add an edge to the graph
         if edge.from_node_id not in self.data.nodes:
             raise ValueError(f"Source node {edge.from_node_id} not found")
         if edge.to_node_id not in self.data.nodes:
@@ -33,7 +32,7 @@ class Model__MGraph__Graph(Type_Safe):
     @type_safe
     def new_node(self, value     : Any                                                ,
                        node_type : Type[Schema__MGraph__Node                  ] = None,
-                       attributes: Dict[Random_Guid, Schema__MGraph__Attribute] = None) -> Schema__MGraph__Node:        # Create and add a new node to the graph
+                       attributes: Dict[Random_Guid, Schema__MGraph__Attribute] = None) -> Model__MGraph__Node:         # Create and add a new node to the graph
 
         if node_type is None:
             node_type = self.data.graph_config.default_node_type
@@ -48,14 +47,14 @@ class Model__MGraph__Graph(Type_Safe):
 
     @type_safe
     def new_edge(self, from_node_id: Random_Guid,
-                       to_node_id  : Random_Guid) -> Schema__MGraph__Edge:                                              # Create and add a new edge between nodes
+                       to_node_id  : Random_Guid) -> Model__MGraph__Edge:                                               # Create and add a new edge between nodes
 
         from_node = self.data.nodes.get(from_node_id)
         to_node   = self.data.nodes.get(to_node_id  )
         if from_node is None:
-            raise ValueError(f"Node {from_node_id} not found")
+            raise ValueError(f"From node {from_node_id} not found")
         if to_node is None:
-            raise ValueError(f"Node {to_node_id} not found")
+            raise ValueError(f"To node {to_node_id} not found")
 
         edge_config = Schema__MGraph__Edge_Config(edge_id        = Random_Guid()                            ,
                                                   from_node_type = self.data.nodes[from_node_id].node_type  ,
@@ -70,7 +69,7 @@ class Model__MGraph__Graph(Type_Safe):
     def edges(self):
         return [Model__MGraph__Edge(data=data) for data in self.data.edges.values()]
 
-    def edge(self, edge_id: Random_Guid) -> Schema__MGraph__Edge:
+    def edge(self, edge_id: Random_Guid) -> Model__MGraph__Edge:
         data = self.data.edges.get(edge_id)
         if data:
             return Model__MGraph__Edge(data=data)
@@ -78,12 +77,12 @@ class Model__MGraph__Graph(Type_Safe):
     def graph(self):
         return self.data
 
-    def node(self, node_id: Random_Guid) -> Schema__MGraph__Node:
+    def node(self, node_id: Random_Guid) -> Model__MGraph__Node:
         data = self.data.nodes.get(node_id)
         if data:
             return Model__MGraph__Node(data=data)
 
-    def nodes(self):
+    def nodes(self) -> List[Model__MGraph__Node]:
         return [Model__MGraph__Node(data=node) for node in self.data.nodes.values()]
 
     @type_safe

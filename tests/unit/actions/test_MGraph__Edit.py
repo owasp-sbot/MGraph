@@ -11,6 +11,7 @@ from osbot_utils.helpers.Safe_Id                    import Safe_Id
 class Simple_Node(Schema__MGraph__Node): pass  # Helper class for testing
 
 class test_MGraph__Edit(TestCase):
+
     def setUp(self):
         schema_graph = Schema__MGraph__Graph(nodes = {}, edges={}, graph_config=None, graph_type=Schema__MGraph__Graph)   # Create a schema graph
         model_graph  = Model__MGraph__Graph (data  = schema_graph)                                                      # Create model and domain graph
@@ -43,24 +44,26 @@ class test_MGraph__Edit(TestCase):
         assert edge.to_node().value() == "node2"
 
     def test_deletion(self):
-        # Create a node and an edge
-        node = self.edit.new_node("test_node")
-        node2 = self.edit.new_node("another_node")
-        edge = self.edit.new_edge(node.id(), node2.id())
+        with self.edit as _:
+            node_1 = _.new_node("test_node")                                # Create 3x nodes and 2x edges
+            node_2 = _.new_node("another_node")
+            node_3 = _.new_node("3rd node")
+            edge_1 = _.new_edge(node_1.id(), node_2.id())
+            edge_2 = _.new_edge(node_2.id(), node_3.id())
 
-        # Test node deletion
-        assert self.edit.delete_node(node.id()) is True
-        assert self.edit.graph.node(node.id()) is None
+            assert _.delete_node(node_1.id()) is True                       # Test node deletion
+            assert _.delete_node(node_1.id()) is False
+            assert _.graph.node (node_1.id()) is None
+            assert _.graph.edge (edge_1.id()) is None
 
-        # Test edge deletion
-        assert self.edit.delete_edge(edge.id()) is True
-        assert self.edit.graph.edge(edge.id()) is None
+            assert _.delete_edge(edge_2.id()) is True                       # Test edge deletion
+            assert _.delete_edge(edge_2.id()) is False
+            assert _.graph.edge (edge_2.id()) is None
 
     def test_node_with_custom_type(self):
         class CustomNode(Schema__MGraph__Node): pass
 
-        # Create node with custom type
-        node = self.edit.new_node("custom_value", node_type=CustomNode)
+        node = self.edit.new_node("custom_value", node_type=CustomNode)     # Create node with custom type
 
         assert node.node.data.node_type is CustomNode
-        assert node.value() == "custom_value"
+        assert node.value()             == "custom_value"

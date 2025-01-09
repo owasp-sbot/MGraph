@@ -35,7 +35,7 @@ class MGraph__Node(Type_Safe):                                                  
         return self
 
     def attribute(self, attribute_id: Random_Guid) -> MGraph__Attribute:                    # Get an attribute by ID
-        data = self.node.get_attribute(attribute_id)
+        data = self.node.attribute(attribute_id)
         if data:
             return MGraph__Attribute(attribute = Model__MGraph__Attribute(data=data),
                                      graph     = self.graph                         )

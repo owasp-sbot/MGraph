@@ -1,4 +1,4 @@
-from mgraph_ai.core.MGraph__Node                            import MGraph__Node
+from mgraph_ai.domain.MGraph__Node                          import MGraph__Node
 from mgraph_ai.mermaid.models.Model__Mermaid__Node          import Model__Mermaid__Node
 from mgraph_ai.mermaid.schemas.Schema__Mermaid__Node__Shape import Schema__Mermaid__Node__Shape
 

@@ -68,9 +68,9 @@ class test_Model__MGraph__Node(TestCase):
         assert len(self.model.data.attributes) == 1
 
         # Test retrieving attribute
-        retrieved = self.model.get_attribute(attribute.attribute_id)
+        retrieved = self.model.attribute(attribute.attribute_id)
         assert retrieved == attribute
 
         # Test retrieving non-existent attribute
-        non_existent = self.model.get_attribute(Random_Guid())
+        non_existent = self.model.attribute(Random_Guid())
         assert non_existent is None
