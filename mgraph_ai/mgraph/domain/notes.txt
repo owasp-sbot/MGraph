@@ -1,0 +1,14 @@
+# todo add support for storing the data in sqlite so that we get the ability to search nodes and edges
+    # def add_edge(self, from_node_id, to_node_id, attributes=None) -> Schema__MGraph__Edge:
+    #     new_edge = Schema__MGraph__Edge(from_node_id=from_node_id, to_node_id=to_node_id, attributes=attributes)
+    #     self.data.edges[new_edge.edge_id] = new_edge
+    #     return new_edge
+
+
+    # if self.config.allow_circle_edges is False:                           # these checks should not exist in the core
+    #     if from_node_id == to_node_id:
+    #         return None
+    # if self.config.allow_duplicate_edges is False:                          # todo: figure out if there is a more efficient way to do this
+    #     for edge in self.edges():
+    #         if edge.from_node_id == from_node_id and edge.to_node_id == to_node_id:
+    #             return None

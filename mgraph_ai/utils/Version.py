@@ -1,5 +1,5 @@
 import mgraph_ai
-from osbot_utils.base_classes.Type_Safe import Type_Safe
+from osbot_utils.type_safe.Type_Safe import Type_Safe
 from osbot_utils.utils.Files            import file_contents, path_combine
 
 class Version(Type_Safe):

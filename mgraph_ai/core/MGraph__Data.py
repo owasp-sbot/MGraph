@@ -1,6 +1,6 @@
-from osbot_utils.base_classes.Type_Safe import Type_Safe
+from mgraph_ai.mgraph.domain.MGraph     import MGraph
+from osbot_utils.type_safe.Type_Safe    import Type_Safe
 from osbot_utils.helpers.Print_Table    import Print_Table
-from mgraph_ai.core.MGraph              import MGraph
 
 
 class MGraph__Data(Type_Safe):
@@ -13,7 +13,7 @@ class MGraph__Data(Type_Safe):
         return graph_data
 
     def edges(self):
-        return self.graph.edges
+        return self.graph.edges().values()
 
     def edges_data(self):
         edges_data = []
@@ -22,7 +22,7 @@ class MGraph__Data(Type_Safe):
         return edges_data
 
     def nodes(self):
-        return self.graph.nodes.values()
+        return self.graph.nodes().values()
 
     def nodes_data(self):
         nodes_data = []
@@ -38,7 +38,7 @@ class MGraph__Data(Type_Safe):
         return by_key
 
     def nodes_ids(self):
-        return list(self.graph.nodes.keys())
+        return list(self.graph.nodes().keys())
 
     def nodes_edges(self):
         nodes__edges = {}
