@@ -46,3 +46,6 @@ class MGraph__Node(Type_Safe):                                                  
         return [MGraph__Attribute(attribute = Model__MGraph__Attribute(data=attr),
                                   graph     = self.graph                         )
                 for attr in self.node.data.attributes.values()]
+
+    def graph_id(self):
+        return self.graph.data.graph_config.graph_id

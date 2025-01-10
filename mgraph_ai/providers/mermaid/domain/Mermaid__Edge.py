@@ -4,8 +4,6 @@ from mgraph_ai.providers.mermaid.models.Model__Mermaid__Graph import Model__Merm
 
 
 class Mermaid__Edge(MGraph__Edge):
-    # model          : Model__Mermaid__Edge
-    # config         : Mermaid__Edge__Config
     edge  : Model__Mermaid__Edge
     graph : Model__Mermaid__Graph
     label : str
