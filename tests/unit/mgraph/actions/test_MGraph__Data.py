@@ -20,13 +20,13 @@ class test_MGraph__Data(TestCase):
     def test_node_and_edge_retrieval(self):
         node1           = self.data.graph.new_node("node1")                                                             # Create nodes and edges
         node2           = self.data.graph.new_node("node2")
-        edge            = self.data.graph.new_edge(node1.id(), node2.id())
-        retrieved_node = self.data.node(node1.id())                                                                     # Test node retrieval
+        edge            = self.data.graph.new_edge(node1.node_id(), node2.node_id())
+        retrieved_node = self.data.node(node1.node_id())                                                                     # Test node retrieval
 
         assert retrieved_node         is not None
         assert retrieved_node.value() == "node1"
 
-        retrieved_edge = self.data.edge(edge.id())                                                                      # Test edge retrieval
+        retrieved_edge = self.data.edge(edge.edge_id())                                                                      # Test edge retrieval
         assert self.data.edges()[0].json()        == edge.json()
         assert self.data.nodes()[0].json()        == node1.json()
         assert self.data.nodes()[1].json()        == node2.json()
@@ -37,7 +37,7 @@ class test_MGraph__Data(TestCase):
     def test_list_nodes_and_edges(self):
         node1 = self.data.graph.new_node("node1")                                                                       # Create multiple nodes and edges
         node2 = self.data.graph.new_node("node2")
-        edge  = self.data.graph.new_edge(node1.id(), node2.id())
+        edge  = self.data.graph.new_edge(node1.node_id(), node2.node_id())
         nodes = self.data.graph.nodes()                                                                                 # get nodes list
         edges = self.data.graph.edges()                                                                                 # get edges list
 

@@ -13,7 +13,7 @@ class MGraph__Edge(Type_Safe):                                                  
     edge : Model__MGraph__Edge                                                              # Reference to edge model
     graph: Model__MGraph__Graph                                                             # Reference to graph model
 
-    def id(self) -> Random_Guid:                                                            # Get edge ID
+    def edge_id(self) -> Random_Guid:                                                            # Get edge ID
         return self.edge.data.edge_config.edge_id
 
     def from_node(self) -> MGraph__Node:                                                    # Get source node

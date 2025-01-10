@@ -55,28 +55,28 @@ class test_MGraph__Edit(TestCase):
     def test_new_edge(self):
         node1 = self.graph_edit.new_node("node1")                                                                             # Create two nodes
         node2 = self.graph_edit.new_node("node2")
-        edge  = self.graph_edit.new_edge(node1.id(), node2.id())                                                              # Create edge between nodes
+        edge  = self.graph_edit.new_edge(node1.node_id(), node2.node_id())                                                              # Create edge between nodes
 
         assert edge is not None
         assert edge.from_node().value() == "node1"
-        assert edge.to_node().value() == "node2"
+        assert edge.to_node  ().value() == "node2"
 
     def test_deletion(self):
         with self.graph_edit as _:
             node_1 = _.new_node("test_node")                                # Create 3x nodes and 2x edges
             node_2 = _.new_node("another_node")
             node_3 = _.new_node("3rd node")
-            edge_1 = _.new_edge(node_1.id(), node_2.id())
-            edge_2 = _.new_edge(node_2.id(), node_3.id())
+            edge_1 = _.new_edge(node_1.node_id(), node_2.node_id())
+            edge_2 = _.new_edge(node_2.node_id(), node_3.node_id())
 
-            assert _.delete_node(node_1.id()) is True                       # Test node deletion
-            assert _.delete_node(node_1.id()) is False
-            assert _.graph.node (node_1.id()) is None
-            assert _.graph.edge (edge_1.id()) is None
+            assert _.delete_node(node_1.node_id()) is True                       # Test node deletion
+            assert _.delete_node(node_1.node_id()) is False
+            assert _.graph.node (node_1.node_id()) is None
+            assert _.graph.edge (edge_1.edge_id()) is None
 
-            assert _.delete_edge(edge_2.id()) is True                       # Test edge deletion
-            assert _.delete_edge(edge_2.id()) is False
-            assert _.graph.edge (edge_2.id()) is None
+            assert _.delete_edge(edge_2.edge_id()) is True                       # Test edge deletion
+            assert _.delete_edge(edge_2.edge_id()) is False
+            assert _.graph.edge (edge_2.edge_id()) is None
 
     def test_node_with_custom_type(self):
         class Custom_Node(Schema__MGraph__Node): pass

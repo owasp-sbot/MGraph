@@ -51,10 +51,10 @@ class test_MGraph__Edge(TestCase):
         self.edge       = MGraph__Edge(edge=self.model_edge, graph=self.graph)
 
     def test_init(self):                                                                    # Tests basic initialization
-        assert type(self.edge)      is MGraph__Edge
-        assert self.edge.edge       is self.model_edge
-        assert self.edge.graph      is self.graph
-        assert type(self.edge.id()) is Random_Guid
+        assert type(self.edge)           is MGraph__Edge
+        assert self.edge.edge            is self.model_edge
+        assert self.edge.graph           is self.graph
+        assert type(self.edge.edge_id()) is Random_Guid
 
     def test_node_operations(self):                                                         # Tests from_node and to_node methods
         from_node = self.edge.from_node()

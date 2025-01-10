@@ -15,7 +15,7 @@ class MGraph__Node(Type_Safe):                                                  
     def node_config(self):
         return self.node.data.node_config
 
-    def node_id(self):
+    def node_id(self) -> Random_Guid:
         return self.node.data.node_config.node_id
 
     def value(self) -> Any:                                                                # Get node value
@@ -24,9 +24,6 @@ class MGraph__Node(Type_Safe):                                                  
     def set_value(self, value: Any) -> 'MGraph__Node':                                    # Set node value with type checking
         self.node.set_value(value)
         return self
-
-    def id(self) -> Random_Guid:                                                           # Get node ID
-        return self.node.data.node_config.node_id
 
     def add_attribute(self, name     : Safe_Id    ,
                             value    : Any        ,

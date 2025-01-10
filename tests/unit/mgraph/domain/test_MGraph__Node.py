@@ -21,11 +21,11 @@ class test_MGraph__Node(TestCase):
         self.node       = MGraph__Node(node=self.model_node, graph=self.graph)
 
     def test_init(self):                                                                    # Tests basic initialization
-        assert type(self.node)      is MGraph__Node
-        assert self.node.node       is self.model_node
-        assert self.node.graph      is self.graph
-        assert self.node.value()    == "test_value"
-        assert type(self.node.id()) is Random_Guid
+        assert type(self.node)           is MGraph__Node
+        assert self.node.node            is self.model_node
+        assert self.node.graph           is self.graph
+        assert self.node.value()         == "test_value"
+        assert type(self.node.node_id()) is Random_Guid
 
     def test_value_operations(self):                                                        # Tests value getting and setting
         assert self.node.value() == "test_value"

@@ -3,7 +3,7 @@ from mgraph_ai.providers.mermaid.domain.Mermaid__Edge                   import M
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Diagram__Type import Schema__Mermaid__Diagram__Type
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Config  import Schema__Mermaid__Node__Config
 from osbot_utils.helpers.Safe_Id                                        import Safe_Id
-from osbot_utils.utils.Objects                                          import __
+from osbot_utils.utils.Objects                                          import __, obj
 from mgraph_ai.providers.mermaid.domain.Mermaid__Node                   import Mermaid__Node
 from osbot_utils.utils.Misc                                             import is_guid
 from mgraph_ai.mgraph.actions.MGraph__Edit                              import MGraph__Edit
@@ -38,12 +38,14 @@ class test__Mermaid__Edit(TestCase):
             from_node_key    = 'from_key'
             to_node_key      =  'to_key'
             edge             = _.add_edge(from_node_key=from_node_key, to_node_key=to_node_key, label='an_label', attributes={'answer': '42'})
+            edge_id          =  edge.edge_id()
             edge_attributes  = edge.attributes()
             attribute_id     = edge_attributes[0].attribute.data.attribute_id
             nodes__by_key    = _.data().nodes__by_key()
             from_node        = nodes__by_key.get(from_node_key)
             to_node          = nodes__by_key.get(to_node_key  )
 
+            assert is_guid(edge_id     ) is True
             assert is_guid(attribute_id) is True
             assert type(from_node)       == Mermaid__Node
             assert type(from_node)       == Mermaid__Node
@@ -55,27 +57,16 @@ class test__Mermaid__Edit(TestCase):
                                                                     attribute_name  = 'answer',
                                                                     attribute_value = '42',
                                                                     attribute_type  = 'builtins.str'))
-
-           #  assert edge.edge.obj() == __(data=__(label='',
-           #                                       edge_config=__(from_node_type='mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node.Schema__Mermaid__Node',
-           #                                                      to_node_type='mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node.Schema__Mermaid__Node',
-           #                                                      edge_id='40f2fca9-eb5a-4254-b106-302c9ae7e7a6'),
-           #                                       edge_type='mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge.Schema__Mermaid__Edge',
-           #                                       attributes=__(7a233d96-25fa-4c8a-8899-3403720662d9=__(attribute_id='7a233d96-25fa-4c8a-8899-3403720662d9',
-           #                                                                                               attribute_name='answer',
-           #                                                                                               attribute_value='42',
-           #                                                                                               attribute_type='builtins.str')),
-           # from_node_id='49b37fc7-b40f-4926-87b6-603dfb106021',
-           # to_node_id='e98b4258-fa45-48b0-9efb-756f2c8ebdc4'))
-
-            # assert edge.obj()    == __(config         = __(output_node_from=False, output_node_to=False, edge_mode='') ,
-            #                            edge_id        = edge.edge_id                                    ,
-            #                            from_node_id   = from_node.node_id                               ,
-            #                            attributes     = __(answer='42')                                 ,
-            #                            from_node_type = 'mgraph_ai.mermaid.domain.Mermaid__Node.Mermaid__Node' ,
-            #                            label          = 'an_label'                                      ,
-            #                            to_node_id     = to_node.node_id                                 ,
-            #                            to_node_type   = 'mgraph_ai.mermaid.domain.Mermaid__Node.Mermaid__Node' )
+            from osbot_utils.utils.Dev import pprint
+            attributes = obj({attribute_id: edge_attributes[0].attribute.data.json()})
+            assert edge.edge.obj() == __(data         =__(label        = '',
+                                                          edge_config  = __(from_node_type = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node.Schema__Mermaid__Node',
+                                                                            to_node_type   = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node.Schema__Mermaid__Node',
+                                                                            edge_id        = edge_id                                                                          ),
+                                                          edge_type    = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge.Schema__Mermaid__Edge',
+                                                          attributes   = attributes                                     ,
+                                                          from_node_id = from_node.node_id()                            ,
+                                                          to_node_id   = to_node.node_id()                             ))
 
     def test_add_node(self):
         with self.mermaid__edit as _:
