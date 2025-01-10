@@ -1,10 +1,8 @@
 from unittest                                                            import TestCase
-from mgraph_ai.mgraph.domain.MGraph__Edge                                import MGraph__Edge
-from mgraph_ai.mgraph.domain.MGraph__Node                                import MGraph__Node
-from mgraph_ai.mgraph.models.Model__MGraph__Edge                         import Model__MGraph__Edge
-from mgraph_ai.mgraph.models.Model__MGraph__Node                         import Model__MGraph__Node
 from mgraph_ai.providers.mermaid.domain.Mermaid                          import Mermaid
+from mgraph_ai.providers.mermaid.domain.Mermaid__Edge                    import Mermaid__Edge
 from mgraph_ai.providers.mermaid.domain.Mermaid__Graph                   import Mermaid__Graph
+from mgraph_ai.providers.mermaid.domain.Mermaid__Node                    import Mermaid__Node
 from mgraph_ai.providers.mermaid.models.Model__Mermaid__Edge             import Model__Mermaid__Edge
 from mgraph_ai.providers.mermaid.models.Model__Mermaid__Graph            import Model__Mermaid__Graph
 from mgraph_ai.providers.mermaid.models.Model__Mermaid__Node             import Model__Mermaid__Node
@@ -201,17 +199,17 @@ class test_Test_Data_Mermaid(TestCase):
             model_node  = _.graph.model.nodes                 () [0]
             schema_node = list(_.graph.model.data.nodes.values())[0]
 
-            assert type(domain_node                           ) == MGraph__Node                     # BUG
-            #assert type(domain_node                           ) == Mermaid__Node                   # BUG
-            assert type(domain_node.node                      ) == Model__MGraph__Node              # BUG
-            #assert type(domain_node.node                      ) == Model__Mermaid__Node            # BUG
+            #assert type(domain_node                           ) == MGraph__Node                    # Fixed: BUG
+            assert type(domain_node                           ) == Mermaid__Node
+            #assert type(domain_node.node                      ) == Model__MGraph__Node             #  Fixed:
+            assert type(domain_node.node                      ) == Model__Mermaid__Node
             assert type(domain_node.graph                     ) == Model__Mermaid__Graph
             assert type(domain_node.graph.data                ) == Schema__Mermaid__Graph
             assert type(domain_node.graph.data.default_types  ) == Schema__Mermaid__Default__Types
             assert domain_node.graph.node_model_type            == Model__Mermaid__Node
 
-            assert type(model_node                 ) == Model__MGraph__Node                         # BUG
-            #assert type(model_node                 ) == Model__Mermaid__Node                       # BUG
+            #assert type(model_node                 ) == Model__MGraph__Node                         #  Fixed:
+            assert type(model_node                 ) == Model__Mermaid__Node
             assert type(model_node.data            ) == Schema__Mermaid__Node
 
             assert type(schema_node                ) == Schema__Mermaid__Node
@@ -221,17 +219,17 @@ class test_Test_Data_Mermaid(TestCase):
             model_edge  = _.graph.model.edges                 () [0]
             schema_edge = list(_.graph.model.data.edges.values())[0]
 
-            assert type(domain_edge                         ) == MGraph__Edge                       # BUG
-            #assert type(domain_edge                         ) == Mermaid__Edge                     # BUG
-            assert type(domain_edge.edge                    ) == Model__MGraph__Edge                # BUG
-            #assert type(domain_edge.edge                    ) == Model__Mermaid__Edge              # BUG
+            #assert type(domain_edge                         ) == MGraph__Edge                       #  Fixed:
+            assert type(domain_edge                         ) == Mermaid__Edge
+            #assert type(domain_edge.edge                    ) == Model__MGraph__Edge                #  Fixed:
+            assert type(domain_edge.edge                    ) == Model__Mermaid__Edge
             assert type(domain_edge.graph                   ) == Model__Mermaid__Graph
             assert type(domain_edge.graph.data              ) == Schema__Mermaid__Graph
             assert type(domain_edge.graph.data.default_types) == Schema__Mermaid__Default__Types
             assert domain_edge.graph.edge_model_type          == Model__Mermaid__Edge
 
-            assert type(model_edge                 ) == Model__MGraph__Edge                         # BUG
-            #assert type(model_edge                 ) == Model__Mermaid__Edge                       # BUG
+            #assert type(model_edge                 ) == Model__MGraph__Edge                       #  Fixed:
+            assert type(model_edge                 ) == Model__Mermaid__Edge
             assert type(model_edge.data            ) == Schema__Mermaid__Edge
 
             assert type(schema_node                ) == Schema__Mermaid__Node

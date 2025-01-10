@@ -30,7 +30,7 @@ class Model__MGraph__Graph(Type_Safe):
             raise ValueError(f"Target node {edge.to_node_id} not found")
 
         self.data.edges[edge.edge_config.edge_id] = edge
-        return Model__MGraph__Edge(data=edge)
+        return self.edge_model_type(data=edge)
 
     @type_safe
     def new_node(self, value     : Any                                                ,
@@ -74,12 +74,12 @@ class Model__MGraph__Graph(Type_Safe):
         return self.add_edge(edge)
 
     def edges(self):
-        return [Model__MGraph__Edge(data=data) for data in self.data.edges.values()]
+        return [self.edge_model_type(data=data) for data in self.data.edges.values()]
 
     def edge(self, edge_id: Random_Guid) -> Model__MGraph__Edge:
         data = self.data.edges.get(edge_id)
         if data:
-            return Model__MGraph__Edge(data=data)
+            return self.edge_model_type(data=data)
 
     def graph(self):
         return self.data
@@ -87,10 +87,10 @@ class Model__MGraph__Graph(Type_Safe):
     def node(self, node_id: Random_Guid) -> Model__MGraph__Node:
         data = self.data.nodes.get(node_id)
         if data:
-            return Model__MGraph__Node(data=data)
+            return self.node_model_type(data=data)
 
     def nodes(self) -> List[Model__MGraph__Node]:
-        return [Model__MGraph__Node(data=node) for node in self.data.nodes.values()]
+        return [self.node_model_type(data=node) for node in self.data.nodes.values()]
 
     @type_safe
     def delete_node(self, node_id: Random_Guid) -> 'Model__MGraph__Graph':                              # Remove a node and all its connected edges

@@ -11,7 +11,9 @@ from osbot_utils.type_safe.Type_Safe                    import Type_Safe
 
 
 class MGraph__Graph(Type_Safe):
-    model: Model__MGraph__Graph
+    model            : Model__MGraph__Graph
+    node_domain_type : Type[MGraph__Node]
+    edge_domain_type : Type[MGraph__Edge]
 
     def delete_edge(self, edge_id: Random_Guid) -> bool:
         return self.model.delete_edge(edge_id)
@@ -31,14 +33,10 @@ class MGraph__Graph(Type_Safe):
         return self.model.data.graph_config.graph_id
 
     def mgraph_edge(self, edge: Model__MGraph__Edge) -> MGraph__Edge:
-        #edge_domain_type = self.model.default_types.node_domain_type           # todo: find way to do this
-        edge_domain_type = MGraph__Edge
-        return edge_domain_type(edge=edge, graph=self.model)
+        return self.edge_domain_type(edge=edge, graph=self.model)
 
     def mgraph_node(self, node: Model__MGraph__Node) -> MGraph__Edge:
-        #node_domain_type = self.model.default_types.node_domain_type           # todo: find way to do this
-        node_domain_type = MGraph__Node
-        return node_domain_type(node=node, graph=self.model)
+        return self.node_domain_type(node=node, graph=self.model)
 
     def new_edge(self, from_node_id: Random_Guid, to_node_id  : Random_Guid) -> MGraph__Edge:
         edge = self.model.new_edge(from_node_id=from_node_id, to_node_id=to_node_id)

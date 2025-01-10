@@ -1,4 +1,3 @@
-import pytest
 from unittest                                           import TestCase
 from osbot_utils.utils.Objects                          import  __
 from mgraph_ai.providers.mermaid.domain.Mermaid__Graph  import Mermaid__Graph
@@ -28,4 +27,6 @@ class test_Mermaid__MGraph(TestCase):
                                                   mermaid_code=[],
                                                   nodes=__()),
                                           node_model_type='mgraph_ai.providers.mermaid.models.Model__Mermaid__Node.Model__Mermaid__Node',
-                                          edge_model_type='mgraph_ai.providers.mermaid.models.Model__Mermaid__Edge.Model__Mermaid__Edge'))
+                                          edge_model_type='mgraph_ai.providers.mermaid.models.Model__Mermaid__Edge.Model__Mermaid__Edge'),
+                                 node_domain_type='mgraph_ai.providers.mermaid.domain.Mermaid__Node.Mermaid__Node',
+                                 edge_domain_type='mgraph_ai.providers.mermaid.domain.Mermaid__Edge.Mermaid__Edge')

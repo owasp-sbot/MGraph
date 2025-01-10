@@ -1,5 +1,5 @@
 from mgraph_ai.mgraph.domain.MGraph__Node                             import MGraph__Node
-from mgraph_ai.providers.mermaid.models.Model__Mermaid__Graph import Model__Mermaid__Graph
+from mgraph_ai.providers.mermaid.models.Model__Mermaid__Graph         import Model__Mermaid__Graph
 from mgraph_ai.providers.mermaid.models.Model__Mermaid__Node          import Model__Mermaid__Node
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Shape import Schema__Mermaid__Node__Shape
 
