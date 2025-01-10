@@ -4,13 +4,11 @@ from unittest                                                               impo
 from osbot_utils.utils.Objects                                              import __
 from mgraph_ai.providers.mermaid.actions.Mermaid__Render                    import Mermaid__Render
 from mgraph_ai.providers.mermaid.domain.Mermaid                             import Mermaid
-from mgraph_ai.providers.mermaid.domain.Mermaid__Edge                       import Mermaid__Edge
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Diagram__Type     import Schema__Mermaid__Diagram__Type
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Diagram_Direction import Schema__Mermaid__Diagram__Direction
 from osbot_utils.testing.Stdout                                             import Stdout
 from osbot_utils.testing.Temp_File                                          import Temp_File
 
-class test_Mermaid(TestCase):
+class test__todo__Mermaid(TestCase):
 
     @classmethod
     def setUpClass(cls):
@@ -19,48 +17,30 @@ class test_Mermaid(TestCase):
     def setUp(self):
         self.mermaid = Mermaid()
 
-    def test__init__(self):
-        with self.mermaid as _:
-            expected_vars = {'graph'     : _.graph               }
-            assert _.__locals__()                == expected_vars
-            assert _.graph   .__class__.__name__ == 'Mermaid__Graph'
-            assert _.obj() == __(graph=(__(data   = __(edges        = __()                 ,
-                                                       mermaid_code = []                   ,
-                                                       nodes        = __()                 ,
-                                                       graph_id     = _.graph.data.graph_id,
-                                                       graph_type   = None                 ),
-                                           config = __(allow_circle_edges    = False,
-                                                       allow_duplicate_edges = False,
-                                                       graph_title           =''    ))))
+    # def test__init__(self):
+    #     with self.mermaid as _:
+    #         expected_vars = {'graph'     : _.graph               }
+    #         assert _.__locals__()                == expected_vars
+    #         assert _.graph   .__class__.__name__ == 'Mermaid__Graph'
+    #         assert _.obj() == __(graph=(__(data   = __(edges        = __()                 ,
+    #                                                    mermaid_code = []                   ,
+    #                                                    nodes        = __()                 ,
+    #                                                    graph_id     = _.graph.data.graph_id,
+    #                                                    graph_type   = None                 ),
+    #                                        config = __(allow_circle_edges    = False,
+    #                                                    allow_duplicate_edges = False,
+    #                                                    graph_title           =''    ))))
 
-    def test_add_directive(self):
-        with self.mermaid as _:
-            _.set_diagram_type(Schema__Mermaid__Diagram__Type.flowchart)
-            _.add_directive('init: {"flowchart": {"htmlLabels": false}} ')
-            _.add_node(key='markdown', label='This **is** _Markdown_').markdown()
+    # def test_add_directive(self):
+    #     with self.mermaid as _:
+    #         _.set_diagram_type(Schema__Mermaid__Diagram__Type.flowchart)
+    #         _.add_directive('init: {"flowchart": {"htmlLabels": false}} ')
+    #         _.add_node(key='markdown', label='This **is** _Markdown_').markdown()
+    #
+    #         assert _.code() ==  ('%%{init: {"flowchart": {"htmlLabels": false}} }%%\n'
+    #                              'flowchart LR\n'
+    #                              '    markdown["`This **is** _Markdown_`"]\n')
 
-            assert _.code() ==  ('%%{init: {"flowchart": {"htmlLabels": false}} }%%\n'
-                                 'flowchart LR\n'
-                                 '    markdown["`This **is** _Markdown_`"]\n')
-    def test_add_edge(self):
-        with self.mermaid as _:
-            from_node_key = 'from_key'
-            to_node_key   =  'to_key'
-            edge          = _.add_edge(from_node_key=from_node_key, to_node_key=to_node_key, label='an_label', attributes={'answer': '42'})
-            nodes__by_key   = _.data().nodes__by_key()
-            from_node     = nodes__by_key.get(from_node_key)
-            to_node       = nodes__by_key.get(to_node_key)
-            assert from_node.key == from_node_key
-            assert to_node.key   == to_node_key
-            assert type(edge)    == Mermaid__Edge
-            assert edge.obj()    == __(config         = __(output_node_from=False, output_node_to=False, edge_mode='') ,
-                                       edge_id        = edge.edge_id                                    ,
-                                       from_node_id   = from_node.node_id                               ,
-                                       attributes     = __(answer='42')                                 ,
-                                       from_node_type = 'mgraph_ai.mermaid.domain.Mermaid__Node.Mermaid__Node' ,
-                                       label          = 'an_label'                                      ,
-                                       to_node_id     = to_node.node_id                                 ,
-                                       to_node_type   = 'mgraph_ai.mermaid.domain.Mermaid__Node.Mermaid__Node' )
     def test_config(self):
         assert self.mermaid.render().config.add_nodes is True
 

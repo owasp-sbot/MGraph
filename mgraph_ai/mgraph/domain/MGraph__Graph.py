@@ -38,8 +38,11 @@ class MGraph__Graph(Type_Safe):
     def mgraph_node(self, node: Model__MGraph__Node) -> MGraph__Edge:
         return self.node_domain_type(node=node, graph=self.model)
 
-    def new_edge(self, from_node_id: Random_Guid, to_node_id  : Random_Guid) -> MGraph__Edge:
-        edge = self.model.new_edge(from_node_id=from_node_id, to_node_id=to_node_id)
+    def new_edge(self, from_node_id: Random_Guid,
+                       to_node_id  : Random_Guid,
+                       attributes: Dict[Random_Guid, Schema__MGraph__Attribute] = None) -> MGraph__Edge:
+
+        edge = self.model.new_edge(from_node_id=from_node_id, to_node_id=to_node_id, attributes=attributes)
         return self.mgraph_edge(edge=edge)
 
     def new_node(self, value     : Any                                                ,

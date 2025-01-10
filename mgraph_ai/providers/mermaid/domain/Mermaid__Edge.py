@@ -1,6 +1,6 @@
 from mgraph_ai.mgraph.domain.MGraph__Edge                      import MGraph__Edge
 from mgraph_ai.providers.mermaid.models.Model__Mermaid__Edge   import Model__Mermaid__Edge
-from mgraph_ai.providers.mermaid.models.Model__Mermaid__Graph import Model__Mermaid__Graph
+from mgraph_ai.providers.mermaid.models.Model__Mermaid__Graph  import Model__Mermaid__Graph
 
 
 class Mermaid__Edge(MGraph__Edge):

@@ -12,37 +12,20 @@ from osbot_utils.type_safe.Type_Safe                                        impo
 class Mermaid(Type_Safe):
     graph : Mermaid__Graph
 
-    def add_directive(self, directive):
-        self.render().config.directives.append(directive)
-        return self
-
-    def add_edge(self, from_node_key, to_node_key, label=None,attributes=None):
-        nodes__by_key = self.data().nodes__by_key()
-        from_node    = nodes__by_key.get(from_node_key)
-        to_node      = nodes__by_key.get(to_node_key)
-        if not from_node:
-            from_node = self.add_node(key=from_node_key, label=from_node_key)
-        if not to_node:
-            to_node = self.add_node(key=to_node_key, label=to_node_key)
-
-        kwargs       = dict(from_node_id = from_node.node_id,
-                            to_node_id   = to_node  .node_id,
-                            label        = label            ,
-                            attributes   = attributes       )
-        mermaid_edge = Mermaid__Edge(**kwargs)
-        self.graph.add_edge(mermaid_edge.id, mermaid_edge)
-        return mermaid_edge
 
 
 
-    def add_node(self, **kwargs):
-        return self.graph.add_node(Schema__Mermaid__Node(**kwargs))
 
-    def data(self):
-        return Mermaid__Data(graph=self.graph)
 
-    def code(self):
-        return self.render().code()
+
+    # def add_node(self, **kwargs):
+    #     return self.graph.add_node(Schema__Mermaid__Node(**kwargs))
+
+    # def data(self):
+    #     return Mermaid__Data(graph=self.graph)
+
+    # def code(self):
+    #     return self.render().code()
 
     def code_markdown(self):
         #self.code_create()
@@ -83,9 +66,7 @@ class Mermaid(Type_Safe):
             self.render().diagram_direction = Schema__Mermaid__Diagram__Direction[direction]
         return self                             # If the value can't be set (not a valid name), do nothing
 
-    def set_diagram_type(self, diagram_type):
-        if isinstance(diagram_type, Schema__Mermaid__Diagram__Type):
-            self.render().diagram_type = diagram_type
+
 
     def save(self, target_file=None):
         file_path = target_file or '/tmp/mermaid.md'

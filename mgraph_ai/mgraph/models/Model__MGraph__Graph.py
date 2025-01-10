@@ -51,7 +51,8 @@ class Model__MGraph__Graph(Type_Safe):
 
     @type_safe
     def new_edge(self, from_node_id: Random_Guid,
-                       to_node_id  : Random_Guid) -> Model__MGraph__Edge:                                               # Create and add a new edge between nodes
+                       to_node_id  : Random_Guid,
+                       attributes  : Dict[Random_Guid, Schema__MGraph__Attribute] = None) -> Model__MGraph__Edge:                                               # Create and add a new edge between nodes
 
         from_node = self.data.nodes.get(from_node_id)
         to_node   = self.data.nodes.get(to_node_id  )
@@ -66,7 +67,7 @@ class Model__MGraph__Graph(Type_Safe):
         edge_config = config_type(edge_id        = Random_Guid(),
                                   from_node_type = self.data.nodes[from_node_id].node_type,
                                   to_node_type   = self.data.nodes[to_node_id  ].node_type)
-        edge        = edge_type  (attributes     = {}                                       ,
+        edge        = edge_type  (attributes     = attributes                               ,
                                   edge_config    = edge_config                              ,
                                   from_node_id   = from_node_id                             ,
                                   to_node_id     = to_node_id                               )

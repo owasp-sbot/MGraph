@@ -1,12 +1,13 @@
 from typing                                             import Any, Type, Dict
+from osbot_utils.helpers.Random_Guid                    import Random_Guid
+from osbot_utils.type_safe.Type_Safe                    import Type_Safe
+from osbot_utils.type_safe.decorators.type_safe         import type_safe
 from mgraph_ai.mgraph.domain.MGraph__Edge               import MGraph__Edge
 from mgraph_ai.mgraph.domain.MGraph__Graph              import MGraph__Graph
 from mgraph_ai.mgraph.domain.MGraph__Node               import MGraph__Node
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Attribute import Schema__MGraph__Attribute
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Node      import Schema__MGraph__Node
-from osbot_utils.helpers.Random_Guid                    import Random_Guid
-from osbot_utils.type_safe.Type_Safe                    import Type_Safe
-from osbot_utils.type_safe.decorators.type_safe         import type_safe
+
 
 class MGraph__Edit(Type_Safe):
     graph: MGraph__Graph
