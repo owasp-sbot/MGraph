@@ -19,6 +19,9 @@ class Mermaid__Node(MGraph__Node):
     def node_key(self):
         return self.node.data.key
 
+    def node_label(self):
+        return self.node.data.label
+
     def shape(self, shape=None):
         self.config().node_shape = Schema__Mermaid__Node__Shape.get_shape(shape)
         return self

@@ -1,22 +1,18 @@
-from unittest                                               import TestCase
-
-from mgraph_ai.mgraph.domain.MGraph__Edge                   import MGraph__Edge
-from mgraph_ai.mgraph.domain.MGraph__Node                   import MGraph__Node
-from mgraph_ai.mgraph.models.Model__MGraph__Edge            import Model__MGraph__Edge
-from mgraph_ai.mgraph.models.Model__MGraph__Node            import Model__MGraph__Node
+from unittest                                                import TestCase
+from mgraph_ai.mgraph.domain.MGraph__Edge                    import MGraph__Edge
+from mgraph_ai.mgraph.domain.MGraph__Node                    import MGraph__Node
+from mgraph_ai.mgraph.models.Model__MGraph__Edge             import Model__MGraph__Edge
+from mgraph_ai.mgraph.models.Model__MGraph__Node             import Model__MGraph__Node
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Default__Types import Schema__MGraph__Default__Types
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge          import Schema__MGraph__Edge
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node          import Schema__MGraph__Node
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Config  import Schema__MGraph__Node__Config
-
-from osbot_utils.utils.Dev              import pprint
-
-from mgraph_ai.mgraph.domain.MGraph                         import MGraph
-from mgraph_ai.mgraph.domain.MGraph__Graph                  import MGraph__Graph
-from mgraph_ai.mgraph.models.Model__MGraph__Graph           import Model__MGraph__Graph
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph         import Schema__MGraph__Graph
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph__Config import Schema__MGraph__Graph__Config
-from mgraph_ai.mgraph.utils.MGraph__Random_Graph            import MGraph__Random_Graph, create_empty_mgraph, create_random_mgraph
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge           import Schema__MGraph__Edge
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Node           import Schema__MGraph__Node
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Config   import Schema__MGraph__Node__Config
+from mgraph_ai.mgraph.domain.MGraph                          import MGraph
+from mgraph_ai.mgraph.domain.MGraph__Graph                   import MGraph__Graph
+from mgraph_ai.mgraph.models.Model__MGraph__Graph            import Model__MGraph__Graph
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph          import Schema__MGraph__Graph
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph__Config  import Schema__MGraph__Graph__Config
+from mgraph_ai.mgraph.utils.MGraph__Random_Graph             import MGraph__Random_Graph, create_empty_mgraph, create_random_mgraph
 
 
 class test_MGraph__Random_Graph(TestCase):
@@ -83,7 +79,6 @@ class test_MGraph__Random_Graph(TestCase):
         num_nodes = 5
         num_edges = 7
         graph = self.random_graph.create_graph(num_nodes=num_nodes, num_edges=num_edges)
-
         assert len(graph.data().nodes()) == num_nodes
         assert len(graph.data().edges()) == num_edges
 

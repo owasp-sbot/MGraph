@@ -12,6 +12,9 @@ class MGraph__Node(Type_Safe):                                                  
     node : Model__MGraph__Node                                                             # Reference to node model
     graph: Model__MGraph__Graph                                                            # Reference to graph model
 
+    def node_config(self):
+        return self.node.data.node_config
+
     def node_id(self):
         return self.node.data.node_config.node_id
 

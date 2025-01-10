@@ -8,7 +8,7 @@ from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node          import S
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Config  import Schema__Mermaid__Node__Config
 
 class Schema__Mermaid__Default__Types(Schema__MGraph__Default__Types):
-    attribute_type   : Type[Schema__MGraph__Attribute]
+    attribute_type   : Type[Schema__MGraph__Attribute     ]                     # todo: remove when bug in Type_Safe is fixed
     edge_type        : Type[Schema__Mermaid__Edge         ]
     edge_config_type : Type[Schema__Mermaid__Edge__Config ]
     graph_config_type: Type[Schema__Mermaid__Graph__Config]

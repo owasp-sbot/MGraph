@@ -1,6 +1,6 @@
 from typing                                                                 import List
 from osbot_utils.utils.Str                                                  import safe_str
-from mgraph_ai.providers.mermaid.domain.Mermaid__Node                       import LINE_PADDING
+from mgraph_ai.providers.mermaid.domain.Mermaid__Node                       import LINE_PADDING, Mermaid__Node
 from mgraph_ai.providers.mermaid.domain.Mermaid__Graph                      import Mermaid__Graph
 from mgraph_ai.providers.mermaid.configs.Mermaid__Render__Config            import Mermaid__Render__Config
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Diagram_Direction import Schema__Mermaid__Diagram__Direction
@@ -16,11 +16,11 @@ class Mermaid__Render(Type_Safe):
     mermaid_code      : List
 
 
-    def add_line(self, line):
+    def add_line(self, line:str) -> str:
         self.mermaid_code.append(line)
         return line
 
-    def code(self):
+    def code(self) -> str:
         self.code_create()
         return '\n'.join(self.mermaid_code)
 
@@ -72,21 +72,24 @@ class Mermaid__Render(Type_Safe):
         edge_code      = f'{LINE_PADDING}{from_node_key} {link_code} {to_node_key}'
         return edge_code
 
-    def render_node(self, node, include_padding=True):
-        left_char, right_char = node.config.node_shape.value
+    def render_node(self, node: Mermaid__Node, include_padding=True):
+        node_config = node.node_config()
+        node_label  = node.node_label()
+        node_key    = node.node_key()
+        left_char, right_char = node_config.node_shape.value
 
-        if node.config.markdown:
-            label = f'`{node.label}`'
+        if node_config.markdown:
+            label = f'`{node_label}`'
         else:
-            label = node.label
+            label = node_label
 
-        if node.config.show_label is False:
-            node_code = f'{node.key}'
+        if node_config.show_label is False:
+            node_code = f'{node_key}'
         else:
-            if node.config.wrap_with_quotes is False:
-                node_code = f'{node.key}{left_char}{label}{right_char}'
+            if node_config.wrap_with_quotes is False:
+                node_code = f'{node_key}{left_char}{label}{right_char}'
             else:
-                node_code = f'{node.key}{left_char}"{label}"{right_char}'
+                node_code = f'{node_key}{left_char}"{label}"{right_char}'
 
         if include_padding:
             node_code = f'{LINE_PADDING}{node_code}'

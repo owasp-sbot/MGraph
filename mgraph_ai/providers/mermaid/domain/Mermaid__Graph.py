@@ -1,4 +1,4 @@
-from typing import Type
+from typing                                                     import Type
 from mgraph_ai.mgraph.domain.MGraph__Graph                      import MGraph__Graph
 from mgraph_ai.providers.mermaid.domain.Mermaid__Edge           import Mermaid__Edge
 from mgraph_ai.providers.mermaid.domain.Mermaid__Node           import Mermaid__Node

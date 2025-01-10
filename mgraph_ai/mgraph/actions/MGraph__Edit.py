@@ -11,6 +11,14 @@ from osbot_utils.type_safe.decorators.type_safe         import type_safe
 class MGraph__Edit(Type_Safe):
     graph: MGraph__Graph
 
+    def add_node(self, **kwargs):
+        node_type   = self.graph.model.data.default_types.node_type
+        domain_type = self.graph.node_domain_type
+        node_data   = node_type(**kwargs)
+        node        = self.graph.model.add_node(node_data)
+        domain_type = domain_type(node=node, graph=self.graph.model)
+        return domain_type
+
     @type_safe
     def new_node(self, value     : Any                                                ,
                        node_type : Type[Schema__MGraph__Node                  ] = None,

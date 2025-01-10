@@ -105,12 +105,13 @@ class test_Mermaid_Node(TestCase):
         assert Schema__Mermaid__Node.from_json(data_obj.json()).json() == data_obj.json()
         #pprint(node_obj.json())
 
-        return  # todo: wire up the methods below
+
         with Mermaid() as _:
-            _.add_node(key='id')
+            _.edit().add_node(key='id')
             assert _.code() == 'graph LR\n    id["id"]\n'
-            pass
-        #pprint(Mermaid().json())
+
+
+        return  # todo: wire up the methods below
 
         #return
         with Mermaid() as _:
@@ -124,3 +125,8 @@ class test_Mermaid_Node(TestCase):
         assert new_node.attributes == {}
         assert mermaid.code() == 'graph LR\n    id[id]\n'
 
+    def test_add_node(self):
+        key_value = 'this-is-an-key'
+        with Mermaid() as _:
+            assert _.edit().add_node(key=key_value).node_key() == key_value
+            assert _.render().code() == f'graph LR\n    {key_value}["{key_value}"]\n'
