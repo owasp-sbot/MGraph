@@ -1,17 +1,17 @@
-from unittest                                             import TestCase
-from osbot_utils.helpers.Safe_Id                          import Safe_Id
-from mgraph_ai.mgraph.domain.MGraph__Node                 import MGraph__Node
-from mgraph_ai.mgraph.models.Model__MGraph__Node          import Model__MGraph__Node
-from mgraph_ai.mgraph.models.Model__MGraph__Graph         import Model__MGraph__Graph
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node        import Schema__MGraph__Node
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node_Config import Schema__MGraph__Node_Config
-from osbot_utils.helpers.Random_Guid                      import Random_Guid
+from unittest                                              import TestCase
+from osbot_utils.helpers.Safe_Id                           import Safe_Id
+from mgraph_ai.mgraph.domain.MGraph__Node                  import MGraph__Node
+from mgraph_ai.mgraph.models.Model__MGraph__Node           import Model__MGraph__Node
+from mgraph_ai.mgraph.models.Model__MGraph__Graph          import Model__MGraph__Graph
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Node         import Schema__MGraph__Node
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Config import Schema__MGraph__Node__Config
+from osbot_utils.helpers.Random_Guid                       import Random_Guid
 
 class test_MGraph__Node(TestCase):
 
     def setUp(self):                                                                        # Initialize test data
-        self.node_config = Schema__MGraph__Node_Config(node_id    = Random_Guid(),
-                                                       value_type = str         )
+        self.node_config = Schema__MGraph__Node__Config(node_id    = Random_Guid(),
+                                                        value_type = str)
         self.schema_node = Schema__MGraph__Node       (attributes  = {}                  ,
                                                        node_config = self.node_config    ,
                                                        node_type   = Schema__MGraph__Node,
@@ -21,11 +21,11 @@ class test_MGraph__Node(TestCase):
         self.node       = MGraph__Node(node=self.model_node, graph=self.graph)
 
     def test_init(self):                                                                    # Tests basic initialization
-        assert type(self.node)      is MGraph__Node
-        assert self.node.node       is self.model_node
-        assert self.node.graph      is self.graph
-        assert self.node.value()    == "test_value"
-        assert type(self.node.id()) is Random_Guid
+        assert type(self.node)           is MGraph__Node
+        assert self.node.node            is self.model_node
+        assert self.node.graph           is self.graph
+        assert self.node.value()         == "test_value"
+        assert type(self.node.node_id()) is Random_Guid
 
     def test_value_operations(self):                                                        # Tests value getting and setting
         assert self.node.value() == "test_value"

@@ -1,53 +1,38 @@
-from unittest                                              import TestCase
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph        import Schema__MGraph__Graph
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph_Config import Schema__MGraph__Graph_Config
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node         import Schema__MGraph__Node
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node_Config  import Schema__MGraph__Node_Config
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge         import Schema__MGraph__Edge
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge_Config  import Schema__MGraph__Edge_Config
-from osbot_utils.helpers.Random_Guid                       import Random_Guid
+from unittest                                                import TestCase
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Default__Types import Schema__MGraph__Default__Types
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph          import Schema__MGraph__Graph
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph__Config  import Schema__MGraph__Graph__Config
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Node           import Schema__MGraph__Node
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Config   import Schema__MGraph__Node__Config
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge           import Schema__MGraph__Edge
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge__Config   import Schema__MGraph__Edge__Config
+from osbot_utils.helpers.Random_Guid                         import Random_Guid
 
 class Simple_Node(Schema__MGraph__Node): pass    # Helper class for testing
 
 class test_Schema__MGraph__Graph(TestCase):
 
     def setUp(self):    # Initialize test data
-        self.graph_config = Schema__MGraph__Graph_Config(
-            graph_id          = Random_Guid(),
-            default_node_type = Simple_Node,
-            default_edge_type = Schema__MGraph__Edge
-        )
-
-        self.node_config = Schema__MGraph__Node_Config(
-            node_id    = Random_Guid(),
-            value_type = str
-        )
-        self.node = Schema__MGraph__Node(
-            attributes  = {},
-            node_config = self.node_config,
-            node_type   = Simple_Node,
-            value      = "test_value"
-        )
-
-        self.edge_config = Schema__MGraph__Edge_Config(
-            edge_id        = Random_Guid(),
-            from_node_type = Simple_Node,
-            to_node_type   = Simple_Node
-        )
-        self.edge = Schema__MGraph__Edge(
-            attributes   = {},
-            edge_config  = self.edge_config,
-            edge_type    = Schema__MGraph__Edge,
-            from_node_id = Random_Guid(),
-            to_node_id   = Random_Guid()
-        )
-
-        self.graph = Schema__MGraph__Graph(
-            nodes        = {self.node.node_config.node_id: self.node},
-            edges        = {self.edge.edge_config.edge_id: self.edge},
-            graph_config = self.graph_config,
-            graph_type   = Schema__MGraph__Graph
-        )
+        self.default_types = Schema__MGraph__Default__Types(node_type      = Simple_Node         ,
+                                                            edge_type      = Schema__MGraph__Edge)
+        self.graph_config  = Schema__MGraph__Graph__Config (graph_id       = Random_Guid()       )
+        self.node_config   = Schema__MGraph__Node__Config  (node_id        = Random_Guid()       ,
+                                                            value_type     = str                 )
+        self.node          = Schema__MGraph__Node          (attributes     = {}                  ,
+                                                            node_config    = self.node_config    ,
+                                                            node_type      = Simple_Node         ,
+                                                            value          = "test_value"        )
+        self.edge_config   = Schema__MGraph__Edge__Config  (edge_id        = Random_Guid()       )
+        self.edge          = Schema__MGraph__Edge          (attributes     = {}                  ,
+                                                            edge_config    = self.edge_config    ,
+                                                            edge_type      = Schema__MGraph__Edge,
+                                                            from_node_id   = Random_Guid()       ,
+                                                            to_node_id     = Random_Guid()       )
+        self.graph         = Schema__MGraph__Graph         (default_types  = self.default_types                        ,
+                                                            edges          = {self.edge.edge_config.edge_id: self.edge},
+                                                            graph_config   = self.graph_config                         ,
+                                                            graph_type     = Schema__MGraph__Graph                     ,
+                                                            nodes          = {self.node.node_config.node_id: self.node},)
 
     def test_init(self):    # Tests basic initialization and type checking
         assert type(self.graph)                                    is Schema__MGraph__Graph
@@ -77,7 +62,7 @@ class test_Schema__MGraph__Graph(TestCase):
         assert "Expected a dictionary, but got '<class 'str'>'" == str(context.exception)
 
     def test_multiple_nodes_and_edges(self):    # Tests graph with multiple nodes and edges
-        node_config_2 = Schema__MGraph__Node_Config(
+        node_config_2 = Schema__MGraph__Node__Config(
             node_id    = Random_Guid(),
             value_type = int
         )
@@ -88,11 +73,7 @@ class test_Schema__MGraph__Graph(TestCase):
             value      = 42
         )
 
-        edge_config_2 = Schema__MGraph__Edge_Config(
-            edge_id        = Random_Guid(),
-            from_node_type = Simple_Node,
-            to_node_type   = Simple_Node
-        )
+        edge_config_2 = Schema__MGraph__Edge__Config(edge_id=Random_Guid())
         edge_2 = Schema__MGraph__Edge(
             attributes   = {},
             edge_config  = edge_config_2,

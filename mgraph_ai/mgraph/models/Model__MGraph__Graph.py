@@ -1,81 +1,51 @@
-from typing                                                import Any, Type, Dict, List
-
-from osbot_utils.helpers.Random_Guid import Random_Guid
-
-from mgraph_ai.mgraph.models.Model__MGraph__Edge           import Model__MGraph__Edge
-from mgraph_ai.mgraph.models.Model__MGraph__Node           import Model__MGraph__Node
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Attribute    import Schema__MGraph__Attribute
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph        import Schema__MGraph__Graph
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node         import Schema__MGraph__Node
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge         import Schema__MGraph__Edge
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node_Config  import Schema__MGraph__Node_Config
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge_Config  import Schema__MGraph__Edge_Config
-from osbot_utils.type_safe.Type_Safe                       import Type_Safe
-from osbot_utils.type_safe.decorators.type_safe            import type_safe
+from typing                                                 import Type, List
+from osbot_utils.helpers.Random_Guid                        import Random_Guid
+from mgraph_ai.mgraph.models.Model__MGraph__Edge            import Model__MGraph__Edge
+from mgraph_ai.mgraph.models.Model__MGraph__Node            import Model__MGraph__Node
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph         import Schema__MGraph__Graph
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Node          import Schema__MGraph__Node
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge          import Schema__MGraph__Edge
+from osbot_utils.type_safe.Type_Safe                        import Type_Safe
+from osbot_utils.type_safe.decorators.type_safe             import type_safe
 
 
 class Model__MGraph__Graph(Type_Safe):
-    data: Schema__MGraph__Graph
+    data           : Schema__MGraph__Graph
+    node_model_type: Type[Model__MGraph__Node]
+    edge_model_type: Type[Model__MGraph__Edge]
 
     @type_safe
     def add_node(self, node: Schema__MGraph__Node) -> Model__MGraph__Node:                            # Add a node to the graph
         self.data.nodes[node.node_config.node_id] = node
-        return Model__MGraph__Node(data=node)
+        return self.node_model_type(data=node)
 
     @type_safe
     def add_edge(self, edge: Schema__MGraph__Edge) -> Model__MGraph__Edge:                            # Add an edge to the graph
         if edge.from_node_id not in self.data.nodes:
-            raise ValueError(f"Source node {edge.from_node_id} not found")
+            raise ValueError(f"From node {edge.from_node_id} not found")
         if edge.to_node_id not in self.data.nodes:
-            raise ValueError(f"Target node {edge.to_node_id} not found")
+            raise ValueError(f"To node {edge.to_node_id} not found")
 
         self.data.edges[edge.edge_config.edge_id] = edge
-        return Model__MGraph__Edge(data=edge)
+        return self.edge_model_type(data=edge)
 
-    @type_safe
-    def new_node(self, value     : Any                                                ,
-                       node_type : Type[Schema__MGraph__Node                  ] = None,
-                       attributes: Dict[Random_Guid, Schema__MGraph__Attribute] = None) -> Model__MGraph__Node:         # Create and add a new node to the graph
-
-        if node_type is None:
-            node_type = self.data.graph_config.default_node_type
-
-        node_config = Schema__MGraph__Node_Config(value_type  = type(value)  )
-        node        = Schema__MGraph__Node       (attributes  = attributes   ,
-                                                  node_config = node_config  ,
-                                                  node_type   = node_type    ,
-                                                  value       = value        )
-
-        return self.add_node(node)
-
-    @type_safe
-    def new_edge(self, from_node_id: Random_Guid,
-                       to_node_id  : Random_Guid) -> Model__MGraph__Edge:                                               # Create and add a new edge between nodes
-
-        from_node = self.data.nodes.get(from_node_id)
-        to_node   = self.data.nodes.get(to_node_id  )
-        if from_node is None:
-            raise ValueError(f"From node {from_node_id} not found")
-        if to_node is None:
-            raise ValueError(f"To node {to_node_id} not found")
-
-        edge_config = Schema__MGraph__Edge_Config(edge_id        = Random_Guid()                            ,
-                                                  from_node_type = self.data.nodes[from_node_id].node_type  ,
-                                                  to_node_type   = self.data.nodes[to_node_id  ].node_type  )
-        edge        = Schema__MGraph__Edge       (attributes     = {}                                       ,
-                                                  edge_config    = edge_config                              ,
-                                                  from_node_id   = from_node_id                             ,
-                                                  to_node_id     = to_node_id                               )
-
+    def new_edge(self, **kwargs) -> Model__MGraph__Edge:
+        edge_type = self.data.default_types.edge_type
+        edge      = edge_type(**kwargs)
         return self.add_edge(edge)
 
+    def new_node(self, **kwargs):
+        node_type = self.data.default_types.node_type
+        node      = node_type(**kwargs)
+        return self.add_node(node)
+
     def edges(self):
-        return [Model__MGraph__Edge(data=data) for data in self.data.edges.values()]
+        return [self.edge_model_type(data=data) for data in self.data.edges.values()]
 
     def edge(self, edge_id: Random_Guid) -> Model__MGraph__Edge:
         data = self.data.edges.get(edge_id)
         if data:
-            return Model__MGraph__Edge(data=data)
+            return self.edge_model_type(data=data)
 
     def graph(self):
         return self.data
@@ -83,10 +53,10 @@ class Model__MGraph__Graph(Type_Safe):
     def node(self, node_id: Random_Guid) -> Model__MGraph__Node:
         data = self.data.nodes.get(node_id)
         if data:
-            return Model__MGraph__Node(data=data)
+            return self.node_model_type(data=data)
 
     def nodes(self) -> List[Model__MGraph__Node]:
-        return [Model__MGraph__Node(data=node) for node in self.data.nodes.values()]
+        return [self.node_model_type(data=node) for node in self.data.nodes.values()]
 
     @type_safe
     def delete_node(self, node_id: Random_Guid) -> 'Model__MGraph__Graph':                              # Remove a node and all its connected edges

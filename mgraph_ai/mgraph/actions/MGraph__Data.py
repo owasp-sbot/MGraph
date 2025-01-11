@@ -17,5 +17,8 @@ class MGraph__Data(Type_Safe):
     def edges(self) -> List[MGraph__Edge]:                                                                              # Get all edges in the graph
         return self.graph.edges()
 
+    def graph_id(self):
+        return self.graph.graph_id()
+
     def nodes(self) -> List[MGraph__Node]:                                                                              # Get all nodes in the graph
         return self.graph.nodes()

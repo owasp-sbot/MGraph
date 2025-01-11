@@ -12,15 +12,18 @@ class MGraph__Node(Type_Safe):                                                  
     node : Model__MGraph__Node                                                             # Reference to node model
     graph: Model__MGraph__Graph                                                            # Reference to graph model
 
+    def node_config(self):
+        return self.node.data.node_config
+
+    def node_id(self) -> Random_Guid:
+        return self.node.data.node_config.node_id
+
     def value(self) -> Any:                                                                # Get node value
         return self.node.value()
 
     def set_value(self, value: Any) -> 'MGraph__Node':                                    # Set node value with type checking
         self.node.set_value(value)
         return self
-
-    def id(self) -> Random_Guid:                                                           # Get node ID
-        return self.node.data.node_config.node_id
 
     def add_attribute(self, name     : Safe_Id    ,
                             value    : Any        ,
@@ -43,3 +46,6 @@ class MGraph__Node(Type_Safe):                                                  
         return [MGraph__Attribute(attribute = Model__MGraph__Attribute(data=attr),
                                   graph     = self.graph                         )
                 for attr in self.node.data.attributes.values()]
+
+    def graph_id(self):
+        return self.graph.data.graph_config.graph_id
