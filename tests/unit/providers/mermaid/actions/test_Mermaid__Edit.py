@@ -2,6 +2,7 @@ from unittest                                                            import 
 
 from mgraph_ai.providers.mermaid.domain.Mermaid import Mermaid
 from mgraph_ai.providers.mermaid.domain.Mermaid__Edge                    import Mermaid__Edge
+from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Diagram_Direction import Schema__Mermaid__Diagram__Direction
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Render__Config import Schema__Mermaid__Render__Config
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Diagram__Type  import Schema__Mermaid__Diagram__Type
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Config   import Schema__Mermaid__Node__Config
@@ -114,3 +115,10 @@ class test__Mermaid__Edit(TestCase):
                                  diagram_type      ='graph',
                                  line_before_edges = True  ,
                                  directives        = []    )
+
+    def test_set_direction(self):
+        with self.mermaid__edit as _:
+            assert _.set_direction(Schema__Mermaid__Diagram__Direction.LR) is _
+            assert _.graph.model.data.render_config.diagram_direction == Schema__Mermaid__Diagram__Direction.LR
+            assert _.set_direction('RL') is _
+            assert _.graph.model.data.render_config.diagram_direction == Schema__Mermaid__Diagram__Direction.RL

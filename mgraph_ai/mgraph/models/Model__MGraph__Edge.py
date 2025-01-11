@@ -17,9 +17,6 @@ class Model__MGraph__Edge(Type_Safe):
     def from_node_id(self) -> Random_Guid:
         return self.data.from_node_id
 
-    def from_node_type(self) -> Type[Schema__MGraph__Node]:
-        return self.edge_config().from_node_type
-
     def get_attribute(self, attribute_id: Random_Guid) -> Schema__MGraph__Attribute:
         return self.data.attributes.get(attribute_id)
 
@@ -31,6 +28,3 @@ class Model__MGraph__Edge(Type_Safe):
 
     def to_node_id(self) -> Random_Guid:
         return self.data.to_node_id
-
-    def to_node_type(self) -> Type[Schema__MGraph__Node]:
-        return self.edge_config().to_node_type

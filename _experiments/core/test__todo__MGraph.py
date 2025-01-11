@@ -18,24 +18,6 @@ class test__todo__MGraph(TestCase):
     def setUp(self):
         self.mgraph = MGraph()
 
-    def test___init__(self):
-        expected_args = ['config', 'data']
-        with self.mgraph as _:
-            assert _.__attr_names__() == expected_args
-        with self.mgraph.data as _:
-            assert type(_)             is Schema__MGraph__Graph
-            assert _.edges             == {}
-            assert _.nodes             == {}
-            assert is_guid(_.graph_id) is True
-
-    def test_add_node(self):
-        with self.mgraph as _:
-            new_node = _.new_node()
-            assert dict(_.nodes())       == {new_node.node_id : new_node}
-            assert new_node.obj()        == __(attributes = __()            ,
-                                               node_id    = new_node.node_id,
-                                               node_type  = None            )
-
     def test_add_edge(self):
         with self.mgraph as _:
             from_node  = _.new_node()

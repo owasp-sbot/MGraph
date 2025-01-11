@@ -43,6 +43,8 @@ class Mermaid__Edit(MGraph__Edit):
             edge.edge.data.label = label                                    # todo: find a better way to set these properties (this
         return edge
 
+    def add_node(self, **kwargs) -> Mermaid__Node:                          # todo: see if we need this method
+        return self.new_node(**kwargs)
 
     @cache_on_self
     def data(self):
@@ -64,7 +66,7 @@ class Mermaid__Edit(MGraph__Edit):
         if isinstance(direction, Schema__Mermaid__Diagram__Direction):
             self.render_config().diagram_direction = direction
         elif isinstance(direction, str) and direction in Schema__Mermaid__Diagram__Direction.__members__:
-            self.render().diagram_direction = Schema__Mermaid__Diagram__Direction[direction]
+            self.render_config().diagram_direction = Schema__Mermaid__Diagram__Direction[direction]
         return self                             # If the value can't be set (not a valid name), do nothing
 
     def new_node(self, **kwargs) -> Mermaid__Node:
