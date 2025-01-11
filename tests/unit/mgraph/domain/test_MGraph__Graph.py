@@ -61,7 +61,7 @@ class test_MGraph__Graph(TestCase):
     def test_edge_operations(self):                                                         # Tests edge creation and management
         node1     = self.graph.new_node(value="from_value")                                       # Create nodes for edge
         node2     = self.graph.new_node(value="to_value"  )
-        edge      = self.graph.new_edge(node1.node_id(), node2.node_id())                             # Create an edge
+        edge      = self.graph.new_edge(from_node_id=node1.node_id(), to_node_id=node2.node_id())                             # Create an edge
         from_node = edge.from_node()
         to_node   = edge.to_node  ()
 
@@ -107,7 +107,7 @@ class test_MGraph__Graph(TestCase):
     def test_graph_state_persistence(self):                                                 # Test graph state persistence
         node1 = self.graph.new_node(value="node1")                                                # Create nodes and edge
         node2 = self.graph.new_node(value="node2")
-        edge  = self.graph.new_edge(node1.node_id(), node2.node_id())
+        edge  = self.graph.new_edge(from_node_id=node1.node_id(), to_node_id=node2.node_id())
 
         assert type(edge)                         == MGraph__Edge
         assert len(self.graph.nodes())            == 2                                      # Verify multiple graph queries

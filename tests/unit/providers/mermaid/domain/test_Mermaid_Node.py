@@ -107,26 +107,27 @@ class test_Mermaid_Node(TestCase):
 
 
         with Mermaid() as _:
-            _.edit().add_node(key='id')
+            _.edit().new_node(key='id')
             assert _.code() == 'graph LR\n    id["id"]\n'
 
 
-        return  # todo: wire up the methods below
+
 
         #return
         with Mermaid() as _:
-            _.add_node(key='id').wrap_with_quotes(False)
+            _.edit().new_node(key='id').wrap_with_quotes(False)
             assert _.code() == 'graph LR\n    id[id]\n'
 
         mermaid = Mermaid()
-        new_node = mermaid.add_node(key='id')
+        new_node = mermaid.edit().new_node(key='id')
         new_node.wrap_with_quotes(False)
+
         assert type(new_node) == Mermaid__Node
-        assert new_node.attributes == {}
+        assert new_node.attributes() == []
         assert mermaid.code() == 'graph LR\n    id[id]\n'
 
-    def test_add_node(self):
+    def test_new_node(self):
         key_value = 'this-is-an-key'
         with Mermaid() as _:
-            assert _.edit().add_node(key=key_value).node_key() == key_value
+            assert _.edit().new_node(key=key_value).node_key() == key_value
             assert _.render().code() == f'graph LR\n    {key_value}["{key_value}"]\n'

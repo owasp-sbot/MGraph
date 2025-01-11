@@ -1,6 +1,6 @@
 from typing                                                             import Dict
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Attribute                 import Schema__MGraph__Attribute
-from mgraph_ai.providers.mermaid.domain.Mermaid__Edge import Mermaid__Edge
+from mgraph_ai.providers.mermaid.domain.Mermaid__Edge                   import Mermaid__Edge
 from osbot_utils.helpers.Safe_Id                                        import Safe_Id
 from mgraph_ai.providers.mermaid.actions.Mermaid__Data                  import Mermaid__Data
 from mgraph_ai.providers.mermaid.actions.Mermaid__Render                import Mermaid__Render
@@ -23,9 +23,9 @@ class Mermaid__Edit(MGraph__Edit):
         from_node     = nodes__by_key.get(from_node_key)            # todo: add method to data to get these nodes
         to_node       = nodes__by_key.get(to_node_key  )            # todo: add config option to auto create node on edges (where that node doesn't exist)
         if from_node is None:
-            from_node = self.add_node(key=from_node_key)
+            from_node = self.new_node(key=from_node_key)
         if to_node  is None:
-            to_node = self.add_node(key=to_node_key)
+            to_node = self.new_node(key=to_node_key)
 
         from_node_id    = from_node.node_id()
         to_node_id      = to_node.node_id()

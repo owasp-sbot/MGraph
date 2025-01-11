@@ -23,7 +23,7 @@ class test_MGraph__Edit(TestCase):
 
     def test_add_node(self):
         with self.graph_edit as _:
-            node    = _.add_node()
+            node    = _.new_node()
             node_id = node.node_id()
             assert type(node)       is MGraph__Node
             assert is_guid(node_id) is True
@@ -34,7 +34,7 @@ class test_MGraph__Edit(TestCase):
                                           graph=self.model_graph.obj())
             assert node.node.json() == self.model_graph.node(node_id=node_id).json()
 
-            assert _.add_node(value='aaaa').value() == 'aaaa'
+            assert _.new_node(value='aaaa').value() == 'aaaa'
 
     def test_new_node(self):
         node = self.graph_edit.new_node(value="test_value")                                                                         # Create a simple node
@@ -55,7 +55,7 @@ class test_MGraph__Edit(TestCase):
     def test_new_edge(self):
         node1 = self.graph_edit.new_node(value="node1")                                                                             # Create two nodes
         node2 = self.graph_edit.new_node(value="node2")
-        edge  = self.graph_edit.new_edge(node1.node_id(), node2.node_id())                                                              # Create edge between nodes
+        edge  = self.graph_edit.new_edge(from_node_id=node1.node_id(), to_node_id=node2.node_id())                                                              # Create edge between nodes
 
         assert edge is not None
         assert edge.from_node().value() == "node1"
@@ -66,8 +66,8 @@ class test_MGraph__Edit(TestCase):
             node_1 = _.new_node(value="test_node"   )                                # Create 3x nodes and 2x edges
             node_2 = _.new_node(value="another_node")
             node_3 = _.new_node(value="3rd node"    )
-            edge_1 = _.new_edge(node_1.node_id(), node_2.node_id())
-            edge_2 = _.new_edge(node_2.node_id(), node_3.node_id())
+            edge_1 = _.new_edge(from_node_id=node_1.node_id(), to_node_id=node_2.node_id())
+            edge_2 = _.new_edge(from_node_id=node_2.node_id(), to_node_id=node_3.node_id())
 
             assert _.delete_node(node_1.node_id()) is True                       # Test node deletion
             assert _.delete_node(node_1.node_id()) is False

@@ -1,12 +1,10 @@
-from typing                                             import Any, Type, Dict, List
+from typing                                             import Type, List
 from mgraph_ai.mgraph.models.Model__MGraph__Edge        import Model__MGraph__Edge
 from mgraph_ai.mgraph.models.Model__MGraph__Node        import Model__MGraph__Node
 from osbot_utils.helpers.Random_Guid                    import Random_Guid
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Attribute import Schema__MGraph__Attribute
 from mgraph_ai.mgraph.domain.MGraph__Edge               import MGraph__Edge
 from mgraph_ai.mgraph.domain.MGraph__Node               import MGraph__Node
 from mgraph_ai.mgraph.models.Model__MGraph__Graph       import Model__MGraph__Graph
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node      import Schema__MGraph__Node
 from osbot_utils.type_safe.Type_Safe                    import Type_Safe
 
 
@@ -38,18 +36,9 @@ class MGraph__Graph(Type_Safe):
     def mgraph_node(self, node: Model__MGraph__Node) -> MGraph__Edge:
         return self.node_domain_type(node=node, graph=self.model)
 
-    def new_edge(self, from_node_id: Random_Guid                                  = None,
-                       to_node_id  : Random_Guid                                  = None,
-                       attributes  : Dict[Random_Guid, Schema__MGraph__Attribute] = None) -> MGraph__Edge:
-
-        edge = self.model.new_edge(from_node_id=from_node_id, to_node_id=to_node_id, attributes=attributes)
+    def new_edge(self, **kwargs) -> MGraph__Edge:
+        edge = self.model.new_edge(**kwargs)
         return self.mgraph_edge(edge=edge)
-
-    # def new_node(self, value     : Any                                                ,
-    #                    node_type : Type[Schema__MGraph__Node                  ] = None,
-    #                    attributes: Dict[Random_Guid, Schema__MGraph__Attribute] = None)-> MGraph__Node:
-    #     node = self.model.new_node(value=value, node_type=node_type, attributes=attributes)
-    #     return self.mgraph_node(node=node)
 
     def new_node(self, **kwargs)-> MGraph__Node:
         node = self.model.new_node(**kwargs)

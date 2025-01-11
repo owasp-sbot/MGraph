@@ -56,7 +56,7 @@ class test_Model__MGraph__Graph(TestCase):
         node_2    = self.graph.new_node(value="node2")
         node_1_id = node_1.node_id()
         node_2_id = node_2.node_id()
-        edge      = self.graph.new_edge(node_1_id,node_2_id)                                # Test edge creation
+        edge      = self.graph.new_edge(from_node_id=node_1_id,to_node_id=node_2_id)                                # Test edge creation
         edge_id   = edge.edge_id()
         retrieved = self.graph.edge(edge_id)                                                # Test edge retrieval
 
@@ -78,8 +78,8 @@ class test_Model__MGraph__Graph(TestCase):
         node_2_id = node_2.node_id()
         node_3_id = node_3.node_id()
 
-        edge_1    = self.graph.new_edge(node_1_id, node_2_id)                               # Create edges
-        edge_2    = self.graph.new_edge(node_2_id, node_3_id)
+        edge_1    = self.graph.new_edge(from_node_id=node_1_id, to_node_id=node_2_id)                               # Create edges
+        edge_2    = self.graph.new_edge(from_node_id=node_2_id, to_node_id=node_3_id)
         edge_1_id = edge_1.edge_id()
         edge_2_id = edge_2.edge_id()
 
@@ -92,15 +92,15 @@ class test_Model__MGraph__Graph(TestCase):
 
     def test_edge_validation(self):                                                         # Tests edge validation
         with pytest.raises(ValueError, match="From node .* not found"):                     # Test creating edge with non-existent nodes
-            self.graph.new_edge(Random_Guid(), Random_Guid())
+            self.graph.new_edge(from_node_id=Random_Guid(), to_node_id=Random_Guid())
 
         node_ok_id = self.graph.new_node(value="test_value").node_id()
         node_bad_id = Random_Guid()
         with pytest.raises(ValueError, match=f"To node {node_bad_id} not found"):
-            self.graph.new_edge(node_ok_id, node_bad_id)
+            self.graph.new_edge(from_node_id=node_ok_id, to_node_id=node_bad_id)
 
         with pytest.raises(ValueError, match=f"From node {node_bad_id} not found"):
-            self.graph.new_edge(node_bad_id, node_ok_id)
+            self.graph.new_edge(from_node_id=node_bad_id, to_node_id=node_ok_id)
 
     def test_custom_node_types(self):                                                       # Tests creation of nodes with custom types
         class Custom_Node(Simple_Node): pass
@@ -148,19 +148,17 @@ class test_Model__MGraph__Graph(TestCase):
         node_1_id = node_1.node_id()
         node_2_id = node_2.node_id()
 
-        edge_1 = self.graph.new_edge(node_1_id, node_2_id)                                   # Create edge between nodes
-        assert type(edge_1)            is Model__MGraph__Edge
-        assert edge_1.from_node_type() == Simple_Node                                        # Verify edge node types
-        assert edge_1.to_node_type  () == Another_Node
+        edge_1 = self.graph.new_edge(from_node_id=node_1_id, to_node_id=node_2_id)                                   # Create edge between nodes
 
-        assert self.graph.delete_node(node_2_id) is True                                     # Test edge validation with deleted node
-        assert self.graph.delete_node(node_2_id) is False
+        assert type(edge_1)                              is Model__MGraph__Edge
+        assert self.graph.delete_node(node_id=node_2_id) is True                                     # Test edge validation with deleted node
+        assert self.graph.delete_node(node_id=node_2_id) is False
 
-        with pytest.raises(ValueError, match=f"Target node {node_2_id} not found"):
+        with pytest.raises(ValueError, match=f"To node {node_2_id} not found"):
             self.graph.add_edge(edge_1.data)
 
-        assert self.graph.delete_node(node_1_id) is True  # Test edge validation with deleted node
-        assert self.graph.delete_node(node_1_id) is False
+        assert self.graph.delete_node(node_id=node_1_id) is True  # Test edge validation with deleted node
+        assert self.graph.delete_node(node_id=node_1_id) is False
 
-        with pytest.raises(ValueError, match=f"Source node {node_1_id} not found"):
+        with pytest.raises(ValueError, match=f"From node {node_1_id} not found"):
             self.graph.add_edge(edge_1.data)

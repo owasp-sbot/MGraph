@@ -20,7 +20,7 @@ class test_MGraph__Data(TestCase):
     def test_node_and_edge_retrieval(self):
         node1           = self.data.graph.new_node().set_value('node_1')                                                # Create nodes and edges
         node2           = self.data.graph.new_node().set_value('node_2')
-        edge            = self.data.graph.new_edge(node1.node_id(), node2.node_id())
+        edge            = self.data.graph.new_edge(from_node_id=node1.node_id(), to_node_id=node2.node_id())
         retrieved_node = self.data.node(node1.node_id())                                                                # Test node retrieval
 
         assert retrieved_node         is not None
@@ -37,7 +37,7 @@ class test_MGraph__Data(TestCase):
     def test_list_nodes_and_edges(self):
         node1 = self.data.graph.new_node()                                                                       # Create multiple nodes and edges
         node2 = self.data.graph.new_node()
-        edge  = self.data.graph.new_edge(node1.node_id(), node2.node_id())
+        edge  = self.data.graph.new_edge(from_node_id=node1.node_id(), to_node_id=node2.node_id())
         nodes = self.data.graph.nodes()                                                                                 # get nodes list
         edges = self.data.graph.edges()                                                                                 # get edges list
 

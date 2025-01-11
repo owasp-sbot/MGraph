@@ -37,9 +37,7 @@ class test_MGraph__Edge(TestCase):
                                                 graph_type   = Schema__MGraph__Graph                                              )
 
         # Create edge configuration and schema
-        self.edge_config = Schema__MGraph__Edge__Config(edge_id        = Random_Guid(),
-                                                        from_node_type = Schema__MGraph__Node,
-                                                        to_node_type   = Schema__MGraph__Node)
+        self.edge_config = Schema__MGraph__Edge__Config(edge_id        = Random_Guid())
         self.schema_edge = Schema__MGraph__Edge       (attributes     = {}                   ,
                                                        edge_config    = self.edge_config     ,
                                                        edge_type      = Schema__MGraph__Edge ,

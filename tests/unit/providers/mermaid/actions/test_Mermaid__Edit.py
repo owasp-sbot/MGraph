@@ -1,8 +1,5 @@
 from unittest                                                           import TestCase
-
-from osbot_utils.testing.Stdout import Stdout
-
-from mgraph_ai.providers.mermaid.configs.Mermaid__Render__Config import Mermaid__Render__Config
+from mgraph_ai.providers.mermaid.configs.Mermaid__Render__Config        import Mermaid__Render__Config
 from mgraph_ai.providers.mermaid.domain.Mermaid__Edge                   import Mermaid__Edge
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Diagram__Type import Schema__Mermaid__Diagram__Type
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Config  import Schema__Mermaid__Node__Config
@@ -31,7 +28,7 @@ class test__Mermaid__Edit(TestCase):
         with self.mermaid__edit as _:
             _.set_diagram_type(Schema__Mermaid__Diagram__Type.flowchart)
             _.add_directive   ('init: {"flowchart": {"htmlLabels": false}} ')
-            _.add_node        (key='markdown', label='This **is** _Markdown_').markdown()
+            _.new_node        (key='markdown', label='This **is** _Markdown_').markdown()
 
             assert _.code() ==  ('%%{init: {"flowchart": {"htmlLabels": false}} }%%\n'
                                  'flowchart LR\n'
@@ -74,7 +71,7 @@ class test__Mermaid__Edit(TestCase):
 
     def test_add_node(self):
         with self.mermaid__edit as _:
-            node        = _.add_node()
+            node        = _.new_node()
             node_id     = node.node_id()
             node_key    = node.node_key()
             node_config = node.node_config()
@@ -95,7 +92,7 @@ class test__Mermaid__Edit(TestCase):
                                                            value       =None )),
                                            graph = _.graph.model.obj())
 
-        node_2 = _.add_node(key='an-key', value='an-value', label = 'an-label')
+        node_2 = _.new_node(key='an-key', value='an-value', label = 'an-label')
         assert node_2.node.data.obj() == __(key         = 'an-key'                   ,
                                             label       = 'an-label'                 ,
                                             node_config = node_2.node_config().obj() ,
