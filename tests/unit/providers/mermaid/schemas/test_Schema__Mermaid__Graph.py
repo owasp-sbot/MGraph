@@ -25,13 +25,11 @@ class test_Schema__Mermaid__Graph(TestCase):
                                                             key         = Safe_Id("node_1")                                       ,
                                                             label       = "Test Node"                                             )
         self.edge          = Schema__Mermaid__Edge         (attributes   = {}                                                                    ,
-                                                            edge_config  = Schema__Mermaid__Edge__Config(edge_id        = Random_Guid()          ,
-                                                                                                         from_node_type = Schema__Mermaid__Node  ,
-                                                                                                         to_node_type    = Schema__Mermaid__Node),
-                                                            edge_type    = Schema__Mermaid__Edge                                                 ,
-                                                            from_node_id = Random_Guid()                                                         ,
-                                                            to_node_id   = Random_Guid()                                                         ,
-                                                            label        = "Test Edge"                                                           )
+                                                            edge_config  = Schema__Mermaid__Edge__Config(edge_id= Random_Guid()   ),
+                                                            edge_type    = Schema__Mermaid__Edge                                   ,
+                                                            from_node_id = Random_Guid()                                           ,
+                                                            to_node_id   = Random_Guid()                                           ,
+                                                            label        = "Test Edge"                                             )
         self.graph          = Schema__Mermaid__Graph       (default_types = self.default_types                       ,
                                                             edges        = {self.edge.edge_config.edge_id: self.edge},
                                                             nodes        = {self.node.node_config.node_id: self.node},

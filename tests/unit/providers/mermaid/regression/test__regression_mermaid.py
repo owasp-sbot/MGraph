@@ -4,7 +4,6 @@ from unittest                                                  import TestCase
 from mgraph_ai.providers.mermaid.domain.Mermaid                import Mermaid
 from mgraph_ai.providers.mermaid.domain.Mermaid__Edge          import Mermaid__Edge
 from mgraph_ai.providers.mermaid.domain.Mermaid__Node          import Mermaid__Node
-from mgraph_ai.providers.mermaid.configs.Mermaid__Edge__Config import Mermaid__Edge__Config
 from osbot_utils.utils.Misc                                    import list_set
 from osbot_utils.utils.Objects                                 import obj_data
 
@@ -58,8 +57,7 @@ class test__regression__mermaid(TestCase):
         from_node     = from_node_key
         to_node       = to_node_key
 
-        assert Mermaid__Edge.__annotations__ == { 'config'   : Mermaid__Edge__Config ,
-                                                  'label'    : str                   }
+        assert Mermaid__Edge.__annotations__ == { }
         assert type(from_node) is str                                                           # confirm that both variables are of type str
         assert type(to_node  ) is str
 

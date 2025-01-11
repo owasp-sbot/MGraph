@@ -44,8 +44,13 @@ class test_Mermaid_Node(TestCase):
                                                                      graph_title           = ''       ,
                                                                      graph_id              = graph_id ),
                                                   graph_type    = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Graph.Schema__Mermaid__Graph',
-                                                  mermaid_code = [],
-                                                  nodes        = __()),
+                                                  mermaid_code  = [],
+                                                  nodes         = __(),
+                                                  render_config = __(add_nodes         = True   ,
+                                                                                         diagram_direction = 'LR'   ,
+                                                                                         diagram_type      = 'graph',
+                                                                                         line_before_edges = True   ,
+                                                                                         directives        = []     )),
                                           node_model_type = 'mgraph_ai.providers.mermaid.models.Model__Mermaid__Node.Model__Mermaid__Node',
                                           edge_model_type = 'mgraph_ai.providers.mermaid.models.Model__Mermaid__Edge.Model__Mermaid__Edge'))
 

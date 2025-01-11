@@ -1,14 +1,17 @@
-from typing                                                             import Dict
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Attribute                 import Schema__MGraph__Attribute
-from mgraph_ai.providers.mermaid.domain.Mermaid__Edge                   import Mermaid__Edge
-from osbot_utils.helpers.Safe_Id                                        import Safe_Id
-from mgraph_ai.providers.mermaid.actions.Mermaid__Data                  import Mermaid__Data
-from mgraph_ai.providers.mermaid.actions.Mermaid__Render                import Mermaid__Render
-from mgraph_ai.providers.mermaid.configs.Mermaid__Render__Config        import Mermaid__Render__Config
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Diagram__Type import Schema__Mermaid__Diagram__Type
-from osbot_utils.decorators.methods.cache_on_self                       import cache_on_self
-from mgraph_ai.mgraph.actions.MGraph__Edit                              import MGraph__Edit
-from mgraph_ai.providers.mermaid.domain.Mermaid__Graph                  import Mermaid__Graph
+from typing                                                                 import Dict
+
+from mgraph_ai.providers.mermaid.domain.Mermaid__Node import Mermaid__Node
+from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Render__Config    import Schema__Mermaid__Render__Config
+from osbot_utils.utils.Misc                                                 import random_text
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Attribute                     import Schema__MGraph__Attribute
+from mgraph_ai.providers.mermaid.domain.Mermaid__Edge                       import Mermaid__Edge
+from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Diagram_Direction import Schema__Mermaid__Diagram__Direction
+from osbot_utils.helpers.Safe_Id                                            import Safe_Id
+from mgraph_ai.providers.mermaid.actions.Mermaid__Data                      import Mermaid__Data
+from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Diagram__Type     import Schema__Mermaid__Diagram__Type
+from osbot_utils.decorators.methods.cache_on_self                           import cache_on_self
+from mgraph_ai.mgraph.actions.MGraph__Edit                                  import MGraph__Edit
+from mgraph_ai.providers.mermaid.domain.Mermaid__Graph                      import Mermaid__Graph
 
 
 class Mermaid__Edit(MGraph__Edit):
@@ -41,20 +44,28 @@ class Mermaid__Edit(MGraph__Edit):
         return edge
 
 
-    def code(self) -> str:
-        return self.graph_render().code()
-
     @cache_on_self
     def data(self):
         return Mermaid__Data(graph=self.graph)                  # todo: look at the best way to do this (i.e. give access to this class the info inside data)
 
-    @cache_on_self
-    def graph_render(self) -> Mermaid__Render:                  # todo: review this since we really shouldn't need be able to access the Mermaid__Render here
-        return Mermaid__Render(graph=self.graph)
+    def new_edge(self):
+        from_node_key = random_text('node', lowercase=True)
+        to_node_key   = random_text('node', lowercase=True)
+        return self.add_edge(from_node_key, to_node_key)
 
-    def render_config(self) -> Mermaid__Render__Config:         # todo: review this since we really should be able to access the Mermaid__Render__Config outside the Mermaid__Render object
-            return self.graph_render().config
+    def render_config(self) -> Schema__Mermaid__Render__Config:         # todo: review this since we really should be able to access the Mermaid__Render__Config outside the Mermaid__Render object
+        return self.graph.model.data.render_config
 
-    def set_diagram_type(self, diagram_type):
+    def set_diagram_type(self, diagram_type):                           # todo: should this be moved into the render class?
         if isinstance(diagram_type, Schema__Mermaid__Diagram__Type):
-            self.graph_render().diagram_type = diagram_type
+            self.render_config().diagram_type = diagram_type
+
+    def set_direction(self, direction):
+        if isinstance(direction, Schema__Mermaid__Diagram__Direction):
+            self.render_config().diagram_direction = direction
+        elif isinstance(direction, str) and direction in Schema__Mermaid__Diagram__Direction.__members__:
+            self.render().diagram_direction = Schema__Mermaid__Diagram__Direction[direction]
+        return self                             # If the value can't be set (not a valid name), do nothing
+
+    def new_node(self, **kwargs) -> Mermaid__Node:
+        return super().new_node(**kwargs)

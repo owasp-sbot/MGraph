@@ -1,22 +1,26 @@
-from unittest                                                           import TestCase
-from mgraph_ai.providers.mermaid.configs.Mermaid__Render__Config        import Mermaid__Render__Config
-from mgraph_ai.providers.mermaid.domain.Mermaid__Edge                   import Mermaid__Edge
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Diagram__Type import Schema__Mermaid__Diagram__Type
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Config  import Schema__Mermaid__Node__Config
-from osbot_utils.helpers.Safe_Id                                        import Safe_Id
-from osbot_utils.utils.Objects                                          import __, obj
-from mgraph_ai.providers.mermaid.domain.Mermaid__Node                   import Mermaid__Node
-from osbot_utils.utils.Misc                                             import is_guid
-from mgraph_ai.mgraph.actions.MGraph__Edit                              import MGraph__Edit
-from mgraph_ai.providers.mermaid.actions.Mermaid__Edit                  import Mermaid__Edit
-from mgraph_ai.providers.mermaid.domain.Mermaid__Graph                  import Mermaid__Graph
+from unittest                                                            import TestCase
+
+from mgraph_ai.providers.mermaid.domain.Mermaid import Mermaid
+from mgraph_ai.providers.mermaid.domain.Mermaid__Edge                    import Mermaid__Edge
+from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Render__Config import Schema__Mermaid__Render__Config
+from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Diagram__Type  import Schema__Mermaid__Diagram__Type
+from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Config   import Schema__Mermaid__Node__Config
+from osbot_utils.helpers.Safe_Id                                         import Safe_Id
+from osbot_utils.utils.Objects                                           import __, obj
+from mgraph_ai.providers.mermaid.domain.Mermaid__Node                    import Mermaid__Node
+from osbot_utils.utils.Misc                                              import is_guid
+from mgraph_ai.mgraph.actions.MGraph__Edit                               import MGraph__Edit
+from mgraph_ai.providers.mermaid.actions.Mermaid__Edit                   import Mermaid__Edit
+from mgraph_ai.providers.mermaid.domain.Mermaid__Graph                   import Mermaid__Graph
 
 
 class test__Mermaid__Edit(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.mermaid__edit = Mermaid__Edit()
+        cls.mermaid         = Mermaid()
+        cls.mermaid__edit   = cls.mermaid.edit()
+        cls.mermaid__render = cls.mermaid.render()
 
     def test__init__(self):
         with self.mermaid__edit as _:
@@ -30,6 +34,7 @@ class test__Mermaid__Edit(TestCase):
             _.add_directive   ('init: {"flowchart": {"htmlLabels": false}} ')
             _.new_node        (key='markdown', label='This **is** _Markdown_').markdown()
 
+        with self.mermaid__render as _:
             assert _.code() ==  ('%%{init: {"flowchart": {"htmlLabels": false}} }%%\n'
                                  'flowchart LR\n'
                                  '    markdown["`This **is** _Markdown_`"]\n')
@@ -61,9 +66,10 @@ class test__Mermaid__Edit(TestCase):
                                                                     attribute_type  = 'builtins.str'))
             attributes = obj({attribute_id: edge_attributes[0].attribute.data.json()})
             assert edge.edge.obj() == __(data         =__(label        = label,
-                                                          edge_config  = __(from_node_type = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node.Schema__Mermaid__Node',
-                                                                            to_node_type   = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node.Schema__Mermaid__Node',
-                                                                            edge_id        = edge_id                                                                          ),
+                                                          edge_config  = __(edge_id          = edge_id ,
+                                                                            output_node_from = False   ,
+                                                                            output_node_to   = False   ,
+                                                                            edge_mode        = ''      ),
                                                           edge_type    = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge.Schema__Mermaid__Edge',
                                                           attributes   = attributes                                     ,
                                                           from_node_id = from_node.node_id()                            ,
@@ -102,7 +108,9 @@ class test__Mermaid__Edit(TestCase):
 
     def test_render_config(self):
         with Mermaid__Edit().render_config() as _:
-            assert type(_) is Mermaid__Render__Config
-            assert _.obj() == __(add_nodes         = True,
-                                 line_before_edges = True,
-                                 directives        = []  )
+            assert type(_) is Schema__Mermaid__Render__Config
+            assert _.obj() == __(add_nodes         = True  ,
+                                 diagram_direction ='LR'   ,
+                                 diagram_type      ='graph',
+                                 line_before_edges = True  ,
+                                 directives        = []    )

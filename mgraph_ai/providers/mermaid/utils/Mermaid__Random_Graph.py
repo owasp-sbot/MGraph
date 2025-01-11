@@ -44,9 +44,7 @@ class Mermaid__Random_Graph(MGraph__Random_Graph):
                                   to_node  : Schema__Mermaid__Node,
                                   label    : str = None) -> Schema__Mermaid__Edge:
 
-        edge_config = Schema__Mermaid__Edge__Config(edge_id        = Random_Guid()                  ,
-                                                    from_node_type = from_node.node_type            ,
-                                                    to_node_type   = to_node.node_type              )
+        edge_config = Schema__Mermaid__Edge__Config(edge_id        = Random_Guid()                  )
         return Schema__Mermaid__Edge               (attributes     = {}                             ,
                                                     edge_config    = edge_config                    ,
                                                     edge_type      = Schema__Mermaid__Edge          ,

@@ -2,11 +2,9 @@ from unittest                                                           import T
 from mgraph_ai.mgraph.models.Model__MGraph__Edge                        import Model__MGraph__Edge
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge                      import Schema__MGraph__Edge
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge__Config              import Schema__MGraph__Edge__Config
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node                      import Schema__MGraph__Node
 from osbot_utils.helpers.Random_Guid                                    import Random_Guid
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge          import Schema__Mermaid__Edge
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge__Config  import Schema__Mermaid__Edge__Config
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node          import Schema__Mermaid__Node
 from mgraph_ai.providers.mermaid.models.Model__Mermaid__Edge            import Model__Mermaid__Edge
 
 class test_Model__Mermaid__Edge(TestCase):
@@ -14,9 +12,7 @@ class test_Model__Mermaid__Edge(TestCase):
     def setUp(self):                                                                        # Initialize test data
         self.from_node_id = Random_Guid()
         self.to_node_id   = Random_Guid()
-        self.edge_config  = Schema__Mermaid__Edge__Config(edge_id        = Random_Guid()          ,
-                                                          from_node_type = Schema__Mermaid__Node  ,
-                                                          to_node_type   = Schema__Mermaid__Node  )
+        self.edge_config  = Schema__Mermaid__Edge__Config(edge_id        = Random_Guid()          )
         self.edge         = Schema__Mermaid__Edge        (attributes     = {}                     ,
                                                           edge_config    = self.edge_config       ,
                                                           edge_type      = Schema__Mermaid__Edge  ,
@@ -52,15 +48,3 @@ class test_Model__Mermaid__Edge(TestCase):
         assert isinstance(self.model.data, Schema__Mermaid__Edge)       is True
         assert type(self.model.data)                                    is Schema__Mermaid__Edge
         assert not type(self.model.data)                                is Schema__MGraph__Edge
-
-    def test_node_type_specifics(self):                                                    # Tests node type handling
-        # Verify node types are correctly set and returned
-        assert self.model.from_node_type() == Schema__Mermaid__Node
-        assert self.model.to_node_type()   == Schema__Mermaid__Node
-
-        with self.assertRaises(ValueError):                                                 # Verify type safety with different node types
-            Schema__Mermaid__Edge__Config(
-                edge_id        = Random_Guid(),
-                from_node_type = Schema__MGraph__Node,                                      # Invalid: using base node type
-                to_node_type   = Schema__Mermaid__Node
-            )

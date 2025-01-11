@@ -5,7 +5,7 @@ from mgraph_ai.mgraph.domain.MGraph__Graph              import MGraph__Graph
 
 class MGraph__Edit(Type_Safe):
     graph: MGraph__Graph
-    
+
     def new_node(self, **kwargs):
         return self.graph.new_node(**kwargs)
 

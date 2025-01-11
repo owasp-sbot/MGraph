@@ -2,7 +2,6 @@ from unittest                                                            import 
 from osbot_utils.helpers.Random_Guid                                     import Random_Guid
 from osbot_utils.helpers.Safe_Id                                         import Safe_Id
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Attribute                  import Schema__MGraph__Attribute
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node           import Schema__Mermaid__Node
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge           import Schema__Mermaid__Edge
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge__Config   import Schema__Mermaid__Edge__Config
 
@@ -10,11 +9,7 @@ from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge__Config   import 
 class test_Schema__Mermaid__Edge(TestCase):
 
     def setUp(self):                                                                # Initialize test data
-        self.edge_config = Schema__Mermaid__Edge__Config(
-            edge_id        = Random_Guid()         ,
-            from_node_type = Schema__Mermaid__Node ,
-            to_node_type   = Schema__Mermaid__Node
-        )
+        self.edge_config = Schema__Mermaid__Edge__Config(edge_id = Random_Guid())
 
         self.attribute = Schema__MGraph__Attribute(
             attribute_id    = Random_Guid()       ,

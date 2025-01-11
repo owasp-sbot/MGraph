@@ -1,9 +1,6 @@
-from unittest import TestCase
-
-from osbot_utils.utils.Misc import is_guid
-
-from osbot_utils.utils.Objects import __
-
+from unittest                                   import TestCase
+from osbot_utils.utils.Misc                     import is_guid
+from osbot_utils.utils.Objects                  import __
 from mgraph_ai.providers.mermaid.domain.Mermaid import Mermaid
 
 
@@ -31,7 +28,12 @@ class test_Mermaid(TestCase):
                                                                                        graph_id=graph_id),
                                                                      graph_type   = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Graph.Schema__Mermaid__Graph',
                                                                      mermaid_code = [],
-                                                                     nodes        = __()),
+                                                                     nodes        = __(),
+                                                                     render_config=__(add_nodes         = True   ,
+                                                                                      diagram_direction = 'LR'   ,
+                                                                                      diagram_type      = 'graph',
+                                                                                      line_before_edges = True   ,
+                                                                                      directives        = []     )),
                                                              node_model_type='mgraph_ai.providers.mermaid.models.Model__Mermaid__Node.Model__Mermaid__Node',
                                                              edge_model_type='mgraph_ai.providers.mermaid.models.Model__Mermaid__Edge.Model__Mermaid__Edge'),
                                                     node_domain_type='mgraph_ai.providers.mermaid.domain.Mermaid__Node.Mermaid__Node',

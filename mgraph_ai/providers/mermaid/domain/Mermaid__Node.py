@@ -1,13 +1,19 @@
+from typing import Any
+
 from mgraph_ai.mgraph.domain.MGraph__Node                             import MGraph__Node
 from mgraph_ai.providers.mermaid.models.Model__Mermaid__Graph         import Model__Mermaid__Graph
 from mgraph_ai.providers.mermaid.models.Model__Mermaid__Node          import Model__Mermaid__Node
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Shape import Schema__Mermaid__Node__Shape
+from osbot_utils.type_safe.methods.type_safe_property                 import set_as_property
 
 LINE_PADDING = '    '
 
 class Mermaid__Node(MGraph__Node):
     node : Model__Mermaid__Node
     graph: Model__Mermaid__Graph
+
+    label = set_as_property('node.data', 'label')
+    key   = set_as_property('node.data', 'key')
 
     def config(self):
         return self.node.data.node_config
