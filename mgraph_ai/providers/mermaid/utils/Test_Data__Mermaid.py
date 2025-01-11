@@ -1,7 +1,6 @@
 from mgraph_ai.providers.mermaid.domain.Mermaid__Graph                   import Mermaid__Graph
 from osbot_utils.helpers.Safe_Id                                         import Safe_Id
 from osbot_utils.helpers.Random_Guid                                     import Random_Guid
-from mgraph_ai.mgraph.domain.MGraph__Graph                               import MGraph__Graph
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node           import Schema__Mermaid__Node
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Config   import Schema__Mermaid__Node__Config
 from mgraph_ai.providers.mermaid.models.Model__Mermaid__Graph            import Model__Mermaid__Graph
@@ -9,6 +8,7 @@ from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Graph          import 
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Default__Types import Schema__Mermaid__Default__Types
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Graph__Config  import Schema__Mermaid__Graph__Config
 
+# todo: refactor this out, and use Mermaid__Random_Graph instead
 class Test_Data_Mermaid:
     @staticmethod
     def create_test_graph(num_nodes=3):

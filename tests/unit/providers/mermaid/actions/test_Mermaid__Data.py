@@ -1,7 +1,8 @@
-from unittest                                                  import TestCase
-from mgraph_ai.providers.mermaid.actions.Mermaid__Data         import Mermaid__Data
-from mgraph_ai.providers.mermaid.test_data.Test_Data__Mermaid  import Test_Data_Mermaid
+from unittest                                             import TestCase
+from mgraph_ai.providers.mermaid.actions.Mermaid__Data    import Mermaid__Data
+from mgraph_ai.providers.mermaid.utils.Test_Data__Mermaid import Test_Data_Mermaid
 
+# todo: refactor this out with Mermaid__Random_Graph
 
 class test_Mermaid__Data(TestCase):
 
