@@ -8,5 +8,5 @@ Repo for MGraph-AI
 
 ## Repo details
 
-![Current Release](https://img.shields.io/badge/release-v0.4.11-blue)
+![Current Release](https://img.shields.io/badge/release-v0.4.12-blue)
 
