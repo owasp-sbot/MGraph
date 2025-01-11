@@ -17,42 +17,6 @@ class test__todo__Mermaid(TestCase):
     def setUp(self):
         self.mermaid = Mermaid()
 
-    # def test__init__(self):
-    #     with self.mermaid as _:
-    #         expected_vars = {'graph'     : _.graph               }
-    #         assert _.__locals__()                == expected_vars
-    #         assert _.graph   .__class__.__name__ == 'Mermaid__Graph'
-    #         assert _.obj() == __(graph=(__(data   = __(edges        = __()                 ,
-    #                                                    mermaid_code = []                   ,
-    #                                                    nodes        = __()                 ,
-    #                                                    graph_id     = _.graph.data.graph_id,
-    #                                                    graph_type   = None                 ),
-    #                                        config = __(allow_circle_edges    = False,
-    #                                                    allow_duplicate_edges = False,
-    #                                                    graph_title           =''    ))))
-
-    # def test_add_directive(self):
-    #     with self.mermaid as _:
-    #         _.set_diagram_type(Schema__Mermaid__Diagram__Type.flowchart)
-    #         _.add_directive('init: {"flowchart": {"htmlLabels": false}} ')
-    #         _.add_node(key='markdown', label='This **is** _Markdown_').markdown()
-    #
-    #         assert _.code() ==  ('%%{init: {"flowchart": {"htmlLabels": false}} }%%\n'
-    #                              'flowchart LR\n'
-    #                              '    markdown["`This **is** _Markdown_`"]\n')
-
-    def test_config(self):
-        assert self.mermaid.render().config.add_nodes is True
-
-    def test_print_code(self):
-        self.mermaid.add_edge(from_node_key='from_node', to_node_key='to_node')
-        with Stdout() as stdout:
-            self.mermaid.print_code()
-        assert stdout.value() == ('graph LR\n'
-                                  '    from_node["from_node"]\n'
-                                  '    to_node["to_node"]\n'
-                                  '\n'
-                                  '    from_node --> to_node\n')
 
     def test_set_direction(self):
         with self.mermaid as _:

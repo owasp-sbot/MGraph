@@ -32,26 +32,33 @@ class Model__MGraph__Graph(Type_Safe):
         self.data.edges[edge.edge_config.edge_id] = edge
         return self.edge_model_type(data=edge)
 
+    #@type_safe
+    # def new_node(self, value     : Any                                                ,
+    #                    node_type : Type[Schema__MGraph__Node                  ] = None,
+    #                    attributes: Dict[Random_Guid, Schema__MGraph__Attribute] = None) -> Model__MGraph__Node:         # Create and add a new node to the graph
+    #
+    #     if node_type is None:
+    #         node_type = self.data.default_types.node_type or Schema__MGraph__Node
+    #     config_type = self.data.default_types.node_config_type or Schema__MGraph__Node__Config
+    #
+    #     node_config = config_type(value_type  = type(value))
+    #     node        = node_type  (attributes  = attributes   ,
+    #                               node_config = node_config  ,
+    #                               node_type   = node_type    ,
+    #                               value       = value        )
+    #
+    #     return self.add_node(node)
+
+    def new_node(self, **kwargs):
+        node_type = self.data.default_types.node_type
+        if issubclass(node_type,Schema__MGraph__Node):
+            node      = node_type(**kwargs)
+            return self.add_node(node)
+        raise ValueError(f"Node type {node_type} is not a subclass of Schema__MGraph__Node")
+
     @type_safe
-    def new_node(self, value     : Any                                                ,
-                       node_type : Type[Schema__MGraph__Node                  ] = None,
-                       attributes: Dict[Random_Guid, Schema__MGraph__Attribute] = None) -> Model__MGraph__Node:         # Create and add a new node to the graph
-
-        if node_type is None:
-            node_type = self.data.default_types.node_type or Schema__MGraph__Node
-        config_type = self.data.default_types.node_config_type or Schema__MGraph__Node__Config
-
-        node_config = config_type(value_type  = type(value))
-        node        = node_type  (attributes  = attributes   ,
-                                  node_config = node_config  ,
-                                  node_type   = node_type    ,
-                                  value       = value        )
-
-        return self.add_node(node)
-
-    @type_safe
-    def new_edge(self, from_node_id: Random_Guid,
-                       to_node_id  : Random_Guid,
+    def new_edge(self, from_node_id: Random_Guid                                  = None,
+                       to_node_id  : Random_Guid                                  = None,
                        attributes  : Dict[Random_Guid, Schema__MGraph__Attribute] = None) -> Model__MGraph__Edge:                                               # Create and add a new edge between nodes
 
         from_node = self.data.nodes.get(from_node_id)

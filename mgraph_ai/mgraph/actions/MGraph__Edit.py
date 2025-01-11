@@ -20,18 +20,21 @@ class MGraph__Edit(Type_Safe):
         domain_type = domain_type(node=node, graph=self.graph.model)
         return domain_type
 
+    # @type_safe
+    # def new_node(self, value     : Any                                                ,
+    #                    node_type : Type[Schema__MGraph__Node                  ] = None,
+    #                    attributes: Dict[Random_Guid, Schema__MGraph__Attribute] = None) -> MGraph__Node:        # Add a new Node
+    #
+    #     return self.graph.new_node(value=value, node_type=node_type, attributes=attributes)
+    def new_node(self, **kwargs):
+        return self.graph.new_node(**kwargs)
+
     @type_safe
-    def new_node(self, value     : Any                                                ,
-                       node_type : Type[Schema__MGraph__Node                  ] = None,
-                       attributes: Dict[Random_Guid, Schema__MGraph__Attribute] = None) -> MGraph__Node:        # Add a new Node
+    def new_edge(self, from_node_id: Random_Guid=None                                   ,
+                       to_node_id  : Random_Guid=None                                   ,
+                       attributes  : Dict[Random_Guid, Schema__MGraph__Attribute] = None) -> MGraph__Edge:                                              # Add a new edge between nodes
 
-        return self.graph.new_node(value=value, node_type=node_type, attributes=attributes)
-
-    @type_safe
-    def new_edge(self, from_node_id: Random_Guid,
-                       to_node_id  : Random_Guid) -> MGraph__Edge:                                              # Add a new edge between nodes
-
-        return self.graph.new_edge(from_node_id=from_node_id, to_node_id=to_node_id)
+        return self.graph.new_edge(from_node_id=from_node_id, to_node_id=to_node_id, attributes=attributes)
 
     def delete_node(self, node_id: Random_Guid) -> bool:                                                        # Remove a node and its connected edges
         return self.graph.delete_node(node_id)

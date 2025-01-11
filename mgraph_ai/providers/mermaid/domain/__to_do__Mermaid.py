@@ -41,8 +41,7 @@ class Mermaid(Type_Safe):
     def edges(self):
         return self.graph.edges()
 
-    def print_code(self):
-        print(self.code())
+
 
     def new_edge(self):
         from_node = self.new_node()

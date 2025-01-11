@@ -59,8 +59,8 @@ class test_Model__Mermaid__Graph(TestCase):
 
     def test_edge_operations(self):                                                # Tests edge operations with Mermaid types
         # Create two nodes to connect
-        node1 = self.graph.new_node("node1", node_type=Schema__Mermaid__Node)
-        node2 = self.graph.new_node("node2", node_type=Schema__Mermaid__Node)
+        node1 = self.graph.new_node(value="node1", node_type=Schema__Mermaid__Node)
+        node2 = self.graph.new_node(value="node2", node_type=Schema__Mermaid__Node)
 
         # Create edge between nodes
         edge = self.graph.new_edge(from_node_id = node1.node_id(),

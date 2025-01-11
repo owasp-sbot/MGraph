@@ -37,7 +37,7 @@ class test_MGraph__Edit(TestCase):
             assert _.add_node(value='aaaa').value() == 'aaaa'
 
     def test_new_node(self):
-        node = self.graph_edit.new_node("test_value")                                                                         # Create a simple node
+        node = self.graph_edit.new_node(value="test_value")                                                                         # Create a simple node
         assert node         is not None
         assert node.value() == "test_value"
 
@@ -46,15 +46,15 @@ class test_MGraph__Edit(TestCase):
                                               attribute_name  = Safe_Id('test_attr'),
                                               attribute_value = "attr_value"        ,
                                               attribute_type  = str                 )
-        node      = self.graph_edit.new_node("test_value", attributes={attribute.attribute_id: attribute})                     # Create node with attributes
+        node      = self.graph_edit.new_node(value="test_value", attributes={attribute.attribute_id: attribute})                     # Create node with attributes
 
         assert node                         is not None
         assert len(node.attributes())       == 1
         assert node.attributes()[0].value() == "attr_value"
 
     def test_new_edge(self):
-        node1 = self.graph_edit.new_node("node1")                                                                             # Create two nodes
-        node2 = self.graph_edit.new_node("node2")
+        node1 = self.graph_edit.new_node(value="node1")                                                                             # Create two nodes
+        node2 = self.graph_edit.new_node(value="node2")
         edge  = self.graph_edit.new_edge(node1.node_id(), node2.node_id())                                                              # Create edge between nodes
 
         assert edge is not None
@@ -63,9 +63,9 @@ class test_MGraph__Edit(TestCase):
 
     def test_deletion(self):
         with self.graph_edit as _:
-            node_1 = _.new_node("test_node")                                # Create 3x nodes and 2x edges
-            node_2 = _.new_node("another_node")
-            node_3 = _.new_node("3rd node")
+            node_1 = _.new_node(value="test_node"   )                                # Create 3x nodes and 2x edges
+            node_2 = _.new_node(value="another_node")
+            node_3 = _.new_node(value="3rd node"    )
             edge_1 = _.new_edge(node_1.node_id(), node_2.node_id())
             edge_2 = _.new_edge(node_2.node_id(), node_3.node_id())
 
@@ -88,7 +88,7 @@ class test_MGraph__Edit(TestCase):
                                        node_type   = 'test_MGraph__Edit.Custom_Node'                ,
                                        value       = None                                           )
 
-        node = self.graph_edit.new_node("custom_value", node_type=Custom_Node)     # Create node with custom type
+        node = self.graph_edit.new_node(value="custom_value", node_type=Custom_Node)     # Create node with custom type
 
         assert node.node.data.node_type is Custom_Node
         assert node.value()             == "custom_value"

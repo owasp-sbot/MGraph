@@ -59,8 +59,8 @@ class test_MGraph__Graph(TestCase):
         assert self.graph.node       (node.node_id()) is None
 
     def test_edge_operations(self):                                                         # Tests edge creation and management
-        node1     = self.graph.new_node("from_value")                                       # Create nodes for edge
-        node2     = self.graph.new_node("to_value"  )
+        node1     = self.graph.new_node(value="from_value")                                       # Create nodes for edge
+        node2     = self.graph.new_node(value="to_value"  )
         edge      = self.graph.new_edge(node1.node_id(), node2.node_id())                             # Create an edge
         from_node = edge.from_node()
         to_node   = edge.to_node  ()
@@ -91,23 +91,22 @@ class test_MGraph__Graph(TestCase):
                                                                      attribute_name  = Safe_Id('test_attr'),
                                                                      attribute_value = "attr_value"        ,
                                                                      attribute_type  = str                )}
-        node            = self.graph.new_node("test_value", attributes=attribute_data)                          # Create node with attributes
+        node            = self.graph.new_node(value="test_value", attributes=attribute_data)                          # Create node with attributes
 
         assert node.attributes()            is not None                                                         # Verify node and attributes
         assert len(node.attributes())       == 1
         assert node.attributes()[0].value() == "attr_value"
 
     def test_node_with_custom_type(self):                                                   # Test creating nodes with custom types
-        class CustomNode(Schema__MGraph__Node): pass
+        class CustomNode(Simple_Node): pass
 
-        node = self.graph.new_node("custom_value", node_type=CustomNode)                    # Create node with custom type
-
+        node = self.graph.new_node(value="custom_value", node_type=CustomNode)                    # Create node with custom type
         assert node.node.data.node_type is CustomNode
-        assert node.value() == "custom_value"
+        assert node.value()             == "custom_value"
 
     def test_graph_state_persistence(self):                                                 # Test graph state persistence
-        node1 = self.graph.new_node("node1")                                                # Create nodes and edge
-        node2 = self.graph.new_node("node2")
+        node1 = self.graph.new_node(value="node1")                                                # Create nodes and edge
+        node2 = self.graph.new_node(value="node2")
         edge  = self.graph.new_edge(node1.node_id(), node2.node_id())
 
         assert type(edge)                         == MGraph__Edge

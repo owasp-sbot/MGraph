@@ -72,6 +72,9 @@ class Mermaid__Render(Type_Safe):
         edge_code      = f'{LINE_PADDING}{from_node_key} {link_code} {to_node_key}'
         return edge_code
 
+    def print_code(self):
+        print(self.code())
+
     def render_node(self, node: Mermaid__Node, include_padding=True):
         node_config = node.node_config()
         node_label  = node.node_label()
