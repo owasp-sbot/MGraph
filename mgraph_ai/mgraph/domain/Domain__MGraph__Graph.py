@@ -1,17 +1,18 @@
-from typing                                       import Type, List
-from mgraph_ai.mgraph.models.Model__MGraph__Edge  import Model__MGraph__Edge
-from mgraph_ai.mgraph.models.Model__MGraph__Node  import Model__MGraph__Node
-from osbot_utils.helpers.Random_Guid              import Random_Guid
-from mgraph_ai.mgraph.domain.Domain__MGraph__Edge import Domain__MGraph__Edge
-from mgraph_ai.mgraph.domain.Domain__MGraph__Node import Domain__MGraph__Node
-from mgraph_ai.mgraph.models.Model__MGraph__Graph import Model__MGraph__Graph
-from osbot_utils.type_safe.Type_Safe              import Type_Safe
+from typing                                                 import Type, List
+from mgraph_ai.mgraph.domain.Domain__MGraph__Default__Types import Domain__MGraph__Default__Types
+from mgraph_ai.mgraph.models.Model__MGraph__Edge            import Model__MGraph__Edge
+from mgraph_ai.mgraph.models.Model__MGraph__Node            import Model__MGraph__Node
+from osbot_utils.helpers.Random_Guid                        import Random_Guid
+from mgraph_ai.mgraph.domain.Domain__MGraph__Edge           import Domain__MGraph__Edge
+from mgraph_ai.mgraph.domain.Domain__MGraph__Node           import Domain__MGraph__Node
+from mgraph_ai.mgraph.models.Model__MGraph__Graph           import Model__MGraph__Graph
+from osbot_utils.type_safe.Type_Safe                        import Type_Safe
 
 
 class Domain__MGraph__Graph(Type_Safe):
-    model            : Model__MGraph__Graph
-    node_domain_type : Type[Domain__MGraph__Node]
-    edge_domain_type : Type[Domain__MGraph__Edge]
+    default_types : Domain__MGraph__Default__Types
+    model         : Model__MGraph__Graph
+
 
     def delete_edge(self, edge_id: Random_Guid) -> bool:
         return self.model.delete_edge(edge_id)
@@ -31,10 +32,10 @@ class Domain__MGraph__Graph(Type_Safe):
         return self.model.data.graph_config.graph_id
 
     def mgraph_edge(self, edge: Model__MGraph__Edge) -> Domain__MGraph__Edge:
-        return self.edge_domain_type(edge=edge, graph=self.model)
+        return self.default_types.edge_domain_type(edge=edge, graph=self.model)
 
     def mgraph_node(self, node: Model__MGraph__Node) -> Domain__MGraph__Edge:
-        return self.node_domain_type(node=node, graph=self.model)
+        return self.default_types.node_domain_type(node=node, graph=self.model)
 
     def new_edge(self, **kwargs) -> Domain__MGraph__Edge:
         edge = self.model.new_edge(**kwargs)
