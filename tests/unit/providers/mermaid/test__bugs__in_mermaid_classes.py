@@ -1,6 +1,6 @@
 from unittest                                                            import TestCase
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Default__Types             import Schema__MGraph__Default__Types
-from mgraph_ai.providers.mermaid.domain.Mermaid__Node                    import Mermaid__Node
+from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Node                    import Domain__Mermaid__Node
 from mgraph_ai.providers.mermaid.models.Model__Mermaid__Graph            import Model__Mermaid__Graph
 from mgraph_ai.providers.mermaid.models.Model__Mermaid__Node             import Model__Mermaid__Node
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Default__Types import Schema__Mermaid__Default__Types
@@ -23,9 +23,9 @@ class test__bug__in_mermaid_classes(TestCase):
         #     Schema__Mermaid__Default__Types.from_json(Schema__Mermaid__Default__Types().json())
 
         # these only work with the attribute in there
-        mermaid_node = Mermaid__Node()
-        assert Mermaid__Node.from_json(mermaid_node.json()).json() == mermaid_node.json()
-        Mermaid__Node                  .from_json(Mermaid__Node                  ().json())
+        mermaid_node = Domain__Mermaid__Node()
+        assert Domain__Mermaid__Node.from_json(mermaid_node.json()).json() == mermaid_node.json()
+        Domain__Mermaid__Node                  .from_json(Domain__Mermaid__Node                  ().json())
         Model__Mermaid__Graph          .from_json(Model__Mermaid__Graph          ().json())
         Schema__Mermaid__Graph         .from_json(Schema__Mermaid__Graph         ().json())
         Schema__Mermaid__Default__Types.from_json(Schema__Mermaid__Default__Types().json())

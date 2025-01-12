@@ -1,8 +1,8 @@
 from unittest                                                            import TestCase
-from mgraph_ai.providers.mermaid.domain.Mermaid                          import Mermaid
-from mgraph_ai.providers.mermaid.domain.Mermaid__Edge                    import Mermaid__Edge
-from mgraph_ai.providers.mermaid.domain.Mermaid__Graph                   import Mermaid__Graph
-from mgraph_ai.providers.mermaid.domain.Mermaid__Node                    import Mermaid__Node
+from mgraph_ai.providers.mermaid.MGraph__Mermaid                          import MGraph__Mermaid
+from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Edge                    import Domain__Mermaid__Edge
+from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Graph                   import Domain__Mermaid__Graph
+from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Node                    import Domain__Mermaid__Node
 from mgraph_ai.providers.mermaid.models.Model__Mermaid__Edge             import Model__Mermaid__Edge
 from mgraph_ai.providers.mermaid.models.Model__Mermaid__Graph            import Model__Mermaid__Graph
 from mgraph_ai.providers.mermaid.models.Model__Mermaid__Node             import Model__Mermaid__Node
@@ -112,7 +112,7 @@ class test_Test_Data_Mermaid(TestCase):
         # Test with explicit edge count
         graph = Mermaid__Random_Graph().setup().create_test_graph(num_nodes=num_nodes, num_edges=num_edges)
         model = graph.graph.model
-        assert type(graph) is Mermaid
+        assert type(graph) is MGraph__Mermaid
         assert type(model) is Model__Mermaid__Graph
 
         assert len(model.data.nodes) == num_nodes
@@ -128,14 +128,14 @@ class test_Test_Data_Mermaid(TestCase):
         # Test create_test_mermaid_graph
         graph = create_test_mermaid_graph(num_nodes=3, num_edges=5)
         model = graph.graph.model
-        assert type(graph) is Mermaid
+        assert type(graph) is MGraph__Mermaid
         assert len(model.data.nodes) == 3
         assert len(model.data.edges) == 5
 
         # Test create_empty_mermaid_graph
         empty_graph = create_empty_mermaid_graph()
         model       = empty_graph.graph.model
-        assert type(empty_graph) is Mermaid
+        assert type(empty_graph) is MGraph__Mermaid
         assert len(model.data.nodes) == 0
         assert len(model.data.edges) == 0
 
@@ -183,8 +183,8 @@ class test_Test_Data_Mermaid(TestCase):
     def test_create_random_mgraph(self):
         with create_test_mermaid_graph() as _:
 
-            assert type(_                        ) is Mermaid
-            assert type(_.graph                  ) is Mermaid__Graph
+            assert type(_                        ) is MGraph__Mermaid
+            assert type(_.graph                  ) is Domain__Mermaid__Graph
             assert type(_.graph.model            ) is Model__Mermaid__Graph
             assert type(_.graph.model.data       ) is Schema__Mermaid__Graph
 
@@ -200,7 +200,7 @@ class test_Test_Data_Mermaid(TestCase):
             schema_node = list(_.graph.model.data.nodes.values())[0]
 
             #assert type(domain_node                           ) == MGraph__Node                    # Fixed: BUG
-            assert type(domain_node                           ) == Mermaid__Node
+            assert type(domain_node                           ) == Domain__Mermaid__Node
             #assert type(domain_node.node                      ) == Model__MGraph__Node             #  Fixed:
             assert type(domain_node.node                      ) == Model__Mermaid__Node
             assert type(domain_node.graph                     ) == Model__Mermaid__Graph
@@ -220,7 +220,7 @@ class test_Test_Data_Mermaid(TestCase):
             schema_edge = list(_.graph.model.data.edges.values())[0]
 
             #assert type(domain_edge                         ) == MGraph__Edge                       #  Fixed:
-            assert type(domain_edge                         ) == Mermaid__Edge
+            assert type(domain_edge                         ) == Domain__Mermaid__Edge
             #assert type(domain_edge.edge                    ) == Model__MGraph__Edge                #  Fixed:
             assert type(domain_edge.edge                    ) == Model__Mermaid__Edge
             assert type(domain_edge.graph                   ) == Model__Mermaid__Graph

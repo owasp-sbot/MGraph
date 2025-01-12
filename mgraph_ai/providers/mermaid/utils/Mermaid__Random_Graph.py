@@ -1,6 +1,6 @@
 from typing                                                              import Dict, Any, List
-from mgraph_ai.providers.mermaid.domain.Mermaid                          import Mermaid
-from mgraph_ai.providers.mermaid.domain.Mermaid__Graph                   import Mermaid__Graph
+from mgraph_ai.providers.mermaid.MGraph__Mermaid                          import MGraph__Mermaid
+from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Graph                   import Domain__Mermaid__Graph
 from osbot_utils.helpers.Safe_Id                                         import Safe_Id
 from osbot_utils.helpers.Random_Guid                                     import Random_Guid
 from mgraph_ai.mgraph.utils.MGraph__Random_Graph                         import MGraph__Random_Graph
@@ -25,8 +25,8 @@ class Mermaid__Random_Graph(MGraph__Random_Graph):
                                                            mermaid_code = []                                )
         self.graph__model = Model__Mermaid__Graph         (data=self.graph_data)
 
-        self.graph__graph = Mermaid__Graph               (model         = self.graph__model                  )
-        self.graph        = Mermaid                      (graph         = self.graph__graph                  )
+        self.graph__graph = Domain__Mermaid__Graph               (model         = self.graph__model)
+        self.graph        = MGraph__Mermaid                      (graph         = self.graph__graph)
         return self
 
     def create_mermaid_node(self, key: str, label: str = None, value: Any = None) -> Schema__Mermaid__Node:             # create a Mermaid-specific node with the given parameters."""
@@ -80,7 +80,7 @@ class Mermaid__Random_Graph(MGraph__Random_Graph):
                                            to_node   = nodes[to_idx  ])
             self.graph__model.add_edge(edge)
 
-    def create_test_graph(self, num_nodes: int = 3, num_edges: int = None) -> Mermaid:                     # Create a test graph with nodes and edges
+    def create_test_graph(self, num_nodes: int = 3, num_edges: int = None) -> MGraph__Mermaid:                     # Create a test graph with nodes and edges
         if not self.graph__model:
             self.setup()
 
@@ -93,8 +93,8 @@ class Mermaid__Random_Graph(MGraph__Random_Graph):
         return self.graph
 
 # Static helper functions
-def create_test_mermaid_graph(num_nodes: int = 2, num_edges: int = 2) -> Mermaid:                                    # Create a test Mermaid graph with the specified number of nodes and edges
+def create_test_mermaid_graph(num_nodes: int = 2, num_edges: int = 2) -> MGraph__Mermaid:                                    # Create a test Mermaid graph with the specified number of nodes and edges
     return Mermaid__Random_Graph().create_test_graph(num_nodes=num_nodes, num_edges=num_edges)
 
-def create_empty_mermaid_graph() -> Mermaid:                                                                            # Create an empty Mermaid graph
+def create_empty_mermaid_graph() -> MGraph__Mermaid:                                                                            # Create an empty Mermaid graph
     return Mermaid__Random_Graph().setup().graph

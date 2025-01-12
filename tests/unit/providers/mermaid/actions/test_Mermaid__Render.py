@@ -2,20 +2,20 @@ from unittest                                                               impo
 from osbot_utils.helpers.Safe_Id                                            import Safe_Id
 from osbot_utils.testing.Temp_File                                          import Temp_File
 from osbot_utils.utils.Files                                                import file_exists
-from mgraph_ai.providers.mermaid.domain.Mermaid__Edge                       import Mermaid__Edge
-from mgraph_ai.providers.mermaid.domain.Mermaid__Node                       import Mermaid__Node
+from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Edge                       import Domain__Mermaid__Edge
+from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Node                       import Domain__Mermaid__Node
 from osbot_utils.utils.Objects                                              import __
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Diagram_Direction import Schema__Mermaid__Diagram__Direction
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Diagram__Type     import Schema__Mermaid__Diagram__Type
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Shape       import Schema__Mermaid__Node__Shape
-from mgraph_ai.providers.mermaid.domain.Mermaid                             import Mermaid
+from mgraph_ai.providers.mermaid.MGraph__Mermaid                             import MGraph__Mermaid
 from osbot_utils.testing.Stdout                                             import Stdout
 from osbot_utils.utils.Str                                                  import str_dedent
 
 class test_Mermaid__Render(TestCase):
 
     def setUp(self):
-        self.mermaid        = Mermaid()
+        self.mermaid        = MGraph__Mermaid()
         self.mermaid_render = self.mermaid.render()
         self.mermaid_edit   = self.mermaid.edit()
         self.mermaid_data   = self.mermaid.data()
@@ -114,10 +114,10 @@ class test_Mermaid__Render(TestCase):
             from_node    = self.mermaid_data.node(from_node_id)
             to_node      = self.mermaid_data.node(to_node_id  )
 
-            assert type(mermaid_edge)        is Mermaid__Edge
+            assert type(mermaid_edge) is Domain__Mermaid__Edge
             assert self.mermaid_render.graph == _.graph                             # make sure these are the same
-            assert type(from_node)           is Mermaid__Node
-            assert type(to_node)             is Mermaid__Node
+            assert type(from_node) is Domain__Mermaid__Node
+            assert type(to_node) is Domain__Mermaid__Node
             assert render_edge(mermaid_edge) == f'    { from_node.key} --> {to_node.key}'
 
         with self.mermaid_edit as _:

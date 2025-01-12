@@ -1,25 +1,24 @@
-from unittest                                                            import TestCase
-
-from mgraph_ai.providers.mermaid.domain.Mermaid import Mermaid
-from mgraph_ai.providers.mermaid.domain.Mermaid__Edge                    import Mermaid__Edge
+from unittest                                                               import TestCase
+from mgraph_ai.providers.mermaid.MGraph__Mermaid                            import MGraph__Mermaid
+from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Edge               import Domain__Mermaid__Edge
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Diagram_Direction import Schema__Mermaid__Diagram__Direction
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Render__Config import Schema__Mermaid__Render__Config
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Diagram__Type  import Schema__Mermaid__Diagram__Type
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Config   import Schema__Mermaid__Node__Config
-from osbot_utils.helpers.Safe_Id                                         import Safe_Id
-from osbot_utils.utils.Objects                                           import __, obj
-from mgraph_ai.providers.mermaid.domain.Mermaid__Node                    import Mermaid__Node
-from osbot_utils.utils.Misc                                              import is_guid
-from mgraph_ai.mgraph.actions.MGraph__Edit                               import MGraph__Edit
-from mgraph_ai.providers.mermaid.actions.Mermaid__Edit                   import Mermaid__Edit
-from mgraph_ai.providers.mermaid.domain.Mermaid__Graph                   import Mermaid__Graph
+from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Render__Config    import Schema__Mermaid__Render__Config
+from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Diagram__Type     import Schema__Mermaid__Diagram__Type
+from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Config      import Schema__Mermaid__Node__Config
+from osbot_utils.helpers.Safe_Id                                            import Safe_Id
+from osbot_utils.utils.Objects                                              import __, obj
+from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Node               import Domain__Mermaid__Node
+from osbot_utils.utils.Misc                                                 import is_guid
+from mgraph_ai.mgraph.actions.MGraph__Edit                                  import MGraph__Edit
+from mgraph_ai.providers.mermaid.actions.Mermaid__Edit                      import Mermaid__Edit
+from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Graph              import Domain__Mermaid__Graph
 
 
 class test__Mermaid__Edit(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.mermaid         = Mermaid()
+        cls.mermaid         = MGraph__Mermaid()
         cls.mermaid__edit   = cls.mermaid.edit()
         cls.mermaid__render = cls.mermaid.render()
 
@@ -27,7 +26,7 @@ class test__Mermaid__Edit(TestCase):
         with self.mermaid__edit as _:
             assert type(_)                      is Mermaid__Edit
             assert isinstance(_, MGraph__Edit)  is True
-            assert type(_.graph)                is Mermaid__Graph
+            assert type(_.graph) is Domain__Mermaid__Graph
 
     def test_add_directive(self):
         with self.mermaid__edit as _:
@@ -55,9 +54,9 @@ class test__Mermaid__Edit(TestCase):
 
             assert is_guid(edge_id     ) is True
             assert is_guid(attribute_id) is True
-            assert type(from_node)       == Mermaid__Node
-            assert type(from_node)       == Mermaid__Node
-            assert type(edge     )       == Mermaid__Edge
+            assert type(from_node) == Domain__Mermaid__Node
+            assert type(from_node) == Domain__Mermaid__Node
+            assert type(edge     ) == Domain__Mermaid__Edge
 
             assert from_node.key         == from_node_key
             assert to_node  .key         == to_node_key
@@ -83,7 +82,7 @@ class test__Mermaid__Edit(TestCase):
             node_key    = node.key
             node_config = node.node_config
             assert is_guid(node_id)  is True
-            assert type(node)        is Mermaid__Node
+            assert type(node) is Domain__Mermaid__Node
             assert type(node_key)    is Safe_Id
             assert type(node_config) is Schema__Mermaid__Node__Config
             assert node.obj()        == __(node=__(data=__(key         = node_key            ,

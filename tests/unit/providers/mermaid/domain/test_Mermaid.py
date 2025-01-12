@@ -1,19 +1,19 @@
 from unittest                                   import TestCase
 from osbot_utils.utils.Misc                     import is_guid
 from osbot_utils.utils.Objects                  import __
-from mgraph_ai.providers.mermaid.domain.Mermaid import Mermaid
+from mgraph_ai.providers.mermaid.MGraph__Mermaid import MGraph__Mermaid
 
 
 class test_Mermaid(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.mermaid = Mermaid()
+        cls.mermaid = MGraph__Mermaid()
 
     def test__init__(self):
         with self.mermaid as _:
             graph_id = _.data().graph_id()
-            assert type(_)           is Mermaid
+            assert type(_) is MGraph__Mermaid
             assert is_guid(graph_id) is True
             assert _.obj()           == __(graph=__(model=__(data=__(default_types = __(attribute_type    = 'mgraph_ai.mgraph.schemas.Schema__MGraph__Attribute.Schema__MGraph__Attribute'                     ,
                                                                                         edge_type         = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge.Schema__Mermaid__Edge'                  ,
@@ -36,5 +36,5 @@ class test_Mermaid(TestCase):
                                                                                       directives        = []     )),
                                                              node_model_type='mgraph_ai.providers.mermaid.models.Model__Mermaid__Node.Model__Mermaid__Node',
                                                              edge_model_type='mgraph_ai.providers.mermaid.models.Model__Mermaid__Edge.Model__Mermaid__Edge'),
-                                                    node_domain_type='mgraph_ai.providers.mermaid.domain.Mermaid__Node.Mermaid__Node',
-                                                    edge_domain_type='mgraph_ai.providers.mermaid.domain.Mermaid__Edge.Mermaid__Edge'))
+                                                    node_domain_type='mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Node.Domain__Mermaid__Node',
+                                                    edge_domain_type='mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Edge.Domain__Mermaid__Edge'))

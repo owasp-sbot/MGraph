@@ -1,5 +1,5 @@
 from unittest                                                           import TestCase
-from mgraph_ai.providers.mermaid.domain.Mermaid                         import Mermaid
+from mgraph_ai.providers.mermaid.MGraph__Mermaid                         import MGraph__Mermaid
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Diagram__Type import Schema__Mermaid__Diagram__Type
 from mgraph_ai.providers.mermaid.utils.Mermaid_Examples__FlowChart      import Mermain_Examples__FlowChart
 from osbot_utils.utils.Str                                              import str_dedent
@@ -9,7 +9,7 @@ class test_Mermaid_Examples__FlowChart(TestCase):
 
 
     def setUp(self):
-        self.mermaid             = Mermaid()
+        self.mermaid             = MGraph__Mermaid()
         self.mermaid_edit        = self.mermaid.edit()
         self.mermaid_render      = self.mermaid.render()
         self.examples            = Mermain_Examples__FlowChart()

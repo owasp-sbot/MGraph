@@ -3,13 +3,13 @@ from typing                                                                 impo
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Render__Config import Schema__Mermaid__Render__Config
 from osbot_utils.type_safe.methods.type_safe_property import set_as_property
 from osbot_utils.utils.Str                                                  import safe_str
-from mgraph_ai.providers.mermaid.domain.Mermaid__Node                       import LINE_PADDING, Mermaid__Node
-from mgraph_ai.providers.mermaid.domain.Mermaid__Graph                      import Mermaid__Graph
+from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Node                       import LINE_PADDING, Domain__Mermaid__Node
+from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Graph                      import Domain__Mermaid__Graph
 from osbot_utils.type_safe.Type_Safe                                        import Type_Safe
 
 
 class Mermaid__Render(Type_Safe):
-    graph         : Mermaid__Graph
+    graph         : Domain__Mermaid__Graph
     mermaid_code  : List
     render_config = set_as_property('graph.model.data', 'render_config', Schema__Mermaid__Render__Config)
 
@@ -79,7 +79,7 @@ class Mermaid__Render(Type_Safe):
     def print_code(self):
         print(self.code())
 
-    def render_node(self, node: Mermaid__Node, include_padding=True):
+    def render_node(self, node: Domain__Mermaid__Node, include_padding=True):
         node_config = node.node_config
         node_label  = node.label
         node_key    = node.key

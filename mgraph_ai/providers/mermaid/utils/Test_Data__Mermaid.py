@@ -1,4 +1,4 @@
-from mgraph_ai.providers.mermaid.domain.Mermaid__Graph                   import Mermaid__Graph
+from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Graph                   import Domain__Mermaid__Graph
 from osbot_utils.helpers.Safe_Id                                         import Safe_Id
 from osbot_utils.helpers.Random_Guid                                     import Random_Guid
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node           import Schema__Mermaid__Node
@@ -21,7 +21,7 @@ class Test_Data_Mermaid:
                                                        graph_type   = Schema__Mermaid__Graph ,
                                                        mermaid_code = []                     )
         graph_model  = Model__Mermaid__Graph          (data         = graph_data             )
-        graph        = Mermaid__Graph                 (model        = graph_model            )
+        graph        = Domain__Mermaid__Graph                 (model        = graph_model)
 
         # Add test nodes
         node_keys = [Safe_Id(f'key_{i}') for i in range(num_nodes)]
@@ -58,7 +58,7 @@ class Test_Data_Mermaid:
                                                        graph_type   = Schema__Mermaid__Graph,
                                                        mermaid_code = []                    )
         graph_model = Model__Mermaid__Graph(data  = graph_data )
-        graph       = Mermaid__Graph       (model = graph_model)
+        graph       = Domain__Mermaid__Graph       (model = graph_model)
 
         return {'graph'       : graph        ,
                 'graph_model' : graph_model  ,

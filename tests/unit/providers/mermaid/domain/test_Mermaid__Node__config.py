@@ -1,5 +1,5 @@
 from unittest                                                         import TestCase
-from mgraph_ai.providers.mermaid.domain.Mermaid__Node                 import Mermaid__Node
+from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Node                 import Domain__Mermaid__Node
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Shape import Schema__Mermaid__Node__Shape
 from mgraph_ai.providers.mermaid.utils.Test_Data__Mermaid             import Test_Data_Mermaid
 
@@ -10,10 +10,10 @@ class test_Mermaid__Node__config(TestCase):     # todo: refactor these tests to 
         test_data        = Test_Data_Mermaid.create_test_graph(num_nodes=1)
         self.graph_model = test_data['graph_model']
         self.nodes       = test_data['nodes']
-        self.first_node = Mermaid__Node(node=self.nodes[0], graph=self.graph_model)
+        self.first_node = Domain__Mermaid__Node(node=self.nodes[0], graph=self.graph_model)
 
     def test_init(self):
-        assert isinstance(self.first_node, Mermaid__Node)
+        assert isinstance(self.first_node, Domain__Mermaid__Node)
         assert self.first_node.value == "value_key_0"
 
     def test_markdown(self):

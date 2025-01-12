@@ -7,7 +7,7 @@ from mgraph_ai.mgraph.schemas.Schema__MGraph__Default__Types import Schema__MGra
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge           import Schema__MGraph__Edge
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Node           import Schema__MGraph__Node
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Config   import Schema__MGraph__Node__Config
-from mgraph_ai.mgraph.domain.MGraph                          import MGraph
+from mgraph_ai.mgraph.MGraph                                 import MGraph
 from mgraph_ai.mgraph.domain.Domain__MGraph__Graph           import Domain__MGraph__Graph
 from mgraph_ai.mgraph.models.Model__MGraph__Graph            import Model__MGraph__Graph
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph          import Schema__MGraph__Graph

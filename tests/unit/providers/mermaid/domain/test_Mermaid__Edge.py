@@ -2,18 +2,18 @@ from unittest                                                 import TestCase
 from mgraph_ai.providers.mermaid.models.Model__Mermaid__Graph import Model__Mermaid__Graph
 from osbot_utils.utils.Misc                                   import is_guid
 from osbot_utils.utils.Objects                                import __
-from mgraph_ai.providers.mermaid.domain.Mermaid__Edge         import Mermaid__Edge
+from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Edge         import Domain__Mermaid__Edge
 
 class test_Mermaid__Edge(TestCase):
 
     def setUp(self):
         self.graph        = Model__Mermaid__Graph()
-        self.mermaid_edge = Mermaid__Edge(graph=self.graph)
+        self.mermaid_edge = Domain__Mermaid__Edge(graph=self.graph)
 
     def test__init__(self):
 
         with self.mermaid_edge as _:
-            assert type(_)                is Mermaid__Edge
+            assert type(_) is Domain__Mermaid__Edge
             assert is_guid(_.from_node_id) is True
             assert is_guid(_.to_node_id  ) is True
             assert _.graph                 == self.graph

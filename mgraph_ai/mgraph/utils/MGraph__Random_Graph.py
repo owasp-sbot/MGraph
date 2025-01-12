@@ -1,5 +1,5 @@
-from typing import Optional, List
-from mgraph_ai.mgraph.domain.MGraph                             import MGraph
+from typing                                                     import Optional, List
+from mgraph_ai.mgraph.MGraph                                    import MGraph
 from mgraph_ai.mgraph.domain.Domain__MGraph__Graph              import Domain__MGraph__Graph
 from mgraph_ai.mgraph.models.Model__MGraph__Graph               import Model__MGraph__Graph
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph             import Schema__MGraph__Graph
