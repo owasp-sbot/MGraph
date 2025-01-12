@@ -1,4 +1,5 @@
 from unittest                                                          import TestCase
+from osbot_utils.helpers.Safe_Id                                       import Safe_Id
 from osbot_utils.utils.Objects                                         import __
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node         import Schema__Mermaid__Node
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Shape  import Schema__Mermaid__Node__Shape
@@ -54,6 +55,14 @@ class test_Mermaid_Node(TestCase):
                                           node_model_type = 'mgraph_ai.providers.mermaid.models.Model__Mermaid__Node.Model__Mermaid__Node',
                                           edge_model_type = 'mgraph_ai.providers.mermaid.models.Model__Mermaid__Edge.Model__Mermaid__Edge'))
 
+    def test_label(self):
+        with self.mermaid_node as _:
+            assert type(_.label) is Safe_Id
+            _.label = Safe_Id('aaa&&!!bbb')
+            assert _.label == 'aaa____bbb'
+            assert type(_.key) is Safe_Id
+
+
     def test_shape(self):
         assert self.mermaid_node.shape(Schema__Mermaid__Node__Shape.round_edges).config().node_shape == Schema__Mermaid__Node__Shape.round_edges
         assert self.mermaid_node.shape(Schema__Mermaid__Node__Shape.rhombus    ).config().node_shape == Schema__Mermaid__Node__Shape.rhombus
@@ -88,7 +97,9 @@ class test_Mermaid_Node(TestCase):
 
 
     def test__config__wrap_with_quotes(self):
-        data_obj  = self.mermaid_node_data.set_key('id').set_label('id')
+        data_obj  = self.mermaid_node_data
+        data_obj.key   = 'id'
+        data_obj.label = 'id'
         node_obj  = self.mermaid_node.wrap_with_quotes()
         assert type(data_obj ) is Schema__Mermaid__Node
         assert type(node_obj ) is Mermaid__Node

@@ -31,7 +31,7 @@ class test_File_System__Graph(TestCase):
         # Test root detection
         root_folder = self.domain_graph.root_folder()
         assert root_folder is not None
-        assert root_folder.folder_name() == "/"
+        assert root_folder.folder_name == "/"
 
         # Verify root has no parent
         assert root_folder.parent() is None
@@ -40,7 +40,7 @@ class test_File_System__Graph(TestCase):
         children = root_folder.children()
         assert len(children) == 0                                       # BUG
         # assert len(children) == 2                                       # BUG
-        # child_names = {child.folder_name() for child in children}       # BUG
+        # child_names = {child.folder_name for child in children}       # BUG
         # assert child_names == {"folder1", "folder2"}                    # BUG
 
     def test__bug__complex_structure(self):  # Tests complex folder structure

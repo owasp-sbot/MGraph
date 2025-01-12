@@ -2,8 +2,6 @@ from typing                                                                 impo
 from osbot_utils.utils.Str                                                  import safe_str
 from mgraph_ai.providers.mermaid.domain.Mermaid__Node                       import LINE_PADDING, Mermaid__Node
 from mgraph_ai.providers.mermaid.domain.Mermaid__Graph                      import Mermaid__Graph
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Diagram_Direction import Schema__Mermaid__Diagram__Direction
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Diagram__Type     import Schema__Mermaid__Diagram__Type
 from osbot_utils.type_safe.Type_Safe                                        import Type_Safe
 
 
@@ -59,8 +57,8 @@ class Mermaid__Render(Type_Safe):
         return f'{value} {self.config().diagram_direction.name}'
 
     def render_edge(self,edge):
-        from_node     = self.graph.node(edge.from_node_id())
-        to_node       = self.graph.node(edge.to_node_id  ())
+        from_node     = self.graph.node(edge.from_node_id)
+        to_node       = self.graph.node(edge.to_node_id  )
         from_node_key = safe_str(from_node.node_key())
         to_node_key   = safe_str(to_node  .node_key())
         if edge.config().output_node_from:

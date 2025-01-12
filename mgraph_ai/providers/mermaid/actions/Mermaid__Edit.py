@@ -1,6 +1,5 @@
 from typing                                                                 import Dict
-
-from mgraph_ai.providers.mermaid.domain.Mermaid__Node import Mermaid__Node
+from mgraph_ai.providers.mermaid.domain.Mermaid__Node                       import Mermaid__Node
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Render__Config    import Schema__Mermaid__Render__Config
 from osbot_utils.utils.Misc                                                 import random_text
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Attribute                     import Schema__MGraph__Attribute
@@ -50,7 +49,7 @@ class Mermaid__Edit(MGraph__Edit):
     def data(self):
         return Mermaid__Data(graph=self.graph)                  # todo: look at the best way to do this (i.e. give access to this class the info inside data)
 
-    def new_edge(self):
+    def new_edge(self) -> Mermaid__Edge:
         from_node_key = random_text('node', lowercase=True)
         to_node_key   = random_text('node', lowercase=True)
         return self.add_edge(from_node_key, to_node_key)

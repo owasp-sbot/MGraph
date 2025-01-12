@@ -1,5 +1,4 @@
-from typing import Any
-
+from osbot_utils.helpers.Safe_Id                                      import Safe_Id
 from mgraph_ai.mgraph.domain.MGraph__Node                             import MGraph__Node
 from mgraph_ai.providers.mermaid.models.Model__Mermaid__Graph         import Model__Mermaid__Graph
 from mgraph_ai.providers.mermaid.models.Model__Mermaid__Node          import Model__Mermaid__Node
@@ -12,8 +11,8 @@ class Mermaid__Node(MGraph__Node):
     node : Model__Mermaid__Node
     graph: Model__Mermaid__Graph
 
-    label = set_as_property('node.data', 'label')
-    key   = set_as_property('node.data', 'key')
+    label = set_as_property('node.data', 'label', Safe_Id)
+    key   = set_as_property('node.data', 'key'  , str    )
 
     def config(self):
         return self.node.data.node_config

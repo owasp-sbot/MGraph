@@ -15,9 +15,10 @@ class test_File_System__Item(TestCase):
 
     def test_init(self):                                                                              # Tests basic initialization
         assert type(self.domain_item)              is File_System__Item
-        assert self.domain_item.folder_name()      == "test_folder"
-        assert self.domain_item.created_at()       is not None
-        assert self.domain_item.modified_at()      is not None
+        assert type(self.domain_item.folder_name)  is str
+        assert self.domain_item.folder_name        == "test_folder"
+        assert self.domain_item.created_at         is not None
+        assert self.domain_item.modified_at        is not None
 
     def test__bug__path_calculation(self):                                                                  # Tests path calculation
         # Create a path: root -> folder1 -> folder2 -> test_folder

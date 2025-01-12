@@ -1,7 +1,6 @@
 from unittest                                                               import TestCase
-
-from osbot_utils.testing.Temp_File import Temp_File
-
+from osbot_utils.helpers.Safe_Id                                            import Safe_Id
+from osbot_utils.testing.Temp_File                                          import Temp_File
 from osbot_utils.utils.Files                                                import file_exists
 from mgraph_ai.providers.mermaid.domain.Mermaid__Edge                       import Mermaid__Edge
 from mgraph_ai.providers.mermaid.domain.Mermaid__Node                       import Mermaid__Node
@@ -47,11 +46,11 @@ class test_Mermaid__Render(TestCase):
             _.set_direction(Schema__Mermaid__Diagram__Direction.TD)
             _.set_diagram_type(Schema__Mermaid__Diagram__Type.flowchart)
             _.new_node(key='A', label='Christmas'    ).wrap_with_quotes(False).shape_default    ()
-            _.new_node(key='B').set_label('Go shopping'  ).wrap_with_quotes(False).shape_round_edges()
-            _.new_node(key='C').set_label('Let me think' ).wrap_with_quotes(False).shape_rhombus    ()
-            _.new_node(key='D').set_label('Laptop'       ).wrap_with_quotes(False)
-            _.new_node(key='E').set_label('iPhone'       ).wrap_with_quotes(False)
-            _.new_node(key='F').set_label('fa:fa-car Car').wrap_with_quotes(False)
+            _.new_node(key='B', label='Go shopping'  ).wrap_with_quotes(False).shape_round_edges()
+            _.new_node(key='C', label='Let me think' ).wrap_with_quotes(False).shape_rhombus    ()
+            _.new_node(key='D', label='Laptop'       ).wrap_with_quotes(False)
+            _.new_node(key='E', label='iPhone'       ).wrap_with_quotes(False)
+            _.new_node(key='F', label='fa:fa-car Car').wrap_with_quotes(False)
             _.add_edge('A', 'B', label='Get money').output_node_from().output_node_to().edge_mode__lr_using_pipe()
             _.add_edge('B', 'C'                   ).output_node_to()
             _.add_edge('C', 'D', label='One'      ).output_node_to().edge_mode__lr_using_pipe()
@@ -110,8 +109,8 @@ class test_Mermaid__Render(TestCase):
         render_edge = self.mermaid_render.render_edge                               # helper method to make the code more readable
         with self.mermaid_edit as _:
             mermaid_edge = _.new_edge()
-            from_node_id = mermaid_edge.from_node_id()
-            to_node_id   = mermaid_edge.to_node_id()
+            from_node_id = mermaid_edge.from_node_id
+            to_node_id   = mermaid_edge.to_node_id
             from_node    = self.mermaid_data.node(from_node_id)
             to_node      = self.mermaid_data.node(to_node_id  )
 
@@ -119,12 +118,11 @@ class test_Mermaid__Render(TestCase):
             assert self.mermaid_render.graph == _.graph                             # make sure these are the same
             assert type(from_node)           is Mermaid__Node
             assert type(to_node)             is Mermaid__Node
-            assert render_edge(mermaid_edge) == f'    {from_node.node_key()} --> {to_node.node_key()}'
+            assert render_edge(mermaid_edge) == f'    { from_node.node_key()} --> {to_node.node_key()}'
 
         with self.mermaid_edit as _:
-
-            from_node.label = 'from node'
-            to_node  .label = 'to node'
+            from_node.label = Safe_Id('from node')
+            to_node  .label = Safe_Id('to node'  )
             assert render_edge(mermaid_edge) == f'    {from_node.key} --> {to_node.key}'
             mermaid_edge.label = 'link_type'
 
@@ -132,7 +130,7 @@ class test_Mermaid__Render(TestCase):
             mermaid_edge.edge_mode__lr_using_pipe()
             assert render_edge(mermaid_edge) == f'    {from_node.key} -->|{mermaid_edge.label}| {to_node.key}'
             mermaid_edge.output_node_to()
-            assert render_edge(mermaid_edge) == f'    {from_node.key} -->|{mermaid_edge.label}| {to_node.key}["to node"]'
+            assert render_edge(mermaid_edge) == f'    {from_node.key} -->|{mermaid_edge.label}| {to_node.key}["to_node"]'
 
     def test__render_node__node_shape(self):
         render_node = self.mermaid_render.render_node

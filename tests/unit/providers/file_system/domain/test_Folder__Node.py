@@ -14,8 +14,8 @@ class test_Folder__Node(TestCase):
         self.domain_folder = Folder__Node(item=self.folder_model, graph=self.graph_model)
 
     def test_init(self):                                                                              # Tests basic initialization
-        assert type(self.domain_folder)         is Folder__Node
-        assert self.domain_folder.folder_name() == "parent_folder"
+        assert type(self.domain_folder)       is Folder__Node
+        assert self.domain_folder.folder_name == "parent_folder"
 
     def test_children_and_parent(self):                                                               # Tests parent/child relationships
         self.graph_model.add_node(self.folder)
@@ -39,11 +39,11 @@ class test_Folder__Node(TestCase):
         children = self.domain_folder.children()
         assert len(children) == 0                                   # BUG: Expected 2
         # assert len(children) == 2                                 # BUG: not working
-        # child_names = {child.folder_name() for child in children}
+        # child_names = {child.folder_name for child in children}
         # assert child_names == {"child1", "child2"}
 
         # Test parent
         parent_folder = self.domain_folder.parent()
         assert parent_folder is None                                # BUG: Expected parent folder
         #assert parent_folder is not None                           # BUG: not working
-        #assert parent_folder.folder_name() == "grandparent"
+        #assert parent_folder.folder_name == "grandparent"

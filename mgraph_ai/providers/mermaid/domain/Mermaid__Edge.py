@@ -8,8 +8,10 @@ from osbot_utils.type_safe.methods.type_safe_property                  import se
 class Mermaid__Edge(MGraph__Edge):
     edge  : Model__Mermaid__Edge
     graph : Model__Mermaid__Graph
-    label = set_as_property('edge.data', 'label')
 
+    label        = set_as_property('edge.data', 'label'       )
+    from_node_id = set_as_property('edge.data', 'from_node_id')
+    to_node_id   = set_as_property('edge.data', 'to_node_id'  )
 
     def config(self) -> Schema__Mermaid__Edge__Config:
         return super().config()
@@ -21,9 +23,6 @@ class Mermaid__Edge(MGraph__Edge):
     def edge_mode__lr_using_pipe(self):
         return self.edge_mode('lr_using_pipe')
 
-    def from_node_id(self):
-        return self.edge.from_node_id()
-
     def output_node_from(self, value=True):
         self.config().output_node_from = value
         return self
@@ -31,6 +30,3 @@ class Mermaid__Edge(MGraph__Edge):
     def output_node_to(self, value=True):
         self.config().output_node_to = value
         return self
-
-    def to_node_id(self):
-        return self.edge.to_node_id()
