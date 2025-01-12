@@ -46,7 +46,7 @@ class test__Mermaid__Edit(TestCase):
             to_node_key      =  'to_key'
             label            = 'an_label'
             edge             = _.add_edge(from_node_key=from_node_key, to_node_key=to_node_key, label=label, attributes={'answer': '42'})
-            edge_id          =  edge.edge_id()
+            edge_id          =  edge.edge_config.edge_id
             edge_attributes  = edge.attributes()
             attribute_id     = edge_attributes[0].attribute.data.attribute_id
             nodes__by_key    = _.data().nodes__by_key()
@@ -59,8 +59,8 @@ class test__Mermaid__Edit(TestCase):
             assert type(from_node)       == Mermaid__Node
             assert type(edge     )       == Mermaid__Edge
 
-            assert from_node.node_key() == from_node_key
-            assert to_node  .node_key() == to_node_key
+            assert from_node.key         == from_node_key
+            assert to_node  .key         == to_node_key
             assert edge_attributes[0].attribute.obj() == __(data=__(attribute_id    = attribute_id,
                                                                     attribute_name  = 'answer',
                                                                     attribute_value = '42',
@@ -73,15 +73,15 @@ class test__Mermaid__Edit(TestCase):
                                                                             edge_mode        = ''      ),
                                                           edge_type    = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge.Schema__Mermaid__Edge',
                                                           attributes   = attributes                                     ,
-                                                          from_node_id = from_node.node_id()                            ,
-                                                          to_node_id   = to_node.node_id()                             ))
+                                                          from_node_id = from_node.node_id                            ,
+                                                          to_node_id   = to_node.node_id                             ))
 
     def test_add_node(self):
         with self.mermaid__edit as _:
             node        = _.new_node()
-            node_id     = node.node_id()
-            node_key    = node.node_key()
-            node_config = node.node_config()
+            node_id     = node.node_id
+            node_key    = node.key
+            node_config = node.node_config
             assert is_guid(node_id)  is True
             assert type(node)        is Mermaid__Node
             assert type(node_key)    is Safe_Id
@@ -102,7 +102,7 @@ class test__Mermaid__Edit(TestCase):
         node_2 = _.new_node(key='an-key', value='an-value', label = 'an-label')
         assert node_2.node.data.obj() == __(key         = 'an-key'                   ,
                                             label       = 'an-label'                 ,
-                                            node_config = node_2.node_config().obj() ,
+                                            node_config = node_2.node_config.obj() ,
                                             node_type   = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node.Schema__Mermaid__Node',
                                             attributes  = __()                       ,
                                             value       = 'an-value'                 )

@@ -24,7 +24,7 @@ class test_MGraph__Edit(TestCase):
     def test_add_node(self):
         with self.graph_edit as _:
             node    = _.new_node()
-            node_id = node.node_id()
+            node_id = node.node_id
             assert type(node)       is MGraph__Node
             assert is_guid(node_id) is True
             assert node.obj()       == __(node=__(data=__(attributes  = __(),
@@ -34,12 +34,12 @@ class test_MGraph__Edit(TestCase):
                                           graph=self.model_graph.obj())
             assert node.node.json() == self.model_graph.node(node_id=node_id).json()
 
-            assert _.new_node(value='aaaa').value() == 'aaaa'
+            assert _.new_node(value='aaaa').value == 'aaaa'
 
     def test_new_node(self):
         node = self.graph_edit.new_node(value="test_value")                                                                         # Create a simple node
         assert node         is not None
-        assert node.value() == "test_value"
+        assert node.value == "test_value"
 
     def test_new_node_with_attributes(self):
         attribute = Schema__MGraph__Attribute(attribute_id    = Random_Guid()       ,                                   # Create attribute
@@ -55,28 +55,28 @@ class test_MGraph__Edit(TestCase):
     def test_new_edge(self):
         node1 = self.graph_edit.new_node(value="node1")                                                                             # Create two nodes
         node2 = self.graph_edit.new_node(value="node2")
-        edge  = self.graph_edit.new_edge(from_node_id=node1.node_id(), to_node_id=node2.node_id())                                                              # Create edge between nodes
+        edge  = self.graph_edit.new_edge(from_node_id=node1.node_id, to_node_id=node2.node_id)                                                              # Create edge between nodes
 
         assert edge is not None
-        assert edge.from_node().value() == "node1"
-        assert edge.to_node  ().value() == "node2"
+        assert edge.from_node().value == "node1"
+        assert edge.to_node  ().value == "node2"
 
     def test_deletion(self):
         with self.graph_edit as _:
             node_1 = _.new_node(value="test_node"   )                                # Create 3x nodes and 2x edges
             node_2 = _.new_node(value="another_node")
             node_3 = _.new_node(value="3rd node"    )
-            edge_1 = _.new_edge(from_node_id=node_1.node_id(), to_node_id=node_2.node_id())
-            edge_2 = _.new_edge(from_node_id=node_2.node_id(), to_node_id=node_3.node_id())
+            edge_1 = _.new_edge(from_node_id=node_1.node_id, to_node_id=node_2.node_id)
+            edge_2 = _.new_edge(from_node_id=node_2.node_id, to_node_id=node_3.node_id)
 
-            assert _.delete_node(node_1.node_id()) is True                       # Test node deletion
-            assert _.delete_node(node_1.node_id()) is False
-            assert _.graph.node (node_1.node_id()) is None
-            assert _.graph.edge (edge_1.edge_id()) is None
+            assert _.delete_node(node_1.node_id) is True                       # Test node deletion
+            assert _.delete_node(node_1.node_id) is False
+            assert _.graph.node (node_1.node_id) is None
+            assert _.graph.edge (edge_1.edge_id) is None
 
-            assert _.delete_edge(edge_2.edge_id()) is True                       # Test edge deletion
-            assert _.delete_edge(edge_2.edge_id()) is False
-            assert _.graph.edge (edge_2.edge_id()) is None
+            assert _.delete_edge(edge_2.edge_id) is True                       # Test edge deletion
+            assert _.delete_edge(edge_2.edge_id) is False
+            assert _.graph.edge (edge_2.edge_id) is None
 
     def test_node_with_custom_type(self):
         class Custom_Node(Schema__MGraph__Node): pass
@@ -91,4 +91,4 @@ class test_MGraph__Edit(TestCase):
         node = self.graph_edit.new_node(value="custom_value", node_type=Custom_Node)     # Create node with custom type
 
         assert node.node.data.node_type is Custom_Node
-        assert node.value()             == "custom_value"
+        assert node.value             == "custom_value"

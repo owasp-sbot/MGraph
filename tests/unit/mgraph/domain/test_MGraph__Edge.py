@@ -52,16 +52,16 @@ class test_MGraph__Edge(TestCase):
         assert type(self.edge)           is MGraph__Edge
         assert self.edge.edge            is self.model_edge
         assert self.edge.graph           is self.graph
-        assert type(self.edge.edge_id()) is Random_Guid
+        assert type(self.edge.edge_id)   is Random_Guid
 
     def test_node_operations(self):                                                         # Tests from_node and to_node methods
         from_node = self.edge.from_node()
         to_node   = self.edge.to_node()
 
-        assert from_node         is not None
-        assert to_node           is not None
-        assert from_node.value() == "from_value"
-        assert to_node.value  () == "to_value"
+        assert from_node       is not None
+        assert to_node         is not None
+        assert from_node.value == "from_value"
+        assert to_node.value   == "to_value"
 
     def test_attribute_operations(self):                                                    # Tests attribute management
         attribute_name  = Safe_Id('test_attr')

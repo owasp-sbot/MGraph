@@ -9,16 +9,20 @@ from mgraph_ai.mgraph.domain.MGraph__Attribute             import MGraph__Attrib
 from mgraph_ai.mgraph.models.Model__MGraph__Edge           import Model__MGraph__Edge
 from mgraph_ai.mgraph.models.Model__MGraph__Graph          import Model__MGraph__Graph
 from osbot_utils.type_safe.Type_Safe                       import Type_Safe
+from osbot_utils.type_safe.methods.type_safe_property      import set_as_property
+
 
 class MGraph__Edge(Type_Safe):                                                              # Domain class for edges
     edge : Model__MGraph__Edge                                                              # Reference to edge model
     graph: Model__MGraph__Graph                                                             # Reference to graph model
 
-    def config(self) -> Schema__MGraph__Edge__Config:
-        return self.edge.data.edge_config
+    edge_config = set_as_property('edge.data'            , 'edge_config', Schema__MGraph__Edge__Config) # Edge configuration
+    edge_id     = set_as_property('edge.data.edge_config', 'edge_id'    , Random_Guid                 ) # Edge ID
+    # def config(self) -> Schema__MGraph__Edge__Config:
+    #     return self.edge.data.edge_config
 
-    def edge_id(self) -> Random_Guid:                                                            # Get edge ID
-        return self.edge.data.edge_config.edge_id
+    # def edge_id(self) -> Random_Guid:                                                            # Get edge ID
+    #     return self.edge.data.edge_config.edge_id
 
     def from_node(self) -> MGraph__Node:                                                    # Get source node
         node = self.graph.node(self.edge.from_node_id())

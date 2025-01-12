@@ -29,8 +29,8 @@ class Mermaid__Edit(MGraph__Edit):
         if to_node  is None:
             to_node = self.new_node(key=to_node_key)
 
-        from_node_id    = from_node.node_id()
-        to_node_id      = to_node.node_id()
+        from_node_id    = from_node.node_id
+        to_node_id      = to_node.node_id
         edge_attributes = {}
         if attributes:
             for key,value in attributes.items():                            # todo: refactor this logic of creating attributes into a separate method (since this will also be needed for the nodes)

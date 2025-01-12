@@ -29,9 +29,9 @@ class test_File_System__Item(TestCase):
         # self.folder_item = Folder__Node(item= self.domain_item, graph=self.graph_model)  # BUG this is not working
         #self.graph_model.add_node(self.domain_item)                                       # BUG this is also not working
 
-        self.graph_model.new_edge(from_node_id=root   .node_id(), to_node_id=folder1.node_id  ())
-        self.graph_model.new_edge(from_node_id=folder1.node_id(), to_node_id=folder2.node_id  ())
-        #self.graph_model.new_edge(from_node_id=folder2.node_id(), to_node_id=self.item.node_id())
+        self.graph_model.new_edge(from_node_id=root   .node_id, to_node_id=folder1.node_id  ())
+        self.graph_model.new_edge(from_node_id=folder1.node_id, to_node_id=folder2.node_id  ())
+        #self.graph_model.new_edge(from_node_id=folder2.node_id, to_node_id=self.item.node_id)
 
         path = self.domain_item.path()
         #assert path == ["/", "folder1", "folder2", "test_folder"]

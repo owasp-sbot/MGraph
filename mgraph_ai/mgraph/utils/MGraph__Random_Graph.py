@@ -36,7 +36,7 @@ class MGraph__Random_Graph(Type_Safe):
         node_ids = []
         for _ in range(num_nodes):
             node = self.graph.edit().new_node(value=f"Node_{_}")
-            node_ids.append(node.node_id())
+            node_ids.append(node.node_id)
         return node_ids
 
     def create_random_edges(self, node_ids: List[Random_Guid], num_edges: int) -> None:                                 # Create random edges between existing nodes

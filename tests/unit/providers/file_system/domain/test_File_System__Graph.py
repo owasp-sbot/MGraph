@@ -25,8 +25,8 @@ class test_File_System__Graph(TestCase):
         folder1 = self.graph_model.new_node(folder_name="folder1")
         folder2 = self.graph_model.new_node(folder_name="folder2")
 
-        self.graph_model.new_edge(from_node_id=root.node_id(), to_node_id=folder1.node_id())
-        self.graph_model.new_edge(from_node_id=root.node_id(), to_node_id=folder2.node_id())
+        self.graph_model.new_edge(from_node_id=root.node_id, to_node_id=folder1.node_id)
+        self.graph_model.new_edge(from_node_id=root.node_id, to_node_id=folder2.node_id)
 
         # Test root detection
         root_folder = self.domain_graph.root_folder()
@@ -65,11 +65,11 @@ class test_File_System__Graph(TestCase):
         assert base_types(folder1) == base_types(root)
 
         # Create structure
-        self.graph_model.new_edge(from_node_id=root.node_id()   , to_node_id=folder1.node_id())
-        self.graph_model.new_edge(from_node_id=root.node_id()   , to_node_id=folder2.node_id())
-        self.graph_model.new_edge(from_node_id=folder1.node_id(), to_node_id=subfolder1.node_id())
-        self.graph_model.new_edge(from_node_id=folder1.node_id(), to_node_id=subfolder2.node_id())
-        self.graph_model.new_edge(from_node_id=folder2.node_id(), to_node_id=subfolder3.node_id())
+        self.graph_model.new_edge(from_node_id=root.node_id   , to_node_id=folder1.node_id)
+        self.graph_model.new_edge(from_node_id=root.node_id   , to_node_id=folder2.node_id)
+        self.graph_model.new_edge(from_node_id=folder1.node_id, to_node_id=subfolder1.node_id)
+        self.graph_model.new_edge(from_node_id=folder1.node_id, to_node_id=subfolder2.node_id)
+        self.graph_model.new_edge(from_node_id=folder2.node_id, to_node_id=subfolder3.node_id)
 
 
         # Test paths

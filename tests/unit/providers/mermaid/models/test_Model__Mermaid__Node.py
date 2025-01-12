@@ -29,7 +29,7 @@ class test_Model__Mermaid__Node(TestCase):
     def test_init(self):                                                            # Tests basic initialization
         assert type(self.model)         is Model__Mermaid__Node
         assert self.model.data          is self.node
-        assert self.model.value()       == "test_value"
+        assert self.model.value         == "test_value"
         assert self.model.data.key      == self.key
         assert self.model.data.label    == "Test Label"
 
@@ -76,11 +76,11 @@ class test_Model__Mermaid__Node(TestCase):
     def test_inheritance_from_model_mgraph_node(self):                              # Tests inheritance behavior
         assert isinstance(self.model, Model__MGraph__Node)                          # Verify that Model__Mermaid__Node inherits Model__MGraph__Node functionality
         new_value = "updated_value"                                                 # Test inherited methods
-        self.model.set_value(new_value)
-        assert self.model.value() == new_value
+        self.model.value = new_value
+        assert self.model.value == new_value
 
         # Test node ID retrieval
-        assert self.model.node_id() == self.node_config.node_id
+        assert self.model.node_id == self.node_config.node_id
 
     def test_mermaid_specific_implementations(self):                                    # Tests Mermaid-specific class implementations
         assert issubclass(Schema__Mermaid__Node, Schema__MGraph__Node)                  # Verify schema inheritance

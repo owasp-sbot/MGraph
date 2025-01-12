@@ -40,7 +40,7 @@ class test_MGraph__Random_Graph(TestCase):
         for node_id in node_ids:                                                   # Verify each node exists
             node = self.random_graph.graph.data().node(node_id)
             assert node is not None
-            assert node.value().startswith("Node_")
+            assert node.value.startswith("Node_")
 
     def test_create_nodes_validation(self):                                        # Test node creation validation
         with self.assertRaises(ValueError) as context:

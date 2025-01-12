@@ -58,8 +58,8 @@ class test__regression__Mermaid(TestCase):
         graph_model  = graph.model
         mermaid_node = Schema__Mermaid__Node()
         model_node   = graph_model.add_node(mermaid_node)
-        node_id      = model_node.node_id()
-        domain_node  = graph.node(model_node.node_id())                     # Get node through domain layer
+        node_id      = model_node.node_id
+        domain_node  = graph.node(model_node.node_id)                     # Get node through domain layer
 
         assert graph_model.node_model_type           == Model__Mermaid__Node            # ✓ Correct
         assert graph_model.edge_model_type           == Model__Mermaid__Edge            # ✓ Correct

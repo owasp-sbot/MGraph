@@ -3,6 +3,5 @@ from osbot_utils.helpers.Timestamp_Now              import Timestamp_Now
 
 
 class Schema__File_System__Item(Schema__MGraph__Node):
-    folder_name  : str
     created_at   : Timestamp_Now
     modified_at  : Timestamp_Now

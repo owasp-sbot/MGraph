@@ -1,11 +1,11 @@
 from typing                                                           import List
+from mgraph_ai.mgraph.domain.MGraph__Node                             import MGraph__Node
 from mgraph_ai.providers.file_system.models.Model__File_System__Graph import Model__File_System__Graph
 from mgraph_ai.providers.file_system.models.Model__File_System__Item  import Model__File_System__Item
-from osbot_utils.type_safe.Type_Safe                                  import Type_Safe
 from osbot_utils.type_safe.methods.type_safe_property                 import set_as_property
 
-class File_System__Item(Type_Safe):                                                                      # Base domain class for filesystem items
-    item : Model__File_System__Item
+class File_System__Item(MGraph__Node):                                                                      # Base domain class for filesystem items
+    node : Model__File_System__Item
     graph: Model__File_System__Graph
 
     # Properties delegated to the Model layer
@@ -15,7 +15,7 @@ class File_System__Item(Type_Safe):                                             
 
     def path(self) -> List[str]:                                                                        # Get full path
         path_parts = []
-        current_id = self.item.node_id()
+        current_id = self.item.node_id
         visited = set()
 
         while current_id and current_id not in visited:

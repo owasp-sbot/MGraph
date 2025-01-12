@@ -7,23 +7,33 @@ from mgraph_ai.mgraph.domain.MGraph__Attribute          import MGraph__Attribute
 from mgraph_ai.mgraph.models.Model__MGraph__Graph       import Model__MGraph__Graph
 from mgraph_ai.mgraph.models.Model__MGraph__Node        import Model__MGraph__Node
 from osbot_utils.type_safe.Type_Safe                    import Type_Safe
+from osbot_utils.type_safe.methods.type_safe_property import set_as_property
+
 
 class MGraph__Node(Type_Safe):                                                             # Domain class for nodes
     node : Model__MGraph__Node                                                             # Reference to node model
     graph: Model__MGraph__Graph                                                            # Reference to graph model
 
-    def node_config(self):
-        return self.node.data.node_config
+    node_config = set_as_property('node.data'             , 'node_config')                 # Node configuration property
+    node_id     = set_as_property('node.data.node_config' , 'node_id'    )                 # Node ID property
+    value       = set_as_property('node'                  , 'value'      )                 # Node value property
+    graph_id   = set_as_property ('graph.data.graph_config', 'graph_id'   )                 # Graph ID property
 
-    def node_id(self) -> Random_Guid:
-        return self.node.data.node_config.node_id
+    # def node_config(self):
+    #     return self.node.data.node_config
 
-    def value(self) -> Any:                                                                # Get node value
-        return self.node.value()
+    # def node_id(self) -> Random_Guid:
+    #     return self.node.data.node_config.node_id
+    #
+    # def value(self) -> Any:                                                                # Get node value
+    #     return self.node.value()
+    #
+    # def set_value(self, value: Any) -> 'MGraph__Node':                                    # Set node value with type checking
+    #     self.node.set_value(value)
+    #     return self
 
-    def set_value(self, value: Any) -> 'MGraph__Node':                                    # Set node value with type checking
-        self.node.set_value(value)
-        return self
+    # def graph_id(self):
+    #     return self.graph.data.graph_config.graph_id
 
     def add_attribute(self, name     : Safe_Id    ,
                             value    : Any        ,
@@ -47,5 +57,3 @@ class MGraph__Node(Type_Safe):                                                  
                                   graph     = self.graph                         )
                 for attr in self.node.data.attributes.values()]
 
-    def graph_id(self):
-        return self.graph.data.graph_config.graph_id

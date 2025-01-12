@@ -91,7 +91,7 @@ class test_Mermaid__Render(TestCase):
                                                   'graph LR\n'
                                                   '    markdown["`This **is** _Markdown_`"]\n')
 
-            assert self.mermaid_render.config().diagram_type == Schema__Mermaid__Diagram__Type.graph
+            assert self.mermaid_render.render_config.diagram_type == Schema__Mermaid__Diagram__Type.graph
 
     def test_print_code(self):
         with self.mermaid_edit as _:
@@ -118,7 +118,7 @@ class test_Mermaid__Render(TestCase):
             assert self.mermaid_render.graph == _.graph                             # make sure these are the same
             assert type(from_node)           is Mermaid__Node
             assert type(to_node)             is Mermaid__Node
-            assert render_edge(mermaid_edge) == f'    { from_node.node_key()} --> {to_node.node_key()}'
+            assert render_edge(mermaid_edge) == f'    { from_node.key} --> {to_node.key}'
 
         with self.mermaid_edit as _:
             from_node.label = Safe_Id('from node')
@@ -167,10 +167,10 @@ class test_Mermaid__Render(TestCase):
 
         with self.mermaid_render as _:
             assert _.code()                             == 'graph LR\n    id["id"]\n    id2["id2"]\n\n    id["id"] --> id2'
-            assert new_edge.config().output_node_from     is True
+            assert new_edge.edge_config.output_node_from     is True
             assert _.render_edge(new_edge) == '    id["id"] --> id2'
             new_edge.output_node_from(False)
-            assert new_edge.config().output_node_from     is False
+            assert new_edge.edge_config.output_node_from     is False
             assert _.render_edge(new_edge) == '    id --> id2'
 
 

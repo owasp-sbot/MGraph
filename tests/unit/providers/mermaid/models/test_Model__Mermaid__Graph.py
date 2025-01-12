@@ -46,7 +46,7 @@ class test_Model__Mermaid__Graph(TestCase):
         assert isinstance(node.data, Schema__Mermaid__Node)                       # Should use Mermaid schema
 
         # Test node retrieval
-        node_id = node.node_id()
+        node_id = node.node_id
         retrieved_node = self.graph.node(node_id)
         assert isinstance(retrieved_node, Model__MGraph__Node)
         assert isinstance(retrieved_node.data, Schema__Mermaid__Node)
@@ -63,8 +63,8 @@ class test_Model__Mermaid__Graph(TestCase):
         node2 = self.graph.new_node(value="node2", node_type=Schema__Mermaid__Node)
 
         # Create edge between nodes
-        edge = self.graph.new_edge(from_node_id = node1.node_id(),
-                                   to_node_id   = node2.node_id())
+        edge = self.graph.new_edge(from_node_id = node1.node_id,
+                                   to_node_id   = node2.node_id)
 
         # Verify edge type and inheritance
         assert isinstance(edge, Model__MGraph__Edge)                               # Should satisfy MGraph interface

@@ -37,9 +37,9 @@ class test_Model__MGraph__Graph(TestCase):
 
     def test_node_operations(self):                                                         # Tests node creation, addition, and removal
         node    = self.graph.new_node(value="test_value")                                         # Test node creation
-        node_id = node.node_id()
+        node_id = node.node_id
         assert isinstance(node, Model__MGraph__Node) is True
-        assert node.value()                           == "test_value"
+        assert node.value                           == "test_value"
         assert node.data.node_config.value_type       is None
         assert node_id                                in self.graph.data.nodes
 
@@ -54,8 +54,8 @@ class test_Model__MGraph__Graph(TestCase):
     def test_edge_operations(self):                                                         # Tests edge creation, addition, and removal
         node_1    = self.graph.new_node(value="node1")                                            # Create two nodes
         node_2    = self.graph.new_node(value="node2")
-        node_1_id = node_1.node_id()
-        node_2_id = node_2.node_id()
+        node_1_id = node_1.node_id
+        node_2_id = node_2.node_id
         edge      = self.graph.new_edge(from_node_id=node_1_id,to_node_id=node_2_id)                                # Test edge creation
         edge_id   = edge.edge_id()
         retrieved = self.graph.edge(edge_id)                                                # Test edge retrieval
@@ -74,9 +74,9 @@ class test_Model__MGraph__Graph(TestCase):
         node_1    = self.graph.new_node(value="node1")
         node_2    = self.graph.new_node(value="node2")
         node_3    = self.graph.new_node(value="node3")
-        node_1_id = node_1.node_id()
-        node_2_id = node_2.node_id()
-        node_3_id = node_3.node_id()
+        node_1_id = node_1.node_id
+        node_2_id = node_2.node_id
+        node_3_id = node_3.node_id
 
         edge_1    = self.graph.new_edge(from_node_id=node_1_id, to_node_id=node_2_id)                               # Create edges
         edge_2    = self.graph.new_edge(from_node_id=node_2_id, to_node_id=node_3_id)
@@ -94,7 +94,7 @@ class test_Model__MGraph__Graph(TestCase):
         with pytest.raises(ValueError, match="From node .* not found"):                     # Test creating edge with non-existent nodes
             self.graph.new_edge(from_node_id=Random_Guid(), to_node_id=Random_Guid())
 
-        node_ok_id = self.graph.new_node(value="test_value").node_id()
+        node_ok_id = self.graph.new_node(value="test_value").node_id
         node_bad_id = Random_Guid()
         with pytest.raises(ValueError, match=f"To node {node_bad_id} not found"):
             self.graph.new_edge(from_node_id=node_ok_id, to_node_id=node_bad_id)
@@ -107,11 +107,11 @@ class test_Model__MGraph__Graph(TestCase):
 
         default_node = self.graph.new_node(value="default_value")                                 # Create node with default type
         assert isinstance(default_node, Model__MGraph__Node)
-        assert default_node.node_type() == Simple_Node                                      # Should use default_node_type
+        assert default_node.node_type == Simple_Node                                      # Should use default_node_type
 
         custom_node = self.graph.new_node(value="custom_value", node_type=Custom_Node)            # Create node with custom type
         assert isinstance(custom_node, Model__MGraph__Node)
-        assert custom_node.node_type() == Custom_Node
+        assert custom_node.node_type == Custom_Node
 
     def test_graph_queries(self):                                                           # Tests graph querying methods
         node_1 = self.graph.new_node(value="node1")                                               # Add some test nodes
@@ -145,8 +145,8 @@ class test_Model__MGraph__Graph(TestCase):
         
         node_1 = self.graph.new_node(value="node1", node_type=Simple_Node)
         node_2 = self.graph.new_node(value="node2", node_type=Another_Node)
-        node_1_id = node_1.node_id()
-        node_2_id = node_2.node_id()
+        node_1_id = node_1.node_id
+        node_2_id = node_2.node_id
 
         edge_1 = self.graph.new_edge(from_node_id=node_1_id, to_node_id=node_2_id)                                   # Create edge between nodes
 
