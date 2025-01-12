@@ -36,10 +36,7 @@ class test_Model__Mermaid__Graph(TestCase):
 
     def test_node_operations(self):                                                # Tests node operations with Mermaid types
         # Create a node with Mermaid-specific attributes
-        node = self.graph.new_node(
-            value="test_value",
-            node_type=Schema__Mermaid__Node
-        )
+        node = self.graph.new_node(node_type=Schema__Mermaid__Node)
 
         # Verify node type and inheritance
         assert isinstance(node, Model__MGraph__Node)                               # Should satisfy MGraph interface
@@ -59,8 +56,8 @@ class test_Model__Mermaid__Graph(TestCase):
 
     def test_edge_operations(self):                                                # Tests edge operations with Mermaid types
         # Create two nodes to connect
-        node1 = self.graph.new_node(value="node1", node_type=Schema__Mermaid__Node)
-        node2 = self.graph.new_node(value="node2", node_type=Schema__Mermaid__Node)
+        node1 = self.graph.new_node(node_type=Schema__Mermaid__Node)
+        node2 = self.graph.new_node(node_type=Schema__Mermaid__Node)
 
         # Create edge between nodes
         edge = self.graph.new_edge(from_node_id = node1.node_id,

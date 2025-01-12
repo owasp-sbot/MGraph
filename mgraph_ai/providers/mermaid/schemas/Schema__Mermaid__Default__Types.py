@@ -5,7 +5,7 @@ from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge          import S
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge__Config  import Schema__Mermaid__Edge__Config
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Graph__Config import Schema__Mermaid__Graph__Config
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node          import Schema__Mermaid__Node
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Config  import Schema__Mermaid__Node__Config
+from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Data  import Schema__Mermaid__Node__Data
 
 class Schema__Mermaid__Default__Types(Schema__MGraph__Default__Types):
     attribute_type   : Type[Schema__MGraph__Attribute     ]                     # todo: remove when bug in Type_Safe is fixed
@@ -13,4 +13,4 @@ class Schema__Mermaid__Default__Types(Schema__MGraph__Default__Types):
     edge_config_type : Type[Schema__Mermaid__Edge__Config ]
     graph_config_type: Type[Schema__Mermaid__Graph__Config]
     node_type        : Type[Schema__Mermaid__Node         ]
-    node_config_type : Type[Schema__Mermaid__Node__Config ]
+    node_data_type : Type[Schema__Mermaid__Node__Data]

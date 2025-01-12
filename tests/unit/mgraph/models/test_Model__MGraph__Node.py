@@ -1,7 +1,7 @@
 from unittest                                              import TestCase
 from mgraph_ai.mgraph.models.Model__MGraph__Node           import Model__MGraph__Node
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Node         import Schema__MGraph__Node
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Config import Schema__MGraph__Node__Config
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Data   import Schema__MGraph__Node__Data
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Attribute    import Schema__MGraph__Attribute
 from osbot_utils.helpers.Random_Guid                       import Random_Guid
 from osbot_utils.helpers.Safe_Id                           import Safe_Id
@@ -9,49 +9,15 @@ from osbot_utils.helpers.Safe_Id                           import Safe_Id
 class test_Model__MGraph__Node(TestCase):
 
     def setUp(self):                                                                            # Initialize test data
-        self.node_config = Schema__MGraph__Node__Config(node_id    = Random_Guid(),
-                                                        value_type = str)
-        self.node = Schema__MGraph__Node              (attributes  = {}                  ,
-                                                       node_config = self.node_config    ,
-                                                       node_type   = Schema__MGraph__Node,
-                                                       value      = "test_value"         )
-        self.model = Model__MGraph__Node(data=self.node)
+        self.node_data = Schema__MGraph__Node__Data ( node_id    = Random_Guid()       )
+        self.node      = Schema__MGraph__Node       ( attributes = {},
+                                                      node_data  = self.node_data      ,
+                                                      node_type  = Schema__MGraph__Node)
+        self.model     = Model__MGraph__Node        ( data       = self.node           )
 
     def test_init(self):                                                                        # Tests basic initialization
         assert type(self.model)   is Model__MGraph__Node
         assert self.model.data    is self.node
-        assert self.model.value == "test_value"
-
-    def test__bug__set_value_with_type_check(self):                                                   # Tests value setting with type validation
-        # Test valid value type
-        self.model.value = "new_value"
-        assert self.model.value == "new_value"
-
-        # Test invalid value type
-        # with self.assertRaises(TypeError) as context:
-        #     self.model.value = 123
-        # assert str(context.exception) == "Value must be of type <class 'str'>"
-
-        self.model.value = 123        # BUG: should had raised a TypeError
-
-    def test_set_value_without_type_check(self):                                                # Tests value setting without type validation
-        node_config = Schema__MGraph__Node__Config(node_id    = Random_Guid(),
-                                                   value_type = None         )
-        node = Schema__MGraph__Node(attributes  = {}                  ,
-                                    node_config = node_config         ,
-                                    node_type   = Schema__MGraph__Node,
-                                    value      = "test_value"         )
-        model = Model__MGraph__Node(data=node)
-
-        # Should accept any type when value_type is None
-        model.value = 123
-        assert model.value == 123
-
-        model.value = "string"
-        assert model.value == "string"
-
-        model.value = True
-        assert model.value == True
 
     def test_attribute_management(self):                                                        # Tests attribute addition and retrieval
         attribute = Schema__MGraph__Attribute(

@@ -1,21 +1,19 @@
 from unittest                                              import TestCase
 from osbot_utils.helpers.Safe_Id                           import Safe_Id
-from mgraph_ai.mgraph.domain.Domain__MGraph__Node                  import Domain__MGraph__Node
+from mgraph_ai.mgraph.domain.Domain__MGraph__Node          import Domain__MGraph__Node
 from mgraph_ai.mgraph.models.Model__MGraph__Node           import Model__MGraph__Node
 from mgraph_ai.mgraph.models.Model__MGraph__Graph          import Model__MGraph__Graph
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Node         import Schema__MGraph__Node
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Config import Schema__MGraph__Node__Config
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Data   import Schema__MGraph__Node__Data
 from osbot_utils.helpers.Random_Guid                       import Random_Guid
 
 class test_MGraph__Node(TestCase):
 
     def setUp(self):                                                                        # Initialize test data
-        self.node_config = Schema__MGraph__Node__Config(node_id    = Random_Guid(),
-                                                        value_type = str)
-        self.schema_node = Schema__MGraph__Node       (attributes  = {}                  ,
-                                                       node_config = self.node_config    ,
-                                                       node_type   = Schema__MGraph__Node,
-                                                       value      = "test_value"         )
+        self.node_data   = Schema__MGraph__Node__Data(node_id      = Random_Guid())
+        self.schema_node = Schema__MGraph__Node       (attributes  = {},
+                                                       node_data   = self.node_data,
+                                                       node_type   = Schema__MGraph__Node)
         self.model_node = Model__MGraph__Node(data=self.schema_node)
         self.graph      = Model__MGraph__Graph(data=None)                                   # Mock graph for testing
         self.node       = Domain__MGraph__Node(node=self.model_node, graph=self.graph)
@@ -24,19 +22,8 @@ class test_MGraph__Node(TestCase):
         assert type(self.node) is Domain__MGraph__Node
         assert self.node.node            is self.model_node
         assert self.node.graph           is self.graph
-        assert self.node.value         == "test_value"
         assert type(self.node.node_id)  is Random_Guid
 
-    def test__bug__value_operations__type_safe_no_raised(self):                                                        # Tests value getting and setting
-        assert self.node.value == "test_value"
-
-        self.node.value = "new_value"
-        assert self.node.value == "new_value"
-
-        # with self.assertRaises(TypeError) as context:                                      # Test type validation
-        #     self.node.value = 42
-        # assert "Value must be of type" in str(context.exception)
-        self.node.value = 42        # BUG: should had raised a TypeError
 
     def test_attribute_operations(self):                                                    # Tests attribute management
         attribute_name  = Safe_Id('test_attr')

@@ -36,11 +36,9 @@ class test_Model__MGraph__Graph(TestCase):
         assert len(self.graph.data.edges)    == 0
 
     def test_node_operations(self):                                                         # Tests node creation, addition, and removal
-        node    = self.graph.new_node(value="test_value")                                         # Test node creation
+        node    = self.graph.new_node()                                         # Test node creation
         node_id = node.node_id
         assert isinstance(node, Model__MGraph__Node) is True
-        assert node.value                           == "test_value"
-        assert node.data.node_config.value_type       is None
         assert node_id                                in self.graph.data.nodes
 
         retrieved = self.graph.node(node_id)                                                # Test node retrieval
@@ -52,8 +50,8 @@ class test_Model__MGraph__Graph(TestCase):
         assert self.graph.delete_node(Random_Guid()) is False                               # Test removing non-existent node
 
     def test_edge_operations(self):                                                         # Tests edge creation, addition, and removal
-        node_1    = self.graph.new_node(value="node1")                                            # Create two nodes
-        node_2    = self.graph.new_node(value="node2")
+        node_1    = self.graph.new_node()                                            # Create two nodes
+        node_2    = self.graph.new_node()
         node_1_id = node_1.node_id
         node_2_id = node_2.node_id
         edge      = self.graph.new_edge(from_node_id=node_1_id,to_node_id=node_2_id)                                # Test edge creation
@@ -71,9 +69,9 @@ class test_Model__MGraph__Graph(TestCase):
         assert self.graph.delete_edge(Random_Guid()) is False                               # Test removing non-existent edge
 
     def test_node_removal_cascades_to_edges(self):                                          # Tests that removing a node removes connected edges
-        node_1    = self.graph.new_node(value="node1")
-        node_2    = self.graph.new_node(value="node2")
-        node_3    = self.graph.new_node(value="node3")
+        node_1    = self.graph.new_node()
+        node_2    = self.graph.new_node()
+        node_3    = self.graph.new_node()
         node_1_id = node_1.node_id
         node_2_id = node_2.node_id
         node_3_id = node_3.node_id
@@ -94,7 +92,7 @@ class test_Model__MGraph__Graph(TestCase):
         with pytest.raises(ValueError, match="From node .* not found"):                     # Test creating edge with non-existent nodes
             self.graph.new_edge(from_node_id=Random_Guid(), to_node_id=Random_Guid())
 
-        node_ok_id = self.graph.new_node(value="test_value").node_id
+        node_ok_id = self.graph.new_node().node_id
         node_bad_id = Random_Guid()
         with pytest.raises(ValueError, match=f"To node {node_bad_id} not found"):
             self.graph.new_edge(from_node_id=node_ok_id, to_node_id=node_bad_id)
@@ -105,18 +103,18 @@ class test_Model__MGraph__Graph(TestCase):
     def test_custom_node_types(self):                                                       # Tests creation of nodes with custom types
         class Custom_Node(Simple_Node): pass
 
-        default_node = self.graph.new_node(value="default_value")                                 # Create node with default type
+        default_node = self.graph.new_node()                                                # Create node with default type
         assert isinstance(default_node, Model__MGraph__Node)
-        assert default_node.node_type == Simple_Node                                      # Should use default_node_type
+        assert default_node.node_type == Simple_Node                                        # Should use default_node_type
 
-        custom_node = self.graph.new_node(value="custom_value", node_type=Custom_Node)            # Create node with custom type
+        custom_node = self.graph.new_node(node_type=Custom_Node)                            # Create node with custom type
         assert isinstance(custom_node, Model__MGraph__Node)
         assert custom_node.node_type == Custom_Node
 
     def test_graph_queries(self):                                                           # Tests graph querying methods
-        node_1 = self.graph.new_node(value="node1")                                               # Add some test nodes
-        node_2 = self.graph.new_node(value="node2")
-        node_3 = self.graph.new_node(value="node3")
+        node_1 = self.graph.new_node()                                               # Add some test nodes
+        node_2 = self.graph.new_node()
+        node_3 = self.graph.new_node()
         nodes = list(self.graph.nodes())                                                    # Test nodes() method
         graph = self.graph.graph()                                                          # Test graph() method
 
@@ -134,7 +132,7 @@ class test_Model__MGraph__Graph(TestCase):
                                                  attribute_name  = Safe_Id('test_attr'),
                                                  attribute_value = "attr_value"        ,
                                                  attribute_type  = str                 )
-        node         = self.graph.new_node(value="test_value", attributes={attribute.attribute_id: attribute})    # Create node with attribute
+        node         = self.graph.new_node(attributes={attribute.attribute_id: attribute})    # Create node with attribute
         assert type(node)                   is Model__MGraph__Node
         assert len(node.attributes())       == 1
         assert node.attributes()[0]         == attribute
@@ -143,8 +141,8 @@ class test_Model__MGraph__Graph(TestCase):
     def test_edge_constraints(self):                                                        # Tests edge creation constraints
         class Another_Node(Simple_Node): pass                                      # Create nodes of different types
         
-        node_1 = self.graph.new_node(value="node1", node_type=Simple_Node)
-        node_2 = self.graph.new_node(value="node2", node_type=Another_Node)
+        node_1 = self.graph.new_node(node_type=Simple_Node )
+        node_2 = self.graph.new_node(node_type=Another_Node)
         node_1_id = node_1.node_id
         node_2_id = node_2.node_id
 

@@ -6,7 +6,7 @@ from mgraph_ai.mgraph.models.Model__MGraph__Node             import Model__MGrap
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Default__Types import Schema__MGraph__Default__Types
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge           import Schema__MGraph__Edge
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Node           import Schema__MGraph__Node
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Config   import Schema__MGraph__Node__Config
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Data     import Schema__MGraph__Node__Data
 from mgraph_ai.mgraph.MGraph                                 import MGraph
 from mgraph_ai.mgraph.domain.Domain__MGraph__Graph           import Domain__MGraph__Graph
 from mgraph_ai.mgraph.models.Model__MGraph__Graph            import Model__MGraph__Graph
@@ -40,7 +40,6 @@ class test_MGraph__Random_Graph(TestCase):
         for node_id in node_ids:                                                   # Verify each node exists
             node = self.random_graph.graph.data().node(node_id)
             assert node is not None
-            assert node.value.startswith("Node_")
 
     def test_create_nodes_validation(self):                                        # Test node creation validation
         with self.assertRaises(ValueError) as context:
@@ -129,7 +128,7 @@ class test_MGraph__Random_Graph(TestCase):
             assert type(model_node.data            ) == Schema__MGraph__Node
 
             assert type(schema_node                ) == Schema__MGraph__Node
-            assert type(schema_node.node_config    ) == Schema__MGraph__Node__Config
+            assert type(schema_node.node_data) == Schema__MGraph__Node__Data
 
 
             domain_edge = _.graph.edges                       () [0]
@@ -148,7 +147,7 @@ class test_MGraph__Random_Graph(TestCase):
             assert type(model_edge.data            ) == Schema__MGraph__Edge
 
             assert type(schema_node                ) == Schema__MGraph__Node
-            assert type(schema_node.node_config    ) == Schema__MGraph__Node__Config
+            assert type(schema_node.node_data) == Schema__MGraph__Node__Data
 
             assert type(schema_edge                ) == Schema__MGraph__Edge
 

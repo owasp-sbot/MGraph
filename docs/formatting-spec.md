@@ -53,10 +53,10 @@ Note that:
 Assert statements should be aligned on the comparison operator:
 
 ```python
-assert type(self.node)                                   is Schema__MGraph__Node
-assert self.node.node_config                             == self.node_config
-assert self.node.value                                   == "test_node_value"
-assert len(self.node.attributes)                         == 1
+assert type(self.node) is Schema__MGraph__Node
+assert self.node.node_data == self.node_data
+assert self.node.value == "test_node_value"
+assert len(self.node.attributes) == 1
 assert self.node.attributes[self.attribute.attribute_id] == self.attribute
 ```
 
@@ -64,11 +64,11 @@ assert self.node.attributes[self.attribute.attribute_id] == self.attribute
 Dictionary literals in constructor calls should maintain alignment while using minimal line breaks:
 
 ```python
-node = Schema__MGraph__Node(attributes = {attr_1.attribute_id: attr_1 ,
-                                          attr_2.attribute_id: attr_2 },
-                            node_config = self.node_config             ,
-                            node_type   = Schema__MGraph__Node         ,
-                            value      = "test_node_value"             )
+node = Schema__MGraph__Node(attributes={attr_1.attribute_id: attr_1,
+                                        attr_2.attribute_id: attr_2},
+                            node_config=self.node_data,
+                            node_type=Schema__MGraph__Node,
+                            value="test_node_value")
 ```
 
 ## Test Class Structure

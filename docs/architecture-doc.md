@@ -46,16 +46,17 @@ class Schema__MGraph__Node__Config(Type_Safe):
 - Example: `Model__MGraph__Node`, `Model__MGraph__Edge`
 
 #### Type Safety and Validation
+
 ```python
 class Model__MGraph__Node:
-    data: Schema__MGraph__Node
-    
-    def set_value(self, value) -> 'Model__MGraph__Node':
-        if self.data.node_config.value_type:
-            if not isinstance(value, self.data.node_config.value_type):
-                raise TypeError(f"Value must be of type {self.data.node_config.value_type}")
-        self.data.value = value
-        return self
+   data: Schema__MGraph__Node
+
+   def set_value(self, value) -> 'Model__MGraph__Node':
+      if self.data.node_data.value_type:
+         if not isinstance(value, self.data.node_data.value_type):
+            raise TypeError(f"Value must be of type {self.data.node_data.value_type}")
+      self.data.value = value
+      return self
 ```
 
 ### 3. Actions Layer

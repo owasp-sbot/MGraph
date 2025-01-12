@@ -80,20 +80,20 @@ class Mermaid__Render(Type_Safe):
         print(self.code())
 
     def render_node(self, node: Domain__Mermaid__Node, include_padding=True):
-        node_config = node.node_config
+        node_data = node.node_data
         node_label  = node.label
         node_key    = node.key
-        left_char, right_char = node_config.node_shape.value
+        left_char, right_char = node_data.node_shape.value
 
-        if node_config.markdown:
+        if node_data.markdown:
             label = f'`{node_label}`'
         else:
             label = node_label
 
-        if node_config.show_label is False:
+        if node_data.show_label is False:
             node_code = f'{node_key}'
         else:
-            if node_config.wrap_with_quotes is False:
+            if node_data.wrap_with_quotes is False:
                 node_code = f'{node_key}{left_char}{label}{right_char}'
             else:
                 node_code = f'{node_key}{left_char}"{label}"{right_char}'

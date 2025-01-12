@@ -22,7 +22,7 @@ class test_Mermaid(TestCase):
                                                                                                   edge_config_type  = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge__Config.Schema__Mermaid__Edge__Config'  ,
                                                                                                   graph_config_type = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Graph__Config.Schema__Mermaid__Graph__Config',
                                                                                                   node_type         = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node.Schema__Mermaid__Node'                  ,
-                                                                                                  node_config_type  = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Config.Schema__Mermaid__Node__Config'  ),
+                                                                                                  node_data_type  = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Data.Schema__Mermaid__Node__Data'  ),
                                                                                edges        = __(),
                                                                                graph_config = __(allow_circle_edges=False,
                                                                                                  allow_duplicate_edges=False,

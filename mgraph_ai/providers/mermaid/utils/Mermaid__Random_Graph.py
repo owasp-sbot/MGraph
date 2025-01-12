@@ -6,7 +6,7 @@ from osbot_utils.helpers.Random_Guid                                     import 
 from mgraph_ai.mgraph.utils.MGraph__Random_Graph                         import MGraph__Random_Graph
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node           import Schema__Mermaid__Node
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge           import Schema__Mermaid__Edge
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Config   import Schema__Mermaid__Node__Config
+from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Data   import Schema__Mermaid__Node__Data
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge__Config   import Schema__Mermaid__Edge__Config
 from mgraph_ai.providers.mermaid.models.Model__Mermaid__Graph            import Model__Mermaid__Graph
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Graph          import Schema__Mermaid__Graph
@@ -31,14 +31,12 @@ class Mermaid__Random_Graph(MGraph__Random_Graph):
 
     def create_mermaid_node(self, key: str, label: str = None, value: Any = None) -> Schema__Mermaid__Node:             # create a Mermaid-specific node with the given parameters."""
         safe_key = Safe_Id(key)
-        node_config = Schema__Mermaid__Node__Config(node_id    = Random_Guid(),
-                                                    value_type = str          )
-        return Schema__Mermaid__Node                (attributes  = {},
-                                                     node_config = node_config,
-                                                     node_type   = Schema__Mermaid__Node,
-                                                     value       = value or f"value_{safe_key}",
-                                                     key         = safe_key,
-                                                     label       = label or f"Label {safe_key}")
+        node_data = Schema__Mermaid__Node__Data ( node_id    = Random_Guid())
+        return Schema__Mermaid__Node            ( attributes = {}                          ,
+                                                  node_data  = node_data                     ,
+                                                  node_type  = Schema__Mermaid__Node       ,
+                                                  key        = safe_key                    ,
+                                                  label      = label or f"Label {safe_key}")
 
     def create_mermaid_edge(self, from_node: Schema__Mermaid__Node,                                                     # create a Mermaid-specific edge between nodes
                                   to_node  : Schema__Mermaid__Node,
@@ -48,8 +46,8 @@ class Mermaid__Random_Graph(MGraph__Random_Graph):
         return Schema__Mermaid__Edge               (attributes     = {}                             ,
                                                     edge_config    = edge_config                    ,
                                                     edge_type      = Schema__Mermaid__Edge          ,
-                                                    from_node_id   = from_node.node_config.node_id  ,
-                                                    to_node_id     = to_node.node_config.node_id    ,
+                                                    from_node_id   = from_node.node_data.node_id  ,
+                                                    to_node_id     = to_node.node_data.node_id    ,
                                                     label          = label or f"Edge {from_node.key} to {to_node.key}")
 
     def create_nodes(self, num_nodes: int) -> List[Schema__Mermaid__Node]:                                             # Create specified number of Mermaid nodes

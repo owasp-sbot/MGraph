@@ -4,7 +4,7 @@ from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Edge               impo
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Diagram_Direction import Schema__Mermaid__Diagram__Direction
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Render__Config    import Schema__Mermaid__Render__Config
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Diagram__Type     import Schema__Mermaid__Diagram__Type
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Config      import Schema__Mermaid__Node__Config
+from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Data        import Schema__Mermaid__Node__Data
 from osbot_utils.helpers.Safe_Id                                            import Safe_Id
 from osbot_utils.utils.Objects                                              import __, obj
 from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Node               import Domain__Mermaid__Node
@@ -80,31 +80,28 @@ class test__Mermaid__Edit(TestCase):
             node        = _.new_node()
             node_id     = node.node_id
             node_key    = node.key
-            node_config = node.node_config
+            node_data   = node.node_data
             assert is_guid(node_id)  is True
             assert type(node) is Domain__Mermaid__Node
             assert type(node_key)    is Safe_Id
-            assert type(node_config) is Schema__Mermaid__Node__Config
+            assert type(node_data) is Schema__Mermaid__Node__Data
             assert node.obj()        == __(node=__(data=__(key         = node_key            ,
                                                            label       = node_key    ,
-                                                           node_config =__(node_shape      = 'default',
-                                                                          show_label       = True,
-                                                                          wrap_with_quotes = True,
-                                                                          markdown         = False,
-                                                                          value_type       = None,
+                                                           node_data =__(node_shape      = 'default',
+                                                                          show_label       = True   ,
+                                                                          wrap_with_quotes = True   ,
+                                                                          markdown         = False  ,
                                                                           node_id          = node_id),
                                                            node_type   = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node.Schema__Mermaid__Node',
-                                                           attributes  =__() ,
-                                                           value       =None )),
+                                                           attributes  =__() )),
                                            graph = _.graph.model.obj())
 
-        node_2 = _.new_node(key='an-key', value='an-value', label = 'an-label')
+        node_2 = _.new_node(key='an-key', label = 'an-label')
         assert node_2.node.data.obj() == __(key         = 'an-key'                   ,
                                             label       = 'an-label'                 ,
-                                            node_config = node_2.node_config.obj() ,
+                                            node_data = node_2.node_data.obj() ,
                                             node_type   = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node.Schema__Mermaid__Node',
-                                            attributes  = __()                       ,
-                                            value       = 'an-value'                 )
+                                            attributes  = __()                       )
 
     def test_render_config(self):
         with Mermaid__Edit().render_config() as _:

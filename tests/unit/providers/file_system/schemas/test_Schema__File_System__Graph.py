@@ -38,9 +38,7 @@ class test_Schema__File_System__Graph(TestCase):
                                            created_at  = Timestamp_Now()     ,
                                            modified_at = Timestamp_Now()     ,
                                            attributes  = {}                  ,
-                                           node_config = None                ,
-                                           node_type   = Schema__Folder__Node,
-                                           value       = None                )
+                                           node_type   = Schema__Folder__Node)
 
         # Add folder to graph
         self.fs_graph.nodes[Random_Guid()] = folder_node
@@ -50,12 +48,10 @@ class test_Schema__File_System__Graph(TestCase):
     def test_folder_structure(self):                                                            # Tests creating a folder structure
         # Create root folder
         root_folder = Schema__Folder__Node(folder_name = "/",
-                                           created_at  = Timestamp_Now(),
-                                           modified_at = Timestamp_Now(),
-                                           attributes  = {},
-                                           node_config = None,
-                                           node_type   = Schema__Folder__Node,
-                                           value       = None)
+                                           created_at  = Timestamp_Now()     ,
+                                           modified_at = Timestamp_Now()     ,
+                                           attributes  = {}                  ,
+                                           node_type   = Schema__Folder__Node)
         root_id = Random_Guid()
         self.fs_graph.nodes[root_id] = root_folder
 
@@ -64,9 +60,7 @@ class test_Schema__File_System__Graph(TestCase):
                                             created_at  = Timestamp_Now()       ,
                                             modified_at = Timestamp_Now()       ,
                                             attributes  = {}                    ,
-                                            node_config = None                  ,
-                                            node_type   = Schema__Folder__Node  ,
-                                            value       = None                  )
+                                            node_type   = Schema__Folder__Node  )
         child_id = Random_Guid()
         self.fs_graph.nodes[child_id] = child_folder
         edge_id                       = Random_Guid()                                           # Add edge between folders

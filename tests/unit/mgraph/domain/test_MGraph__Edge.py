@@ -1,4 +1,6 @@
 from unittest                                              import TestCase
+
+from mgraph_ai.mgraph.domain.Domain__MGraph__Node import Domain__MGraph__Node
 from osbot_utils.helpers.Safe_Id                           import Safe_Id
 from mgraph_ai.mgraph.domain.Domain__MGraph__Edge                  import Domain__MGraph__Edge
 from mgraph_ai.mgraph.models.Model__MGraph__Edge           import Model__MGraph__Edge
@@ -7,42 +9,36 @@ from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge         import Schema__MGraph
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph        import Schema__MGraph__Graph
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Node         import Schema__MGraph__Node
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge__Config import Schema__MGraph__Edge__Config
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Config import Schema__MGraph__Node__Config
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Data  import Schema__MGraph__Node__Data
 from osbot_utils.helpers.Random_Guid                       import Random_Guid
 
 class test_MGraph__Edge(TestCase):
 
-    def setUp(self):                                                                        # Initialize test data
-        self.graph = Model__MGraph__Graph(data=None)                                        # Mock graph for testing
-
-
-        self.from_node_config = Schema__MGraph__Node__Config(node_id    = Random_Guid(),  # Create source and target nodes
-                                                             value_type = str)
-        self.from_schema_node  = Schema__MGraph__Node      (attributes  = {}                    ,
-                                                            node_config = self.from_node_config,
-                                                            node_type   = Schema__MGraph__Node  ,
-                                                            value       = "from_value"          )
-        self.to_node_config = Schema__MGraph__Node__Config  (node_id    = Random_Guid(),
-                                                             value_type = str)
-        self.to_schema_node = Schema__MGraph__Node         (attributes  = {}                  ,
-                                                            node_config = self.to_node_config,
-                                                            node_type   = Schema__MGraph__Node,
-                                                            value       = "to_value"          )
+    def setUp(self):                                                                                    # Initialize test data
+        self.graph              = Model__MGraph__Graph      ( data=None)                                # Mock graph for testing
+        self.from_node_data    = Schema__MGraph__Node__Data ( node_id     = Random_Guid()       )       # Create source and target nodes
+        self.from_schema_node  = Schema__MGraph__Node       ( attributes  = {}                  ,
+                                                              node_data   = self.from_node_data ,
+                                                              node_type   = Schema__MGraph__Node)
+        self.to_node_data = Schema__MGraph__Node__Data      ( node_id     = Random_Guid()       )
+        self.to_schema_node = Schema__MGraph__Node          ( attributes  = {}                  ,
+                                                              node_data   = self.to_node_data   ,
+                                                              node_type   = Schema__MGraph__Node)
 
         # Add nodes to the graph
-        self.graph.data = Schema__MGraph__Graph(nodes        = { self.from_schema_node.node_config.node_id: self.from_schema_node,
-                                                                 self.to_schema_node.node_config.node_id  : self.to_schema_node  },
-                                                edges        = {}                                                                 ,
-                                                graph_config = None                                                               ,
-                                                graph_type   = Schema__MGraph__Graph                                              )
+        self.graph.data = Schema__MGraph__Graph(nodes        = {self.from_schema_node.node_data.node_id: self.from_schema_node,
+                                                                self.to_schema_node.node_data.node_id  : self.to_schema_node},
+                                                edges        = {},
+                                                graph_config = None,
+                                                graph_type   = Schema__MGraph__Graph)
 
         # Create edge configuration and schema
         self.edge_config = Schema__MGraph__Edge__Config(edge_id        = Random_Guid())
-        self.schema_edge = Schema__MGraph__Edge       (attributes     = {}                   ,
-                                                       edge_config    = self.edge_config     ,
-                                                       edge_type      = Schema__MGraph__Edge ,
-                                                       from_node_id   = self.from_schema_node.node_config.node_id,
-                                                       to_node_id     = self.to_schema_node.node_config.node_id)
+        self.schema_edge = Schema__MGraph__Edge       (attributes     = {},
+                                                       edge_config    = self.edge_config,
+                                                       edge_type      = Schema__MGraph__Edge,
+                                                       from_node_id   = self.from_schema_node.node_data.node_id,
+                                                       to_node_id     = self.to_schema_node.node_data.node_id)
 
         # Create model and domain edge
         self.model_edge = Model__MGraph__Edge(data=self.schema_edge)
@@ -56,12 +52,10 @@ class test_MGraph__Edge(TestCase):
 
     def test_node_operations(self):                                                         # Tests from_node and to_node methods
         from_node = self.edge.from_node()
-        to_node   = self.edge.to_node()
+        to_node   = self.edge.to_node  ()
+        assert type(from_node) is Domain__MGraph__Node
+        assert type(to_node)   is Domain__MGraph__Node
 
-        assert from_node       is not None
-        assert to_node         is not None
-        assert from_node.value == "from_value"
-        assert to_node.value   == "to_value"
 
     def test_attribute_operations(self):                                                    # Tests attribute management
         attribute_name  = Safe_Id('test_attr')

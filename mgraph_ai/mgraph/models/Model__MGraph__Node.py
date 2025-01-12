@@ -9,18 +9,8 @@ from osbot_utils.type_safe.methods.type_safe_property import set_as_property
 class Model__MGraph__Node(Type_Safe):
     data: Schema__MGraph__Node
 
-    node_id   = set_as_property('data.node_config', 'node_id'  , Random_Guid)
-    node_type = set_as_property('data'            , 'node_type'             ) # BUG: , Type[Schema__MGraph__Node] not supported, raises "Subscripted generics cannot be used with class and instance checks" error
-    value     = set_as_property('data'            , 'value'                 )
-
-    # def node_type(self) -> Type[Schema__MGraph__Node]:
-    #     return self.data.node_type
-
-    # def value(self) -> Any:
-    #     return self.data.value
-    #
-    # def node_id(self) -> Random_Guid:
-    #     return self.data.node_config.node_id
+    node_id   = set_as_property('data.node_data', 'node_id'  , Random_Guid)
+    node_type = set_as_property('data'          , 'node_type'             ) # BUG: , Type[Schema__MGraph__Node] not supported, raises "Subscripted generics cannot be used with class and instance checks" error
 
     def add_attribute(self, attribute: Schema__MGraph__Attribute) -> 'Model__MGraph__Node':
         self.data.attributes[attribute.attribute_id] = attribute
@@ -31,10 +21,3 @@ class Model__MGraph__Node(Type_Safe):
 
     def attributes(self) -> List[Schema__MGraph__Attribute]:
         return list(self.data.attributes.values())
-
-    # def set_value(self, value) -> 'Model__MGraph__Node':
-    #     if self.data.node_config.value_type:
-    #         if not isinstance(value, self.data.node_config.value_type):
-    #             raise TypeError(f"Value must be of type {self.data.node_config.value_type}")
-    #     self.data.value = value
-    #     return self

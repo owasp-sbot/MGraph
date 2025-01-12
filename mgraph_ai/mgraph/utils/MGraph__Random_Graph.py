@@ -18,15 +18,15 @@ class MGraph__Random_Graph(Type_Safe):
 
 
     def setup(self) -> 'MGraph__Random_Graph':                                                                                            # Initialize all the graph components in the correct order
-        self.graph_config = Schema__MGraph__Graph__Config(graph_id=Random_Guid())
-        self.graph_data   = Schema__MGraph__Graph        (default_types = Schema__MGraph__Default__Types()  ,
-                                                          edges        = {}                                 ,
-                                                          nodes        = {}                                 ,
-                                                          graph_config = self.graph_config                  ,
-                                                          graph_type   = Schema__MGraph__Graph              )
-        self.graph__model = Model__MGraph__Graph        (data          = self.graph_data                    )
-        self.graph__graph = Domain__MGraph__Graph               (model         = self.graph__model)
-        self.graph        = MGraph                      (graph         = self.graph__graph                  )
+        self.graph_config = Schema__MGraph__Graph__Config ( graph_id=Random_Guid())
+        self.graph_data   = Schema__MGraph__Graph         ( default_types = Schema__MGraph__Default__Types() ,
+                                                            edges         = {}                               ,
+                                                            nodes         = {}                               ,
+                                                            graph_config  = self.graph_config                ,
+                                                            graph_type    = Schema__MGraph__Graph            )
+        self.graph__model = Model__MGraph__Graph          ( data          = self.graph_data                  )
+        self.graph__graph = Domain__MGraph__Graph         ( model         = self.graph__model                )
+        self.graph        = MGraph                        ( graph         = self.graph__graph                )
         return self
 
     def create_nodes(self, num_nodes: int) -> List[Random_Guid]:                                                        # Create specified number of nodes and return their IDs
@@ -35,7 +35,7 @@ class MGraph__Random_Graph(Type_Safe):
 
         node_ids = []
         for _ in range(num_nodes):
-            node = self.graph.edit().new_node(value=f"Node_{_}")
+            node = self.graph.edit().new_node()
             node_ids.append(node.node_id)
         return node_ids
 

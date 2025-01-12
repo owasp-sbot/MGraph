@@ -13,9 +13,7 @@ class test_Schema__Folder__Node(TestCase):
                                                 created_at   = self.created_at      ,
                                                 modified_at  = self.modified_at     ,
                                                 attributes   = {}                   ,
-                                                node_config  = None                 ,
-                                                node_type    = Schema__Folder__Node ,
-                                                value        = None                 )
+                                                node_type    = Schema__Folder__Node )
 
     def test_init(self):                                                                          # Tests basic initialization and type checking
         assert type(self.folder_node)        is Schema__Folder__Node
