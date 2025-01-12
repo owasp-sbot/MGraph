@@ -37,7 +37,6 @@ class test_Schema__File_System__Graph(TestCase):
         folder_node = Schema__Folder__Node(folder_name = "test_folder",
                                            created_at  = Timestamp_Now()     ,
                                            modified_at = Timestamp_Now()     ,
-                                           attributes  = {}                  ,
                                            node_type   = Schema__Folder__Node)
 
         # Add folder to graph
@@ -50,7 +49,6 @@ class test_Schema__File_System__Graph(TestCase):
         root_folder = Schema__Folder__Node(folder_name = "/",
                                            created_at  = Timestamp_Now()     ,
                                            modified_at = Timestamp_Now()     ,
-                                           attributes  = {}                  ,
                                            node_type   = Schema__Folder__Node)
         root_id = Random_Guid()
         self.fs_graph.nodes[root_id] = root_folder
@@ -59,7 +57,6 @@ class test_Schema__File_System__Graph(TestCase):
         child_folder = Schema__Folder__Node(folder_name = "docs"                ,
                                             created_at  = Timestamp_Now()       ,
                                             modified_at = Timestamp_Now()       ,
-                                            attributes  = {}                    ,
                                             node_type   = Schema__Folder__Node  )
         child_id = Random_Guid()
         self.fs_graph.nodes[child_id] = child_folder

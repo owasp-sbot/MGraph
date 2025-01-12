@@ -32,8 +32,7 @@ class Mermaid__Random_Graph(MGraph__Random_Graph):
     def create_mermaid_node(self, key: str, label: str = None, value: Any = None) -> Schema__Mermaid__Node:             # create a Mermaid-specific node with the given parameters."""
         safe_key = Safe_Id(key)
         node_data = Schema__Mermaid__Node__Data ( node_id    = Random_Guid())
-        return Schema__Mermaid__Node            ( attributes = {}                          ,
-                                                  node_data  = node_data                     ,
+        return Schema__Mermaid__Node            ( node_data  = node_data                     ,
                                                   node_type  = Schema__Mermaid__Node       ,
                                                   key        = safe_key                    ,
                                                   label      = label or f"Label {safe_key}")
@@ -43,8 +42,7 @@ class Mermaid__Random_Graph(MGraph__Random_Graph):
                                   label    : str = None) -> Schema__Mermaid__Edge:
 
         edge_config = Schema__Mermaid__Edge__Config(edge_id        = Random_Guid()                  )
-        return Schema__Mermaid__Edge               (attributes     = {}                             ,
-                                                    edge_config    = edge_config                    ,
+        return Schema__Mermaid__Edge               (edge_config    = edge_config                    ,
                                                     edge_type      = Schema__Mermaid__Edge          ,
                                                     from_node_id   = from_node.node_data.node_id  ,
                                                     to_node_id     = to_node.node_data.node_id    ,

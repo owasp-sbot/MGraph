@@ -29,8 +29,7 @@ class Test_Data_Mermaid:
 
         for key in node_keys:
             node_data = Schema__Mermaid__Node__Data(node_id    = Random_Guid())
-            node = Schema__Mermaid__Node(attributes  = {}                   ,
-                                         node_data = node_data          ,
+            node = Schema__Mermaid__Node(node_data = node_data          ,
                                          node_type   = Schema__Mermaid__Node,
                                          key         = key                  ,
                                          label       = f"Label {key}"       )

@@ -5,7 +5,6 @@ from osbot_utils.helpers.Safe_Id                             import Safe_Id
 from osbot_utils.utils.Misc                                  import is_guid
 from mgraph_ai.mgraph.models.Model__MGraph__Edge             import Model__MGraph__Edge
 from mgraph_ai.mgraph.models.Model__MGraph__Node             import Model__MGraph__Node
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Attribute      import Schema__MGraph__Attribute
 from mgraph_ai.mgraph.models.Model__MGraph__Graph            import Model__MGraph__Graph
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph          import Schema__MGraph__Graph
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph__Config  import Schema__MGraph__Graph__Config
@@ -125,18 +124,6 @@ class test_Model__MGraph__Graph(TestCase):
         assert isinstance(graph, Schema__MGraph__Graph) is True
         assert len(graph.nodes)                         == 3
         assert len(graph.edges)                         == 0
-
-    def test_node_attributes(self):                                                                 # Tests node creation with attributes
-        attribute_id = Random_Guid()
-        attribute    = Schema__MGraph__Attribute(attribute_id    = attribute_id       ,             # Create attribute
-                                                 attribute_name  = Safe_Id('test_attr'),
-                                                 attribute_value = "attr_value"        ,
-                                                 attribute_type  = str                 )
-        node         = self.graph.new_node(attributes={attribute.attribute_id: attribute})    # Create node with attribute
-        assert type(node)                   is Model__MGraph__Node
-        assert len(node.attributes())       == 1
-        assert node.attributes()[0]         == attribute
-        assert node.attribute(attribute_id) == attribute
 
     def test_edge_constraints(self):                                                        # Tests edge creation constraints
         class Another_Node(Simple_Node): pass                                      # Create nodes of different types

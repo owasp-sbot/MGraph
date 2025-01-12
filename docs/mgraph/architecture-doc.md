@@ -28,7 +28,6 @@ Schema objects are often paired with configuration objects that contain immutabl
 ```python
 class Schema__MGraph__Node(Type_Safe):
     value: Any
-    attributes: Dict[Random_Guid, Schema__MGraph__Attribute]
     node_config: Schema__MGraph__Node__Config
     node_type: Type['Schema__MGraph__Node']
 

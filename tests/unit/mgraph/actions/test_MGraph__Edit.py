@@ -7,9 +7,6 @@ from mgraph_ai.mgraph.domain.Domain__MGraph__Graph      import Domain__MGraph__G
 from mgraph_ai.mgraph.models.Model__MGraph__Graph       import Model__MGraph__Graph
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph     import Schema__MGraph__Graph
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Node      import Schema__MGraph__Node
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Attribute import Schema__MGraph__Attribute
-from osbot_utils.helpers.Random_Guid                    import Random_Guid
-from osbot_utils.helpers.Safe_Id                        import Safe_Id
 
 class Simple_Node(Schema__MGraph__Node): pass  # Helper class for testing
 
@@ -29,8 +26,7 @@ class test_MGraph__Edit(TestCase):
             node_id = node.node_id
             assert type(node) is Domain__MGraph__Node
             assert is_guid(node_id) is True
-            assert node.obj()       == __(node=__(data=__(attributes  = __(),
-                                                          node_data   = __(node_id=node_id),
+            assert node.obj()       == __(node=__(data=__(node_data   = __(node_id=node_id),
                                                           node_type   = 'mgraph_ai.mgraph.schemas.Schema__MGraph__Node.Schema__MGraph__Node')),
                                           graph=self.model_graph.obj())
             assert node.node.json() == self.model_graph.node(node_id=node_id).json()
@@ -38,16 +34,6 @@ class test_MGraph__Edit(TestCase):
     def test_new_node(self):
         node = self.graph_edit.new_node()                                                                         # Create a simple node
         assert type(node) is Domain__MGraph__Node
-
-    def test_new_node_with_attributes(self):
-        attribute = Schema__MGraph__Attribute(attribute_id    = Random_Guid()       ,                                   # Create attribute
-                                              attribute_name  = Safe_Id('test_attr'),
-                                              attribute_value = "attr_value"        ,
-                                              attribute_type  = str                 )
-        node      = self.graph_edit.new_node(attributes={attribute.attribute_id: attribute})                     # Create node with attributes
-
-        assert node                         is not None
-        assert len(node.attributes())       == 1
 
     def test_new_edge(self):
         node_1 = self.graph_edit.new_node()                                                                             # Create two nodes
@@ -79,8 +65,7 @@ class test_MGraph__Edit(TestCase):
         class Custom_Node(Schema__MGraph__Node): pass
         custom_node = Custom_Node()
 
-        assert custom_node.obj() == __(attributes = __()                                          ,
-                                       node_data  = __(node_id    = custom_node.node_data.node_id),
+        assert custom_node.obj() == __(node_data  = __(node_id    = custom_node.node_data.node_id),
                                        node_type  = 'test_MGraph__Edit.Custom_Node'               )
 
         node = self.graph_edit.new_node(node_type=Custom_Node)     # Create node with custom type

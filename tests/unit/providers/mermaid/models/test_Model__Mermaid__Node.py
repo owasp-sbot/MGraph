@@ -13,8 +13,7 @@ class test_Model__Mermaid__Node(TestCase):
     def setUp(self):                                                                # Initialize test data
         self.node_data = Schema__Mermaid__Node__Data(node_id    = Random_Guid())
         self.key = Safe_Id('test_key')
-        self.node = Schema__Mermaid__Node(attributes = {}                   ,
-                                          node_data  = self.node_data       ,
+        self.node = Schema__Mermaid__Node(node_data  = self.node_data       ,
                                           node_type  = Schema__Mermaid__Node,
                                           key        = self.key             ,
                                           label      = "Test Label"         )
@@ -27,8 +26,7 @@ class test_Model__Mermaid__Node(TestCase):
         assert self.model.data.label    == "Test Label"
 
     def test_ensure_label_is_set_with_empty_label(self):                           # Tests label initialization when empty
-        node = Schema__Mermaid__Node(attributes  = {}                   ,
-                                     node_data = self.node_data     ,
+        node = Schema__Mermaid__Node(node_data = self.node_data     ,
                                      node_type   = Schema__Mermaid__Node,
                                      key        = self.key              ,
                                      label      = ""                    )         # Empty label
@@ -37,8 +35,7 @@ class test_Model__Mermaid__Node(TestCase):
         assert model.data.label == self.key                                        # Label should be set to key
 
     def test_ensure_label_is_set_with_none_label(self):                           # Tests label initialization when None
-        node = Schema__Mermaid__Node(attributes  = {}                   ,
-                                     node_data = self.node_data     ,
+        node = Schema__Mermaid__Node(node_data = self.node_data     ,
                                      node_type   = Schema__Mermaid__Node,
                                      key        = self.key              ,
                                      label      = None                  )                                    # None label
@@ -48,8 +45,7 @@ class test_Model__Mermaid__Node(TestCase):
 
     def test_existing_label_preserved(self):                                      # Tests that existing labels are not overwritten
         existing_label = "Existing Label"
-        node = Schema__Mermaid__Node(attributes  = {}                   ,
-                                     node_data = self.node_data     ,
+        node = Schema__Mermaid__Node(node_data = self.node_data     ,
                                      node_type   = Schema__Mermaid__Node,
                                      key        = self.key              ,
                                      label      = existing_label        )
@@ -88,8 +84,7 @@ class test_Model__Mermaid__Node(TestCase):
                                                   wrap_with_quotes = True)
 
         # Create node with this config
-        node = Schema__Mermaid__Node(attributes = {}                    ,
-                                     node_data  = node_data             ,
+        node = Schema__Mermaid__Node(node_data  = node_data             ,
                                      node_type   = Schema__Mermaid__Node,
                                      key        = Safe_Id('test_key')   ,
                                      label      = "Test Label"          )

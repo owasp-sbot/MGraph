@@ -13,8 +13,7 @@ class test_Model__Mermaid__Edge(TestCase):
         self.from_node_id = Random_Guid()
         self.to_node_id   = Random_Guid()
         self.edge_config  = Schema__Mermaid__Edge__Config(edge_id        = Random_Guid()          )
-        self.edge         = Schema__Mermaid__Edge        (attributes     = {}                     ,
-                                                          edge_config    = self.edge_config       ,
+        self.edge         = Schema__Mermaid__Edge        (edge_config    = self.edge_config       ,
                                                           edge_type      = Schema__Mermaid__Edge  ,
                                                           from_node_id   = self.from_node_id      ,
                                                           to_node_id     = self.to_node_id        ,

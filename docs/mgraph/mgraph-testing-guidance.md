@@ -85,7 +85,6 @@ When extending base classes, ensure proper type registration through Default Typ
 
 ```python
 class Schema__File_System__Default__Types(Schema__MGraph__Default__Types):
-    attribute_type   : Type[Schema__MGraph__Attribute         ]
     edge_type        : Type[Schema__MGraph__Edge              ]
     edge_config_type : Type[Schema__MGraph__Edge__Config      ]
     graph_config_type: Type[Schema__File_System__Graph__Config]

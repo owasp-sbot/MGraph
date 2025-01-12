@@ -2,20 +2,13 @@ from unittest                                                        import Test
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Data import Schema__Mermaid__Node__Data
 from osbot_utils.helpers.Random_Guid                                 import Random_Guid
 from osbot_utils.helpers.Safe_Id                                     import Safe_Id
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Attribute              import Schema__MGraph__Attribute
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node       import Schema__Mermaid__Node
 
 class test_Schema__Mermaid__Node(TestCase):
 
     def setUp(self):                                                                     # Initialize test data
         self.node_data = Schema__Mermaid__Node__Data    (node_id         = Random_Guid()   )
-        self.attribute   = Schema__MGraph__Attribute    (attribute_id    = Random_Guid()   ,
-                                                         attribute_name  = Safe_Id('test') ,
-                                                         attribute_value = "test_value"    ,
-                                                         attribute_type  = str             )
-        self.attributes  = {self.attribute.attribute_id: self.attribute}
-        self.node        = Schema__Mermaid__Node        (attributes      = self.attributes        ,
-                                                         node_data     = self.node_data       ,
+        self.node        = Schema__Mermaid__Node        (node_data     = self.node_data       ,
                                                          node_type       = Schema__Mermaid__Node  ,
                                                          key             = Safe_Id("node_1")      ,
                                                          label           = "Test Node"            )
@@ -26,20 +19,17 @@ class test_Schema__Mermaid__Node(TestCase):
         assert type(self.node.key)        is Safe_Id
         assert str(self.node.key)         == "node_1"
         assert self.node.label            == "Test Node"
-        assert len(self.node.attributes)  == 1
 
     def test_type_safety_validation(self):                                          # Tests type safety validations
         with self.assertRaises(ValueError) as context:
-            Schema__Mermaid__Node(attributes  = self.attributes       ,
-                                  node_data = self.node_data      ,
-                                  node_type   = 123 ,            # invalid type for note type
-                                  key        = 'an-key'                   ,
-                                  label      = "Test Node"           )
+            Schema__Mermaid__Node(node_data = self.node_data ,
+                                  node_type = 123            ,            # invalid type for note type
+                                  key       = 'an-key'       ,
+                                  label     = "Test Node"    )
         assert "Invalid type for attribute 'node_type'" in str(context.exception)
 
         with self.assertRaises(ValueError) as context:
-            Schema__Mermaid__Node(attributes  = self.attributes       ,
-                                  node_data = self.node_data      ,
+            Schema__Mermaid__Node(node_data = self.node_data          ,
                                   node_type   = Schema__Mermaid__Node ,
                                   key         = Safe_Id("node_1")     ,
                                   label       = 123                   )            # Invalid type for label
@@ -52,7 +42,6 @@ class test_Schema__Mermaid__Node(TestCase):
         # Verify JSON structure
         assert 'key'         in json_data
         assert 'label'       in json_data
-        assert 'attributes'  in json_data
         assert 'node_data' in json_data
 
         # Test deserialization

@@ -28,14 +28,12 @@ class test_Mermaid_Node(TestCase):
                                                                 wrap_with_quotes = True     ,
                                                                 markdown         = False    ,
                                                                 node_id          = node_id  ),
-                                                 node_type   = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node.Schema__Mermaid__Node',
-                                                 attributes  = __())),
-                                 graph=__(data=__(default_types = __(edge_type         = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge.Schema__Mermaid__Edge',
-                                                                     edge_config_type  = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge__Config.Schema__Mermaid__Edge__Config',
+                                                 node_type   = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node.Schema__Mermaid__Node'                                            )),
+                                 graph=__(data=__(default_types = __(edge_type         = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge.Schema__Mermaid__Edge'                  ,
+                                                                     edge_config_type  = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge__Config.Schema__Mermaid__Edge__Config'  ,
                                                                      graph_config_type = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Graph__Config.Schema__Mermaid__Graph__Config',
-                                                                     node_type         = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node.Schema__Mermaid__Node',
-                                                                     node_data_type  = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Data.Schema__Mermaid__Node__Data',
-                                                                     attribute_type    = 'mgraph_ai.mgraph.schemas.Schema__MGraph__Attribute.Schema__MGraph__Attribute'),
+                                                                     node_type         = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node.Schema__Mermaid__Node'                  ,
+                                                                     node_data_type  = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Data.Schema__Mermaid__Node__Data'        ),
                                                   edges         = __(),
                                                   graph_config  = __(allow_circle_edges    = False     ,
                                                                      allow_duplicate_edges = False     ,
@@ -111,8 +109,7 @@ class test_Mermaid_Node(TestCase):
                                                      wrap_with_quotes = True,
                                                      markdown         = False,
                                                      node_id          = self.mermaid_node_id),
-                                   node_type    = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node.Schema__Mermaid__Node',
-                                   attributes   = __())
+                                   node_type    = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node.Schema__Mermaid__Node')
         assert Schema__Mermaid__Node.from_json(data_obj.json()).json() == data_obj.json()
         #pprint(node_obj.json())
 
@@ -134,7 +131,6 @@ class test_Mermaid_Node(TestCase):
         new_node.wrap_with_quotes(False)
 
         assert type(new_node) == Domain__Mermaid__Node
-        assert new_node.attributes() == []
         assert mermaid.code() == 'graph LR\n    id[id]\n'
 
     def test_new_node(self):

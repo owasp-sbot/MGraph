@@ -17,12 +17,10 @@ class test_MGraph__Edge(TestCase):
     def setUp(self):                                                                                    # Initialize test data
         self.graph              = Model__MGraph__Graph      ( data=None)                                # Mock graph for testing
         self.from_node_data    = Schema__MGraph__Node__Data ( node_id     = Random_Guid()       )       # Create source and target nodes
-        self.from_schema_node  = Schema__MGraph__Node       ( attributes  = {}                  ,
-                                                              node_data   = self.from_node_data ,
+        self.from_schema_node  = Schema__MGraph__Node       ( node_data   = self.from_node_data ,
                                                               node_type   = Schema__MGraph__Node)
         self.to_node_data = Schema__MGraph__Node__Data      ( node_id     = Random_Guid()       )
-        self.to_schema_node = Schema__MGraph__Node          ( attributes  = {}                  ,
-                                                              node_data   = self.to_node_data   ,
+        self.to_schema_node = Schema__MGraph__Node          ( node_data   = self.to_node_data   ,
                                                               node_type   = Schema__MGraph__Node)
 
         # Add nodes to the graph
@@ -34,8 +32,7 @@ class test_MGraph__Edge(TestCase):
 
         # Create edge configuration and schema
         self.edge_config = Schema__MGraph__Edge__Config(edge_id        = Random_Guid())
-        self.schema_edge = Schema__MGraph__Edge       (attributes     = {},
-                                                       edge_config    = self.edge_config,
+        self.schema_edge = Schema__MGraph__Edge       (edge_config    = self.edge_config,
                                                        edge_type      = Schema__MGraph__Edge,
                                                        from_node_id   = self.from_schema_node.node_data.node_id,
                                                        to_node_id     = self.to_schema_node.node_data.node_id)
@@ -55,38 +52,3 @@ class test_MGraph__Edge(TestCase):
         to_node   = self.edge.to_node  ()
         assert type(from_node) is Domain__MGraph__Node
         assert type(to_node)   is Domain__MGraph__Node
-
-
-    def test_attribute_operations(self):                                                    # Tests attribute management
-        attribute_name  = Safe_Id('test_attr')
-        attribute_value = "attr_value"
-
-        edge = self.edge.add_attribute(name=attribute_name, value=attribute_value)          # Test adding attribute
-        assert edge is self.edge                                                            # Verify method chaining
-
-        attributes = self.edge.attributes()                                                 # Verify attribute was added
-        attr       = attributes[0]
-        assert len(attributes) == 1
-        assert attr.name()     == str(attribute_name)
-        assert attr.value()    == attribute_value
-
-        retrieved_attr = self.edge.attribute(attr.id())                                     # Test retrieving specific attribute
-        assert retrieved_attr         is not None
-        assert retrieved_attr.value() == attribute_value
-
-        non_existent = self.edge.attribute(Random_Guid())                                   # Test retrieving non-existent attribute
-        assert non_existent is None
-
-    def test_adding_attributes_with_different_types(self):                                  # Tests attribute type handling
-        test_cases = [("string_attr", "string_value", str  ),
-                      ("int_attr",    42,             int  ),
-                      ("bool_attr",   True,           bool ),
-                      ("float_attr",  3.14,           float)]
-
-        for name, value, expected_type in test_cases:
-            attr_name = Safe_Id(name)
-            self.edge.add_attribute(name=attr_name, value=value, attr_type=expected_type)
-
-            attr = next(a for a in self.edge.attributes() if a.name() == name)
-            assert attr.value()                       == value
-            assert attr.attribute.data.attribute_type == expected_type

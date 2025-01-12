@@ -35,7 +35,6 @@ class test_Model__Mermaid__Graph(TestCase):
         assert type(self.graph.data) is      Schema__Mermaid__Graph                 # Should be exact type match
 
     def test_node_operations(self):                                                # Tests node operations with Mermaid types
-        # Create a node with Mermaid-specific attributes
         node = self.graph.new_node(node_type=Schema__Mermaid__Node)
 
         # Verify node type and inheritance

@@ -19,7 +19,6 @@ class test_Schema__File_System__Item(TestCase):
         self.fs_item     = Schema__File_System__Item(folder_name  = self.folder_name         ,
                                                      created_at   = self.created_at          ,
                                                      modified_at  = self.modified_at         ,
-                                                     attributes   = {}                       ,
                                                      node_config  = None                     ,
                                                      node_type    = Schema__File_System__Item,
                                                      value        = None                     )
@@ -35,7 +34,6 @@ class test_Schema__File_System__Item(TestCase):
             Schema__File_System__Item(folder_name  = 123,                                          # Should be str
                                       created_at   = self.created_at            ,
                                       modified_at  = self.modified_at           ,
-                                      attributes   = {}                         ,
                                       node_config  = None                       ,
                                       node_type    = Schema__File_System__Item  ,
                                       value        = None                       )
@@ -45,7 +43,6 @@ class test_Schema__File_System__Item(TestCase):
             Schema__File_System__Item(folder_name  = self.folder_name           ,
                                       created_at   = "not-a-timestamp"          ,                              # Should be Timestamp_Now
                                       modified_at  = self.modified_at           ,
-                                      attributes   = {}                         ,
                                       node_config  = None                       ,
                                       node_type    = Schema__File_System__Item  ,
                                       value        = None                       )

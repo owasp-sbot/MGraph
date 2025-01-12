@@ -23,7 +23,7 @@ class test_Mermaid__Edge(TestCase):
                                                                                     edge_mode        = '',
                                                                                     edge_id          = _.edge_config.edge_id),
                                                                   edge_type    = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge.Schema__Mermaid__Edge',
-                                                                  attributes   = __(),
+                                                                  edge_data    = __()           ,
                                                                   from_node_id = _.from_node_id ,
                                                                   to_node_id   = _.to_node_id   )),
                                                  graph = self.graph.obj())

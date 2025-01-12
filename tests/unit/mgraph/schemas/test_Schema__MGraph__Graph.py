@@ -17,12 +17,10 @@ class test_Schema__MGraph__Graph(TestCase):
                                                             edge_type      = Schema__MGraph__Edge)
         self.graph_config  = Schema__MGraph__Graph__Config (graph_id       = Random_Guid()       )
         self.node_data   = Schema__MGraph__Node__Data      (node_id        = Random_Guid())
-        self.node          = Schema__MGraph__Node          (attributes     = {},
-                                                            node_data      = self.node_data,
+        self.node          = Schema__MGraph__Node          (node_data      = self.node_data,
                                                             node_type      = Simple_Node)
         self.edge_config   = Schema__MGraph__Edge__Config  (edge_id        = Random_Guid()       )
-        self.edge          = Schema__MGraph__Edge          (attributes     = {}                  ,
-                                                            edge_config    = self.edge_config    ,
+        self.edge          = Schema__MGraph__Edge          (edge_config    = self.edge_config    ,
                                                             edge_type      = Schema__MGraph__Edge,
                                                             from_node_id   = Random_Guid()       ,
                                                             to_node_id     = Random_Guid()       )
@@ -61,12 +59,10 @@ class test_Schema__MGraph__Graph(TestCase):
 
     def test_multiple_nodes_and_edges(self):    # Tests graph with multiple nodes and edges
         node_data_2 = Schema__MGraph__Node__Data(node_id    = Random_Guid())
-        node_2 = Schema__MGraph__Node(attributes = {}         ,
-                                      node_data  = node_data_2)
+        node_2 = Schema__MGraph__Node(node_data  = node_data_2)
 
         edge_config_2 = Schema__MGraph__Edge__Config(edge_id=Random_Guid())
-        edge_2 = Schema__MGraph__Edge(attributes   = {}                         ,
-                                      edge_config  = edge_config_2              ,
+        edge_2 = Schema__MGraph__Edge(edge_config  = edge_config_2              ,
                                       edge_type    = Schema__MGraph__Edge       ,
                                       from_node_id = self.node.node_data.node_id,
                                       to_node_id   = node_2.node_data.node_id   )

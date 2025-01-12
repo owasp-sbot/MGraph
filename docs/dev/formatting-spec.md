@@ -7,7 +7,6 @@ Imports should be aligned with the longest import path, using spaces between maj
 from unittest                                        import TestCase
 from mgraph_ai.schemas.Schema__MGraph__Node          import Schema__MGraph__Node
 from mgraph_ai.schemas.Schema__MGraph__Node__Config  import Schema__MGraph__Node__Config
-from mgraph_ai.schemas.Schema__MGraph__Attribute     import Schema__MGraph__Attribute
 from osbot_utils.helpers.Random_Guid                 import Random_Guid
 from osbot_utils.helpers.Safe_Id                     import Safe_Id
 ```
@@ -26,7 +25,6 @@ Variable assignments should be aligned on the `=` operator:
 ```python
 self.node_id    = Random_Guid()
 self.value_type = str
-self.attribute  = Schema__MGraph__Attribute(...)
 ```
 
 ## Constructor Calls
@@ -36,10 +34,6 @@ Constructor calls should be formatted with aligned parameters, aligned equals si
 node_config = Schema__MGraph__Node__Config(node_id    = Random_Guid(),
                                            value_type = str          )
 
-attribute  = Schema__MGraph__Attribute(attribute_id    = Random_Guid()    ,
-                                       attribute_name  = Safe_Id('attr_1'),
-                                       attribute_value = "value_1"        ,
-                                       attribute_type  = str              )
 ```
 
 Note that:

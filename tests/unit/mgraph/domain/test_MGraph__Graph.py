@@ -1,15 +1,13 @@
 from unittest                                                import TestCase
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Default__Types import Schema__MGraph__Default__Types
-from osbot_utils.helpers.Safe_Id                             import Safe_Id
-from mgraph_ai.mgraph.domain.Domain__MGraph__Edge                    import Domain__MGraph__Edge
-from mgraph_ai.mgraph.domain.Domain__MGraph__Node                    import Domain__MGraph__Node
+from mgraph_ai.mgraph.domain.Domain__MGraph__Edge            import Domain__MGraph__Edge
+from mgraph_ai.mgraph.domain.Domain__MGraph__Node            import Domain__MGraph__Node
 from mgraph_ai.mgraph.models.Model__MGraph__Node             import Model__MGraph__Node
-from mgraph_ai.mgraph.domain.Domain__MGraph__Graph                   import Domain__MGraph__Graph
+from mgraph_ai.mgraph.domain.Domain__MGraph__Graph           import Domain__MGraph__Graph
 from mgraph_ai.mgraph.models.Model__MGraph__Graph            import Model__MGraph__Graph
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph          import Schema__MGraph__Graph
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph__Config  import Schema__MGraph__Graph__Config
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Node           import Schema__MGraph__Node
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Attribute      import Schema__MGraph__Attribute
 from osbot_utils.helpers.Random_Guid                         import Random_Guid
 
 class Simple_Node(Schema__MGraph__Node): pass                                                   # Helper class for testing
@@ -80,17 +78,6 @@ class test_MGraph__Graph(TestCase):
 
         assert self.graph.delete_edge(edge.edge_id) is True                                        # Delete edge
         assert self.graph.edge       (edge.edge_id) is None
-
-    def test_node_with_attributes(self):                                                                        # Test creating nodes with attributes
-        attribute_data = { Random_Guid(): Schema__MGraph__Attribute( attribute_id    = Random_Guid()       ,    # Prepare attributes
-                                                                     attribute_name  = Safe_Id('test_attr'),
-                                                                     attribute_value = "attr_value"        ,
-                                                                     attribute_type  = str                )}
-        node            = self.graph.new_node(attributes=attribute_data)                                        # Create node with attributes
-
-        assert node.attributes()            is not None                                                         # Verify node and attributes
-        assert len(node.attributes())       == 1
-        assert node.attributes()[0].value() == "attr_value"
 
     def test_node_with_custom_type(self):                                                   # Test creating nodes with custom types
         class CustomNode(Simple_Node): pass

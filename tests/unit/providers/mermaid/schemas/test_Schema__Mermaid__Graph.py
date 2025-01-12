@@ -17,13 +17,11 @@ class test_Schema__Mermaid__Graph(TestCase):
                                                             allow_circle_edges   = True                 ,
                                                             allow_duplicate_edges= False                ,
                                                             graph_title         = "Test Graph"          )
-        self.node          = Schema__Mermaid__Node         (attributes  = {}                                                      ,
-                                                            node_data = Schema__Mermaid__Node__Data(node_id=Random_Guid()),
+        self.node          = Schema__Mermaid__Node         (node_data = Schema__Mermaid__Node__Data(node_id=Random_Guid()),
                                                             node_type   = Schema__Mermaid__Node                                   ,
                                                             key         = Safe_Id("node_1")                                       ,
                                                             label       = "Test Node"                                             )
-        self.edge          = Schema__Mermaid__Edge         (attributes   = {}                                                                    ,
-                                                            edge_config  = Schema__Mermaid__Edge__Config(edge_id= Random_Guid()   ),
+        self.edge          = Schema__Mermaid__Edge         (edge_config  = Schema__Mermaid__Edge__Config(edge_id= Random_Guid()   ),
                                                             edge_type    = Schema__Mermaid__Edge                                   ,
                                                             from_node_id = Random_Guid()                                           ,
                                                             to_node_id   = Random_Guid()                                           ,
@@ -45,23 +43,19 @@ class test_Schema__Mermaid__Graph(TestCase):
 
     def test_type_safety_validation(self):                                          # Tests type safety validations
         with self.assertRaises(ValueError) as context:
-            Schema__Mermaid__Graph(
-                edges        = "not-a-dict"    ,
-                nodes        = {}              ,
-                graph_config = self.graph_config,
-                graph_type   = Schema__Mermaid__Graph,
-                mermaid_code = ["graph TD"]
-            )
+            Schema__Mermaid__Graph( edges        = "not-a-dict"          ,
+                                    nodes        = {}                    ,
+                                    graph_config = self.graph_config     ,
+                                    graph_type   = Schema__Mermaid__Graph,
+                                    mermaid_code = ["graph TD"]          )
         assert "Invalid type for attribute" in str(context.exception)
 
         with self.assertRaises(ValueError) as context:
-            Schema__Mermaid__Graph(
-                edges        = {}              ,
-                nodes        = {}              ,
-                graph_config = self.graph_config,
-                graph_type   = Schema__Mermaid__Graph,
-                mermaid_code = "not-a-list"
-            )
+            Schema__Mermaid__Graph( edges        = {}                    ,
+                                    nodes        = {}                    ,
+                                    graph_config = self.graph_config     ,
+                                    graph_type   = Schema__Mermaid__Graph,
+                                    mermaid_code = "not-a-list"          )
         assert "Invalid type for attribute" in str(context.exception)
 
 

@@ -17,8 +17,7 @@ class test_Mermaid(TestCase):
             assert is_guid(graph_id) is True
             assert _.obj()           == __(graph=__(default_types = __(node_domain_type='mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Node.Domain__Mermaid__Node',
                                                                        edge_domain_type='mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Edge.Domain__Mermaid__Edge'),
-                                                    model         = __(data=__(default_types = __(attribute_type    = 'mgraph_ai.mgraph.schemas.Schema__MGraph__Attribute.Schema__MGraph__Attribute'                     ,
-                                                                                                  edge_type         = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge.Schema__Mermaid__Edge'                  ,
+                                                    model         = __(data=__(default_types = __(edge_type         = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge.Schema__Mermaid__Edge'                  ,
                                                                                                   edge_config_type  = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge__Config.Schema__Mermaid__Edge__Config'  ,
                                                                                                   graph_config_type = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Graph__Config.Schema__Mermaid__Graph__Config',
                                                                                                   node_type         = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node.Schema__Mermaid__Node'                  ,

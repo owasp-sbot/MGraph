@@ -39,7 +39,6 @@ class test_Model__File_System__Item(TestCase):
         assert self.model.obj()                 == __(data=__(folder_name  = self.folder_name       ,
                                                              created_at  = created_at               ,
                                                              modified_at = modified_at              ,
-                                                             attributes  = __()                     ,
                                                              node_config = __(node_id     = node_id,
                                                                               value_type  = None   ),
                                                              node_type   = node_type                ,

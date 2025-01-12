@@ -56,7 +56,8 @@ that prioritizes simplicity, universality, and extensibility.
 
 ## Executive Summary
 
-MGraph's foundational principle rests on three core concepts: nodes exist, edges connect nodes, and everything else is implementation-specific. This minimalist approach creates a universal foundation for graph-based data representation and manipulation, where all complexity is pushed to the implementation layer.
+MGraph's foundational principle rests on three core concepts: nodes exist, edges connect nodes, and everything else is 
+implementation-specific. This minimalist approach creates a universal foundation for graph-based data representation and manipulation, where all complexity is pushed to the implementation layer.
 
 ## Core Principles of MGraph
 
@@ -422,7 +423,6 @@ minimalist graph representation while maintaining critical implementation flexib
 #### Current Implementation
 ```python
 class Schema__MGraph__Node:
-    attributes: Dict[Random_Guid, Schema__MGraph__Attribute]
     node_data: Schema__MGraph__Node__Data
     node_type: Type[Schema__MGraph__Node]
 ```
