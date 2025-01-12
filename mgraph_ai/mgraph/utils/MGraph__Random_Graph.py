@@ -1,6 +1,6 @@
 from typing import Optional, List
 from mgraph_ai.mgraph.domain.MGraph                             import MGraph
-from mgraph_ai.mgraph.domain.MGraph__Graph                      import MGraph__Graph
+from mgraph_ai.mgraph.domain.Domain__MGraph__Graph              import Domain__MGraph__Graph
 from mgraph_ai.mgraph.models.Model__MGraph__Graph               import Model__MGraph__Graph
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph             import Schema__MGraph__Graph
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph__Config     import Schema__MGraph__Graph__Config
@@ -11,7 +11,7 @@ from osbot_utils.utils.Misc                                     import random_in
 
 class MGraph__Random_Graph(Type_Safe):
     graph        : MGraph                           = None
-    graph__graph : MGraph__Graph                    = None
+    graph__graph : Domain__MGraph__Graph                    = None
     graph__model : Model__MGraph__Graph             = None
     graph_data   : Schema__MGraph__Graph            = None
     graph_config : Schema__MGraph__Graph__Config    = None
@@ -25,7 +25,7 @@ class MGraph__Random_Graph(Type_Safe):
                                                           graph_config = self.graph_config                  ,
                                                           graph_type   = Schema__MGraph__Graph              )
         self.graph__model = Model__MGraph__Graph        (data          = self.graph_data                    )
-        self.graph__graph = MGraph__Graph               (model         = self.graph__model                  )
+        self.graph__graph = Domain__MGraph__Graph               (model         = self.graph__model)
         self.graph        = MGraph                      (graph         = self.graph__graph                  )
         return self
 

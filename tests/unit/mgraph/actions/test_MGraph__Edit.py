@@ -1,9 +1,9 @@
 from unittest                                           import TestCase
 from osbot_utils.utils.Misc                             import is_guid
-from mgraph_ai.mgraph.domain.MGraph__Node               import MGraph__Node
+from mgraph_ai.mgraph.domain.Domain__MGraph__Node               import Domain__MGraph__Node
 from osbot_utils.utils.Objects                          import __
 from mgraph_ai.mgraph.actions.MGraph__Edit              import MGraph__Edit
-from mgraph_ai.mgraph.domain.MGraph__Graph              import MGraph__Graph
+from mgraph_ai.mgraph.domain.Domain__MGraph__Graph              import Domain__MGraph__Graph
 from mgraph_ai.mgraph.models.Model__MGraph__Graph       import Model__MGraph__Graph
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph     import Schema__MGraph__Graph
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Node      import Schema__MGraph__Node
@@ -18,14 +18,14 @@ class test_MGraph__Edit(TestCase):
     def setUp(self):
         self.schema_graph = Schema__MGraph__Graph(nodes = {}, edges={}, graph_config=None, graph_type=Schema__MGraph__Graph)   # Create a schema graph
         self.model_graph  = Model__MGraph__Graph (data  =self.schema_graph)                                                     # Create model and domain graph
-        self.domain_graph = MGraph__Graph        (model =self.model_graph )
+        self.domain_graph = Domain__MGraph__Graph        (model =self.model_graph)
         self.graph_edit   = MGraph__Edit         (graph =self.domain_graph)                                                     # Create edit object
 
     def test_add_node(self):
         with self.graph_edit as _:
             node    = _.new_node()
             node_id = node.node_id
-            assert type(node)       is MGraph__Node
+            assert type(node) is Domain__MGraph__Node
             assert is_guid(node_id) is True
             assert node.obj()       == __(node=__(data=__(attributes  = __(),
                                                           node_config = __(node_id=node_id,value_type=None),

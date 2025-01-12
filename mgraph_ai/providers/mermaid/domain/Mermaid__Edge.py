@@ -1,11 +1,11 @@
-from mgraph_ai.mgraph.domain.MGraph__Edge                              import MGraph__Edge
+from mgraph_ai.mgraph.domain.Domain__MGraph__Edge                              import Domain__MGraph__Edge
 from mgraph_ai.providers.mermaid.models.Model__Mermaid__Edge           import Model__Mermaid__Edge
 from mgraph_ai.providers.mermaid.models.Model__Mermaid__Graph          import Model__Mermaid__Graph
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge__Config import Schema__Mermaid__Edge__Config
 from osbot_utils.type_safe.methods.type_safe_property                  import set_as_property
 
 
-class Mermaid__Edge(MGraph__Edge):
+class Mermaid__Edge(Domain__MGraph__Edge):
     edge  : Model__Mermaid__Edge
     graph : Model__Mermaid__Graph
 

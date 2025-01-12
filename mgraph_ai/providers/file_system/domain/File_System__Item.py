@@ -1,10 +1,10 @@
 from typing                                                           import List
-from mgraph_ai.mgraph.domain.MGraph__Node                             import MGraph__Node
+from mgraph_ai.mgraph.domain.Domain__MGraph__Node                             import Domain__MGraph__Node
 from mgraph_ai.providers.file_system.models.Model__File_System__Graph import Model__File_System__Graph
 from mgraph_ai.providers.file_system.models.Model__File_System__Item  import Model__File_System__Item
 from osbot_utils.type_safe.methods.type_safe_property                 import set_as_property
 
-class File_System__Item(MGraph__Node):                                                                      # Base domain class for filesystem items
+class File_System__Item(Domain__MGraph__Node):                                                                      # Base domain class for filesystem items
     node : Model__File_System__Item
     graph: Model__File_System__Graph
 

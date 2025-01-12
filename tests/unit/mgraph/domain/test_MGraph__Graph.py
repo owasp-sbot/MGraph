@@ -1,10 +1,10 @@
 from unittest                                                import TestCase
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Default__Types import Schema__MGraph__Default__Types
 from osbot_utils.helpers.Safe_Id                             import Safe_Id
-from mgraph_ai.mgraph.domain.MGraph__Edge                    import MGraph__Edge
-from mgraph_ai.mgraph.domain.MGraph__Node                    import MGraph__Node
+from mgraph_ai.mgraph.domain.Domain__MGraph__Edge                    import Domain__MGraph__Edge
+from mgraph_ai.mgraph.domain.Domain__MGraph__Node                    import Domain__MGraph__Node
 from mgraph_ai.mgraph.models.Model__MGraph__Node             import Model__MGraph__Node
-from mgraph_ai.mgraph.domain.MGraph__Graph                   import MGraph__Graph
+from mgraph_ai.mgraph.domain.Domain__MGraph__Graph                   import Domain__MGraph__Graph
 from mgraph_ai.mgraph.models.Model__MGraph__Graph            import Model__MGraph__Graph
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph          import Schema__MGraph__Graph
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph__Config  import Schema__MGraph__Graph__Config
@@ -27,10 +27,10 @@ class test_MGraph__Graph(TestCase):
                                                              graph_type    = Schema__MGraph__Graph)
 
         self.model_graph = Model__MGraph__Graph             (data=self.schema_graph)                         # Create model graph
-        self.graph       = MGraph__Graph                    (model=self.model_graph)
+        self.graph       = Domain__MGraph__Graph                    (model=self.model_graph)
 
     def test_init(self):                                                                        # Tests basic initialization
-        assert type(self.graph)   is MGraph__Graph
+        assert type(self.graph) is Domain__MGraph__Graph
         assert self.graph.model   is self.model_graph
 
     def test_node_operations(self):                                                             # Tests node creation and management
@@ -39,14 +39,14 @@ class test_MGraph__Graph(TestCase):
 
         assert node                 is not None                                                 # Verify node creation
         assert node.value         == "test_value"
-        assert type(node          ) is MGraph__Node
+        assert type(node          ) is Domain__MGraph__Node
         assert type(node.node     ) is Model__MGraph__Node
         assert type(node.node.data) is Simple_Node
 
         retrieved_node = self.graph.node(node.node_id)                                             # Retrieve node by ID
         assert retrieved_node         is not None
         assert retrieved_node.value == "test_value"
-        assert type(retrieved_node)   is MGraph__Node
+        assert type(retrieved_node) is Domain__MGraph__Node
 
         # List all nodes
         nodes = self.graph.nodes()
@@ -68,14 +68,14 @@ class test_MGraph__Graph(TestCase):
         assert edge                  is not None                                            # Verify edge creation
         assert from_node.value       == "from_value"
         assert to_node.value         == "to_value"
-        assert type(from_node)       is MGraph__Node
-        assert type(to_node  )       is MGraph__Node
+        assert type(from_node) is Domain__MGraph__Node
+        assert type(to_node  ) is Domain__MGraph__Node
         assert type(from_node.graph) is Model__MGraph__Graph
         assert type(to_node  .graph) is Model__MGraph__Graph
 
         retrieved_edge = self.graph.edge(edge.edge_id)                                             # Retrieve edge by ID
         assert retrieved_edge             is not None
-        assert type(retrieved_edge      ) is MGraph__Edge
+        assert type(retrieved_edge      ) is Domain__MGraph__Edge
         assert type(retrieved_edge.graph) is Model__MGraph__Graph
 
 
@@ -109,7 +109,7 @@ class test_MGraph__Graph(TestCase):
         node2 = self.graph.new_node(value="node2")
         edge  = self.graph.new_edge(from_node_id=node1.node_id, to_node_id=node2.node_id)
 
-        assert type(edge)                         == MGraph__Edge
+        assert type(edge) == Domain__MGraph__Edge
         assert len(self.graph.nodes())            == 2                                      # Verify multiple graph queries
         assert len(self.graph.edges())            == 1
         assert self.graph.delete_node(node1.node_id) is True                                   # Delete operations

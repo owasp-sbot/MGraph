@@ -1,6 +1,6 @@
 from unittest                                           import TestCase
 from osbot_utils.helpers.Safe_Id                        import Safe_Id
-from mgraph_ai.mgraph.domain.MGraph__Attribute          import MGraph__Attribute
+from mgraph_ai.mgraph.domain.Domain__MGraph__Attribute          import Domain__MGraph__Attribute
 from mgraph_ai.mgraph.models.Model__MGraph__Attribute   import Model__MGraph__Attribute
 from mgraph_ai.mgraph.models.Model__MGraph__Graph       import Model__MGraph__Graph
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Attribute import Schema__MGraph__Attribute
@@ -19,10 +19,10 @@ class test_MGraph__Attribute(TestCase):
 
         # Create model and domain attribute
         self.model_attribute = Model__MGraph__Attribute(data=self.schema_attribute)
-        self.attribute       = MGraph__Attribute(attribute=self.model_attribute, graph=self.graph)
+        self.attribute       = Domain__MGraph__Attribute(attribute=self.model_attribute, graph=self.graph)
 
     def test_init(self):                                                                    # Tests basic initialization
-        assert type(self.attribute)      is MGraph__Attribute
+        assert type(self.attribute) is Domain__MGraph__Attribute
         assert self.attribute.attribute  is self.model_attribute
         assert self.attribute.graph      is self.graph
         assert type(self.attribute.id()) is Random_Guid
@@ -52,7 +52,7 @@ class test_MGraph__Attribute(TestCase):
                                                     attribute_value = value               ,
                                                     attribute_type  = expected_type       )
             model_attr = Model__MGraph__Attribute(data=schema_attr)
-            attr = MGraph__Attribute(attribute=model_attr, graph=self.graph)
+            attr = Domain__MGraph__Attribute(attribute=model_attr, graph=self.graph)
 
             assert attr.value() == value
             assert attr.attribute.data.attribute_type == expected_type
@@ -69,7 +69,7 @@ class test_MGraph__Attribute(TestCase):
                                                 attribute_value = "initial_value"     ,
                                                 attribute_type  = None                )
         model_attr = Model__MGraph__Attribute(data=schema_attr)
-        attr      = MGraph__Attribute(attribute=model_attr, graph=self.graph)
+        attr      = Domain__MGraph__Attribute(attribute=model_attr, graph=self.graph)
 
         # Should allow setting different types of values
         test_values = ["string", 42, True, 3.14]

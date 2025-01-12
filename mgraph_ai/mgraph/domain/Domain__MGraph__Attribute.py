@@ -4,7 +4,7 @@ from mgraph_ai.mgraph.models.Model__MGraph__Attribute import Model__MGraph__Attr
 from mgraph_ai.mgraph.models.Model__MGraph__Graph     import Model__MGraph__Graph
 from osbot_utils.type_safe.Type_Safe                  import Type_Safe
 
-class MGraph__Attribute(Type_Safe):                                                        # Domain class for attributes
+class Domain__MGraph__Attribute(Type_Safe):                                                        # Domain class for attributes
     attribute: Model__MGraph__Attribute                                                    # Reference to attribute model
     graph    : Model__MGraph__Graph                                                        # Reference to graph model
 
@@ -17,6 +17,6 @@ class MGraph__Attribute(Type_Safe):                                             
     def value(self) -> Any:                                                                # Get attribute value
         return self.attribute.value()
 
-    def set_value(self, value: Any) -> 'MGraph__Attribute':                               # Set attribute value with type checking
+    def set_value(self, value: Any) -> 'Domain__MGraph__Attribute':                               # Set attribute value with type checking
         self.attribute.set_value(value)
         return self

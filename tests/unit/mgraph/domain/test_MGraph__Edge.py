@@ -1,6 +1,6 @@
 from unittest                                              import TestCase
 from osbot_utils.helpers.Safe_Id                           import Safe_Id
-from mgraph_ai.mgraph.domain.MGraph__Edge                  import MGraph__Edge
+from mgraph_ai.mgraph.domain.Domain__MGraph__Edge                  import Domain__MGraph__Edge
 from mgraph_ai.mgraph.models.Model__MGraph__Edge           import Model__MGraph__Edge
 from mgraph_ai.mgraph.models.Model__MGraph__Graph          import Model__MGraph__Graph
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge         import Schema__MGraph__Edge
@@ -46,10 +46,10 @@ class test_MGraph__Edge(TestCase):
 
         # Create model and domain edge
         self.model_edge = Model__MGraph__Edge(data=self.schema_edge)
-        self.edge       = MGraph__Edge(edge=self.model_edge, graph=self.graph)
+        self.edge       = Domain__MGraph__Edge(edge=self.model_edge, graph=self.graph)
 
     def test_init(self):                                                                    # Tests basic initialization
-        assert type(self.edge)           is MGraph__Edge
+        assert type(self.edge) is Domain__MGraph__Edge
         assert self.edge.edge            is self.model_edge
         assert self.edge.graph           is self.graph
         assert type(self.edge.edge_id)   is Random_Guid

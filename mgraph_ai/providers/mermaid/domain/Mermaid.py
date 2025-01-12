@@ -1,5 +1,5 @@
 from mgraph_ai.mgraph.domain.MGraph                         import MGraph
-from mgraph_ai.providers.mermaid.actions.Mermaid__Edit import Mermaid__Edit
+from mgraph_ai.providers.mermaid.actions.Mermaid__Edit      import Mermaid__Edit
 from mgraph_ai.providers.mermaid.actions.Mermaid__Render    import Mermaid__Render
 from mgraph_ai.providers.mermaid.domain.Mermaid__Graph      import Mermaid__Graph
 

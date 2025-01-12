@@ -4,7 +4,7 @@ from unittest                                                import TestCase
 
 import pytest
 
-from mgraph_ai.mgraph.domain.MGraph__Graph                   import MGraph__Graph
+from mgraph_ai.mgraph.domain.Domain__MGraph__Graph                   import Domain__MGraph__Graph
 from mgraph_ai.mgraph.models.Model__MGraph__Graph            import Model__MGraph__Graph
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Default__Types import Schema__MGraph__Default__Types
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph          import Schema__MGraph__Graph

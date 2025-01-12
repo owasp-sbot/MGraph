@@ -1,11 +1,11 @@
-from mgraph_ai.mgraph.domain.MGraph__Graph  import MGraph__Graph
-from osbot_utils.type_safe.Type_Safe        import Type_Safe
+from mgraph_ai.mgraph.domain.Domain__MGraph__Graph  import Domain__MGraph__Graph
+from osbot_utils.type_safe.Type_Safe                import Type_Safe
 
 class MGraph__Storage(Type_Safe):
-    graph: MGraph__Graph
+    graph: Domain__MGraph__Graph
 
-    def create(self) -> MGraph__Graph:                       # overwrite on classes that have a storage target
-        self.graph = MGraph__Graph()
+    def create(self) -> Domain__MGraph__Graph:                       # overwrite on classes that have a storage target
+        self.graph = Domain__MGraph__Graph()
         return self.graph
 
     def delete(self) -> bool:                       # overwrite on classes that have a storage target

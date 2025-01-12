@@ -1,6 +1,6 @@
 from unittest                                                import TestCase
-from mgraph_ai.mgraph.domain.MGraph__Edge                    import MGraph__Edge
-from mgraph_ai.mgraph.domain.MGraph__Node                    import MGraph__Node
+from mgraph_ai.mgraph.domain.Domain__MGraph__Edge            import Domain__MGraph__Edge
+from mgraph_ai.mgraph.domain.Domain__MGraph__Node            import Domain__MGraph__Node
 from mgraph_ai.mgraph.models.Model__MGraph__Edge             import Model__MGraph__Edge
 from mgraph_ai.mgraph.models.Model__MGraph__Node             import Model__MGraph__Node
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Default__Types import Schema__MGraph__Default__Types
@@ -8,7 +8,7 @@ from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge           import Schema__MGra
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Node           import Schema__MGraph__Node
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Config   import Schema__MGraph__Node__Config
 from mgraph_ai.mgraph.domain.MGraph                          import MGraph
-from mgraph_ai.mgraph.domain.MGraph__Graph                   import MGraph__Graph
+from mgraph_ai.mgraph.domain.Domain__MGraph__Graph           import Domain__MGraph__Graph
 from mgraph_ai.mgraph.models.Model__MGraph__Graph            import Model__MGraph__Graph
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph          import Schema__MGraph__Graph
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph__Config  import Schema__MGraph__Graph__Config
@@ -23,7 +23,7 @@ class test_MGraph__Random_Graph(TestCase):
     def test_init(self):                                                           # Test initialization
         assert type(self.random_graph)                     is MGraph__Random_Graph
         assert type(self.random_graph.graph)               is MGraph
-        assert type(self.random_graph.graph__graph)        is MGraph__Graph
+        assert type(self.random_graph.graph__graph) is Domain__MGraph__Graph
         assert type(self.random_graph.graph__model)        is Model__MGraph__Graph
         assert type(self.random_graph.graph_data)          is Schema__MGraph__Graph
         assert type(self.random_graph.graph_config)        is Schema__MGraph__Graph__Config
@@ -87,7 +87,7 @@ class test_MGraph__Random_Graph(TestCase):
         assert type(mgraph)                   is MGraph
         assert len (mgraph.data().nodes())    == 0
         assert len (mgraph.data().edges())    == 0
-        assert type(mgraph.graph            ) is MGraph__Graph
+        assert type(mgraph.graph            ) is Domain__MGraph__Graph
         assert type(mgraph.graph.model      ) is Model__MGraph__Graph
         assert type(mgraph.graph.model.data ) is Schema__MGraph__Graph
 
@@ -104,7 +104,7 @@ class test_MGraph__Random_Graph(TestCase):
     def test_create_random_mgraph(self):
         with create_random_mgraph() as _:
             assert type(_                        ) is MGraph
-            assert type(_.graph                  ) is MGraph__Graph
+            assert type(_.graph                  ) is Domain__MGraph__Graph
             assert type(_.graph.model            ) is Model__MGraph__Graph
             assert type(_.graph.model.data       ) is Schema__MGraph__Graph
             assert len(_.graph           .nodes()) == 2
@@ -118,7 +118,7 @@ class test_MGraph__Random_Graph(TestCase):
             model_node  = _.graph.model.nodes                 () [0]
             schema_node = list(_.graph.model.data.nodes.values())[0]
 
-            assert type(domain_node                         ) == MGraph__Node
+            assert type(domain_node                         ) == Domain__MGraph__Node
             assert type(domain_node.node                    ) == Model__MGraph__Node
             assert type(domain_node.graph                   ) == Model__MGraph__Graph
             assert type(domain_node.graph.data              ) == Schema__MGraph__Graph
@@ -136,7 +136,7 @@ class test_MGraph__Random_Graph(TestCase):
             model_edge  = _.graph.model.edges                 () [0]
             schema_edge = list(_.graph.model.data.edges.values())[0]
 
-            assert type(domain_edge                         ) == MGraph__Edge
+            assert type(domain_edge                         ) == Domain__MGraph__Edge
             assert type(domain_edge.edge                    ) == Model__MGraph__Edge
             assert type(domain_edge.graph                   ) == Model__MGraph__Graph
             assert type(domain_edge.graph.data              ) == Schema__MGraph__Graph

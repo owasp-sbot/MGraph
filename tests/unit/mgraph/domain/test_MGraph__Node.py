@@ -1,6 +1,6 @@
 from unittest                                              import TestCase
 from osbot_utils.helpers.Safe_Id                           import Safe_Id
-from mgraph_ai.mgraph.domain.MGraph__Node                  import MGraph__Node
+from mgraph_ai.mgraph.domain.Domain__MGraph__Node                  import Domain__MGraph__Node
 from mgraph_ai.mgraph.models.Model__MGraph__Node           import Model__MGraph__Node
 from mgraph_ai.mgraph.models.Model__MGraph__Graph          import Model__MGraph__Graph
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Node         import Schema__MGraph__Node
@@ -18,10 +18,10 @@ class test_MGraph__Node(TestCase):
                                                        value      = "test_value"         )
         self.model_node = Model__MGraph__Node(data=self.schema_node)
         self.graph      = Model__MGraph__Graph(data=None)                                   # Mock graph for testing
-        self.node       = MGraph__Node(node=self.model_node, graph=self.graph)
+        self.node       = Domain__MGraph__Node(node=self.model_node, graph=self.graph)
 
     def test_init(self):                                                                    # Tests basic initialization
-        assert type(self.node)           is MGraph__Node
+        assert type(self.node) is Domain__MGraph__Node
         assert self.node.node            is self.model_node
         assert self.node.graph           is self.graph
         assert self.node.value         == "test_value"

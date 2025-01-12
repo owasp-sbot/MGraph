@@ -1,6 +1,6 @@
 from unittest                                       import TestCase
 from mgraph_ai.mgraph.actions.MGraph__Data          import MGraph__Data
-from mgraph_ai.mgraph.domain.MGraph__Graph          import MGraph__Graph
+from mgraph_ai.mgraph.domain.Domain__MGraph__Graph          import Domain__MGraph__Graph
 from mgraph_ai.mgraph.models.Model__MGraph__Graph   import Model__MGraph__Graph
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph import Schema__MGraph__Graph
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Node  import Schema__MGraph__Node
@@ -14,7 +14,7 @@ class test_MGraph__Data(TestCase):
         schema_graph = Schema__MGraph__Graph(nodes={}, edges={}, graph_config=None, graph_type=Schema__MGraph__Graph)   # Create a schema graph
 
         model_graph  = Model__MGraph__Graph(data=schema_graph)                                                          # Create model and domain graph
-        domain_graph = MGraph__Graph(model=model_graph)
+        domain_graph = Domain__MGraph__Graph(model=model_graph)
         self.graph_data    = MGraph__Data(graph=domain_graph)                                                                 # Create data object
 
     def test_node_and_edge_retrieval(self):
