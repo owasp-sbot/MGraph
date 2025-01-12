@@ -13,8 +13,6 @@ class Mermaid__Render(Type_Safe):
     mermaid_code  : List
     render_config = set_as_property('graph.model.data', 'render_config', Schema__Mermaid__Render__Config)
 
-    def config(self):
-        return self.graph.model.data.render_config
     def add_line(self, line:str) -> str:
         self.mermaid_code.append(line)
         return line
