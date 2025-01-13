@@ -69,7 +69,7 @@ class test_MGraph__Random_Graph(TestCase):
         assert str(context.exception) == "Number of edges cannot be negative"
 
     def test_create_graph_default_params(self):                                   # Test graph creation with defaults
-        graph = self.random_graph.create_graph()
+        graph = self.random_graph.create_random_graph()
 
         assert len(graph.data().nodes()) == 10                                    # Default 10 nodes
         assert len(graph.data().edges()) == 20                                    # Default 20 edges (2x nodes)
@@ -77,7 +77,7 @@ class test_MGraph__Random_Graph(TestCase):
     def test_create_graph_custom_params(self):                                    # Test graph creation with custom params
         num_nodes = 5
         num_edges = 7
-        graph = self.random_graph.create_graph(num_nodes=num_nodes, num_edges=num_edges)
+        graph = self.random_graph.create_random_graph(num_nodes=num_nodes, num_edges=num_edges)
         assert len(graph.data().nodes()) == num_nodes
         assert len(graph.data().edges()) == num_edges
 

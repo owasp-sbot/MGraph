@@ -1,7 +1,5 @@
-from typing                                                import Any, List
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge__Config import Schema__MGraph__Edge__Config
 from osbot_utils.helpers.Random_Guid                       import Random_Guid
-from osbot_utils.helpers.Safe_Id                           import Safe_Id
 from mgraph_ai.mgraph.domain.Domain__MGraph__Node          import Domain__MGraph__Node
 from mgraph_ai.mgraph.models.Model__MGraph__Edge           import Model__MGraph__Edge
 from mgraph_ai.mgraph.models.Model__MGraph__Graph          import Model__MGraph__Graph
@@ -21,7 +19,13 @@ class Domain__MGraph__Edge(Type_Safe):                                          
         if node:
             return Domain__MGraph__Node(node=node, graph=self.graph)
 
+    def from_node_id(self) -> Random_Guid:                                                              # Get source node ID
+        return self.edge.from_node_id()
+
     def to_node(self) -> Domain__MGraph__Node:                                                          # Get target node
         node = self.graph.node(self.edge.to_node_id())
         if node:
             return Domain__MGraph__Node(node=node, graph=self.graph)
+
+    def to_node_id(self) -> Random_Guid:                                                              # Get source node ID
+        return self.edge.to_node_id()

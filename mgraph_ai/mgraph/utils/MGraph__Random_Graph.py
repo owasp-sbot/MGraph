@@ -4,7 +4,7 @@ from mgraph_ai.mgraph.domain.Domain__MGraph__Graph            import Domain__MGr
 from mgraph_ai.mgraph.models.Model__MGraph__Graph             import Model__MGraph__Graph
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph           import Schema__MGraph__Graph
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph__Data     import Schema__MGraph__Graph__Data
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Types  import Schema__MGraph__Types
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Types           import Schema__MGraph__Types
 from osbot_utils.helpers.Random_Guid                          import Random_Guid
 from osbot_utils.type_safe.Type_Safe                          import Type_Safe
 from osbot_utils.utils.Misc                                   import random_int
@@ -51,7 +51,8 @@ class MGraph__Random_Graph(Type_Safe):
             self.graph.edit().new_edge(from_node_id = node_ids[from_idx],
                                        to_node_id   = node_ids[to_idx  ])
 
-    def create_graph(self, num_nodes: int = 10, num_edges: Optional[int] = None) -> MGraph:                             # Create a new graph with random nodes and edges
+    def create_random_graph(self, num_nodes: int = 10, num_edges: Optional[int] = None) -> MGraph:                             # Create a new graph with random nodes and edges
+        self.setup()
         if num_edges is None:
             num_edges = num_nodes * 2  # Default to twice as many edges as nodes
 
@@ -60,8 +61,11 @@ class MGraph__Random_Graph(Type_Safe):
 
         return self.graph
 
+    def empty_graph(self):
+        return self.setup().graph
+
 def create_random_mgraph(num_nodes=2, num_edges=2) -> MGraph:                                        # Create an empty graph with no nodes or edges
-    return MGraph__Random_Graph().setup().create_graph(num_nodes=num_nodes, num_edges=num_edges)
+    return MGraph__Random_Graph().setup().create_random_graph(num_nodes=num_nodes, num_edges=num_edges)
 
 def create_empty_mgraph() -> MGraph:                                        # Create an empty graph with no nodes or edges
     return MGraph__Random_Graph().setup().graph

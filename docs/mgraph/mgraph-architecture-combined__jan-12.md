@@ -139,17 +139,18 @@ class Provider__Template:
 - Reduced boilerplate code
 
 ### 3. Standard Provider Interface
+
 ```python
 class MGraph__Provider(MGraph):
     def __init__(self, config=None):
         self.provider = Provider__Template()
-        self.graph = self.provider.create_graph(config)
-        
+        self.graph = self.provider.create_random_graph(config)
+
     @classmethod
     def from_data(cls, data):
         """Create graph from serialized data"""
         pass
-        
+
     def to_data(self, format='native'):
         """Serialize graph to specified format"""
         pass
