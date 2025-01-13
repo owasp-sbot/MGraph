@@ -1,5 +1,5 @@
 from typing                                                             import Type
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Types            import Schema__MGraph__Types
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Types                     import Schema__MGraph__Types
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge          import Schema__Mermaid__Edge
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge__Config  import Schema__Mermaid__Edge__Config
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Graph__Config import Schema__Mermaid__Graph__Config

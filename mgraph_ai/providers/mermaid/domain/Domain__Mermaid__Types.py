@@ -1,7 +1,7 @@
-from typing                                                   import Type
-from mgraph_ai.mgraph.domain.Domain__MGraph__Types   import Domain__MGraph__Types
-from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Edge import Domain__Mermaid__Edge
-from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Node import Domain__Mermaid__Node
+from typing                                                     import Type
+from mgraph_ai.mgraph.domain.Domain__MGraph__Types              import Domain__MGraph__Types
+from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Edge   import Domain__Mermaid__Edge
+from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Node   import Domain__Mermaid__Node
 
 class Domain__Mermaid__Types(Domain__MGraph__Types):
     node_domain_type: Type[Domain__Mermaid__Node]

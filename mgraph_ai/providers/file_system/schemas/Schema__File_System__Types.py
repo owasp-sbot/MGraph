@@ -1,5 +1,5 @@
 from typing                                                                     import Type
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Types                    import Schema__MGraph__Types
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Types                             import Schema__MGraph__Types
 from mgraph_ai.providers.file_system.schemas.Schema__File_System__Graph__Config import Schema__File_System__Graph__Config
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Data                        import Schema__MGraph__Node__Data
 from mgraph_ai.providers.file_system.schemas.Schema__Folder__Node               import Schema__Folder__Node
