@@ -16,11 +16,7 @@ from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Graph__Config  import 
 class Mermaid__Random_Graph(MGraph__Random_Graph):
 
     def setup(self) -> 'Mermaid__Random_Graph':                                                                             # Initialize with Mermaid-specific components
-        self.graph_config = Schema__Mermaid__Graph__Config(graph_id      = Random_Guid())
         self.graph_data   = Schema__Mermaid__Graph        (default_types = Schema__Mermaid__Default__Types(),
-                                                           edges        = {}                                ,
-                                                           nodes        = {}                                ,
-                                                           graph_config = self.graph_config                 ,
                                                            graph_type   = Schema__Mermaid__Graph            ,
                                                            mermaid_code = []                                )
         self.graph__model = Model__Mermaid__Graph         (data=self.graph_data)

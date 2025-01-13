@@ -11,7 +11,7 @@ from mgraph_ai.mgraph.MGraph                                 import MGraph
 from mgraph_ai.mgraph.domain.Domain__MGraph__Graph           import Domain__MGraph__Graph
 from mgraph_ai.mgraph.models.Model__MGraph__Graph            import Model__MGraph__Graph
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph          import Schema__MGraph__Graph
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph__Config  import Schema__MGraph__Graph__Config
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph__Data    import Schema__MGraph__Graph__Data
 from mgraph_ai.mgraph.utils.MGraph__Random_Graph             import MGraph__Random_Graph, create_empty_mgraph, create_random_mgraph
 
 
@@ -21,21 +21,21 @@ class test_MGraph__Random_Graph(TestCase):
         self.random_graph = MGraph__Random_Graph().setup()
 
     def test_init(self):                                                           # Test initialization
-        assert type(self.random_graph)                     is MGraph__Random_Graph
-        assert type(self.random_graph.graph)               is MGraph
-        assert type(self.random_graph.graph__graph) is Domain__MGraph__Graph
-        assert type(self.random_graph.graph__model)        is Model__MGraph__Graph
-        assert type(self.random_graph.graph_data)          is Schema__MGraph__Graph
-        assert type(self.random_graph.graph_config)        is Schema__MGraph__Graph__Config
-        assert len(self.random_graph.graph_data.nodes)     == 0
-        assert len(self.random_graph.graph_data.edges)     == 0
+        assert type(self.random_graph                   ) is MGraph__Random_Graph
+        assert type(self.random_graph.graph             ) is MGraph
+        assert type(self.random_graph.graph__graph      ) is Domain__MGraph__Graph
+        assert type(self.random_graph.graph__model      ) is Model__MGraph__Graph
+        assert type(self.random_graph.graph__schema     ) is Schema__MGraph__Graph
+        assert type(self.random_graph.graph__data       ) is Schema__MGraph__Graph__Data
+        assert len(self.random_graph.graph__schema.nodes) == 0
+        assert len(self.random_graph.graph__schema.edges) == 0
 
     def test_create_nodes(self):                                                   # Test node creation
         num_nodes = 5
         node_ids = self.random_graph.create_nodes(num_nodes)
 
         assert len(node_ids)                               == num_nodes
-        assert len(self.random_graph.graph_data.nodes)     == num_nodes
+        assert len(self.random_graph.graph__schema.nodes) == num_nodes
 
         for node_id in node_ids:                                                   # Verify each node exists
             node = self.random_graph.graph.data().node(node_id)
@@ -52,7 +52,7 @@ class test_MGraph__Random_Graph(TestCase):
         node_ids = self.random_graph.create_nodes(num_nodes)
 
         self.random_graph.create_random_edges(node_ids, num_edges)
-        assert len(self.random_graph.graph_data.edges) == num_edges
+        assert len(self.random_graph.graph__schema.edges) == num_edges
 
         for edge in self.random_graph.graph.data().edges():                       # Verify each edge connects existing nodes
             assert edge.from_node() is not None

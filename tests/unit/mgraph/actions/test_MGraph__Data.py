@@ -11,7 +11,7 @@ class Simple_Node(Schema__MGraph__Node): pass  # Helper class for testing
 class test_MGraph__Data(TestCase):
 
     def setUp(self):
-        schema_graph = Schema__MGraph__Graph(nodes={}, edges={}, graph_config=None, graph_type=Schema__MGraph__Graph)   # Create a schema graph
+        schema_graph = Schema__MGraph__Graph(graph_type=Schema__MGraph__Graph)   # Create a schema graph
 
         model_graph  = Model__MGraph__Graph(data=schema_graph)                                                          # Create model and domain graph
         domain_graph = Domain__MGraph__Graph(model=model_graph)

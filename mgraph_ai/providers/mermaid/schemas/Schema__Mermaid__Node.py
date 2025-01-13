@@ -6,5 +6,5 @@ from mgraph_ai.mgraph.schemas.Schema__MGraph__Node                    import Sch
 class Schema__Mermaid__Node(Schema__MGraph__Node):
     key        : Safe_Id
     label      : str
-    node_data: Schema__Mermaid__Node__Data
+    node_data  : Schema__Mermaid__Node__Data
     node_type  : Type['Schema__Mermaid__Node']

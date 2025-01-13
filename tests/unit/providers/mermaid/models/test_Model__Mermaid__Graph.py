@@ -13,18 +13,15 @@ from mgraph_ai.mgraph.models.Model__MGraph__Graph                       import M
 class test_Model__Mermaid__Graph(TestCase):
 
     def setUp(self):                                                                # Initialize test data
-        self.graph_config = Schema__Mermaid__Graph__Config (graph_id              = Random_Guid(),
-                                                            allow_circle_edges    =  True        ,
-                                                            allow_duplicate_edges = False        ,
-                                                            graph_title           = "Test Graph" )
-
-        self.graph_data  = Schema__Mermaid__Graph          (edges         = {},
-                                                            nodes         = {},
-                                                            graph_config  = self.graph_config,
-                                                            graph_type    = Schema__Mermaid__Graph,
-                                                            mermaid_code  = [])
-
-        self.graph = Model__Mermaid__Graph(data=self.graph_data)
+        self.graph_data = Schema__Mermaid__Graph__Config (allow_circle_edges    = True                  ,
+                                                          allow_duplicate_edges = False                 ,
+                                                          graph_title           = "Test Graph"          )
+        self.graph_data = Schema__Mermaid__Graph         (edges                 = {}                    ,
+                                                          nodes                 = {}                    ,
+                                                          graph_data            = self.graph_data       ,
+                                                          graph_type            = Schema__Mermaid__Graph,
+                                                          mermaid_code          = []                    )
+        self.graph      = Model__Mermaid__Graph(data=self.graph_data)
 
     def test_init(self):                                                            # Tests basic initialization
         assert type          (self.graph) is Model__Mermaid__Graph
@@ -79,13 +76,13 @@ class test_Model__Mermaid__Graph(TestCase):
         assert isinstance(edges[0].data, Schema__Mermaid__Edge)
 
     def test_mermaid_specific_config(self):                                        # Tests Mermaid-specific configuration
-        assert hasattr(self.graph.data.graph_config, 'allow_circle_edges')
-        assert hasattr(self.graph.data.graph_config, 'allow_duplicate_edges')
-        assert hasattr(self.graph.data.graph_config, 'graph_title')
+        assert hasattr(self.graph.data.graph_data, 'allow_circle_edges')
+        assert hasattr(self.graph.data.graph_data, 'allow_duplicate_edges')
+        assert hasattr(self.graph.data.graph_data, 'graph_title')
 
-        assert self.graph.data.graph_config.allow_circle_edges is True
-        assert self.graph.data.graph_config.allow_duplicate_edges is False
-        assert self.graph.data.graph_config.graph_title == "Test Graph"
+        assert self.graph.data.graph_data.allow_circle_edges is True
+        assert self.graph.data.graph_data.allow_duplicate_edges is False
+        assert self.graph.data.graph_data.graph_title == "Test Graph"
 
     def test_mermaid_code_list(self):                                             # Tests Mermaid-specific mermaid_code list
         assert hasattr(self.graph.data, 'mermaid_code')

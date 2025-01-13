@@ -1,7 +1,7 @@
 from unittest                                                   import TestCase
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge              import Schema__MGraph__Edge
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge__Config      import Schema__MGraph__Edge__Config
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph__Config     import Schema__MGraph__Graph__Config
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph__Data       import Schema__MGraph__Graph__Data
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Node              import Schema__MGraph__Node
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Data        import Schema__MGraph__Node__Data
 from osbot_utils.utils.Objects                                  import __
@@ -11,14 +11,14 @@ class test_Schema__MGraph__Default__Types(TestCase):
 
     def test__init__(self):
         with Schema__MGraph__Default__Types() as _:
-            assert _.obj() == __(edge_type         = 'mgraph_ai.mgraph.schemas.Schema__MGraph__Edge.Schema__MGraph__Edge'                   ,
-                                 edge_config_type  = 'mgraph_ai.mgraph.schemas.Schema__MGraph__Edge__Config.Schema__MGraph__Edge__Config'   ,
-                                 graph_config_type = 'mgraph_ai.mgraph.schemas.Schema__MGraph__Graph__Config.Schema__MGraph__Graph__Config' ,
-                                 node_type         = 'mgraph_ai.mgraph.schemas.Schema__MGraph__Node.Schema__MGraph__Node'                   ,
-                                 node_data_type    = 'mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Data.Schema__MGraph__Node__Data'       )
+            assert _.obj() == __(edge_type        = 'mgraph_ai.mgraph.schemas.Schema__MGraph__Edge.Schema__MGraph__Edge'                ,
+                                 edge_config_type = 'mgraph_ai.mgraph.schemas.Schema__MGraph__Edge__Config.Schema__MGraph__Edge__Config',
+                                 graph_data_type  = 'mgraph_ai.mgraph.schemas.Schema__MGraph__Graph__Data.Schema__MGraph__Graph__Data'  ,
+                                 node_type        = 'mgraph_ai.mgraph.schemas.Schema__MGraph__Node.Schema__MGraph__Node'                ,
+                                 node_data_type   = 'mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Data.Schema__MGraph__Node__Data'    )
 
-            assert _.edge_type          is Schema__MGraph__Edge
-            assert _.edge_config_type   is Schema__MGraph__Edge__Config
-            assert _.graph_config_type  is Schema__MGraph__Graph__Config
-            assert _.node_type          is Schema__MGraph__Node
-            assert _.node_data_type    is Schema__MGraph__Node__Data
+            assert _.edge_type        is Schema__MGraph__Edge
+            assert _.edge_config_type is Schema__MGraph__Edge__Config
+            assert _.graph_data_type  is Schema__MGraph__Graph__Data
+            assert _.node_type        is Schema__MGraph__Node
+            assert _.node_data_type   is Schema__MGraph__Node__Data

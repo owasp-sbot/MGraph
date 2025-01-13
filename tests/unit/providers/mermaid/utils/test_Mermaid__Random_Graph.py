@@ -25,7 +25,6 @@ class test_Test_Data_Mermaid(TestCase):
     def test_init(self):                                                               # Test initialization
         assert type(self.test_data)                         is Mermaid__Random_Graph
         assert type(self.test_data.graph_data)              is Schema__Mermaid__Graph
-        assert type(self.test_data.graph_config)            is Schema__Mermaid__Graph__Config
         assert type(self.test_data.graph__model)            is Model__Mermaid__Graph
         assert len(self.test_data.graph_data.nodes)         == 0
         assert len(self.test_data.graph_data.edges)         == 0

@@ -1,3 +1,4 @@
+from mgraph_ai.mgraph.actions.MGraph__Export import MGraph__Export
 from mgraph_ai.mgraph.domain.Domain__MGraph__Graph  import Domain__MGraph__Graph
 from mgraph_ai.mgraph.actions.MGraph__Data          import MGraph__Data
 from mgraph_ai.mgraph.actions.MGraph__Edit          import MGraph__Edit
@@ -13,6 +14,9 @@ class MGraph(Type_Safe):                                                        
 
     def edit(self) -> MGraph__Edit:
         return MGraph__Edit(graph=self.graph)
+
+    def export(self) -> MGraph__Export:
+        return MGraph__Export(graph=self.graph)
 
     def storage(self) -> MGraph__Storage:
         return MGraph__Storage(graph=self.graph)

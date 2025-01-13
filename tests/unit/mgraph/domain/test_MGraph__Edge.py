@@ -26,8 +26,6 @@ class test_MGraph__Edge(TestCase):
         # Add nodes to the graph
         self.graph.data = Schema__MGraph__Graph(nodes        = {self.from_schema_node.node_id: self.from_schema_node,
                                                                 self.to_schema_node.node_id  : self.to_schema_node},
-                                                edges        = {},
-                                                graph_config = None,
                                                 graph_type   = Schema__MGraph__Graph)
 
         # Create edge configuration and schema
@@ -42,7 +40,7 @@ class test_MGraph__Edge(TestCase):
         self.edge       = Domain__MGraph__Edge(edge=self.model_edge, graph=self.graph)
 
     def test_init(self):                                                                    # Tests basic initialization
-        assert type(self.edge) is Domain__MGraph__Edge
+        assert type(self.edge)           is Domain__MGraph__Edge
         assert self.edge.edge            is self.model_edge
         assert self.edge.graph           is self.graph
         assert type(self.edge.edge_id)   is Random_Guid

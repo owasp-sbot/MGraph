@@ -10,26 +10,25 @@ from mgraph_ai.providers.file_system.schemas.Schema__File_System__Graph__Config 
 class test_Schema__File_System__Graph(TestCase):
 
     def setUp(self):                                                                             # Initialize test data
-        self.graph_config = Schema__File_System__Graph__Config(graph_id            = Random_Guid(),
-                                                               allow_circular_refs = False        )
+        self.graph_data = Schema__File_System__Graph__Config(allow_circular_refs = False)
 
-        self.fs_graph    = Schema__File_System__Graph(nodes         = {}                          ,
-                                                      edges         = {}                          ,
-                                                      graph_config  = self.graph_config           ,
-                                                      graph_type    = Schema__File_System__Graph)
+        self.fs_graph   = Schema__File_System__Graph         (nodes      = {},
+                                                              edges      = {},
+                                                              graph_data = self.graph_data,
+                                                              graph_type = Schema__File_System__Graph)
 
     def test_init(self):                                                                        # Tests basic initialization and type checking
-        assert type(self.fs_graph)              is Schema__File_System__Graph
-        assert type(self.fs_graph.graph_config) is Schema__File_System__Graph__Config
-        assert self.fs_graph.graph_config       == self.graph_config
-        assert len(self.fs_graph.nodes)         == 0
-        assert len(self.fs_graph.edges)         == 0
+        assert type(self.fs_graph)            is Schema__File_System__Graph
+        assert type(self.fs_graph.graph_data) is Schema__File_System__Graph__Config
+        assert self.fs_graph.graph_data       == self.graph_data
+        assert len(self.fs_graph.nodes)       == 0
+        assert len(self.fs_graph.edges)       == 0
 
     def test_type_safety_validation(self):                                                      # Tests type safety validations
         with self.assertRaises(ValueError) as context:
-            Schema__File_System__Graph(nodes         = "not-a-dict",                                                   # Should be Dict
+            Schema__File_System__Graph(nodes         = "not-a-dict",  # Should be Dict
                                        edges         = {},
-                                       graph_config  = self.graph_config,
+                                       graph_config  = self.graph_data,
                                        graph_type    = Schema__File_System__Graph)
         assert 'Invalid type for attribute' in str(context.exception)
 

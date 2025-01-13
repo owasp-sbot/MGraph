@@ -29,7 +29,7 @@ class Domain__MGraph__Graph(Type_Safe):
         return [self.mgraph_edge(edge=edge) for edge in self.model.edges()]
 
     def graph_id(self):
-        return self.model.data.graph_config.graph_id
+        return self.model.data.graph_id
 
     def mgraph_edge(self, edge: Model__MGraph__Edge) -> Domain__MGraph__Edge:
         return self.default_types.edge_domain_type(edge=edge, graph=self.model)

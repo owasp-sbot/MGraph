@@ -9,6 +9,6 @@ from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Data    import S
 class Schema__Mermaid__Default__Types(Schema__MGraph__Default__Types):
     edge_type        : Type[Schema__Mermaid__Edge         ]
     edge_config_type : Type[Schema__Mermaid__Edge__Config ]
-    graph_config_type: Type[Schema__Mermaid__Graph__Config]
+    graph_data_type: Type[Schema__Mermaid__Graph__Config]
     node_type        : Type[Schema__Mermaid__Node         ]
     node_data_type : Type[Schema__Mermaid__Node__Data]

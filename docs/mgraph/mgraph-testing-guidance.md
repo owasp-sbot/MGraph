@@ -166,11 +166,11 @@ Unless you need specific configuration values, prefer the most concise initializ
 
 ```python
 # DON'T DO THIS - unnecessarily verbose
-self.graph_config = Schema__File_System__Graph__Config(graph_id=Random_Guid())
-self.graph       = Schema__File_System__Graph(
-    graph_config = self.graph_config,
-    nodes = {},
-    edges = {}
+self.graph__schema = Schema__File_System__Graph__Config(graph_id=Random_Guid())
+self.graph = Schema__File_System__Graph(
+    graph_config=self.graph__schema,
+    nodes={},
+    edges={}
 )
 
 # DO THIS INSTEAD - concise

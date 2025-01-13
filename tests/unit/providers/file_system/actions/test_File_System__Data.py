@@ -3,7 +3,6 @@ from mgraph_ai.providers.file_system.actions.File_System__Data          import F
 from mgraph_ai.providers.file_system.domain.Folder__Node                import Folder__Node
 from mgraph_ai.providers.file_system.models.Model__File_System__Graph   import Model__File_System__Graph
 from mgraph_ai.providers.file_system.actions.File_System__Edit          import File_System__Edit
-from osbot_utils.utils.Objects                                          import obj_info
 
 class test_File_System__Data(TestCase):
 

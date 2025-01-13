@@ -1,4 +1,4 @@
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Data import Schema__Mermaid__Node__Data
+from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Data   import Schema__Mermaid__Node__Data
 from mgraph_ai.mgraph.domain.Domain__MGraph__Node                      import Domain__MGraph__Node
 from mgraph_ai.providers.mermaid.models.Model__Mermaid__Graph          import Model__Mermaid__Graph
 from mgraph_ai.providers.mermaid.models.Model__Mermaid__Node           import Model__Mermaid__Node
@@ -11,8 +11,8 @@ class Domain__Mermaid__Node(Domain__MGraph__Node):
     node : Model__Mermaid__Node
     graph: Model__Mermaid__Graph
 
-    label       = set_as_property('node.data', 'label'      , str                           )
-    key         = set_as_property('node.data', 'key'        , str                           )
+    label     = set_as_property('node.data', 'label'    , str                           )
+    key       = set_as_property('node.data', 'key'      , str                           )
     node_data = set_as_property('node.data', 'node_data', Schema__Mermaid__Node__Data)
 
     def markdown(self, value=True):

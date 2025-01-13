@@ -1,10 +1,10 @@
-from unittest                                                          import TestCase
-from osbot_utils.helpers.Safe_Id                                       import Safe_Id
-from osbot_utils.utils.Objects                                         import __
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node         import Schema__Mermaid__Node
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Shape  import Schema__Mermaid__Node__Shape
-from mgraph_ai.providers.mermaid.MGraph__Mermaid                       import MGraph__Mermaid
-from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Node          import Domain__Mermaid__Node
+from unittest                                                         import TestCase
+from osbot_utils.helpers.Safe_Id                                      import Safe_Id
+from osbot_utils.utils.Objects                                        import __
+from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node        import Schema__Mermaid__Node
+from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Shape import Schema__Mermaid__Node__Shape
+from mgraph_ai.providers.mermaid.MGraph__Mermaid                      import MGraph__Mermaid
+from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Node         import Domain__Mermaid__Node
 
 
 class test_Mermaid_Node(TestCase):
@@ -29,16 +29,16 @@ class test_Mermaid_Node(TestCase):
                                                                 markdown         = False    ),
                                                  node_id     = node_id                       ,
                                                  node_type   = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node.Schema__Mermaid__Node'                                            )),
-                                 graph=__(data=__(default_types = __(edge_type         = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge.Schema__Mermaid__Edge'                  ,
-                                                                     edge_config_type  = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge__Config.Schema__Mermaid__Edge__Config'  ,
-                                                                     graph_config_type = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Graph__Config.Schema__Mermaid__Graph__Config',
-                                                                     node_type         = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node.Schema__Mermaid__Node'                  ,
-                                                                     node_data_type  = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Data.Schema__Mermaid__Node__Data'        ),
+                                 graph=__(data=__(default_types = __(edge_type        = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge.Schema__Mermaid__Edge'                  ,
+                                                                     edge_config_type = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge__Config.Schema__Mermaid__Edge__Config'  ,
+                                                                     graph_data_type  = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Graph__Config.Schema__Mermaid__Graph__Config',
+                                                                     node_type        = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node.Schema__Mermaid__Node'                  ,
+                                                                     node_data_type   = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Data.Schema__Mermaid__Node__Data'      ),
                                                   edges         = __(),
-                                                  graph_config  = __(allow_circle_edges    = False     ,
+                                                  graph_data    = __(allow_circle_edges    = False     ,
                                                                      allow_duplicate_edges = False     ,
-                                                                     graph_title           = ''       ,
-                                                                     graph_id              = graph_id ),
+                                                                     graph_title           = ''       ),
+                                                  graph_id      = graph_id                             ,
                                                   graph_type    = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Graph.Schema__Mermaid__Graph',
                                                   mermaid_code  = [],
                                                   nodes         = __(),

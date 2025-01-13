@@ -5,4 +5,4 @@ from mgraph_ai.providers.file_system.schemas.Schema__File_System__Graph__Config 
 
 class Schema__File_System__Graph(Schema__MGraph__Graph):
     default_types : Schema__File_System__Default__Types
-    graph_config  : Schema__File_System__Graph__Config
+    graph_data  : Schema__File_System__Graph__Config

@@ -11,10 +11,10 @@ class Model__File_System__Graph(Model__MGraph__Graph):                          
     node_model_type: Type[Model__Folder__Node]
 
     def allow_circular_refs(self) -> bool:                                                               # Check if circular refs allowed
-        return self.data.graph_config.allow_circular_refs
+        return self.data.graph_data.allow_circular_refs
 
     def set_allow_circular_refs(self, value: bool) -> 'Model__File_System__Graph':                      # Set circular refs policy
-        self.data.graph_config.allow_circular_refs = value
+        self.data.graph_data.allow_circular_refs = value
         return self
 
     def validate_no_cycles(self, from_node_id: Random_Guid, to_node_id: Random_Guid) -> bool:           # Validate no circular refs

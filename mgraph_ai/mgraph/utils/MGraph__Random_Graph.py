@@ -1,32 +1,30 @@
-from typing                                                     import Optional, List
-from mgraph_ai.mgraph.MGraph                                    import MGraph
-from mgraph_ai.mgraph.domain.Domain__MGraph__Graph              import Domain__MGraph__Graph
-from mgraph_ai.mgraph.models.Model__MGraph__Graph               import Model__MGraph__Graph
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph             import Schema__MGraph__Graph
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph__Config     import Schema__MGraph__Graph__Config
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Default__Types    import Schema__MGraph__Default__Types
-from osbot_utils.helpers.Random_Guid                            import Random_Guid
-from osbot_utils.type_safe.Type_Safe                            import Type_Safe
-from osbot_utils.utils.Misc                                     import random_int
+from typing                                                   import Optional, List
+from mgraph_ai.mgraph.MGraph                                  import MGraph
+from mgraph_ai.mgraph.domain.Domain__MGraph__Graph            import Domain__MGraph__Graph
+from mgraph_ai.mgraph.models.Model__MGraph__Graph             import Model__MGraph__Graph
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph           import Schema__MGraph__Graph
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph__Data     import Schema__MGraph__Graph__Data
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Default__Types  import Schema__MGraph__Default__Types
+from osbot_utils.helpers.Random_Guid                          import Random_Guid
+from osbot_utils.type_safe.Type_Safe                          import Type_Safe
+from osbot_utils.utils.Misc                                   import random_int
 
 class MGraph__Random_Graph(Type_Safe):
-    graph        : MGraph                           = None
-    graph__graph : Domain__MGraph__Graph                    = None
-    graph__model : Model__MGraph__Graph             = None
-    graph_data   : Schema__MGraph__Graph            = None
-    graph_config : Schema__MGraph__Graph__Config    = None
+    graph        : MGraph                       = None
+    graph__graph : Domain__MGraph__Graph        = None
+    graph__model : Model__MGraph__Graph         = None
+    graph__schema: Schema__MGraph__Graph        = None
+    graph__data  : Schema__MGraph__Graph__Data  = None
 
 
     def setup(self) -> 'MGraph__Random_Graph':                                                                                            # Initialize all the graph components in the correct order
-        self.graph_config = Schema__MGraph__Graph__Config ( graph_id=Random_Guid())
-        self.graph_data   = Schema__MGraph__Graph         ( default_types = Schema__MGraph__Default__Types() ,
-                                                            edges         = {}                               ,
-                                                            nodes         = {}                               ,
-                                                            graph_config  = self.graph_config                ,
-                                                            graph_type    = Schema__MGraph__Graph            )
-        self.graph__model = Model__MGraph__Graph          ( data          = self.graph_data                  )
-        self.graph__graph = Domain__MGraph__Graph         ( model         = self.graph__model                )
-        self.graph        = MGraph                        ( graph         = self.graph__graph                )
+        self.graph__data   = Schema__MGraph__Graph__Data()
+        self.graph__schema = Schema__MGraph__Graph ( default_types = Schema__MGraph__Default__Types(),
+                                                     graph_type    = Schema__MGraph__Graph           ,
+                                                     graph_data    = self.graph__data                )
+        self.graph__model = Model__MGraph__Graph   ( data          = self.graph__schema              )
+        self.graph__graph = Domain__MGraph__Graph  ( model         = self.graph__model               )
+        self.graph        = MGraph                 ( graph         = self.graph__graph               )
         return self
 
     def create_nodes(self, num_nodes: int) -> List[Random_Guid]:                                                        # Create specified number of nodes and return their IDs
