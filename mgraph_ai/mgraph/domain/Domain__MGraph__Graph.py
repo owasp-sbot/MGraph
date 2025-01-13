@@ -10,8 +10,8 @@ from osbot_utils.type_safe.Type_Safe                        import Type_Safe
 
 
 class Domain__MGraph__Graph(Type_Safe):
-    default_types : Domain__MGraph__Default__Types
-    model         : Model__MGraph__Graph
+    domain_types : Domain__MGraph__Default__Types
+    model        : Model__MGraph__Graph
 
 
     def delete_edge(self, edge_id: Random_Guid) -> bool:
@@ -32,10 +32,10 @@ class Domain__MGraph__Graph(Type_Safe):
         return self.model.data.graph_id
 
     def mgraph_edge(self, edge: Model__MGraph__Edge) -> Domain__MGraph__Edge:
-        return self.default_types.edge_domain_type(edge=edge, graph=self.model)
+        return self.domain_types.edge_domain_type(edge=edge, graph=self.model)
 
     def mgraph_node(self, node: Model__MGraph__Node) -> Domain__MGraph__Edge:
-        return self.default_types.node_domain_type(node=node, graph=self.model)
+        return self.domain_types.node_domain_type(node=node, graph=self.model)
 
     def new_edge(self, **kwargs) -> Domain__MGraph__Edge:
         edge = self.model.new_edge(**kwargs)

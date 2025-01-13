@@ -6,21 +6,19 @@ from mgraph_ai.mgraph.models.Model__MGraph__Node             import Model__MGrap
 from mgraph_ai.mgraph.domain.Domain__MGraph__Graph           import Domain__MGraph__Graph
 from mgraph_ai.mgraph.models.Model__MGraph__Graph            import Model__MGraph__Graph
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph          import Schema__MGraph__Graph
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph__Data    import Schema__MGraph__Graph__Data
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Node           import Schema__MGraph__Node
-from osbot_utils.helpers.Random_Guid                         import Random_Guid
 
 class Simple_Node(Schema__MGraph__Node): pass                                                   # Helper class for testing
 
 class test_MGraph__Graph(TestCase):
 
     def setUp(self):                                                                            # Initialize test data
-        self.default_types = Schema__MGraph__Default__Types (node_type     = Simple_Node          ,
-                                                             edge_type     = None                 )
-        self.schema_graph = Schema__MGraph__Graph           (default_types = self.default_types,
-                                                             graph_type    = Schema__MGraph__Graph)
-        self.model_graph = Model__MGraph__Graph             (data=self.schema_graph)                         # Create model graph
-        self.graph       = Domain__MGraph__Graph            (model=self.model_graph)
+        self.schema_types = Schema__MGraph__Default__Types  (node_type    = Simple_Node          ,
+                                                             edge_type    = None                 )
+        self.schema_graph = Schema__MGraph__Graph           (schema_types = self.schema_types    ,
+                                                             graph_type   = Schema__MGraph__Graph)
+        self.model_graph = Model__MGraph__Graph             (data         = self.schema_graph    )                         # Create model graph
+        self.graph       = Domain__MGraph__Graph            (model        = self.model_graph     )
 
     def test_init(self):                                                                        # Tests basic initialization
         assert type(self.graph) is Domain__MGraph__Graph

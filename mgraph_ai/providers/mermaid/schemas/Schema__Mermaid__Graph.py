@@ -9,7 +9,7 @@ from osbot_utils.helpers.Random_Guid                                     import 
 
 
 class Schema__Mermaid__Graph(Schema__MGraph__Graph):
-    default_types: Schema__Mermaid__Default__Types
+    schema_types: Schema__Mermaid__Default__Types
     edges        : Dict[Random_Guid, Schema__Mermaid__Edge]
     graph_data   : Schema__Mermaid__Graph__Config
     graph_type   : Type['Schema__Mermaid__Graph']

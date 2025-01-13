@@ -12,7 +12,7 @@ from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Data     import 
 class test_Schema__Mermaid__Graph(TestCase):
 
     def setUp(self):                                                                # Initialize test data
-        self.default_types = Schema__Mermaid__Default__Types()
+        self.schema_types  = Schema__Mermaid__Default__Types()
         self.graph_data    = Schema__Mermaid__Graph__Config(allow_circle_edges   = True,
                                                           allow_duplicate_edges= False,
                                                           graph_title         = "Test Graph")
@@ -25,7 +25,7 @@ class test_Schema__Mermaid__Graph(TestCase):
                                                             from_node_id = Random_Guid()                                           ,
                                                             to_node_id   = Random_Guid()                                           ,
                                                             label        = "Test Edge"                                             )
-        self.graph          = Schema__Mermaid__Graph       (default_types = self.default_types,
+        self.graph          = Schema__Mermaid__Graph       (schema_types = self.schema_types,
                                                             edges        = {self.edge.edge_config.edge_id: self.edge},
                                                             nodes        = {self.node.node_id: self.node},
                                                             graph_data   = self.graph_data,

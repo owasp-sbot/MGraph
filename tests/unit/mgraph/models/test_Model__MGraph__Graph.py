@@ -15,16 +15,16 @@ class Simple_Node(Schema__MGraph__Node): pass                                   
 class test_Model__MGraph__Graph(TestCase):
 
     def setUp(self):                                                                        # Initialize test data
-        self.default_types = Schema__MGraph__Default__Types (node_type     = Simple_Node            ,
+        self.schema_types  = Schema__MGraph__Default__Types (node_type     = Simple_Node            ,
                                                              edge_type     = Schema__MGraph__Edge   )
-        self.graph_data    = Schema__MGraph__Graph          (default_types = self.default_types     ,
+        self.graph_data    = Schema__MGraph__Graph          (schema_types  = self.schema_types     ,
                                                              graph_type    = Schema__MGraph__Graph  )
         self.graph         = Model__MGraph__Graph           (data          = self.graph_data        )
 
     def test_init(self):                                                                    # Tests basic initialization
         assert type(self.graph)              is Model__MGraph__Graph
         assert self.graph.data               is self.graph_data
-        assert self.graph.data.default_types == self.default_types
+        assert self.graph.data.schema_types == self.schema_types
         assert len(self.graph.data.nodes)    == 0
         assert len(self.graph.data.edges)    == 0
 

@@ -4,7 +4,7 @@ from mgraph_ai.mgraph.models.Model__MGraph__Graph                     import Mod
 
 class Model__Mermaid__Graph(Model__MGraph__Graph):
     data          : Schema__Mermaid__Graph
-    default_types : Model__Mermaid__Default_Types
+    model_types : Model__Mermaid__Default_Types
 
 
 

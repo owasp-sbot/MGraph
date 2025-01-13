@@ -121,8 +121,8 @@ class test_MGraph__Random_Graph(TestCase):
             assert type(domain_node.node                           ) == Model__MGraph__Node
             assert type(domain_node.graph                          ) == Model__MGraph__Graph
             assert type(domain_node.graph.data                     ) == Schema__MGraph__Graph
-            assert type(domain_node.graph.data.default_types       ) == Schema__MGraph__Default__Types
-            assert domain_node.graph.default_types.node_model_type   == Model__MGraph__Node
+            assert type(domain_node.graph.data.schema_types) == Schema__MGraph__Default__Types
+            assert domain_node.graph.model_types.node_model_type == Model__MGraph__Node
 
             assert type(model_node                 ) == Model__MGraph__Node
             assert type(model_node.data            ) == Schema__MGraph__Node
@@ -139,8 +139,8 @@ class test_MGraph__Random_Graph(TestCase):
             assert type(domain_edge.edge                          ) == Model__MGraph__Edge
             assert type(domain_edge.graph                         ) == Model__MGraph__Graph
             assert type(domain_edge.graph.data                    ) == Schema__MGraph__Graph
-            assert type(domain_edge.graph.data.default_types      ) == Schema__MGraph__Default__Types
-            assert domain_edge.graph.default_types.edge_model_type  == Model__MGraph__Edge
+            assert type(domain_edge.graph.data.schema_types) == Schema__MGraph__Default__Types
+            assert domain_edge.graph.model_types.edge_model_type == Model__MGraph__Edge
 
             assert type(model_edge           ) == Model__MGraph__Edge
             assert type(model_edge.data      ) == Schema__MGraph__Edge

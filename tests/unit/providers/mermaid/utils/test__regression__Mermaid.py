@@ -45,7 +45,7 @@ class test__regression__Mermaid(TestCase):
             # Expected behavior (Fixed)
             assert type(domain_edge)                               is Domain__Mermaid__Edge   # Fixed:  ✓ Should be this
             assert type(domain_edge.edge)                          is Model__Mermaid__Edge    # Fixed:  ✓ Should be this
-            assert domain_edge.graph.default_types.edge_model_type == Model__Mermaid__Edge    # Fixed:  ✓ Should be this
+            assert domain_edge.graph.model_types.edge_model_type == Model__Mermaid__Edge    # Fixed:  ✓ Should be this
 
     def test__regression__model_edge_type_mismatch(self):                                        # Bug: Model edge type should be Model__Mermaid__Edge but is Model__MGraph__Edge
         with create_test_mermaid_graph() as graph:
@@ -61,8 +61,8 @@ class test__regression__Mermaid(TestCase):
         node_id      = model_node.node_id
         domain_node  = graph.node(model_node.node_id)                     # Get node through domain layer
 
-        assert graph_model.default_types.node_model_type  == Model__Mermaid__Node       # ✓ Correct
-        assert graph_model.default_types.edge_model_type  == Model__Mermaid__Edge       # ✓ Correct
+        assert graph_model.model_types.node_model_type  == Model__Mermaid__Node       # ✓ Correct
+        assert graph_model.model_types.edge_model_type  == Model__Mermaid__Edge       # ✓ Correct
         assert type(model_node)                           is Model__Mermaid__Node
         assert isinstance(model_node     , Model__Mermaid__Node )                       # ✓ Correct
         assert isinstance(model_node.data, Schema__Mermaid__Node)                       # ✓ Correct

@@ -3,5 +3,5 @@ from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Default__Types import D
 from mgraph_ai.providers.mermaid.models.Model__Mermaid__Graph           import Model__Mermaid__Graph
 
 class Domain__Mermaid__Graph(Domain__MGraph__Graph):
-    default_types: Domain__Mermaid__Default__Types
+    domain_types: Domain__Mermaid__Default__Types
     model        : Model__Mermaid__Graph

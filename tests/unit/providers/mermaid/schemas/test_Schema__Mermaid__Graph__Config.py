@@ -6,14 +6,14 @@ from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Graph__Config  import 
 class test_Schema__Mermaid__Graph__Config(TestCase):
 
     def setUp(self):                                                                # Initialize test data
-        self.default_types = Schema__Mermaid__Default__Types()
+        self.schema_types  = Schema__Mermaid__Default__Types()
         self.graph_config  = Schema__Mermaid__Graph__Config(allow_circle_edges   = True       ,
                                                             allow_duplicate_edges= False      ,
                                                             graph_title         = "Test Graph")
 
     def test_init(self):                                                            # Tests basic initialization and type checking
         assert type(self.graph_config)                 is Schema__Mermaid__Graph__Config
-        assert self.default_types.graph_data_type      is Schema__Mermaid__Graph__Config
+        assert self.schema_types.graph_data_type       is Schema__Mermaid__Graph__Config
         assert self.graph_config.allow_circle_edges    is True
         assert self.graph_config.allow_duplicate_edges is False
         assert self.graph_config.graph_title           == "Test Graph"

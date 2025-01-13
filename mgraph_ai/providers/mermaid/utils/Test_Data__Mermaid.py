@@ -12,8 +12,8 @@ from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Graph__Config  import 
 class Test_Data_Mermaid:
     @staticmethod
     def create_test_graph(num_nodes=3):
-        default_types = Schema__Mermaid__Default__Types()
-        graph_data    = Schema__Mermaid__Graph        (default_types = default_types         ,
+        schema_types  = Schema__Mermaid__Default__Types()
+        graph_data    = Schema__Mermaid__Graph        (schema_types  = schema_types         ,
                                                        graph_type    = Schema__Mermaid__Graph,
                                                        mermaid_code  = []                    )
         graph_model  = Model__Mermaid__Graph          (data          = graph_data            )
@@ -41,8 +41,8 @@ class Test_Data_Mermaid:
 
     @staticmethod
     def create_empty_graph():
-        default_types = Schema__Mermaid__Default__Types()
-        graph_data    = Schema__Mermaid__Graph ( default_types = default_types          ,
+        schema_types  = Schema__Mermaid__Default__Types()
+        graph_data    = Schema__Mermaid__Graph ( schema_types  = schema_types          ,
                                                  graph_type    = Schema__Mermaid__Graph ,
                                                  mermaid_code  = []                     )
         graph_model = Model__Mermaid__Graph    ( data          = graph_data             )

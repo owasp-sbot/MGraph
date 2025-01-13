@@ -13,9 +13,9 @@ class Simple_Node(Schema__MGraph__Node): pass    # Helper class for testing
 class test_Schema__MGraph__Graph(TestCase):
 
     def setUp(self):    # Initialize test data
-        self.default_types = Schema__MGraph__Default__Types(node_type      = Simple_Node         ,
+        self.schema_types  = Schema__MGraph__Default__Types(node_type      = Simple_Node         ,
                                                             edge_type      = Schema__MGraph__Edge)
-        self.graph_data  = Schema__MGraph__Graph__Data   ()
+        self.graph_data   = Schema__MGraph__Graph__Data   ()
         self.node_data     = Schema__MGraph__Node__Data    ()
         self.node          = Schema__MGraph__Node          (node_data      = self.node_data,
                                                             node_type      = Simple_Node)
@@ -24,7 +24,7 @@ class test_Schema__MGraph__Graph(TestCase):
                                                             edge_type      = Schema__MGraph__Edge,
                                                             from_node_id   = Random_Guid()       ,
                                                             to_node_id     = Random_Guid()       )
-        self.graph         = Schema__MGraph__Graph         (default_types  = self.default_types,
+        self.graph         = Schema__MGraph__Graph         (schema_types   = self.schema_types,
                                                             edges          = {self.edge.edge_config.edge_id: self.edge},
                                                             graph_data     = self.graph_data,
                                                             graph_type     = Schema__MGraph__Graph,

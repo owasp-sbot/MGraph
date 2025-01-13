@@ -29,7 +29,7 @@ class test_Mermaid_Node(TestCase):
                                                                 markdown         = False    ),
                                                  node_id     = node_id                       ,
                                                  node_type   = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node.Schema__Mermaid__Node'                                            )),
-                                 graph=__(data=__(default_types = __(edge_type        = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge.Schema__Mermaid__Edge'                  ,
+                                 graph=__(data=__(schema_types  = __(edge_type        = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge.Schema__Mermaid__Edge'                  ,
                                                                      edge_config_type = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge__Config.Schema__Mermaid__Edge__Config'  ,
                                                                      graph_data_type  = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Graph__Config.Schema__Mermaid__Graph__Config',
                                                                      node_type        = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node.Schema__Mermaid__Node'                  ,
@@ -47,7 +47,7 @@ class test_Mermaid_Node(TestCase):
                                                                                          diagram_type      = 'graph',
                                                                                          line_before_edges = True   ,
                                                                                          directives        = []     )),
-                                          default_types = __(node_model_type = 'mgraph_ai.providers.mermaid.models.Model__Mermaid__Node.Model__Mermaid__Node',
+                                          model_types = __(node_model_type = 'mgraph_ai.providers.mermaid.models.Model__Mermaid__Node.Model__Mermaid__Node',
                                                              edge_model_type = 'mgraph_ai.providers.mermaid.models.Model__Mermaid__Edge.Model__Mermaid__Edge')))
 
     def test_label(self):

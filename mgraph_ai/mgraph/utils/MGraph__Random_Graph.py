@@ -19,7 +19,7 @@ class MGraph__Random_Graph(Type_Safe):
 
     def setup(self) -> 'MGraph__Random_Graph':                                                                                            # Initialize all the graph components in the correct order
         self.graph__data   = Schema__MGraph__Graph__Data()
-        self.graph__schema = Schema__MGraph__Graph ( default_types = Schema__MGraph__Default__Types(),
+        self.graph__schema = Schema__MGraph__Graph ( schema_types  = Schema__MGraph__Default__Types(),
                                                      graph_type    = Schema__MGraph__Graph           ,
                                                      graph_data    = self.graph__data                )
         self.graph__model = Model__MGraph__Graph   ( data          = self.graph__schema              )

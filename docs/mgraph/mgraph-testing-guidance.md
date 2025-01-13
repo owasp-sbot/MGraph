@@ -56,27 +56,29 @@ When testing a class that extends a base class (e.g., `Model__MGraph__Graph`), e
 3. Check inheritance chain
 
 Example testing `new_node`:
+
 ```python
 def test_new_node(self):
     with self.model as _:
-        assert type(_)                        is Model__File_System__Graph
-        assert _.node_model_type              is Model__File_System__Item
-        assert _.data.default_types.node_type is Schema__File_System__Item
+        assert type(_) is Model__File_System__Graph
+        assert _.node_model_type is Model__File_System__Item
+        assert _.data.schema_types.node_type is Schema__File_System__Item
         node = _.new_node()
-        assert type(node)                     is Model__File_System__Item
+        assert type(node) is Model__File_System__Item
 ```
 
 Example testing `new_edge`:
+
 ```python
 def test_new_edge(self):
     with self.model as _:
         node_1_id = _.new_node().node_id()
         node_2_id = _.new_node().node_id()
-        edge      = _.new_edge(from_node_id=node_1_id, to_node_id=node_2_id)
-        
-        assert _.edge_model_type              is Model__MGraph__Edge
-        assert _.data.default_types.edge_type is Schema__MGraph__Edge                        
-        assert type(edge)                     is Model__MGraph__Edge
+        edge = _.new_edge(from_node_id=node_1_id, to_node_id=node_2_id)
+
+        assert _.edge_model_type is Model__MGraph__Edge
+        assert _.data.schema_types.edge_type is Schema__MGraph__Edge
+        assert type(edge) is Model__MGraph__Edge
 ```
 
 ### Default Types Configuration
@@ -95,7 +97,7 @@ class Schema__File_System__Default__Types(Schema__MGraph__Default__Types):
 Wire up in the graph class:
 ```python
 class Schema__File_System__Graph(Schema__MGraph__Graph):
-    default_types : Schema__File_System__Default__Types
+    schema_types  : Schema__File_System__Default__Types
     graph_config  : Schema__File_System__Graph__Config
 ```
 
