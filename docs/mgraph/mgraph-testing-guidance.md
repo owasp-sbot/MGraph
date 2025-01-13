@@ -86,7 +86,7 @@ def test_new_edge(self):
 When extending base classes, ensure proper type registration through Default Types classes:
 
 ```python
-class Schema__File_System__Default__Types(Schema__MGraph__Default__Types):
+class Schema__Types(Schema__MGraph__Types):
     edge_type        : Type[Schema__MGraph__Edge              ]
     edge_config_type : Type[Schema__MGraph__Edge__Config      ]
     graph_config_type: Type[Schema__File_System__Graph__Config]
@@ -97,7 +97,7 @@ class Schema__File_System__Default__Types(Schema__MGraph__Default__Types):
 Wire up in the graph class:
 ```python
 class Schema__File_System__Graph(Schema__MGraph__Graph):
-    schema_types  : Schema__File_System__Default__Types
+    schema_types  : Schema__Types
     graph_config  : Schema__File_System__Graph__Config
 ```
 

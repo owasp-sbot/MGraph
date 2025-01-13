@@ -6,7 +6,7 @@ from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Node            import 
 from mgraph_ai.providers.mermaid.models.Model__Mermaid__Edge             import Model__Mermaid__Edge
 from mgraph_ai.providers.mermaid.models.Model__Mermaid__Graph            import Model__Mermaid__Graph
 from mgraph_ai.providers.mermaid.models.Model__Mermaid__Node             import Model__Mermaid__Node
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Default__Types import Schema__Mermaid__Default__Types
+from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Types import Schema__Mermaid__Types
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Graph          import Schema__Mermaid__Graph
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node           import Schema__Mermaid__Node
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge           import Schema__Mermaid__Edge
@@ -197,7 +197,7 @@ class test_Test_Data_Mermaid(TestCase):
             assert type(domain_node.node                           ) == Model__Mermaid__Node
             assert type(domain_node.graph                          ) == Model__Mermaid__Graph
             assert type(domain_node.graph.data                     ) == Schema__Mermaid__Graph
-            assert type(domain_node.graph.data.schema_types) == Schema__Mermaid__Default__Types
+            assert type(domain_node.graph.data.schema_types) == Schema__Mermaid__Types
             assert domain_node.graph.model_types. node_model_type == Model__Mermaid__Node
 
             assert type(model_node                 ) == Model__Mermaid__Node
@@ -214,7 +214,7 @@ class test_Test_Data_Mermaid(TestCase):
             assert type(domain_edge.edge                          ) == Model__Mermaid__Edge
             assert type(domain_edge.graph                         ) == Model__Mermaid__Graph
             assert type(domain_edge.graph.data                    ) == Schema__Mermaid__Graph
-            assert type(domain_edge.graph.data.schema_types) == Schema__Mermaid__Default__Types
+            assert type(domain_edge.graph.data.schema_types) == Schema__Mermaid__Types
             assert domain_edge.graph.model_types.edge_model_type == Model__Mermaid__Edge
 
             assert type(model_edge                 ) == Model__Mermaid__Edge

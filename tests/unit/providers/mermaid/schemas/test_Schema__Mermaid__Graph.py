@@ -1,5 +1,5 @@
 from unittest                                                            import TestCase
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Default__Types import Schema__Mermaid__Default__Types
+from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Types import Schema__Mermaid__Types
 from osbot_utils.helpers.Random_Guid                                     import Random_Guid
 from osbot_utils.helpers.Safe_Id                                         import Safe_Id
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge           import Schema__Mermaid__Edge
@@ -12,7 +12,7 @@ from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Data     import 
 class test_Schema__Mermaid__Graph(TestCase):
 
     def setUp(self):                                                                # Initialize test data
-        self.schema_types  = Schema__Mermaid__Default__Types()
+        self.schema_types  = Schema__Mermaid__Types()
         self.graph_data    = Schema__Mermaid__Graph__Config(allow_circle_edges   = True,
                                                           allow_duplicate_edges= False,
                                                           graph_title         = "Test Graph")

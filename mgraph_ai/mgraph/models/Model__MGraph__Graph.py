@@ -1,5 +1,5 @@
 from typing                                                import List
-from mgraph_ai.mgraph.models.Model__MGraph__Default__Types import Model__MGraph__Default__Types
+from mgraph_ai.mgraph.models.Model__MGraph__Types          import Model__MGraph__Types
 from osbot_utils.helpers.Random_Guid                       import Random_Guid
 from mgraph_ai.mgraph.models.Model__MGraph__Edge           import Model__MGraph__Edge
 from mgraph_ai.mgraph.models.Model__MGraph__Node           import Model__MGraph__Node
@@ -12,7 +12,7 @@ from osbot_utils.type_safe.decorators.type_safe            import type_safe
 
 class Model__MGraph__Graph(Type_Safe):
     data       : Schema__MGraph__Graph
-    model_types: Model__MGraph__Default__Types
+    model_types: Model__MGraph__Types
 
     @type_safe
     def add_node(self, node: Schema__MGraph__Node) -> Model__MGraph__Node:                            # Add a node to the graph

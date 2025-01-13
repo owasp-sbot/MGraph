@@ -4,7 +4,7 @@ from mgraph_ai.mgraph.domain.Domain__MGraph__Graph            import Domain__MGr
 from mgraph_ai.mgraph.models.Model__MGraph__Graph             import Model__MGraph__Graph
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph           import Schema__MGraph__Graph
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph__Data     import Schema__MGraph__Graph__Data
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Default__Types  import Schema__MGraph__Default__Types
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Types  import Schema__MGraph__Types
 from osbot_utils.helpers.Random_Guid                          import Random_Guid
 from osbot_utils.type_safe.Type_Safe                          import Type_Safe
 from osbot_utils.utils.Misc                                   import random_int
@@ -19,9 +19,9 @@ class MGraph__Random_Graph(Type_Safe):
 
     def setup(self) -> 'MGraph__Random_Graph':                                                                                            # Initialize all the graph components in the correct order
         self.graph__data   = Schema__MGraph__Graph__Data()
-        self.graph__schema = Schema__MGraph__Graph ( schema_types  = Schema__MGraph__Default__Types(),
-                                                     graph_type    = Schema__MGraph__Graph           ,
-                                                     graph_data    = self.graph__data                )
+        self.graph__schema = Schema__MGraph__Graph (schema_types  = Schema__MGraph__Types(),
+                                                    graph_type    = Schema__MGraph__Graph,
+                                                    graph_data    = self.graph__data)
         self.graph__model = Model__MGraph__Graph   ( data          = self.graph__schema              )
         self.graph__graph = Domain__MGraph__Graph  ( model         = self.graph__model               )
         self.graph        = MGraph                 ( graph         = self.graph__graph               )

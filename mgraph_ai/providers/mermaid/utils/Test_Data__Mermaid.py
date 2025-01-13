@@ -5,14 +5,14 @@ from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node           import 
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Data     import Schema__Mermaid__Node__Data
 from mgraph_ai.providers.mermaid.models.Model__Mermaid__Graph            import Model__Mermaid__Graph
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Graph          import Schema__Mermaid__Graph
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Default__Types import Schema__Mermaid__Default__Types
+from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Types import Schema__Mermaid__Types
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Graph__Config  import Schema__Mermaid__Graph__Config
 
 # todo: refactor this out, and use Mermaid__Random_Graph instead
 class Test_Data_Mermaid:
     @staticmethod
     def create_test_graph(num_nodes=3):
-        schema_types  = Schema__Mermaid__Default__Types()
+        schema_types  = Schema__Mermaid__Types()
         graph_data    = Schema__Mermaid__Graph        (schema_types  = schema_types         ,
                                                        graph_type    = Schema__Mermaid__Graph,
                                                        mermaid_code  = []                    )
@@ -41,7 +41,7 @@ class Test_Data_Mermaid:
 
     @staticmethod
     def create_empty_graph():
-        schema_types  = Schema__Mermaid__Default__Types()
+        schema_types  = Schema__Mermaid__Types()
         graph_data    = Schema__Mermaid__Graph ( schema_types  = schema_types          ,
                                                  graph_type    = Schema__Mermaid__Graph ,
                                                  mermaid_code  = []                     )

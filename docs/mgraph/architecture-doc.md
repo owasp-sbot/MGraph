@@ -90,7 +90,7 @@ class MGraph:
 MGraph uses explicit type registration to maintain type safety across layers:
 
 ```python
-class Schema__MGraph__Default__Types(Type_Safe):
+class Schema__MGraph__Types(Type_Safe):
     node_type: Type[Schema__MGraph__Node]
     edge_type: Type[Schema__MGraph__Edge]
     node_config_type: Type[Schema__MGraph__Node__Config]

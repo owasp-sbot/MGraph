@@ -1,5 +1,5 @@
 from typing                                                  import Dict, Type
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Default__Types import Schema__MGraph__Default__Types
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Types import Schema__MGraph__Types
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge           import Schema__MGraph__Edge
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph__Data    import Schema__MGraph__Graph__Data
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Node           import Schema__MGraph__Node
@@ -12,4 +12,4 @@ class Schema__MGraph__Graph(Type_Safe):
     graph_id     : Random_Guid
     graph_type   : Type['Schema__MGraph__Graph']
     nodes        : Dict[Random_Guid, Schema__MGraph__Node]
-    schema_types : Schema__MGraph__Default__Types
+    schema_types : Schema__MGraph__Types

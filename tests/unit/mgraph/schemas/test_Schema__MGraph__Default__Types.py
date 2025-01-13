@@ -5,12 +5,12 @@ from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph__Data       import Schema__M
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Node              import Schema__MGraph__Node
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Data        import Schema__MGraph__Node__Data
 from osbot_utils.utils.Objects                                  import __
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Default__Types    import Schema__MGraph__Default__Types
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Types    import Schema__MGraph__Types
 
-class test_Schema__MGraph__Default__Types(TestCase):
+class test_Schema__MGraph__Types(TestCase):
 
     def test__init__(self):
-        with Schema__MGraph__Default__Types() as _:
+        with Schema__MGraph__Types() as _:
             assert _.obj() == __(edge_type        = 'mgraph_ai.mgraph.schemas.Schema__MGraph__Edge.Schema__MGraph__Edge'                ,
                                  edge_config_type = 'mgraph_ai.mgraph.schemas.Schema__MGraph__Edge__Config.Schema__MGraph__Edge__Config',
                                  graph_data_type  = 'mgraph_ai.mgraph.schemas.Schema__MGraph__Graph__Data.Schema__MGraph__Graph__Data'  ,

@@ -10,13 +10,13 @@ from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Data     import 
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge__Config   import Schema__Mermaid__Edge__Config
 from mgraph_ai.providers.mermaid.models.Model__Mermaid__Graph            import Model__Mermaid__Graph
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Graph          import Schema__Mermaid__Graph
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Default__Types import Schema__Mermaid__Default__Types
+from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Types import Schema__Mermaid__Types
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Graph__Config  import Schema__Mermaid__Graph__Config
 
 class Mermaid__Random_Graph(MGraph__Random_Graph):
 
     def setup(self) -> 'Mermaid__Random_Graph':                                                                             # Initialize with Mermaid-specific components
-        self.graph_data   = Schema__Mermaid__Graph        (schema_types = Schema__Mermaid__Default__Types(),
+        self.graph_data   = Schema__Mermaid__Graph        (schema_types = Schema__Mermaid__Types(),
                                                            graph_type   = Schema__Mermaid__Graph            ,
                                                            mermaid_code = []                                )
         self.graph__model = Model__Mermaid__Graph         (data=self.graph_data)

@@ -3,7 +3,7 @@ from mgraph_ai.mgraph.domain.Domain__MGraph__Edge            import Domain__MGra
 from mgraph_ai.mgraph.domain.Domain__MGraph__Node            import Domain__MGraph__Node
 from mgraph_ai.mgraph.models.Model__MGraph__Edge             import Model__MGraph__Edge
 from mgraph_ai.mgraph.models.Model__MGraph__Node             import Model__MGraph__Node
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Default__Types import Schema__MGraph__Default__Types
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Types import Schema__MGraph__Types
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge           import Schema__MGraph__Edge
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Node           import Schema__MGraph__Node
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Data     import Schema__MGraph__Node__Data
@@ -121,7 +121,7 @@ class test_MGraph__Random_Graph(TestCase):
             assert type(domain_node.node                           ) == Model__MGraph__Node
             assert type(domain_node.graph                          ) == Model__MGraph__Graph
             assert type(domain_node.graph.data                     ) == Schema__MGraph__Graph
-            assert type(domain_node.graph.data.schema_types) == Schema__MGraph__Default__Types
+            assert type(domain_node.graph.data.schema_types) == Schema__MGraph__Types
             assert domain_node.graph.model_types.node_model_type == Model__MGraph__Node
 
             assert type(model_node                 ) == Model__MGraph__Node
@@ -139,7 +139,7 @@ class test_MGraph__Random_Graph(TestCase):
             assert type(domain_edge.edge                          ) == Model__MGraph__Edge
             assert type(domain_edge.graph                         ) == Model__MGraph__Graph
             assert type(domain_edge.graph.data                    ) == Schema__MGraph__Graph
-            assert type(domain_edge.graph.data.schema_types) == Schema__MGraph__Default__Types
+            assert type(domain_edge.graph.data.schema_types) == Schema__MGraph__Types
             assert domain_edge.graph.model_types.edge_model_type == Model__MGraph__Edge
 
             assert type(model_edge           ) == Model__MGraph__Edge

@@ -1,5 +1,5 @@
 from unittest                                                import TestCase
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Default__Types import Schema__MGraph__Default__Types
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Types import Schema__MGraph__Types
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph          import Schema__MGraph__Graph
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph__Data    import Schema__MGraph__Graph__Data
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Node           import Schema__MGraph__Node
@@ -13,8 +13,8 @@ class Simple_Node(Schema__MGraph__Node): pass    # Helper class for testing
 class test_Schema__MGraph__Graph(TestCase):
 
     def setUp(self):    # Initialize test data
-        self.schema_types  = Schema__MGraph__Default__Types(node_type      = Simple_Node         ,
-                                                            edge_type      = Schema__MGraph__Edge)
+        self.schema_types  = Schema__MGraph__Types(node_type      = Simple_Node,
+                                                   edge_type      = Schema__MGraph__Edge)
         self.graph_data   = Schema__MGraph__Graph__Data   ()
         self.node_data     = Schema__MGraph__Node__Data    ()
         self.node          = Schema__MGraph__Node          (node_data      = self.node_data,
