@@ -8,7 +8,6 @@ from mgraph_ai.providers.mermaid.models.Model__Mermaid__Graph            import 
 from mgraph_ai.providers.mermaid.models.Model__Mermaid__Node             import Model__Mermaid__Node
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Default__Types import Schema__Mermaid__Default__Types
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Graph          import Schema__Mermaid__Graph
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Graph__Config  import Schema__Mermaid__Graph__Config
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node           import Schema__Mermaid__Node
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge           import Schema__Mermaid__Edge
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Data     import Schema__Mermaid__Node__Data
@@ -194,16 +193,13 @@ class test_Test_Data_Mermaid(TestCase):
             model_node  = _.graph.model.nodes                 () [0]
             schema_node = list(_.graph.model.data.nodes.values())[0]
 
-            #assert type(domain_node                           ) == MGraph__Node                    # Fixed: BUG
-            assert type(domain_node                           ) == Domain__Mermaid__Node
-            #assert type(domain_node.node                      ) == Model__MGraph__Node             #  Fixed:
-            assert type(domain_node.node                      ) == Model__Mermaid__Node
-            assert type(domain_node.graph                     ) == Model__Mermaid__Graph
-            assert type(domain_node.graph.data                ) == Schema__Mermaid__Graph
-            assert type(domain_node.graph.data.default_types  ) == Schema__Mermaid__Default__Types
-            assert domain_node.graph.node_model_type            == Model__Mermaid__Node
+            assert type(domain_node                                ) == Domain__Mermaid__Node
+            assert type(domain_node.node                           ) == Model__Mermaid__Node
+            assert type(domain_node.graph                          ) == Model__Mermaid__Graph
+            assert type(domain_node.graph.data                     ) == Schema__Mermaid__Graph
+            assert type(domain_node.graph.data.default_types       ) == Schema__Mermaid__Default__Types
+            assert domain_node.graph.default_types. node_model_type  == Model__Mermaid__Node
 
-            #assert type(model_node                 ) == Model__MGraph__Node                         #  Fixed:
             assert type(model_node                 ) == Model__Mermaid__Node
             assert type(model_node.data            ) == Schema__Mermaid__Node
 
@@ -214,16 +210,13 @@ class test_Test_Data_Mermaid(TestCase):
             model_edge  = _.graph.model.edges                 () [0]
             schema_edge = list(_.graph.model.data.edges.values())[0]
 
-            #assert type(domain_edge                         ) == MGraph__Edge                       #  Fixed:
-            assert type(domain_edge                         ) == Domain__Mermaid__Edge
-            #assert type(domain_edge.edge                    ) == Model__MGraph__Edge                #  Fixed:
-            assert type(domain_edge.edge                    ) == Model__Mermaid__Edge
-            assert type(domain_edge.graph                   ) == Model__Mermaid__Graph
-            assert type(domain_edge.graph.data              ) == Schema__Mermaid__Graph
-            assert type(domain_edge.graph.data.default_types) == Schema__Mermaid__Default__Types
-            assert domain_edge.graph.edge_model_type          == Model__Mermaid__Edge
+            assert type(domain_edge                               ) == Domain__Mermaid__Edge
+            assert type(domain_edge.edge                          ) == Model__Mermaid__Edge
+            assert type(domain_edge.graph                         ) == Model__Mermaid__Graph
+            assert type(domain_edge.graph.data                    ) == Schema__Mermaid__Graph
+            assert type(domain_edge.graph.data.default_types      ) == Schema__Mermaid__Default__Types
+            assert domain_edge.graph.default_types.edge_model_type  == Model__Mermaid__Edge
 
-            #assert type(model_edge                 ) == Model__MGraph__Edge                       #  Fixed:
             assert type(model_edge                 ) == Model__Mermaid__Edge
             assert type(model_edge.data            ) == Schema__Mermaid__Edge
 

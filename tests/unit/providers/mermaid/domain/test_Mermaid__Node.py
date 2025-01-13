@@ -47,8 +47,8 @@ class test_Mermaid_Node(TestCase):
                                                                                          diagram_type      = 'graph',
                                                                                          line_before_edges = True   ,
                                                                                          directives        = []     )),
-                                          node_model_type = 'mgraph_ai.providers.mermaid.models.Model__Mermaid__Node.Model__Mermaid__Node',
-                                          edge_model_type = 'mgraph_ai.providers.mermaid.models.Model__Mermaid__Edge.Model__Mermaid__Edge'))
+                                          default_types = __(node_model_type = 'mgraph_ai.providers.mermaid.models.Model__Mermaid__Node.Model__Mermaid__Node',
+                                                             edge_model_type = 'mgraph_ai.providers.mermaid.models.Model__Mermaid__Edge.Model__Mermaid__Edge')))
 
     def test_label(self):
         with self.mermaid_node as _:

@@ -1,4 +1,4 @@
-from typing                                                 import Type, List
+from typing                                                 import List
 from mgraph_ai.mgraph.domain.Domain__MGraph__Default__Types import Domain__MGraph__Default__Types
 from mgraph_ai.mgraph.models.Model__MGraph__Edge            import Model__MGraph__Edge
 from mgraph_ai.mgraph.models.Model__MGraph__Node            import Model__MGraph__Node

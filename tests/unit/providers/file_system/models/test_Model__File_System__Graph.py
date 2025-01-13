@@ -21,17 +21,17 @@ class test_Model__File_System__Graph(TestCase):
             node_2_id = _.new_node().node_id
             edge      = _.new_edge(from_node_id=node_1_id, to_node_id=node_2_id)
 
-            assert _.edge_model_type              is Model__MGraph__Edge
-            assert _.data.default_types.edge_type is Schema__MGraph__Edge
-            assert type(edge)                     is Model__MGraph__Edge
+            assert _.default_types.edge_model_type is Model__MGraph__Edge
+            assert _.data.default_types.edge_type  is Schema__MGraph__Edge
+            assert type(edge)                      is Model__MGraph__Edge
 
     def test_new_node(self):
         with self.model as _:
-            assert type(_)                        is Model__File_System__Graph
-            assert _.node_model_type              is Model__Folder__Node
-            assert _.data.default_types.node_type is Schema__Folder__Node
+            assert type(_)                         is Model__File_System__Graph
+            assert _.default_types.node_model_type is Model__Folder__Node
+            assert _.data.default_types.node_type  is Schema__Folder__Node
             node = _.new_node()
-            assert type(node)                     is Model__Folder__Node
+            assert type(node)                      is Model__Folder__Node
 
     def test__bug__cycle_detection__is_not_working(self):                                                                   # Tests cycle detection
         # Create nodes

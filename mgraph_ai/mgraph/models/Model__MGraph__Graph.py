@@ -1,23 +1,23 @@
-from typing                                                 import Type, List
-from osbot_utils.helpers.Random_Guid                        import Random_Guid
-from mgraph_ai.mgraph.models.Model__MGraph__Edge            import Model__MGraph__Edge
-from mgraph_ai.mgraph.models.Model__MGraph__Node            import Model__MGraph__Node
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph         import Schema__MGraph__Graph
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node          import Schema__MGraph__Node
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge          import Schema__MGraph__Edge
-from osbot_utils.type_safe.Type_Safe                        import Type_Safe
-from osbot_utils.type_safe.decorators.type_safe             import type_safe
+from typing                                                import Type, List
+from mgraph_ai.mgraph.models.Model__MGraph__Default__Types import Model__MGraph__Default__Types
+from osbot_utils.helpers.Random_Guid                       import Random_Guid
+from mgraph_ai.mgraph.models.Model__MGraph__Edge           import Model__MGraph__Edge
+from mgraph_ai.mgraph.models.Model__MGraph__Node           import Model__MGraph__Node
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph        import Schema__MGraph__Graph
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Node         import Schema__MGraph__Node
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge         import Schema__MGraph__Edge
+from osbot_utils.type_safe.Type_Safe                       import Type_Safe
+from osbot_utils.type_safe.decorators.type_safe            import type_safe
 
 
 class Model__MGraph__Graph(Type_Safe):
     data           : Schema__MGraph__Graph
-    node_model_type: Type[Model__MGraph__Node]
-    edge_model_type: Type[Model__MGraph__Edge]
+    default_types : Model__MGraph__Default__Types
 
     @type_safe
     def add_node(self, node: Schema__MGraph__Node) -> Model__MGraph__Node:                            # Add a node to the graph
         self.data.nodes[node.node_id] = node
-        return self.node_model_type(data=node)
+        return self.default_types.node_model_type(data=node)
 
     @type_safe
     def add_edge(self, edge: Schema__MGraph__Edge) -> Model__MGraph__Edge:                            # Add an edge to the graph
@@ -27,7 +27,7 @@ class Model__MGraph__Graph(Type_Safe):
             raise ValueError(f"To node {edge.to_node_id} not found")
 
         self.data.edges[edge.edge_config.edge_id] = edge
-        return self.edge_model_type(data=edge)
+        return self.default_types.edge_model_type(data=edge)
 
     def new_edge(self, **kwargs) -> Model__MGraph__Edge:
         edge_type = self.data.default_types.edge_type
@@ -40,12 +40,12 @@ class Model__MGraph__Graph(Type_Safe):
         return self.add_node(node)
 
     def edges(self):
-        return [self.edge_model_type(data=data) for data in self.data.edges.values()]
+        return [self.default_types.edge_model_type(data=data) for data in self.data.edges.values()]
 
     def edge(self, edge_id: Random_Guid) -> Model__MGraph__Edge:
         data = self.data.edges.get(edge_id)
         if data:
-            return self.edge_model_type(data=data)
+            return self.default_types.edge_model_type(data=data)
 
     def graph(self):
         return self.data
@@ -53,10 +53,10 @@ class Model__MGraph__Graph(Type_Safe):
     def node(self, node_id: Random_Guid) -> Model__MGraph__Node:
         data = self.data.nodes.get(node_id)
         if data:
-            return self.node_model_type(data=data)
+            return self.default_types.node_model_type(data=data)
 
     def nodes(self) -> List[Model__MGraph__Node]:
-        return [self.node_model_type(data=node) for node in self.data.nodes.values()]
+        return [self.default_types.node_model_type(data=node) for node in self.data.nodes.values()]
 
     @type_safe
     def delete_node(self, node_id: Random_Guid) -> 'Model__MGraph__Graph':                              # Remove a node and all its connected edges

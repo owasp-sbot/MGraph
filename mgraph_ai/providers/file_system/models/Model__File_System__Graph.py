@@ -1,14 +1,15 @@
-from typing                                                             import List, Type
-from mgraph_ai.mgraph.models.Model__MGraph__Graph                       import Model__MGraph__Graph
-from mgraph_ai.providers.file_system.models.Model__Folder__Node         import Model__Folder__Node
-from mgraph_ai.providers.file_system.schemas.Schema__File_System__Graph import Schema__File_System__Graph
-from osbot_utils.helpers.Random_Guid                                    import Random_Guid
+from typing                                                                   import List, Type
+from mgraph_ai.mgraph.models.Model__MGraph__Graph                             import Model__MGraph__Graph
+from mgraph_ai.providers.file_system.models.Model__File_System__Default_Types import Model__File_System__Default_Types
+from mgraph_ai.providers.file_system.schemas.Schema__File_System__Graph       import Schema__File_System__Graph
+from osbot_utils.helpers.Random_Guid                                          import Random_Guid
 
 
 
 class Model__File_System__Graph(Model__MGraph__Graph):                                                   # Model for filesystem graph
-    data           : Schema__File_System__Graph
-    node_model_type: Type[Model__Folder__Node]
+    data          : Schema__File_System__Graph
+    default_types : Model__File_System__Default_Types
+
 
     def allow_circular_refs(self) -> bool:                                                               # Check if circular refs allowed
         return self.data.graph_data.allow_circular_refs
