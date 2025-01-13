@@ -1,6 +1,5 @@
 from unittest                                                            import TestCase
 from osbot_utils.helpers.Random_Guid                                     import Random_Guid
-from osbot_utils.helpers.Safe_Id                                         import Safe_Id
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge           import Schema__Mermaid__Edge
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge__Config   import Schema__Mermaid__Edge__Config
 

@@ -6,7 +6,7 @@ from osbot_utils.type_safe.methods.type_safe_property   import set_as_property
 
 
 class Model__MGraph__Node(Type_Safe):
-    data: Schema__MGraph__Node
+    data    : Schema__MGraph__Node
 
-    node_id   = set_as_property('data.node_data', 'node_id'  , Random_Guid)
-    node_type = set_as_property('data'          , 'node_type'             ) # BUG: , Type[Schema__MGraph__Node] not supported, raises "Subscripted generics cannot be used with class and instance checks" error
+    node_id   = set_as_property('data', 'node_id'  , Random_Guid)
+    node_type = set_as_property('data', 'node_type'             ) # BUG: , Type[Schema__MGraph__Node] not supported, raises "Subscripted generics cannot be used with class and instance checks" error

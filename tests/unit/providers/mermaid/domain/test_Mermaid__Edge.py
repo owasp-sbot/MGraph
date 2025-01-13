@@ -2,7 +2,7 @@ from unittest                                                 import TestCase
 from mgraph_ai.providers.mermaid.models.Model__Mermaid__Graph import Model__Mermaid__Graph
 from osbot_utils.utils.Misc                                   import is_guid
 from osbot_utils.utils.Objects                                import __
-from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Edge         import Domain__Mermaid__Edge
+from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Edge import Domain__Mermaid__Edge
 
 class test_Mermaid__Edge(TestCase):
 

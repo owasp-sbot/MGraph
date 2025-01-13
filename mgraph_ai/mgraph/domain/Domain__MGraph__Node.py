@@ -8,6 +8,6 @@ class Domain__MGraph__Node(Type_Safe):                                          
     graph: Model__MGraph__Graph                                                             # Reference to graph model
 
     node_data = set_as_property('node.data'               , 'node_data')                    # Node configuration property
-    node_id   = set_as_property('node.data.node_data'     , 'node_id'  )                    # Node ID property
+    node_id   = set_as_property('node.data'               , 'node_id'  )                    # Node ID property
     graph_id  = set_as_property ('graph.data.graph_config', 'graph_id' )                    # Graph ID property
 

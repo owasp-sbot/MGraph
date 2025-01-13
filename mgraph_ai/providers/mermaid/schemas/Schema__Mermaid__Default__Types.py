@@ -4,7 +4,7 @@ from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge          import S
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge__Config  import Schema__Mermaid__Edge__Config
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Graph__Config import Schema__Mermaid__Graph__Config
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node          import Schema__Mermaid__Node
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Data  import Schema__Mermaid__Node__Data
+from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Data    import Schema__Mermaid__Node__Data
 
 class Schema__Mermaid__Default__Types(Schema__MGraph__Default__Types):
     edge_type        : Type[Schema__Mermaid__Edge         ]

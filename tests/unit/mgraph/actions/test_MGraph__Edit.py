@@ -1,12 +1,12 @@
-from unittest                                           import TestCase
-from osbot_utils.utils.Misc                             import is_guid
-from mgraph_ai.mgraph.domain.Domain__MGraph__Node       import Domain__MGraph__Node
-from osbot_utils.utils.Objects                          import __
-from mgraph_ai.mgraph.actions.MGraph__Edit              import MGraph__Edit
-from mgraph_ai.mgraph.domain.Domain__MGraph__Graph      import Domain__MGraph__Graph
-from mgraph_ai.mgraph.models.Model__MGraph__Graph       import Model__MGraph__Graph
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph     import Schema__MGraph__Graph
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node      import Schema__MGraph__Node
+from unittest                                       import TestCase
+from osbot_utils.utils.Misc                         import is_guid
+from mgraph_ai.mgraph.domain.Domain__MGraph__Node   import Domain__MGraph__Node
+from osbot_utils.utils.Objects                      import __
+from mgraph_ai.mgraph.actions.MGraph__Edit          import MGraph__Edit
+from mgraph_ai.mgraph.domain.Domain__MGraph__Graph  import Domain__MGraph__Graph
+from mgraph_ai.mgraph.models.Model__MGraph__Graph   import Model__MGraph__Graph
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph import Schema__MGraph__Graph
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Node  import Schema__MGraph__Node
 
 class Simple_Node(Schema__MGraph__Node): pass  # Helper class for testing
 
@@ -26,7 +26,8 @@ class test_MGraph__Edit(TestCase):
             node_id = node.node_id
             assert type(node) is Domain__MGraph__Node
             assert is_guid(node_id) is True
-            assert node.obj()       == __(node=__(data=__(node_data   = __(node_id=node_id),
+            assert node.obj()       == __(node=__(data=__(node_data   = __()    ,
+                                                          node_id     = node_id ,
                                                           node_type   = 'mgraph_ai.mgraph.schemas.Schema__MGraph__Node.Schema__MGraph__Node')),
                                           graph=self.model_graph.obj())
             assert node.node.json() == self.model_graph.node(node_id=node_id).json()
@@ -65,8 +66,9 @@ class test_MGraph__Edit(TestCase):
         class Custom_Node(Schema__MGraph__Node): pass
         custom_node = Custom_Node()
 
-        assert custom_node.obj() == __(node_data  = __(node_id    = custom_node.node_data.node_id),
-                                       node_type  = 'test_MGraph__Edit.Custom_Node'               )
+        assert custom_node.obj() == __(node_id   = custom_node.node_id,
+                                       node_data = __(),
+                                       node_type = 'test_MGraph__Edit.Custom_Node')
 
         node = self.graph_edit.new_node(node_type=Custom_Node)     # Create node with custom type
 

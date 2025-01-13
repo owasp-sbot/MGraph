@@ -7,7 +7,7 @@ from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge__Config   import 
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Graph          import Schema__Mermaid__Graph
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Graph__Config  import Schema__Mermaid__Graph__Config
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node           import Schema__Mermaid__Node
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Data   import Schema__Mermaid__Node__Data
+from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Data     import Schema__Mermaid__Node__Data
 
 class test_Schema__Mermaid__Graph(TestCase):
 
@@ -17,7 +17,7 @@ class test_Schema__Mermaid__Graph(TestCase):
                                                             allow_circle_edges   = True                 ,
                                                             allow_duplicate_edges= False                ,
                                                             graph_title         = "Test Graph"          )
-        self.node          = Schema__Mermaid__Node         (node_data = Schema__Mermaid__Node__Data(node_id=Random_Guid()),
+        self.node          = Schema__Mermaid__Node         (node_data = Schema__Mermaid__Node__Data()   ,
                                                             node_type   = Schema__Mermaid__Node                                   ,
                                                             key         = Safe_Id("node_1")                                       ,
                                                             label       = "Test Node"                                             )
@@ -28,7 +28,7 @@ class test_Schema__Mermaid__Graph(TestCase):
                                                             label        = "Test Edge"                                             )
         self.graph          = Schema__Mermaid__Graph       (default_types = self.default_types                       ,
                                                             edges        = {self.edge.edge_config.edge_id: self.edge},
-                                                            nodes        = {self.node.node_data.node_id: self.node},
+                                                            nodes        = {self.node.node_id: self.node},
                                                             graph_config = self.graph_config                         ,
                                                             graph_type   = Schema__Mermaid__Graph                    ,
                                                             mermaid_code = ["graph TD", "A --> B"]                   )

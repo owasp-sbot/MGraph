@@ -82,16 +82,17 @@ class test__Mermaid__Edit(TestCase):
                                                            node_data =__(node_shape      = 'default',
                                                                           show_label       = True   ,
                                                                           wrap_with_quotes = True   ,
-                                                                          markdown         = False  ,
-                                                                          node_id          = node_id),
+                                                                          markdown         = False  ),
+                                                           node_id     = node_id                     ,
                                                            node_type   = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node.Schema__Mermaid__Node')),
                                            graph = _.graph.model.obj())
 
         node_2 = _.new_node(key='an-key', label = 'an-label')
-        assert node_2.node.data.obj() == __(key         = 'an-key'                   ,
-                                            label       = 'an-label'                 ,
+        assert node_2.node.data.obj() == __(key       = 'an-key'               ,
+                                            label     = 'an-label'             ,
                                             node_data = node_2.node_data.obj() ,
-                                            node_type   = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node.Schema__Mermaid__Node')
+                                            node_type = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node.Schema__Mermaid__Node',
+                                            node_id   = node_2.node_id         )
 
     def test_render_config(self):
         with Mermaid__Edit().render_config() as _:

@@ -7,7 +7,7 @@ from osbot_utils.helpers.Random_Guid                       import Random_Guid
 class test_Model__MGraph__Node(TestCase):
 
     def setUp(self):                                                                            # Initialize test data
-        self.node_data = Schema__MGraph__Node__Data ( node_id    = Random_Guid()       )
+        self.node_data = Schema__MGraph__Node__Data ()
         self.node      = Schema__MGraph__Node       ( node_data  = self.node_data      ,
                                                       node_type  = Schema__MGraph__Node)
         self.model     = Model__MGraph__Node        ( data       = self.node           )

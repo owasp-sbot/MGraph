@@ -16,7 +16,7 @@ class test_Schema__MGraph__Graph(TestCase):
         self.default_types = Schema__MGraph__Default__Types(node_type      = Simple_Node         ,
                                                             edge_type      = Schema__MGraph__Edge)
         self.graph_config  = Schema__MGraph__Graph__Config (graph_id       = Random_Guid()       )
-        self.node_data   = Schema__MGraph__Node__Data      (node_id        = Random_Guid())
+        self.node_data     = Schema__MGraph__Node__Data    ()
         self.node          = Schema__MGraph__Node          (node_data      = self.node_data,
                                                             node_type      = Simple_Node)
         self.edge_config   = Schema__MGraph__Edge__Config  (edge_id        = Random_Guid()       )
@@ -28,15 +28,15 @@ class test_Schema__MGraph__Graph(TestCase):
                                                             edges          = {self.edge.edge_config.edge_id: self.edge},
                                                             graph_config   = self.graph_config,
                                                             graph_type     = Schema__MGraph__Graph,
-                                                            nodes          = {self.node.node_data.node_id: self.node}, )
+                                                            nodes          = {self.node.node_id: self.node}, )
 
     def test_init(self):    # Tests basic initialization and type checking
-        assert type(self.graph)                                    is Schema__MGraph__Graph
-        assert self.graph.graph_config                            == self.graph_config
-        assert len(self.graph.nodes)                              == 1
-        assert len(self.graph.edges)                              == 1
-        assert self.graph.nodes[self.node.node_data.node_id] == self.node
-        assert self.graph.edges[self.edge.edge_config.edge_id]    == self.edge
+        assert type(self.graph)                                is Schema__MGraph__Graph
+        assert self.graph.graph_config                         == self.graph_config
+        assert len(self.graph.nodes)                           == 1
+        assert len(self.graph.edges)                           == 1
+        assert self.graph.nodes[self.node.node_id            ] == self.node
+        assert self.graph.edges[self.edge.edge_config.edge_id] == self.edge
 
     def test_type_safety_validation(self):    # Tests type safety validations
         with self.assertRaises(ValueError) as context:
@@ -50,7 +50,7 @@ class test_Schema__MGraph__Graph(TestCase):
 
         with self.assertRaises(ValueError) as context:
             Schema__MGraph__Graph(
-                nodes        = {self.node.node_data.node_id: self.node},
+                nodes        = {self.node.node_id            : self.node    },
                 edges        = {self.edge.edge_config.edge_id: "not-an-edge"},
                 graph_config = self.graph_config,
                 graph_type   = Schema__MGraph__Graph
@@ -58,18 +58,17 @@ class test_Schema__MGraph__Graph(TestCase):
         assert "Expected a dictionary, but got '<class 'str'>'" == str(context.exception)
 
     def test_multiple_nodes_and_edges(self):    # Tests graph with multiple nodes and edges
-        node_data_2 = Schema__MGraph__Node__Data(node_id    = Random_Guid())
-        node_2 = Schema__MGraph__Node(node_data  = node_data_2)
-
-        edge_config_2 = Schema__MGraph__Edge__Config(edge_id=Random_Guid())
-        edge_2 = Schema__MGraph__Edge(edge_config  = edge_config_2              ,
-                                      edge_type    = Schema__MGraph__Edge       ,
-                                      from_node_id = self.node.node_data.node_id,
-                                      to_node_id   = node_2.node_data.node_id   )
+        node_data_2   = Schema__MGraph__Node__Data  (                                    )
+        node_2        = Schema__MGraph__Node        (node_data    = node_data_2          )
+        edge_config_2 = Schema__MGraph__Edge__Config(edge_id      = Random_Guid()        )
+        edge_2        = Schema__MGraph__Edge        (edge_config  = edge_config_2        ,
+                                                     edge_type    = Schema__MGraph__Edge ,
+                                                     from_node_id = self.node.node_id    ,
+                                                     to_node_id   = node_2.node_id       )
 
         graph = Schema__MGraph__Graph(
-            nodes        = { self.node.node_data.node_id   : self.node ,
-                             node_2.node_data.node_id      : node_2   },
+            nodes        = { self.node.node_id             : self.node ,
+                             node_2.node_id                : node_2   },
             edges        = { self.edge.edge_config.edge_id : self.edge ,
                              edge_2.edge_config.edge_id    : edge_2   },
             graph_config = self.graph_config                           ,

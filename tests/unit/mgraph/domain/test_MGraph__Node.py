@@ -10,9 +10,9 @@ from osbot_utils.helpers.Random_Guid                       import Random_Guid
 class test_MGraph__Node(TestCase):
 
     def setUp(self):                                                                        # Initialize test data
-        self.node_data   = Schema__MGraph__Node__Data(node_id      = Random_Guid())
-        self.schema_node = Schema__MGraph__Node       (node_data   = self.node_data,
-                                                       node_type   = Schema__MGraph__Node)
+        self.node_data   = Schema__MGraph__Node__Data()
+        self.schema_node = Schema__MGraph__Node      (node_data = self.node_data,
+                                                      node_type = Schema__MGraph__Node)
         self.model_node = Model__MGraph__Node(data=self.schema_node)
         self.graph      = Model__MGraph__Graph(data=None)                                   # Mock graph for testing
         self.node       = Domain__MGraph__Node(node=self.model_node, graph=self.graph)

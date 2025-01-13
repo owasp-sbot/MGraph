@@ -26,8 +26,8 @@ class test_Mermaid_Node(TestCase):
                                                  node_data =__(node_shape      = 'default',
                                                                 show_label       = True     ,
                                                                 wrap_with_quotes = True     ,
-                                                                markdown         = False    ,
-                                                                node_id          = node_id  ),
+                                                                markdown         = False    ),
+                                                 node_id     = node_id                       ,
                                                  node_type   = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node.Schema__Mermaid__Node'                                            )),
                                  graph=__(data=__(default_types = __(edge_type         = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge.Schema__Mermaid__Edge'                  ,
                                                                      edge_config_type  = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge__Config.Schema__Mermaid__Edge__Config'  ,
@@ -107,19 +107,14 @@ class test_Mermaid_Node(TestCase):
                                     node_data = __(node_shape       = 'default',
                                                      show_label       = True,
                                                      wrap_with_quotes = True,
-                                                     markdown         = False,
-                                                     node_id          = self.mermaid_node_id),
+                                                     markdown         = False),
+                                   node_id      = self.mermaid_node_id        ,
                                    node_type    = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node.Schema__Mermaid__Node')
         assert Schema__Mermaid__Node.from_json(data_obj.json()).json() == data_obj.json()
-        #pprint(node_obj.json())
-
 
         with MGraph__Mermaid() as _:
             _.edit().new_node(key='id')
             assert _.code() == 'graph LR\n    id["id"]\n'
-
-
-
 
         #return
         with MGraph__Mermaid() as _:

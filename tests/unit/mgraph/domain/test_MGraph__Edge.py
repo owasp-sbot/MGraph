@@ -15,17 +15,17 @@ from osbot_utils.helpers.Random_Guid                       import Random_Guid
 class test_MGraph__Edge(TestCase):
 
     def setUp(self):                                                                                    # Initialize test data
-        self.graph              = Model__MGraph__Graph      ( data=None)                                # Mock graph for testing
-        self.from_node_data    = Schema__MGraph__Node__Data ( node_id     = Random_Guid()       )       # Create source and target nodes
-        self.from_schema_node  = Schema__MGraph__Node       ( node_data   = self.from_node_data ,
-                                                              node_type   = Schema__MGraph__Node)
-        self.to_node_data = Schema__MGraph__Node__Data      ( node_id     = Random_Guid()       )
-        self.to_schema_node = Schema__MGraph__Node          ( node_data   = self.to_node_data   ,
-                                                              node_type   = Schema__MGraph__Node)
+        self.graph            = Model__MGraph__Graph       ( data=None)                                # Mock graph for testing
+        self.from_node_data   = Schema__MGraph__Node__Data (          )                                # Create source and target nodes
+        self.from_schema_node = Schema__MGraph__Node       ( node_data = self.from_node_data ,
+                                                             node_type = Schema__MGraph__Node)
+        self.to_node_data     = Schema__MGraph__Node__Data (         )
+        self.to_schema_node   = Schema__MGraph__Node       ( node_data = self.to_node_data   ,
+                                                             node_type = Schema__MGraph__Node)
 
         # Add nodes to the graph
-        self.graph.data = Schema__MGraph__Graph(nodes        = {self.from_schema_node.node_data.node_id: self.from_schema_node,
-                                                                self.to_schema_node.node_data.node_id  : self.to_schema_node},
+        self.graph.data = Schema__MGraph__Graph(nodes        = {self.from_schema_node.node_id: self.from_schema_node,
+                                                                self.to_schema_node.node_id  : self.to_schema_node},
                                                 edges        = {},
                                                 graph_config = None,
                                                 graph_type   = Schema__MGraph__Graph)
@@ -34,8 +34,8 @@ class test_MGraph__Edge(TestCase):
         self.edge_config = Schema__MGraph__Edge__Config(edge_id        = Random_Guid())
         self.schema_edge = Schema__MGraph__Edge       (edge_config    = self.edge_config,
                                                        edge_type      = Schema__MGraph__Edge,
-                                                       from_node_id   = self.from_schema_node.node_data.node_id,
-                                                       to_node_id     = self.to_schema_node.node_data.node_id)
+                                                       from_node_id   = self.from_schema_node.node_id,
+                                                       to_node_id     = self.to_schema_node.node_id)
 
         # Create model and domain edge
         self.model_edge = Model__MGraph__Edge(data=self.schema_edge)

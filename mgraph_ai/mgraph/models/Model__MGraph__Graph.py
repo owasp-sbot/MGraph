@@ -16,7 +16,7 @@ class Model__MGraph__Graph(Type_Safe):
 
     @type_safe
     def add_node(self, node: Schema__MGraph__Node) -> Model__MGraph__Node:                            # Add a node to the graph
-        self.data.nodes[node.node_data.node_id] = node
+        self.data.nodes[node.node_id] = node
         return self.node_model_type(data=node)
 
     @type_safe

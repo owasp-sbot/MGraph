@@ -36,7 +36,7 @@ class test_Folder__Node(TestCase):
         assert type(parent) is Model__Folder__Node
 
         # Setup relationships
-        self.graph_model.new_edge(from_node_id=parent           .node_id, to_node_id=self.folder.node_data.node_id)
+        self.graph_model.new_edge(from_node_id=parent           .node_id, to_node_id=self.folder.node_id)
         self.graph_model.new_edge(from_node_id=self.folder_model.node_id, to_node_id=child1.node_id     ())
         self.graph_model.new_edge(from_node_id=self.folder_model.node_id, to_node_id=child2.node_id     ())
 

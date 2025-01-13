@@ -1,8 +1,8 @@
 from unittest                                                            import TestCase
-from mgraph_ai.providers.mermaid.MGraph__Mermaid                          import MGraph__Mermaid
-from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Edge                    import Domain__Mermaid__Edge
-from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Graph                   import Domain__Mermaid__Graph
-from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Node                    import Domain__Mermaid__Node
+from mgraph_ai.providers.mermaid.MGraph__Mermaid                         import MGraph__Mermaid
+from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Edge            import Domain__Mermaid__Edge
+from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Graph           import Domain__Mermaid__Graph
+from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Node            import Domain__Mermaid__Node
 from mgraph_ai.providers.mermaid.models.Model__Mermaid__Edge             import Model__Mermaid__Edge
 from mgraph_ai.providers.mermaid.models.Model__Mermaid__Graph            import Model__Mermaid__Graph
 from mgraph_ai.providers.mermaid.models.Model__Mermaid__Node             import Model__Mermaid__Node
@@ -11,7 +11,7 @@ from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Graph          import 
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Graph__Config  import Schema__Mermaid__Graph__Config
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node           import Schema__Mermaid__Node
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge           import Schema__Mermaid__Edge
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Data   import Schema__Mermaid__Node__Data
+from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Data     import Schema__Mermaid__Node__Data
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge__Config   import Schema__Mermaid__Edge__Config
 from mgraph_ai.providers.mermaid.utils.Mermaid__Random_Graph             import Mermaid__Random_Graph, create_test_mermaid_graph, create_empty_mermaid_graph
 from osbot_utils.helpers.Safe_Id                                         import Safe_Id
@@ -23,14 +23,14 @@ class test_Test_Data_Mermaid(TestCase):
         self.test_data.setup()
 
     def test_init(self):                                                               # Test initialization
-        assert type(self.test_data)                       is Mermaid__Random_Graph
-        assert type(self.test_data.graph_data)            is Schema__Mermaid__Graph
-        assert type(self.test_data.graph_config)          is Schema__Mermaid__Graph__Config
-        assert type(self.test_data.graph__model)          is Model__Mermaid__Graph
-        assert len(self.test_data.graph_data.nodes)       == 0
-        assert len(self.test_data.graph_data.edges)       == 0
+        assert type(self.test_data)                         is Mermaid__Random_Graph
+        assert type(self.test_data.graph_data)              is Schema__Mermaid__Graph
+        assert type(self.test_data.graph_config)            is Schema__Mermaid__Graph__Config
+        assert type(self.test_data.graph__model)            is Model__Mermaid__Graph
+        assert len(self.test_data.graph_data.nodes)         == 0
+        assert len(self.test_data.graph_data.edges)         == 0
         assert type(self.test_data.graph_data.mermaid_code) is list
-        assert len(self.test_data.graph_data.mermaid_code)  == 0
+        assert len(self.test_data.graph_data .mermaid_code)  == 0
 
     def test_create_mermaid_node(self):                                                # Test Mermaid node creation
         key = "test_key"
@@ -57,8 +57,8 @@ class test_Test_Data_Mermaid(TestCase):
         edge = self.test_data.create_mermaid_edge(from_node=node1, to_node=node2, label=label)
         assert type(edge)                  is Schema__Mermaid__Edge
         assert type(edge.edge_config)      is Schema__Mermaid__Edge__Config
-        assert edge.from_node_id           == node1.node_data.node_id
-        assert edge.to_node_id             == node2.node_data.node_id
+        assert edge.from_node_id           == node1.node_id
+        assert edge.to_node_id             == node2.node_id
         assert edge.label                  == label
 
         # Test with default label
@@ -90,8 +90,8 @@ class test_Test_Data_Mermaid(TestCase):
 
         for edge in self.test_data.graph_data.edges.values():
             assert type(edge) is Schema__Mermaid__Edge
-            assert edge.from_node_id in [node.node_data.node_id for node in nodes]
-            assert edge.to_node_id in [node.node_data.node_id for node in nodes]
+            assert edge.from_node_id in [node.node_id for node in nodes]
+            assert edge.to_node_id in [node.node_id for node in nodes]
 
         # Test validation
         with self.assertRaises(ValueError) as context:

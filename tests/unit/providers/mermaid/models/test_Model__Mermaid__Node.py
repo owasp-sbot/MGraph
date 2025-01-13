@@ -1,17 +1,17 @@
-from unittest                                                           import TestCase
-from mgraph_ai.mgraph.models.Model__MGraph__Node                        import Model__MGraph__Node
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node                      import Schema__MGraph__Node
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Data                import Schema__MGraph__Node__Data
-from osbot_utils.helpers.Random_Guid                                    import Random_Guid
-from osbot_utils.helpers.Safe_Id                                        import Safe_Id
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node          import Schema__Mermaid__Node
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Data  import Schema__Mermaid__Node__Data
-from mgraph_ai.providers.mermaid.models.Model__Mermaid__Node            import Model__Mermaid__Node
+from unittest                                                        import TestCase
+from osbot_utils.utils.Misc                                          import is_guid
+from mgraph_ai.mgraph.models.Model__MGraph__Node                     import Model__MGraph__Node
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Node                   import Schema__MGraph__Node
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Data             import Schema__MGraph__Node__Data
+from osbot_utils.helpers.Safe_Id                                     import Safe_Id
+from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node       import Schema__Mermaid__Node
+from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Data import Schema__Mermaid__Node__Data
+from mgraph_ai.providers.mermaid.models.Model__Mermaid__Node         import Model__Mermaid__Node
 
 class test_Model__Mermaid__Node(TestCase):
 
     def setUp(self):                                                                # Initialize test data
-        self.node_data = Schema__Mermaid__Node__Data(node_id    = Random_Guid())
+        self.node_data = Schema__Mermaid__Node__Data()
         self.key = Safe_Id('test_key')
         self.node = Schema__Mermaid__Node(node_data  = self.node_data       ,
                                           node_type  = Schema__Mermaid__Node,
@@ -55,8 +55,7 @@ class test_Model__Mermaid__Node(TestCase):
 
     def test_inheritance_from_model_mgraph_node(self):                                  # Tests inheritance behavior
         assert isinstance(self.model, Model__MGraph__Node)                              # Verify that Model__Mermaid__Node inherits Model__MGraph__Node functionality
-
-        assert self.model.node_id == self.node_data.node_id                           # Test node ID retrieval
+        assert is_guid(self.model.node_id)
 
     def test_mermaid_specific_implementations(self):                                    # Tests Mermaid-specific class implementations
         assert issubclass(Schema__Mermaid__Node, Schema__MGraph__Node)                  # Verify schema inheritance
@@ -78,10 +77,9 @@ class test_Model__Mermaid__Node(TestCase):
 
     def test_mermaid_config_specifics(self):                                      # Tests Mermaid-specific configuration
         # Create node config with Mermaid-specific settings
-        node_data = Schema__Mermaid__Node__Data(node_id          = Random_Guid(),
-                                                  markdown         = True,
-                                                  show_label       = False,
-                                                  wrap_with_quotes = True)
+        node_data = Schema__Mermaid__Node__Data(markdown         = True,
+                                                show_label       = False,
+                                                wrap_with_quotes = True)
 
         # Create node with this config
         node = Schema__Mermaid__Node(node_data  = node_data             ,
