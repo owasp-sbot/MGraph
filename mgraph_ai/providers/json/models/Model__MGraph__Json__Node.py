@@ -1,61 +1,49 @@
-from typing import Any, Type
+from typing                                             import Any, Optional, Type
+from osbot_utils.helpers.Random_Guid                    import Random_Guid
+from osbot_utils.type_safe.Type_Safe                    import Type_Safe
+from osbot_utils.type_safe.methods.type_safe_property   import set_as_property
 
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node import Schema__MGraph__Json__Node, \
-    Schema__MGraph__Json__Node__Type, Schema__MGraph__Json__Node__Dict, Schema__MGraph__Json__Node__List, \
-    Schema__MGraph__Json__Node__Property, Schema__MGraph__Json__Node__Value
-from mgraph_ai.mgraph.models.Model__MGraph__Node import Model__MGraph__Node
+from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node import (
+    Schema__MGraph__Json__Node,
+    Schema__MGraph__Json__Node__Value,
+    Schema__MGraph__Json__Node__Dict,
+    Schema__MGraph__Json__Node__List,
+    Schema__MGraph__Json__Node__Property,
+    Schema__MGraph__Json__Node__Value__Data,
+    Schema__MGraph__Json__Node__Property__Data
+)
 
-
-class Model__MGraph__Json__Node(Model__MGraph__Node):                                       # Base model class for JSON nodes
+class Model__MGraph__Json__Node(Type_Safe):                                             # Base model class for JSON nodes
     data: Schema__MGraph__Json__Node
 
-    def node_type(self) -> Schema__MGraph__Json__Node__Type:                        # Return the node's type
-        return self.data.node_type if hasattr(self.data, 'node_type') else None
+    node_id   = set_as_property('data', 'node_id', Random_Guid)
+    node_type = set_as_property('data', 'node_type')
 
-    def is_value(self) -> bool:                                                     # Check if node is a value type
-        return self.node_type() == Schema__MGraph__Json__Node__Type.VALUE
-
-    def is_dict(self) -> bool:                                                      # Check if node is a dictionary type
-        return self.node_type() == Schema__MGraph__Json__Node__Type.DICT
-
-    def is_list(self) -> bool:                                                      # Check if node is a list type
-        return self.node_type() == Schema__MGraph__Json__Node__Type.LIST
-
-    def is_property(self) -> bool:                                                  # Check if node is a property type
-        return self.node_type() == Schema__MGraph__Json__Node__Type.PROPERTY
-
-class Model__MGraph__Json__Node__Value(Model__MGraph__Json__Node):                                  # Model for JSON value nodes
+class Model__MGraph__Json__Node__Value(Model__MGraph__Json__Node):                          # Model class for JSON value nodes
     data: Schema__MGraph__Json__Node__Value
 
-    def get_value(self) -> Any:                                                     # Retrieve the node's value
-        return self.data.value
+    value_type = set_as_property('data.node_data', 'value_type')
 
-    def get_value_type(self) -> Type:                                               # Get the type of the value
-        return self.data.value_type
+    def is_primitive(self) -> bool:                                                         # Check if the value is a primitive type
+        return self.value_type in (str, int, float, bool, type(None))
 
-    def set_value(self, value: Any):                                                # Set the node's value
-        self.data.value = value
-        self.data.value_type = type(value)
+    @property
+    def value(self) -> Any:
+        return self.data.node_data.value
 
-class Model__MGraph__Json__Node__Dict(Model__MGraph__Json__Node):                                   # Model for JSON dictionary nodes"""
+    @value.setter
+    def value(self, new_value: Any) -> None:
+        self.data.node_data.value      = new_value
+        self.data.node_data.value_type = type(new_value)
+
+class Model__MGraph__Json__Node__Dict(Model__MGraph__Json__Node):                           # Model class for JSON object nodes"""
     data: Schema__MGraph__Json__Node__Dict
 
-    def keys(self):                                                                 # Placeholder for getting dictionary keys
-        # This would likely be implemented in the domain layer
-        return []
-
-class Model__MGraph__Json__Node__List(Model__MGraph__Json__Node):                                   # Model for JSON list nodes"""
+class Model__MGraph__Json__Node__List(Model__MGraph__Json__Node):                           # Model class for JSON array nodes
     data: Schema__MGraph__Json__Node__List
 
-    def length(self) -> int:                                                        # Placeholder for getting list length
-        # This would likely be implemented in the domain layer
-        return 0
 
-class Model__MGraph__Json__Node__Property(Model__MGraph__Json__Node):                               # Model for JSON property nodes"""
+class Model__MGraph__Json__Node__Property(Model__MGraph__Json__Node):                       # Model class for JSON object property nodes
     data: Schema__MGraph__Json__Node__Property
 
-    def get_name(self) -> str:                                                      # Get the property name
-        return self.data.name
-
-    def set_name(self, name: str):                                                  # Set the property name
-        self.data.name = name
+    name = set_as_property('data.node_data', 'name')
