@@ -1,11 +1,6 @@
-import unittest
-
 import pytest
-
-from osbot_utils.utils.Dev import pprint
-
-from osbot_utils.utils.Objects import __, type_full_name
-
+import unittest
+from osbot_utils.utils.Objects                                   import __, type_full_name
 from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node import (
     Schema__MGraph__Json__Node__Value__Data,
     Schema__MGraph__Json__Node__Value,
@@ -92,36 +87,29 @@ class test_Model__MGraph__Json__Node__Value(unittest.TestCase):
             assert model_node.is_primitive() is expected_primitive
 
 class test_Model__MGraph__Json__Node__Dict(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls):
-        pytest.skip("test needs fixing")
+
     def test_init(self):                                                                            # Test base JSON dict node model initialization
         with Model__MGraph__Json__Node__Dict(data=Schema__MGraph__Json__Node__Dict()) as _:          # Create base JSON dict node model
-            assert _.obj() == __(node_id    = _.node_id,
-                                 node_type  = 'mgraph_ai.providers.json.models.Model__MGraph__Json__Node.Model__MGraph__Json__Node__Dict',
-                                 data       = __)
+            assert _.obj() == __(data = __(node_data = __()     ,
+                                           node_id    = _.node_id,
+                                           node_type  = type_full_name(Schema__MGraph__Json__Node__Dict)))
 
 class test_Model__MGraph__Json__Node__List(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls):
-        pytest.skip("test needs fixing")
+
     def test_init(self):                                                                            # Test base JSON list node model initialization
         with Model__MGraph__Json__Node__List(data=Schema__MGraph__Json__Node__List()) as _:          # Create base JSON list node model
-            assert _.obj() == __(node_id    = _.node_id,
-                                 node_type  = 'mgraph_ai.providers.json.models.Model__MGraph__Json__Node.Model__MGraph__Json__Node__List',
-                                 data       = __)
+            assert _.obj() == __(data = __(node_data = __()     ,
+                                           node_id    = _.node_id,
+                                           node_type  = type_full_name(Schema__MGraph__Json__Node__List)))
 
 class test_Model__MGraph__Json__Node__Property(unittest.TestCase):
     @classmethod
-    def setUpClass(cls):
-        pytest.skip("test needs fixing")
+
     def test_init(self):                                                                            # Test base JSON property node model initialization
         with Model__MGraph__Json__Node__Property(data=Schema__MGraph__Json__Node__Property()) as _:  # Create base JSON property node model
-            assert _.obj() == __(node_id    = _.node_id,
-                                 node_type  = 'mgraph_ai.providers.json.models.Model__MGraph__Json__Node.Model__MGraph__Json__Node__Property',
-                                 data       = __(node_data = __(name = ''),
-                                                 node_type = None,
-                                                 node_id   = _.data.node_id))
+            assert _.obj() == __(data =__(node_data = __(name = ''),
+                                         node_id    = _.node_id,
+                                         node_type  = type_full_name(Schema__MGraph__Json__Node__Property)))
 
     def test_property_node_creation(self):                                                          # Test creating a property node model
         # Create schema node with property data
