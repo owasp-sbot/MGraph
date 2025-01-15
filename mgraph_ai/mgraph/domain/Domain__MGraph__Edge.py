@@ -14,18 +14,18 @@ class Domain__MGraph__Edge(Type_Safe):                                          
     edge_config = set_as_property('edge.data'            , 'edge_config', Schema__MGraph__Edge__Config) # Edge configuration
     edge_id     = set_as_property('edge.data.edge_config', 'edge_id'    , Random_Guid                 ) # Edge ID
 
-    def from_node(self) -> Domain__MGraph__Node:                                                        # Get source node
+    def from_node(self, domain_node_type = Domain__MGraph__Node) -> Domain__MGraph__Node:                                                        # Get source node
         node = self.graph.node(self.edge.from_node_id())
         if node:
-            return Domain__MGraph__Node(node=node, graph=self.graph)
+            return domain_node_type(node=node, graph=self.graph)
 
     def from_node_id(self) -> Random_Guid:                                                              # Get source node ID
         return self.edge.from_node_id()
 
-    def to_node(self) -> Domain__MGraph__Node:                                                          # Get target node
+    def to_node(self, domain_node_type = Domain__MGraph__Node) -> Domain__MGraph__Node:                                                          # Get target node
         node = self.graph.node(self.edge.to_node_id())
         if node:
-            return Domain__MGraph__Node(node=node, graph=self.graph)
+            return domain_node_type(node=node, graph=self.graph)
 
     def to_node_id(self) -> Random_Guid:                                                              # Get source node ID
         return self.edge.to_node_id()

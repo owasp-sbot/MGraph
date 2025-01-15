@@ -1,5 +1,5 @@
 from typing                                                  import Dict, Type
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Types import Schema__MGraph__Types
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Types          import Schema__MGraph__Types
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge           import Schema__MGraph__Edge
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph__Data    import Schema__MGraph__Graph__Data
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Node           import Schema__MGraph__Node

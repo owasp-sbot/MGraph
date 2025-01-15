@@ -1,6 +1,6 @@
-from typing                                                 import Any
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node          import Schema__MGraph__Node
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Data    import Schema__MGraph__Node__Data
+from typing                                              import Any
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Node       import Schema__MGraph__Node
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Data import Schema__MGraph__Node__Data
 
 class Schema__MGraph__Json__Node(Schema__MGraph__Node):                     # Base schema for JSON nodes
     pass
