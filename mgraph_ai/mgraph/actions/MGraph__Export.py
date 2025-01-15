@@ -1,4 +1,4 @@
-from typing                                         import Dict, List, Optional
+from typing                                         import Dict
 from xml.dom                                        import minidom
 from xml.etree                                      import ElementTree
 from xml.etree.ElementTree                          import Element, SubElement
