@@ -1,7 +1,10 @@
-from typing                                                         import Optional, Dict, Any
-from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node     import Domain__MGraph__Json__Node
-from mgraph_ai.providers.json.models.Model__MGraph__Json__Node      import Model__MGraph__Json__Node__Dict, Model__MGraph__Json__Node__Property, Model__MGraph__Json__Node__Value
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node    import Schema__MGraph__Json__Node__Value, Schema__MGraph__Json__Node__Value__Data, Schema__MGraph__Json__Node__Property, Schema__MGraph__Json__Node__Property__Data
+from typing                                                                      import Optional, Dict, Any
+from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node                  import Domain__MGraph__Json__Node
+from mgraph_ai.providers.json.models.Model__MGraph__Json__Node__Dict             import Model__MGraph__Json__Node__Dict
+from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Property       import Schema__MGraph__Json__Node__Property
+from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Property__Data import Schema__MGraph__Json__Node__Property__Data
+from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Value          import Schema__MGraph__Json__Node__Value
+from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Value__Data    import Schema__MGraph__Json__Node__Value__Data
 
 
 class Domain__MGraph__Json__Node__Dict(Domain__MGraph__Json__Node):
