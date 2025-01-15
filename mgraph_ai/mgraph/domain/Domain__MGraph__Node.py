@@ -19,7 +19,7 @@ class Domain__MGraph__Node(Type_Safe):                                          
     def models__edges(self) -> List[Model__MGraph__Edge]:                                  # Get all model edges connected to this node
         connected_edges = []
         for edge in self.graph.edges():
-            if edge.from_node_id() == self.node_id() or edge.to_node_id() == self.node_id():
+            if edge.from_node_id() == self.node_id or edge.to_node_id() == self.node_id:
                 connected_edges.append(edge)
         return connected_edges
 
@@ -33,7 +33,7 @@ class Domain__MGraph__Node(Type_Safe):                                          
     def models__to_edges(self) -> List[Model__MGraph__Edge]:                               # Get model edges where this node is the target
         incoming_edges = []
         for edge in self.graph.edges():
-            if edge.to_node_id() == self.node_id():
+            if edge.to_node_id() == self.node_id:
                 incoming_edges.append(edge)
         return incoming_edges
 

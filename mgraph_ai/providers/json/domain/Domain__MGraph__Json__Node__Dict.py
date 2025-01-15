@@ -14,8 +14,6 @@ class Domain__MGraph__Json__Node__Dict(Domain__MGraph__Json__Node):
         result = {}
         for edge in self.models__from_edges():
             property_node = self.model__node_from_edge(edge)
-            if property_node.data.node_type != Schema__MGraph__Json__Node__Property:
-                continue
 
             for value_edge in self.graph.edges():                                           # todo: see why we need to use self.graph.edges()
                 if value_edge.from_node_id() == property_node.node_id:

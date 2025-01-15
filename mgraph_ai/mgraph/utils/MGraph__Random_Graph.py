@@ -61,9 +61,6 @@ class MGraph__Random_Graph(Type_Safe):
 
         return self.graph
 
-    def empty_graph(self):
-        return self.setup().graph
-
 def create_random_mgraph(num_nodes=2, num_edges=2) -> MGraph:                                        # Create an empty graph with no nodes or edges
     return MGraph__Random_Graph().setup().create_random_graph(num_nodes=num_nodes, num_edges=num_edges)
 

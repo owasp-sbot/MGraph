@@ -1,10 +1,8 @@
 from unittest                                                   import TestCase
-
-from mgraph_ai.mgraph.domain.Domain__MGraph__Edge import Domain__MGraph__Edge
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge import Schema__MGraph__Edge
+from mgraph_ai.mgraph.domain.Domain__MGraph__Edge               import Domain__MGraph__Edge
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge              import Schema__MGraph__Edge
 from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Edge import Domain__MGraph__Json__Edge
-from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node import Domain__MGraph__Json__Node
-from osbot_utils.utils.Objects import __, type_full_name
+from osbot_utils.utils.Objects                                  import __, type_full_name
 
 
 class test_Domain__MGraph__Json__Edge(TestCase):

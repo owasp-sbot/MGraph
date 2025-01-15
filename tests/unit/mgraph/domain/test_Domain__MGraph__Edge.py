@@ -12,7 +12,7 @@ from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge__Config import Schema__MGraph
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Data  import Schema__MGraph__Node__Data
 from osbot_utils.helpers.Random_Guid                       import Random_Guid
 
-class test_MGraph__Edge(TestCase):
+class test_Domain__MGraph__Edge(TestCase):
 
     def setUp(self):                                                                                    # Initialize test data
         self.graph            = Model__MGraph__Graph       ( data=None)                                # Mock graph for testing

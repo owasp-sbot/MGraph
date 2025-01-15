@@ -8,14 +8,6 @@ class MGraph__Static__Graph(Type_Safe):
     node_ids: List[Random_Guid]
     edge_ids: List[Random_Guid]
 
-    @property
-    def total_nodes(self) -> int:                                                                                      # Returns total number of nodes in the graph
-        return len(self.node_ids)
-
-    @property
-    def total_edges(self) -> int:                                                                                      # Returns total number of edges in the graph
-        return len(self.edge_ids)
-
     def create_nodes(self, count: int) -> List[Random_Guid]:                                                          # Creates specified number of nodes
         with self.graph.edit() as edit:
             return [edit.new_node().node_id for _ in range(count)]

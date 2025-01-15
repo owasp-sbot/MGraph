@@ -51,15 +51,18 @@ class test_Model__MGraph__Graph(TestCase):
         edge_id   = edge.edge_id()
         retrieved = self.graph.edge(edge_id)                                                # Test edge retrieval
 
-        assert isinstance(edge, Model__MGraph__Edge) is True
-        assert edge.from_node_id()                   == node_1_id
-        assert edge.to_node_id  ()                   == node_2_id
-        assert is_guid(edge_id)                      is True
-        assert retrieved.json()                      == edge.json()
-        assert self.graph.delete_edge(edge_id)       is True                                 # Test edge removal
-        assert self.graph.delete_edge(edge_id)       is False
-        assert edge_id                           not in self.graph.data.edges
-        assert self.graph.delete_edge(Random_Guid()) is False                               # Test removing non-existent edge
+        assert isinstance(edge, Model__MGraph__Edge)     is True
+        assert edge.from_node_id()                       == node_1_id
+        assert edge.to_node_id  ()                       == node_2_id
+        assert is_guid(edge_id)                          is True
+        assert retrieved.json()                          == edge.json()
+        assert len(self.graph.node__to_edges(node_1_id)) == 0
+        assert len(self.graph.node__to_edges(node_2_id)) == 1
+        assert self.graph.delete_edge(edge_id)           is True                                 # Test edge removal
+        assert self.graph.delete_edge(edge_id)           is False
+        assert edge_id                               not in self.graph.data.edges
+        assert len(self.graph.node__to_edges(node_2_id)) == 0
+        assert self.graph.delete_edge(Random_Guid())     is False                               # Test removing non-existent edge
 
     def test_node_removal_cascades_to_edges(self):                                          # Tests that removing a node removes connected edges
         node_1    = self.graph.new_node()

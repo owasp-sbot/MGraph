@@ -1,4 +1,3 @@
-import pytest
 from unittest                                                          import TestCase
 from osbot_utils.utils.Misc                                            import is_guid
 from mgraph_ai.mgraph.domain.Domain__MGraph__Node                      import Domain__MGraph__Node
@@ -25,7 +24,6 @@ class test_Domain__MGraph__Json__Graph(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        pytest.skip("todo: fix tests")
         cls.graph = Domain__MGraph__Json__Graph()
 
     def test__init__(self):
@@ -63,46 +61,57 @@ class test_Domain__MGraph__Json__Graph(TestCase):
             assert _.to_node_id  ()  == node_2.node_id
 
 
-    def test_root_node(self):                                                                # Test basic root node behavior
-        assert self.graph.model.data.graph_data.root_id is None                              # Initially no root
+    def test_root_node(self):                                                                                   # Test comprehensive root node behavior and constraints
+        with Domain__MGraph__Json__Graph() as _:
+            assert type(_)                         is Domain__MGraph__Json__Graph                      # Verify correct graph type
+            assert _.model.data.graph_data.root_id is None                                            # Verify no root exists initially
+            assert _.nodes_ids()                   == []                                              # Verify graph starts empty
+            assert _.root_content()                is None                                            # Verify no content attached to root
 
-        # Get root creates basic node
-        root = self.graph.root()
-        root_id = root.node_id
-        assert is_guid(root_id)
-        assert self.graph.nodes_ids()
-        assert isinstance(root, Domain__MGraph__Json__Node)
-        assert base_classes(root) == [Domain__MGraph__Node, Type_Safe, object ]
-        assert self.graph.model.data.graph_data.root_id == root.node_id
+            root    = _.root()                                                                        # Create root node on first access
+            root_id = root.node_id                                                                             # Store root ID for validations
 
-        # Initially no content
-        assert self.graph.root_content() is None
+            assert is_guid(root_id)                             is True                                        # Validate root has proper GUID
+            assert _.nodes_ids()                                 == [root_id]                                   # Verify root added to graph nodes
+            assert isinstance(root, Domain__MGraph__Json__Node) is True                                        # Confirm correct root node type
+            assert base_classes(root)                           == [Domain__MGraph__Node, Type_Safe, object]   # Validate inheritance chain
+            assert _.model.data.graph_data.root_id              == root.node_id                                # Verify root ID properly stored
+
+            root_2 = _.root()                                                                                   # Request root node again
+            assert root_2.node_id                               == root_id                                      # Verify same root returned
+            assert len(_.model.node__to_edges(root_id))         == 0                                            # Verify no incoming edges allowed
+            assert len(_.model.node__from_edges(root_id))       <= 1                                            # Verify maximum one outgoing edge
+
+            # Initially no content
+            assert _.root_content() is None                                                                     # confirm that it has no content
 
     def test_root_with_value(self):                                                         # Test root with value content
-        test_value = "test_string"
-        content = self.graph.set_root_content(test_value)
+        test_value = "test_string"                                                          # new root value
+        content    = self.graph.set_root_content(test_value)                                # assign it to root
 
-        assert isinstance(content, Domain__MGraph__Json__Node__Value)
+        assert type(content) is  Domain__MGraph__Json__Node__Value                          # confirm that type is a Node__Value
         assert content.value == test_value
 
-        # Verify through root_content
-        root_content = self.graph.root_content()
-        assert isinstance(root_content, Domain__MGraph__Json__Node__Value)
-        assert root_content.node_id == content.node_id
-        assert root_content.value == test_value
+        root_content = self.graph.root_content()                                            # get the content node again
+
+        assert isinstance(root_content, Domain__MGraph__Json__Node__Value)                  # confirm type
+        assert root_content.node_id                    == content.node_id                   # confirm is the same as the created in the previous step
+        assert root_content.value                      == test_value
+        assert self.graph.delete_node(content.node_id) is True                              # delete root content
+        assert self.graph.root_content()               is None                              # confirm it is not there
 
     def test_root_with_list(self):                                                          # Test root with list content
         test_list = [1, "two", True]
         content = self.graph.set_root_content(test_list)
 
         assert isinstance(content, Domain__MGraph__Json__Node__List)
+
         assert content.items() == test_list
 
-        # Verify through root_content
-        root_content = self.graph.root_content()
-        assert isinstance(root_content, Domain__MGraph__Json__Node__List)
-        assert root_content.node_id == content.node_id
-        assert root_content.items() == test_list
+        root_content = self.graph.root_content()                                            # Verify through root_content
+        assert type(root_content)    is Domain__MGraph__Json__Node__List
+        assert root_content.node_id  == content.node_id
+        assert root_content.items()  == test_list
 
     def test_root_with_dict(self):                                                          # Test root with dict content
         test_dict = {"key1": "value1", "key2": 42}
@@ -114,7 +123,7 @@ class test_Domain__MGraph__Json__Graph(TestCase):
         # Verify through root_content
         root_content = self.graph.root_content()
         assert isinstance(root_content, Domain__MGraph__Json__Node__Dict)
-        assert root_content.node_id == content.node_id
+        assert root_content.node_id      == content.node_id
         assert root_content.properties() == test_dict
 
     def test_change_root_content(self):                                                     # Test changing root content

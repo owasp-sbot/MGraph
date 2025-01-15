@@ -53,3 +53,6 @@ class Domain__MGraph__Graph(Type_Safe):
     def nodes(self) -> List[Domain__MGraph__Node]:
         return [self.mgraph_node(node=node) for node in self.model.nodes()]
 
+    def nodes_ids(self):
+        return self.model.nodes_ids()
+
