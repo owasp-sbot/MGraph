@@ -2,7 +2,7 @@ from mgraph_ai.mgraph.actions.MGraph__Data                       import MGraph__
 from mgraph_ai.mgraph.actions.MGraph__Edit                       import MGraph__Edit
 from mgraph_ai.mgraph.actions.MGraph__Storage                    import MGraph__Storage
 from mgraph_ai.providers.json.actions.MGraph__Json__Export       import MGraph__Json__Export
-from mgraph_ai.providers.json.actions.MGraph__Json__Import       import MGraph__Json__Import
+from mgraph_ai.providers.json.actions.MGraph__Json__Load         import MGraph__Json__Load
 from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Graph import Domain__MGraph__Json__Graph
 from osbot_utils.type_safe.Type_Safe                             import Type_Safe
 
@@ -19,8 +19,8 @@ class MGraph__Json(Type_Safe):                                                  
     def export(self) -> MGraph__Json__Export:                                                 # Access export operations
         return MGraph__Json__Export(graph=self.graph)
 
-    def import_(self) -> MGraph__Json__Import:                                                # Access import operations
-        return MGraph__Json__Import(graph=self.graph)
+    def load(self) -> MGraph__Json__Load:                                                # Access import operations
+        return MGraph__Json__Load(graph=self.graph)
 
     def storage(self) -> MGraph__Storage:                                                     # Access storage operations
         return MGraph__Storage(graph=self.graph)
