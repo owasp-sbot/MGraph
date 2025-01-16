@@ -28,6 +28,9 @@ class Domain__MGraph__Graph(Type_Safe):
     def edges(self) -> List[Domain__MGraph__Edge]:
         return [self.mgraph_edge(edge=edge) for edge in self.model.edges()]
 
+    def edges_ids(self):
+        return self.model.edges_ids()
+
     def graph_id(self):
         return self.model.data.graph_id
 

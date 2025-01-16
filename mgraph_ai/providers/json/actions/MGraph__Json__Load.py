@@ -10,9 +10,9 @@ class MGraph__Json__Load:                                                       
     def from_string(self, json_str: str) -> Domain__MGraph__Json__Graph:                      # Import from JSON string
         data = json_loads(json_str)
         if data:
-            return self.from_dict(data)
+            return self.from_json(data)
 
-    def from_dict(self, data: Any) -> Domain__MGraph__Json__Graph:                            # Import from Python object
+    def from_json(self, data: Any) -> Domain__MGraph__Json__Graph:                            # Import from Python object
         self.graph.set_root_content(data)
         return self.graph
 

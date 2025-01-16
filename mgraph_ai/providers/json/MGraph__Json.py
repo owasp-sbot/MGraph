@@ -1,10 +1,10 @@
-from mgraph_ai.mgraph.actions.MGraph__Data                       import MGraph__Data
-from mgraph_ai.mgraph.actions.MGraph__Edit                       import MGraph__Edit
-from mgraph_ai.mgraph.actions.MGraph__Storage                    import MGraph__Storage
-from mgraph_ai.providers.json.actions.MGraph__Json__Export       import MGraph__Json__Export
-from mgraph_ai.providers.json.actions.MGraph__Json__Load         import MGraph__Json__Load
-from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Graph import Domain__MGraph__Json__Graph
-from osbot_utils.type_safe.Type_Safe                             import Type_Safe
+from mgraph_ai.mgraph.actions.MGraph__Data                                import MGraph__Data
+from mgraph_ai.mgraph.actions.MGraph__Edit                                import MGraph__Edit
+from mgraph_ai.mgraph.actions.MGraph__Storage                             import MGraph__Storage
+from mgraph_ai.providers.json.actions.MGraph__Json__Export                import MGraph__Json__Export
+from mgraph_ai.providers.json.actions.MGraph__Json__Load                  import MGraph__Json__Load
+from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Graph          import Domain__MGraph__Json__Graph
+from osbot_utils.type_safe.Type_Safe                                      import Type_Safe
 
 
 class MGraph__Json(Type_Safe):                                                                 # Main JSON graph manager

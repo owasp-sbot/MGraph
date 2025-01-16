@@ -54,7 +54,7 @@ class test_MGraph__Export__Json__Dot(TestCase):
         assert self.exporter.format_node_attributes({}) == ""
 
     def test_simple_value_export(self):                                       # Test value node export
-        self.mgraph.load().from_dict("test_value")
+        self.mgraph.load().from_json("test_value")
         dot = self.exporter.to_string()
         assert dot == """\
 digraph {
@@ -71,7 +71,7 @@ digraph {
 
     def test_array_export(self):                                             # Test array node export
         test_array = [1, 2, "three"]
-        self.mgraph.load().from_dict(test_array)
+        self.mgraph.load().from_json(test_array)
         dot = self.exporter.to_string()
         assert dot == """\
 digraph {
@@ -96,7 +96,7 @@ digraph {
 
     def test_object_export(self):                                            # Test object node export
         test_obj = {"key1": "value1", "key2": 42}
-        self.mgraph.load().from_dict(test_obj)
+        self.mgraph.load().from_json(test_obj)
         dot = self.exporter.to_string()
         assert dot == """\
 digraph {
@@ -120,7 +120,7 @@ digraph {
 }"""
 
     def test_complex_structure(self):                                         # Test complex nested structure
-        self.mgraph.load().from_dict(self.test_data)
+        self.mgraph.load().from_json(self.test_data)
         dot = self.exporter.to_string()
 
         # Basic structure checks
@@ -147,7 +147,7 @@ digraph {
         assert Export__Json__Relation_Type.ARRAY_ITEM  in dot
 
     def test_visual_attributes(self):                                         # Test visual styling
-        self.mgraph.load().from_dict(self.test_data)
+        self.mgraph.load().from_json(self.test_data)
         dot = self.exporter.to_string()
 
         # Style attributes
@@ -174,7 +174,7 @@ digraph {
                 }
             }
         }
-        self.mgraph.load().from_dict(nested_data)
+        self.mgraph.load().from_json(nested_data)
         assert json_loads(self.mgraph.export().to_string()) == nested_data     # BUG
         dot = self.exporter.to_string()
         assert dot == """\
@@ -225,7 +225,7 @@ digraph {
 }"""
 
     def test_dot_syntax(self):                                               # Test valid DOT syntax elements
-        self.mgraph.load().from_dict(self.test_data)
+        self.mgraph.load().from_json(self.test_data)
         dot = self.exporter.to_string()
 
         # Basic DOT syntax elements
