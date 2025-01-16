@@ -71,7 +71,7 @@ class Domain__MGraph__Json__Graph(Domain__MGraph__Graph):
         #node        = self.model.add_node(schema_node)                                          # todo:: find way to use self.model method
         self.model.data.nodes[schema_node.node_id] = schema_node                                 # so that we don't need to add this here
         model_node = Model__MGraph__Json__Node__Dict(data=schema_node)
-        dict_node = Domain__MGraph__Json__Node__Dict(node=model_node, graph=self.model)
+        dict_node  = Domain__MGraph__Json__Node__Dict(node=model_node, graph=self.model)
 
         if properties:
             dict_node.update(properties)

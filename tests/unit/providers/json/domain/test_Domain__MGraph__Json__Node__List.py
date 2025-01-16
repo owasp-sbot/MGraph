@@ -91,8 +91,8 @@ class test_Domain__MGraph__Json__Node__List(TestCase):
             items = _.items()
             assert len(items)               == 4
             assert items                    == complex_data
-            assert len(_.graph.nodes_ids()) == 12                                   # we should have 12 nodes
-            assert len(_.graph.edges_ids()) == 11                                   # and 11 edges
+            assert len(_.graph.nodes_ids()) == 18                                   # we should have 12 nodes
+            assert len(_.graph.edges_ids()) == 17                                   # and 11 edges
 
             _.clear()
             assert _.items() == []

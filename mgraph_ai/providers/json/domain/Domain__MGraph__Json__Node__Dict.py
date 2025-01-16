@@ -1,6 +1,9 @@
 from typing                                                                      import Optional, Dict, Any
 from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node                  import Domain__MGraph__Json__Node
 from mgraph_ai.providers.json.models.Model__MGraph__Json__Node__Dict             import Model__MGraph__Json__Node__Dict
+from mgraph_ai.providers.json.models.Model__MGraph__Json__Node__List             import Model__MGraph__Json__Node__List
+from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Dict           import Schema__MGraph__Json__Node__Dict
+from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__List           import Schema__MGraph__Json__Node__List
 from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Property       import Schema__MGraph__Json__Node__Property
 from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Property__Data import Schema__MGraph__Json__Node__Property__Data
 from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Value          import Schema__MGraph__Json__Node__Value
@@ -20,6 +23,15 @@ class Domain__MGraph__Json__Node__Dict(Domain__MGraph__Json__Node):
                     value_node = self.graph.node(value_edge.to_node_id())
                     if value_node.data.node_type == Schema__MGraph__Json__Node__Value:              # todo: there is an interest case here, what happens if there is more than one Schema__MGraph__Json__Node__Value per Schema__MGraph__Json__Node__Property
                         result[property_node.data.node_data.name] = value_node.data.node_data.value # todo: solve issue of value not being recognized here
+                        break
+                    elif value_node.data.node_type == Schema__MGraph__Json__Node__List:
+                        from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node__List import Domain__MGraph__Json__Node__List
+                        list_domain_node = Domain__MGraph__Json__Node__List(node=value_node, graph=self.graph)
+                        result[property_node.data.node_data.name] = list_domain_node.items()
+                        break
+                    elif value_node.data.node_type == Schema__MGraph__Json__Node__Dict:
+                        dict_domain_node = Domain__MGraph__Json__Node__Dict(node=value_node, graph=self.graph)
+                        result[property_node.data.node_data.name] = dict_domain_node.properties()
                         break
         return result
 
@@ -45,13 +57,38 @@ class Domain__MGraph__Json__Node__Dict(Domain__MGraph__Json__Node):
         property_name__schema__node_data = Schema__MGraph__Json__Node__Property__Data(name      = name )
         property_name__schema__node      = Schema__MGraph__Json__Node__Property      (node_data = property_name__schema__node_data)
         property_name__model__node       = self.graph.add_node                       (node      = property_name__schema__node     )
+        if type(value) is dict:
 
-        property_value__schema__node_data = Schema__MGraph__Json__Node__Value__Data  (value     = value, value_type=type(value)      )
-        property_value__node_value       = Schema__MGraph__Json__Node__Value         (node_data = property_value__schema__node_data  )
-        property_value__model__node      = self.graph.add_node                       (node      = property_value__node_value          )
+            dict_schema_node = Schema__MGraph__Json__Node__Dict()                                               # todo:: find way to use self.model method
+            self.graph.data.nodes[dict_schema_node.node_id] = dict_schema_node  # so that we don't need to add this here
+            dict_model_node = Model__MGraph__Json__Node__Dict(data=dict_schema_node)
+            dict_domain_node = Domain__MGraph__Json__Node__Dict(node=dict_model_node, graph=self.graph)
 
-        self.graph.new_edge(from_node_id=self.node_id                      , to_node_id=property_name__model__node.node_id )
-        self.graph.new_edge(from_node_id=property_name__model__node.node_id, to_node_id=property_value__model__node.node_id)
+            dict_domain_node.update(value)
+
+            self.graph.new_edge(from_node_id=self.node_id, to_node_id=property_name__model__node.node_id)
+            self.graph.new_edge(from_node_id=property_name__model__node.node_id,to_node_id=dict_schema_node.node_id)
+        elif type(value) is list:
+            from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node__List import Domain__MGraph__Json__Node__List
+
+            list_schema_node = Schema__MGraph__Json__Node__List()                                               # todo:: find way to use self.model method
+            self.graph.data.nodes[list_schema_node.node_id]  = list_schema_node
+            list_model_node = Model__MGraph__Json__Node__List(data=list_schema_node)
+            list_domain_node = Domain__MGraph__Json__Node__List(node=list_model_node, graph=self.graph)
+
+            list_domain_node.extend(value)
+
+            self.graph.new_edge(from_node_id=self.node_id, to_node_id=property_name__model__node.node_id)
+            self.graph.new_edge(from_node_id=property_name__model__node.node_id, to_node_id=list_schema_node.node_id)
+
+
+        else:
+            property_value__schema__node_data = Schema__MGraph__Json__Node__Value__Data  (value     = value, value_type=type(value)      )
+            property_value__node_value       = Schema__MGraph__Json__Node__Value         (node_data = property_value__schema__node_data  )
+            property_value__model__node      = self.graph.add_node                       (node      = property_value__node_value          )
+
+            self.graph.new_edge(from_node_id=self.node_id                      , to_node_id=property_name__model__node.node_id )
+            self.graph.new_edge(from_node_id=property_name__model__node.node_id, to_node_id=property_value__model__node.node_id)
 
     def update(self, properties: Dict[str, Any]) -> None:                       # Bulk update multiple properties
         for name, value in properties.items():
