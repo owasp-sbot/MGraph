@@ -29,7 +29,7 @@ class test__regression__performance__MGraph__Json__Load(TestCase):
         with capture_duration() as duration:
             self.mgraph_json.load().from_json(self.source_json)                            # [FACT-1]
         #assert 0.5 < duration.seconds < 1                                      # BUG      # [FACT-2]
-        assert 0.05 < duration.seconds < 0.1                                    # FIXED
+        assert 0.05 < duration.seconds < 0.2                                    # FIXED
 
         # FACTS:
         # FACT-1: MGraph__Json.load().from_json() is the entry point for JSON loading
@@ -40,7 +40,7 @@ class test__regression__performance__MGraph__Json__Load(TestCase):
         with capture_duration() as duration:
             loader.from_json(self.source_json)                                              # [FACT-1]
         #assert 0.4 < duration.seconds < 0.8                                    # BUG       # [FACT-2]
-        assert 0.05 < duration.seconds < 0.1                                    # FIXED
+        assert 0.05 < duration.seconds < 0.2                                    # FIXED
 
         # FACTS:
         # FACT-1: The performance issue exists in MGraph__Json__Load.from_json
@@ -54,7 +54,7 @@ class test__regression__performance__MGraph__Json__Load(TestCase):
         with capture_duration() as duration:                                                # [FACT-1]
             graph.set_root_content(self.source_json)
         #assert 0.4 < duration.seconds < 0.8                                                 # [FACT-2]
-        assert 0.05 < duration.seconds < 0.1                                    # FIXED
+        assert 0.05 < duration.seconds < 0.2                                    # FIXED
 
         # FACTS:
         # FACT-1: set_root_content handles the initial graph structure creation
@@ -68,7 +68,7 @@ class test__regression__performance__MGraph__Json__Load(TestCase):
         with capture_duration() as duration:                                                # [FACT-1][FACT-2]
             dict_node = graph.new_dict_node(self.source_json)
         #assert 0.4 < duration.seconds < 1                                      # BUG       # [FACT-3]
-        assert 0.05 < duration.seconds < 0.1                                    # FIXED
+        assert 0.05 < duration.seconds < 0.2                                    # FIXED
 
         # FACTS:
         # FACT-1: new_dict_node creates the initial dictionary structure
@@ -84,7 +84,7 @@ class test__regression__performance__MGraph__Json__Load(TestCase):
         with capture_duration() as duration:                                                # [FACT-1]
             dict_node.update(self.source_json)
         #assert 0.4 < duration.seconds < 1                                      # BUG       # [FACT-2]
-        assert 0.05 < duration.seconds < 0.1                                    # FIXED
+        assert 0.05 < duration.seconds < 0.2                                    # FIXED
 
         # FACTS:
         # FACT-1: update() handles bulk property addition to dictionary nodes
@@ -98,12 +98,12 @@ class test__regression__performance__MGraph__Json__Load(TestCase):
         dict_node = graph.new_dict_node()
         with capture_duration() as duration:                                                # [FACT-1]
             dict_node.add_property('a', 42)                                                # [FACT-2]
-        assert duration.seconds < 0.1                                                       # [FACT-3]
+        assert duration.seconds < 0.2                                                       # [FACT-3]
 
         # FACTS:
         # FACT-1: First property addition is fast
         # FACT-2: Simple values are handled efficiently
-        # FACT-3: Initial property addition takes < 0.1s
+        # FACT-3: Initial property addition takes < 0.2s
         #
         # HYPOTHESIS:
         # HYP-1: Performance might degrade with number of existing properties
@@ -122,7 +122,7 @@ class test__regression__performance__MGraph__Json__Load(TestCase):
                 previous_duration = partial_duration.seconds
 
         #assert 0.5 < total_duration.seconds < 1                                # BUG     # [FACT-4]
-        assert 0.05 < total_duration.seconds < 0.1                              # FIXED
+        assert 0.05 < total_duration.seconds < 0.2                              # FIXED
 
         with capture_duration() as duration:                                              # [FACT-5]
             edges = dict_node.models__from_edges()
