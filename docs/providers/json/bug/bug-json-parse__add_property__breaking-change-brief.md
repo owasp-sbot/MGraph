@@ -132,32 +132,6 @@ for edge in self.models__from_edges():                    # O(n) - First iterati
 
 The investigation followed a systematic, test-driven approach using instrumented tests to gather concrete performance data. All timings reported are from a standard development environment and are consistent across multiple runs.
 
-### Operation Flow Analysis
-
-1. Property Addition Request
-```mermaid
-graph TD
-   A[add_property called] --> B{Property exists?}
-   B -->|Yes| C[Find existing property node]
-   B -->|No| D[Create new property node]
-   C --> E[Update value]
-   D --> F[Create value node]
-   F --> G[Link nodes with edges]
-```
-
-2. Edge Traversal Impact
-```mermaid
-graph TD
-   A[Edge Scan Start] --> B[Get all edges]
-   B --> C{For each edge}
-   C --> D[Get property node]
-   D --> E[Check node type]
-   E --> F{Match property name?}
-   F -->|Yes| G[Get value edges]
-   G --> H{For each value edge}
-   H --> I[Get value node]
-```
-
 ### Performance Degradation Pattern
 
 The performance pattern revealed in our traces shows a clear exponential degradation:
