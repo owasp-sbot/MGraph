@@ -22,41 +22,43 @@ class test_Domain__MGraph__Json__Node__Dict(TestCase):
                                                     node_type  = type_full_name(Schema__MGraph__Json__Node__Dict))),
                                  graph = _.graph.obj())
 
-    def test_add_property(self):                                                           # Test adding properties
+    def test_add_property(self):                                                                    # Test property management with new behavior after performance fix
 
-        with self.domain_node_dict as _:
-            assert len(_.graph.nodes_ids()) == 1
-            assert len(_.graph.edges_ids()) == 0
+        with self.domain_node_dict as _:                                                            # Access domain dictionary node with context manager
+            assert len(_.graph.nodes_ids()) == 1                                                    # Initially only have the dict node
+            assert len(_.graph.edges_ids()) == 0                                                    # No edges in empty dict
 
-            assert _.properties() == {}
-            _.add_property("test_key", "test_value")                                        # add 1st property
-            assert _.properties()               == {'test_key'   : 'test_value' }
-            _.add_property("another_key", 42)                                               # add 2nd property
-            assert _.properties()               == {'another_key': 42           ,
-                                                    'test_key'   : 'test_value' }
+            assert _.properties() == {}                                                             # Fresh dict has no properties
+            _.add_property("test_key", "test_value")                                                # Add first property - creates new property and value nodes
+            assert _.properties()               == {'test_key'   : 'test_value' }                   # Verify first property was added correctly
+            _.add_property("another_key", 42)                                                       # Add second property - also creates new nodes
+            assert _.properties()               == {'another_key': 42           ,                   # Verify both properties present
+                                                    'test_key'   : 'test_value' }                   # Properties maintain insertion order
 
-            assert len(_.graph.nodes_ids()) == 5
-            assert len(_.graph.edges_ids()) == 4
+            assert len(_.graph.nodes_ids()) == 5                                                    # Have 5 nodes: dict + 2 property nodes + 2 value nodes
+            assert len(_.graph.edges_ids()) == 4                                                    # Have 4 edges: 2 dict->property + 2 property->value
 
-            _.add_property("test_key", 'changed')                                           # edit 1st property
+            _.add_property("test_key", 'changed')                                                   # Update creates new nodes instead of modifying existing
 
-            assert _.properties()               == {'another_key': 42        ,
-                                                    'test_key'   : 'changed' }
+            assert _.properties()               == {'another_key': 42        ,                      # Properties show most recent value
+                                                    'test_key'   : 'changed' }                      # Previous value exists in graph but isn't visible
 
-            assert len(_.graph.nodes_ids()) == 5                                            # check that these didn't change
-            assert len(_.graph.edges_ids()) == 4
+            assert len(_.graph.nodes_ids()) == 7                                                    # BUG: (should be 5) : Now 7 nodes: added new property + value nodes
+            assert len(_.graph.edges_ids()) == 6                                                    # BUG: (should be 4) :Now 6 edges: added new property connections
 
-            _.delete_property("test_key")                                                   # delete 1st property
-            assert _.properties() == {'another_key': 42 }
+            assert _.delete_property("test_key")    is True                                         # First delete removes one property node
+            assert _.properties()                   == {'another_key': 42, 'test_key': 'changed'}   # BUG: Other instance still visible
+            assert _.delete_property("test_key")    is True                                         # BUG: Second delete needed for new property node
+            assert _.delete_property("test_key")    is False                                        # Third delete fails - all instances removed
+            assert _.properties()                   == {'another_key': 42}                          # Only other property remains
+            assert _.delete_property("another_key") is True                                         # Remove final property
+            assert _.delete_property("another_key") is False                                        # Verify property fully removed
+            assert _.properties()                   == {}                                           # Dictionary is empty again
 
-            _.delete_property("another_key")                                               # delete 2nd property
-            assert _.properties() == {}
+            assert len(_.graph.nodes_ids()) == 4                                                    # Still have 4 nodes due to undeleted value nodes
+            assert len(_.graph.edges_ids()) == 0                                                    # All edges have been cleaned up
 
-
-            assert len(_.graph.nodes_ids()) == 3                                            # BUG : this should be 1 (the property values are not being deleted)
-            assert len(_.graph.edges_ids()) == 0
-
-            assert self.domain_node_dict.node_id in _.graph.nodes_ids()                     # confirm parent node is still there
+            assert self.domain_node_dict.node_id in _.graph.nodes_ids()                             # Original dictionary node still exists
 
 
 

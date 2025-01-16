@@ -40,17 +40,18 @@ class Domain__MGraph__Json__Node__Dict(Domain__MGraph__Json__Node):
         return props.get(name)
 
     def add_property(self, name: str, value: Any) -> None:                                                              # Add or update a property
-        # Find existing property node if any
-        for edge in self.models__from_edges():
-            property_node = self.model__node_from_edge(edge)
-            if property_node.data.node_type == Schema__MGraph__Json__Node__Property:
-                if property_node.data.node_data.name == name:
-                    for value_edge in self.graph.node__from_edges(property_node.node_id):
-
-                        value_node = self.graph.node(value_edge.to_node_id())
-                        if value_node.data.node_type is Schema__MGraph__Json__Node__Value:
-                            value_node.data.node_data.value = value
-                            return
+        # commented this code to fix performance bug
+        # # Find existing property node if any                # BUG
+        # for edge in self.models__from_edges():
+        #     property_node = self.model__node_from_edge(edge)
+        #     if property_node.data.node_type == Schema__MGraph__Json__Node__Property:
+        #         if property_node.data.node_data.name == name:
+        #             for value_edge in self.graph.node__from_edges(property_node.node_id):
+        #
+        #                 value_node = self.graph.node(value_edge.to_node_id())
+        #                 if value_node.data.node_type is Schema__MGraph__Json__Node__Value:
+        #                     value_node.data.node_data.value = value
+        #                     return
 
         # Create new property node and value node
 

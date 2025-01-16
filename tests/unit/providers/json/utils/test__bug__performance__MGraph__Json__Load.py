@@ -1,24 +1,15 @@
 from typing import Any
-from unittest                                                    import TestCase
+from unittest                                                                       import TestCase
+from mgraph_ai.providers.json.MGraph__Json                                          import MGraph__Json
+from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Graph                    import Domain__MGraph__Json__Graph
+from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node__Dict               import Domain__MGraph__Json__Node__Dict
+from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Property          import Schema__MGraph__Json__Node__Property
+from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Property__Data    import Schema__MGraph__Json__Node__Property__Data
+from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Value             import Schema__MGraph__Json__Node__Value
+from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Value__Data       import Schema__MGraph__Json__Node__Value__Data
+from osbot_utils.context_managers.capture_duration                                  import capture_duration
 
-from unittest                                                import TestCase
-
-from osbot_utils.helpers.trace.Trace_Call import trace_calls
-
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Property__Data import \
-    Schema__MGraph__Json__Node__Property__Data
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Value__Data import \
-    Schema__MGraph__Json__Node__Value__Data
-from osbot_utils.context_managers.print_duration import print_duration
-
-from mgraph_ai.providers.json.MGraph__Json                      import MGraph__Json
-from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Graph import Domain__MGraph__Json__Graph
-from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node__Dict import Domain__MGraph__Json__Node__Dict
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Property import Schema__MGraph__Json__Node__Property
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Value import Schema__MGraph__Json__Node__Value
-from osbot_utils.context_managers.capture_duration              import capture_duration
-
-class test__bug__performance__MGraph__Json__Load(TestCase):
+class test__regression__performance__MGraph__Json__Load(TestCase):
 
     def setUp(self):                                                                        # Initialize test environment and data
         self.mgraph_json = MGraph__Json()
@@ -34,20 +25,22 @@ class test__bug__performance__MGraph__Json__Load(TestCase):
                             'e': self.json_data, 'f': self.json_data,
                             'g': self.json_data, 'h': self.json_data}
 
-    def test__bug__call_1__load__simple_json(self):                                        # Test the top-level load operation
+    def test__regression__call_1__load__simple_json(self):                                        # Test the top-level load operation
         with capture_duration() as duration:
             self.mgraph_json.load().from_json(self.source_json)                            # [FACT-1]
-        assert 0.5 < duration.seconds < 1                                                   # [FACT-2]
+        #assert 0.5 < duration.seconds < 1                                      # BUG      # [FACT-2]
+        assert 0.05 < duration.seconds < 0.1                                    # FIXED
 
         # FACTS:
         # FACT-1: MGraph__Json.load().from_json() is the entry point for JSON loading
         # FACT-2: Loading a moderately complex JSON (8 identical structures) takes > 0.5s
 
-    def test__bug__call_2__load__from_json(self):                                          # Test MGraph__Json__Load.from_json
+    def test__regression__call_2__load__from_json(self):                                          # Test MGraph__Json__Load.from_json
         loader = self.mgraph_json.load()
         with capture_duration() as duration:
             loader.from_json(self.source_json)                                              # [FACT-1]
-        assert 0.4 < duration.seconds < 0.8                                                 # [FACT-2]
+        #assert 0.4 < duration.seconds < 0.8                                    # BUG       # [FACT-2]
+        assert 0.05 < duration.seconds < 0.1                                    # FIXED
 
         # FACTS:
         # FACT-1: The performance issue exists in MGraph__Json__Load.from_json
@@ -56,11 +49,12 @@ class test__bug__performance__MGraph__Json__Load(TestCase):
         # HYPOTHESIS:
         # HYP-1: The performance bottleneck is in the graph construction, not JSON parsing
 
-    def test__bug__call_3__set_root_content(self):                                         # Test set_root_content operation
+    def test__regression__call_3__set_root_content(self):                                         # Test set_root_content operation
         graph = Domain__MGraph__Json__Graph()
         with capture_duration() as duration:                                                # [FACT-1]
             graph.set_root_content(self.source_json)
-        assert 0.4 < duration.seconds < 0.8                                                 # [FACT-2]
+        #assert 0.4 < duration.seconds < 0.8                                                 # [FACT-2]
+        assert 0.05 < duration.seconds < 0.1                                    # FIXED
 
         # FACTS:
         # FACT-1: set_root_content handles the initial graph structure creation
@@ -69,11 +63,12 @@ class test__bug__performance__MGraph__Json__Load(TestCase):
         # HYPOTHESIS:
         # HYP-1: The core performance issue is in the graph node/edge creation process
 
-    def test__bug__call_4__new_dict_node(self):                                            # Test dictionary node creation
+    def test__regression__call_4__new_dict_node(self):                                            # Test dictionary node creation
         graph = Domain__MGraph__Json__Graph()
         with capture_duration() as duration:                                                # [FACT-1][FACT-2]
             dict_node = graph.new_dict_node(self.source_json)
-        assert 0.4 < duration.seconds < 1                                                 # [FACT-3]
+        #assert 0.4 < duration.seconds < 1                                      # BUG       # [FACT-3]
+        assert 0.05 < duration.seconds < 0.1                                    # FIXED
 
         # FACTS:
         # FACT-1: new_dict_node creates the initial dictionary structure
@@ -83,12 +78,13 @@ class test__bug__performance__MGraph__Json__Load(TestCase):
         # HYPOTHESIS:
         # HYP-1: Property creation in dictionary nodes may be inefficient
 
-    def test__bug__call_5__node_dict_update(self):                                         # Test dictionary update operation
+    def test__regression__call_5__node_dict_update(self):                                         # Test dictionary update operation
         graph = Domain__MGraph__Json__Graph()
         dict_node = graph.new_dict_node()
         with capture_duration() as duration:                                                # [FACT-1]
             dict_node.update(self.source_json)
-        assert 0.4 < duration.seconds < 1                                                 # [FACT-2]
+        #assert 0.4 < duration.seconds < 1                                      # BUG       # [FACT-2]
+        assert 0.05 < duration.seconds < 0.1                                    # FIXED
 
         # FACTS:
         # FACT-1: update() handles bulk property addition to dictionary nodes
@@ -97,7 +93,7 @@ class test__bug__performance__MGraph__Json__Load(TestCase):
         # HYPOTHESIS:
         # HYP-1: The issue may be in the property addition mechanism itself
 
-    def test__bug__call_6__node_dict_add_property(self):                                   # Test single property addition
+    def test__regression__call_6__node_dict_add_property(self):                                   # Test single property addition
         graph = Domain__MGraph__Json__Graph()
         dict_node = graph.new_dict_node()
         with capture_duration() as duration:                                                # [FACT-1]
@@ -112,7 +108,7 @@ class test__bug__performance__MGraph__Json__Load(TestCase):
         # HYPOTHESIS:
         # HYP-1: Performance might degrade with number of existing properties
 
-    def test__bug__call_7__add_property_linear_degradation(self):                         # Test property addition degradation
+    def test__regression__call_7__add_property_linear_degradation(self):                         # Test property addition degradation
         graph             = Domain__MGraph__Json__Graph()
         dict_node         = graph.new_dict_node()
         previous_duration = 0
@@ -125,7 +121,8 @@ class test__bug__performance__MGraph__Json__Load(TestCase):
                     assert partial_duration.seconds > previous_duration -0.10            # [FACT-3]
                 previous_duration = partial_duration.seconds
 
-        assert 0.5 < total_duration.seconds < 1                                           # [FACT-4]
+        #assert 0.5 < total_duration.seconds < 1                                # BUG     # [FACT-4]
+        assert 0.05 < total_duration.seconds < 0.1                              # FIXED
 
         with capture_duration() as duration:                                              # [FACT-5]
             edges = dict_node.models__from_edges()
