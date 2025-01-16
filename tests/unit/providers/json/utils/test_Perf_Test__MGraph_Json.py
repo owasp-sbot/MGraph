@@ -23,7 +23,7 @@ class test_Perf_Test__MGraph_Json(TestCase):
         with self.perf_test as _:
             _.run_workflow__on_url(url)
             _.print()
-            assert _.perf_test_duration.duration__total < 5 # shower in GitHub Actions (locally it's around 1.5)
+            assert _.perf_test_duration.duration__total < 6 # shower in GitHub Actions (locally it's around 1.5)
 
     # # contains=['models__from_edges', 'edges', 'add_node', 'new_dict_node', 'add_property'],
     # @trace_calls(contains=['models__from_edges', 'edges' , 'add_node'],

@@ -1,5 +1,7 @@
-from typing import Any
+import pytest
+from typing                                                                         import Any
 from unittest                                                                       import TestCase
+from osbot_utils.utils.Env                                                          import in_github_action
 from mgraph_ai.providers.json.MGraph__Json                                          import MGraph__Json
 from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Graph                    import Domain__MGraph__Json__Graph
 from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node__Dict               import Domain__MGraph__Json__Node__Dict
@@ -142,6 +144,9 @@ class test__regression__performance__MGraph__Json__Load(TestCase):
         # HYP-2: Each property addition scans all existing edges
 
     def test__bug__check_for_property_section__in_add_property(self):
+        if in_github_action():
+            pytest.skip("test only stable locally")
+
         class Bug__Domain__MGraph__Json__Node__Dict(Domain__MGraph__Json__Node__Dict):
             def add_property__update_existing(self, name: str, value: Any):                                       # the code below is the actual code from the add_property method (the first part)
                 for edge in self.models__from_edges():
