@@ -1,4 +1,5 @@
 from unittest                                                               import TestCase
+from osbot_utils.utils.Files                                                import file_exists, file_delete
 from mgraph_ai.providers.json.MGraph__Json                                  import MGraph__Json
 from mgraph_ai.providers.json.actions.exporters.MGraph__Json__Export__Base  import MGraph__Export__Json__Base, Export__Json__Node_Type, Export__Json__Format_Error
 
@@ -112,5 +113,8 @@ class test_MGraph__Export__Json__Base(TestCase):
             self.exporter.to_file("nonexistent/path/file.txt")
 
     def test_file_export(self):                                               # Test file export with mock
+        file_name = 'test.txt'
         self.mgraph.load().from_json(self.test_data)
-        assert self.exporter.to_file("test.txt")                 is True
+        assert self.exporter.to_file(file_name)    is True
+        assert file_exists(file_name) is True
+        assert file_delete(file_name) is True

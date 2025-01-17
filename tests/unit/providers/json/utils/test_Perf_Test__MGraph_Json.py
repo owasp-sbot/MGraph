@@ -1,4 +1,6 @@
 from unittest                                               import TestCase
+from mgraph_ai.providers.json.MGraph__Json                  import MGraph__Json
+from osbot_utils.helpers.trace.Trace_Call                   import trace_calls
 from mgraph_ai.providers.json.utils.Perf_Test__MGraph_Json  import Perf_Test__MGraph_Json
 
 
@@ -25,29 +27,89 @@ class test_Perf_Test__MGraph_Json(TestCase):
             _.print()
             assert _.perf_test_duration.duration__total < 6 # shower in GitHub Actions (locally it's around 1.5)
 
-    # # contains=['models__from_edges', 'edges', 'add_node', 'new_dict_node', 'add_property'],
-    # @trace_calls(contains=['models__from_edges', 'edges' , 'add_node'],
-    #              show_duration=True, duration_padding=110,
-    #              show_class   =True)
-    # def test_trace(self):
-    #     mgraph_json = MGraph__Json()
-    #
-    #     json_example = { "string" : "value"         ,
-    #                      "number" : 42              ,
-    #                      "boolean": True            ,
-    #                      "null"   : None            ,
-    #                      "array"  : [1, 2, 3]       ,
-    #                      "object" : {"key": "value"}}
-    #     source_json = {"a": 1, "b": 2, 'c': {'d': 4, 'e': 5},
-    #                    "f": ['x', 'y', 'z'],
-    #                    #'c': json_example,
-    #                    #'d': [json_example, json_example],
-    #                    }
-    #
-    #     mgraph_json.load().from_json(source_json)
+    # contains=['models__from_edges', 'edges', 'add_node', 'new_dict_node', 'add_property'],
+    @trace_calls(contains=['___mgraph', 'add_property', 'add_node', 'new_edge'],
+                 show_duration=True, duration_padding=100,
+                 show_class   =True)
+    def test_trace(self):
+        feed_start =  { 'channel': { 'description': 'Latest Technology News'}}
+        MGraph__Json().load().from_json(feed_start)  # TEST_DATA__TECH_NEWS__FEED_XML_JSON
 
 
-### CURRENT STATS (16th Jan 2024)
+
+### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ###
+### STATS on 17th Jan
+#
+# *** couple properties ***
+#
+#     @trace_calls(contains=['___mgraph', 'add_property', 'add_node', 'new_edge'], show_duration=True, duration_padding=100, show_class   =True)
+#     def test_trace(self):
+#         feed_start =  { 'channel': { 'description': 'Latest Technology News'}}
+#         MGraph__Json().load().from_json(feed_start)
+#
+# 6ms without trace , 824ms with trace
+#
+# --------- CALL TRACER ----------
+# Here are the 12 traces captured
+#
+# 📦  .Trace Session                                              819.282ms
+# │   ├── 🧩️ Model__MGraph__Json__Graph.add_node                  16.551ms
+# │   ├── 🔗️ Domain__MGraph__Json__Node__Dict.add_property       457.994ms
+# │   │   ├── 🧩️ Model__MGraph__Json__Graph.add_node              18.997ms
+# │   │   ├── 🔗️ Domain__MGraph__Json__Node__Dict.add_property   194.798ms
+# │   │   │   ├── 🧩️ Model__MGraph__Json__Graph.add_node          16.440ms
+# │   │   │   ├── 🧩️ Model__MGraph__Json__Graph.add_node          16.434ms
+# │   │   │   ├── 🧩️ Model__MGraph__Json__Graph.new_edge          54.339ms
+# │   │   │   └── 🧩️ Model__MGraph__Json__Graph.new_edge          54.460ms
+# │   │   ├── 🧩️ Model__MGraph__Json__Graph.new_edge              54.432ms
+# │   │   └── 🧩️ Model__MGraph__Json__Graph.new_edge              54.227ms
+# └────── 🧩️ Model__MGraph__Json__Graph.new_edge                  54.198ms
+#
+#
+# *** couple feed_start properties ***
+#
+#     @trace_calls(contains=['___mgraph', 'add_property', 'add_node', 'new_edge'], show_duration=True, duration_padding=100, show_class   =True)
+#     def test_trace(self):
+#         feed_start =  { 'channel': { 'description': 'Latest Technology News',
+#                                                      'extensions': {},
+#                                                      'image'     : None,
+#                                                      'items': []}}
+#         MGraph__Json().load().from_json(feed_start)
+#
+# 10ms without trace , 1,497ms with trace
+#
+# --------- CALL TRACER ----------
+# Here are the 25 traces captured
+#
+# 📦  .Trace Session                                            1,452.784ms
+# │   ├── 🧩️ Model__MGraph__Json__Graph.add_node                  17.295ms
+# │   ├── 🔗️ Domain__MGraph__Json__Node__Dict.add_property     1,136.912ms
+# │   │   ├── 🧩️ Model__MGraph__Json__Graph.add_node              16.439ms
+# │   │   ├── 🔗️ Domain__MGraph__Json__Node__Dict.add_property   195.198ms
+# │   │   │   ├── 🧩️ Model__MGraph__Json__Graph.add_node          16.482ms
+# │   │   │   ├── 🧩️ Model__MGraph__Json__Graph.add_node          16.491ms
+# │   │   │   ├── 🧩️ Model__MGraph__Json__Graph.new_edge          54.516ms
+# │   │   │   └── 🧩️ Model__MGraph__Json__Graph.new_edge          54.768ms
+# │   │   ├── 🔗️ Domain__MGraph__Json__Node__Dict.add_property   249.869ms
+# │   │   │   ├── 🧩️ Model__MGraph__Json__Graph.add_node          16.528ms
+# │   │   │   ├── 🧩️ Model__MGraph__Json__Graph.new_edge          54.999ms
+# │   │   │   └── 🧩️ Model__MGraph__Json__Graph.new_edge          55.691ms
+# │   │   ├── 🔗️ Domain__MGraph__Json__Node__Dict.add_property   193.600ms
+# │   │   │   ├── 🧩️ Model__MGraph__Json__Graph.add_node          16.617ms
+# │   │   │   ├── 🧩️ Model__MGraph__Json__Graph.add_node          16.540ms
+# │   │   │   ├── 🧩️ Model__MGraph__Json__Graph.new_edge          54.487ms
+# │   │   │   └── 🧩️ Model__MGraph__Json__Graph.new_edge          54.317ms
+# │   │   ├── 🔗️ Domain__MGraph__Json__Node__Dict.add_property   248.869ms
+# │   │   │   ├── 🧩️ Model__MGraph__Json__Graph.add_node          16.454ms
+# │   │   │   ├── 🧩️ Model__MGraph__Json__Graph.new_edge          54.723ms
+# │   │   │   └── 🧩️ Model__MGraph__Json__Graph.new_edge          54.472ms
+# │   │   ├── 🧩️ Model__MGraph__Json__Graph.new_edge              54.534ms
+# │   │   └── 🧩️ Model__MGraph__Json__Graph.new_edge              54.462ms
+# └────── 🧩️ Model__MGraph__Json__Graph.new_edge                  54.271ms
+
+
+### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ###
+### STATS (16th Jan 2024)
 
 # URL__DBPEDIA__ZAP "https://dbpedia.org/data/ZAP.json"
 #
