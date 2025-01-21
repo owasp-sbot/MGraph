@@ -1,7 +1,7 @@
 from unittest                                                      import TestCase
 from osbot_utils.utils.Objects                                     import __, type_full_name
 from osbot_utils.testing.performance.Performance_Measure__Session  import Performance_Measure__Session
-from mgraph_ai.mgraph.actions.MGraph__Obj_Factory                  import MGraph__Obj_Factory
+from mgraph_ai.mgraph.actions.MGraph__Obj_Factory__Schemas         import MGraph__Obj_Factory__Schemas
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge                 import Schema__MGraph__Edge
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge__Config         import Schema__MGraph__Edge__Config
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge__Data           import Schema__MGraph__Edge__Data
@@ -13,13 +13,13 @@ from mgraph_ai.mgraph.schemas.Schema__MGraph__Types                import Schema
 from osbot_utils.helpers.Obj_Id                                    import Obj_Id
 
 
-class test_MGraph__Obj_Factory(TestCase):
+class test_MGraph__Obj_Factory__Schemas(TestCase):
 
     @classmethod
     def setUpClass(cls):
         cls.assert_enabled = False
         cls.session        = Performance_Measure__Session(assert_enabled=cls.assert_enabled)
-        cls.obj_factory    = MGraph__Obj_Factory()
+        cls.obj_factory    = MGraph__Obj_Factory__Schemas()
 
     def test_create_all_objects(self):
         with self.session as _:

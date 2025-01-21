@@ -9,7 +9,7 @@ from mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Data    import Schema__MGrap
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Types         import Schema__MGraph__Types
 from osbot_utils.type_safe.Type_Safe                        import Type_Safe
 
-class MGraph__Obj_Factory(Type_Safe):
+class MGraph__Obj_Factory__Schemas(Type_Safe):
 
     def create__Schema__MGraph__Node__Data(self):
         node_data = object.__new__(Schema__MGraph__Node__Data)
