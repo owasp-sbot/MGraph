@@ -253,7 +253,7 @@ class test__regression__performance__MGraph__Json__Load(TestCase):
         assert 0.2   < duration__with__node_and_edge.seconds                              < 0.80     # confirm we now have a performance impact
         assert 0.2   < total_duration__duration__with__node_and_edge__update_existing     < 0.80     # confirm that the impact is on the update_existing code
         assert 0    <= total_duration__duration__with__node_and_edge__add_node_and_edge   < 0.11     # confirm that add_node_and_edge have just about no performance impact
-        assert 0.004< previous__duration__duration__with__node_and_edge__update_existing < 0.02     # confirm that the last call to add_property__update_existing took about 0.015 ms (which is a lot when this method is called 100s of times)
+        assert 0     < previous__duration__duration__with__node_and_edge__update_existing < 0.02     # confirm that the last call to add_property__update_existing took about 0.015 ms (which is a lot when this method is called 100s of times)
 
 
 

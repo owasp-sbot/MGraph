@@ -35,15 +35,15 @@ PEP-8's formatting guidelines, while well-intentioned, can create several practi
 ```python
 # PEP-8 style
 self.method_call(
-    parameter_one="value",
+parameter_one="value",
     parameter_two="value",
     parameter_three="value"
 )
 
 # This style
 self.method_call(parameter_one   = "value",
-                parameter_two   = "value",
-                parameter_three = "value")
+                 parameter_two   = "value",
+                 parameter_three = "value")
 ```
 
 2. Loss of Visual Patterns
@@ -74,8 +74,9 @@ class SomeClass:
 
 # This style - related elements together
 class SomeClass:
-    def __init__(self, param_one,
-                      param_two ):
+    def __init__(self, param_one ,
+                       param_two  
+                )               -> None:
         self.param_one = param_one
         self.param_two = param_two
 ```
@@ -126,13 +127,108 @@ from osbot_utils.helpers.Random_Guid                 import Random_Guid
 from osbot_utils.helpers.Safe_Id                     import Safe_Id
 ```
 
-## Method Documentation
-Method documentation should be provided as inline comments on the same line as the method definition at the same column (starting on 80):
+## Method Signature Formatting
+
+### Core Principles
+
+1. **Visual Lanes**
+   - Parameters stack vertically
+   - Type hints align in their own column
+   - Comments align at a consistent position
+   - Return types appear on a new line after continuation
+
+2. **Information Density**
+   - Each line contains one parameter
+   - Type information is immediately visible
+   - Purpose is clear from aligned comment
+   - Related elements stay visually grouped
+
+### Method Signature Layout
 
 ```python
-def setUp(self):                                                               # Initialize test data
-def test_init(self):                                                           # Tests basic initialization and type checking
+def method_name(self, first_param  : Type1        ,                               # Method purpose comment
+                      second_param : Type2        ,                               # Aligned at column 80
+                      third_param  : Type3 = None                                 # Default values align with type
+               )                  -> ReturnType:                                  # Return on new line
 ```
+
+Key aspects:
+- Method name starts at indent level
+- Parameters indent to align with opening parenthesis
+- Type hints align in their own column
+- Commas align in their own column
+- Backslash continuation before return type
+- Return type aligns with self variable name
+- Comments align at column 80
+- vertical alignment on : , #
+
+### Parameter Documentation
+
+```python
+def complex_operation(self, data_input     : Dict    [str, Any]         ,         # Primary data structure
+                            config_options : Optional[Config  ]         ,         # Processing configuration 
+                            max_retries    : int                = 3     ,         # Maximum retry attempts
+                            timeout_ms     : float              = 1000.0          # Operation timeout
+                      )                   -> Tuple[Results, Metrics]:             # Returns results and metrics
+```
+
+Guidelines:
+- Parameter names should be descriptive
+- Type hints should be as specific as possible
+- Default values align with type hints
+- Comments describe parameter purpose
+- Return type comment describes what is returned
+
+### Method Groups and Spacing
+
+Methods should be grouped by functionality with clear separation:
+
+```python
+    # Core initialization methods
+    def __init__(self, config : Config                                           # Initialize with configuration
+                )            -> None:                                                           
+        
+    def setup(self, options: Dict[str, Any]                                      # Configure processing options
+             )            -> bool:                                                              
+
+
+    # Data validation methods  
+    def validate_input(self, data        : InputData        ,                    # Validate input format
+                             strict_mode : bool      = False                     # Enable strict validation
+                      )                 -> ValidationResult:
+
+    def validate_output(self, result     : OutputData ,                          # Validate output format
+                              thresholds : Thresholds                            # Validation thresholds
+                      )                 -> bool:
+
+
+    # Processing methods
+    def process_item(self, item     : DataItem ,                                 # Process single data item
+                           settings : Settings                                   # Processing settings
+                    )              -> ProcessedItem:
+```
+Note how the return type name assigns with the variable self, and there is always at least one space before the : and the ,
+
+### Complex Type Signatures
+
+For methods with complex type signatures:
+
+```python
+def process_batch(self, items           : List[DataItem]                   ,     # Batch of items to process
+                       batch_config     : BatchConfig                      ,     # Batch processing config
+                       error_handler    : ErrorHandler                     ,     # Handles processing errors
+                       retry_strategy   : Optional[Strategy]               ,     # Retry strategy to use
+                       metrics_callback : Callable[[Metrics], None] = None       # Metrics reporting callback
+                  )                    -> BatchResults:                          # Processed batch results
+```
+
+Guidelines:
+- Break complex generic types at logical points
+- Align nested type parameters
+- Keep related type information together
+- Document complex types in comments
+
+
 
 ## Variable Assignment Alignment
 Variable assignments should be aligned on the `=` operator:
@@ -162,10 +258,10 @@ Note that:
 Assert statements should be aligned on the comparison operator:
 
 ```python
-assert type(self.node) is Schema__MGraph__Node
-assert self.node.node_data == self.node_data
-assert self.node.value == "test_node_value"
-assert len(self.node.attributes) == 1
+assert type(self.node)                                   is Schema__MGraph__Node
+assert self.node.node_data                               == self.node_data
+assert self.node.value                                   == "test_node_value"
+assert len(self.node.attributes)                         == 1
 assert self.node.attributes[self.attribute.attribute_id] == self.attribute
 ```
 
@@ -173,11 +269,11 @@ assert self.node.attributes[self.attribute.attribute_id] == self.attribute
 Dictionary literals in constructor calls should maintain alignment while using minimal line breaks:
 
 ```python
-node = Schema__MGraph__Node(attributes={attr_1.attribute_id: attr_1,
-                                        attr_2.attribute_id: attr_2},
-                            node_config=self.node_data,
-                            node_type=Schema__MGraph__Node,
-                            value="test_node_value")
+node = Schema__MGraph__Node(attributes = {attr_1.attribute_id: attr_1   ,
+                                          attr_2.attribute_id: attr_2}  ,
+                            node_config = self.node_data                ,
+                            node_type   = Schema__MGraph__Node          ,
+                            value       = "test_node_value"             )
 ```
 
 ## Test Class Structure
