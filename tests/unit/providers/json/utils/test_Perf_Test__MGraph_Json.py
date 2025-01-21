@@ -22,18 +22,24 @@ class test_Perf_Test__MGraph_Json(TestCase):
 
     def test_run_workflow__on_url(self):
         url = URL__DBPEDIA__ZAP
+        #url = "https://dev.myfeeds.ai/openapi.json"
         with self.perf_test as _:
             _.run_workflow__on_url(url)
             _.print()
             assert _.perf_test_duration.duration__total < 6 # shower in GitHub Actions (locally it's around 1.5)
 
     # contains=['models__from_edges', 'edges', 'add_node', 'new_dict_node', 'add_property'],
-    @trace_calls(contains=['___mgraph', 'add_property', 'add_node', 'new_edge'],
-                 show_duration=True, duration_padding=100,
-                 show_class   =True)
+    @trace_calls(#include = ['*'],
+                 contains=['add_property', 'add_node', 'new_edge'],
+                 show_duration=True, duration_padding=120,
+                 show_class   =True,
+                 #duration_bigger_than=0.1
+                 )
     def test_trace(self):
         feed_start =  { 'channel': { 'description': 'Latest Technology News'}}
-        MGraph__Json().load().from_json(feed_start)  # TEST_DATA__TECH_NEWS__FEED_XML_JSON
+        target_json = TEST_DATA__TECH_NEWS__FEED_XML_JSON
+        target_json = feed_start
+        MGraph__Json().load().from_json(target_json)
 
 
 
@@ -109,7 +115,7 @@ class test_Perf_Test__MGraph_Json(TestCase):
 
 
 ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ### ###
-### STATS (16th Jan 2024)
+### STATS (16th Jan 2025)
 
 # URL__DBPEDIA__ZAP "https://dbpedia.org/data/ZAP.json"
 #
@@ -154,6 +160,8 @@ class test_Perf_Test__MGraph_Json(TestCase):
 # duration__total          : 1.228
 # ---------------------------------
 
+
+
 # URL__MY_FEEDS__OPENAPI = "https://dev.myfeeds.ai/openapi.json"
 #
 # ----- Pef Test Results ----
@@ -166,6 +174,26 @@ class test_Perf_Test__MGraph_Json(TestCase):
 # duration__get_source_json: 0.144
 # duration__mgraph_parse   : 54.95
 # duration__dot_creation   : 16.728
+#
+# (in 21st Jan 2025 - after major improvments to Type_Safe class object's creation.
+#     the duration__dot_creation is not where it needs to be (from 16sec to 0.18 sec
+#     but the duration__mgraph_parse is still high: 25.895 )
+# ----- Perf Test Results ----
+#
+#   Target URL: https://dev.myfeeds.ai/openapi.json
+#   Nodes     : 776
+#   Edges     : 775
+#   Dot Code  : 111630
+#
+# duration__get_source_json: 0.172
+# duration__mgraph_parse   : 25.895
+# duration__dot_creation   : 0.189
+# ---------------------------------
+# duration__total          : 42.820
+# ---------------------------------
+
+
+
 
 # target_json = TEST_DATA__TECH_NEWS__FEED_XML_JSON
 #
@@ -182,6 +210,8 @@ class test_Perf_Test__MGraph_Json(TestCase):
 # ---------------------------------
 # duration__total          : 0.492
 # ---------------------------------
+
+
 
 
 

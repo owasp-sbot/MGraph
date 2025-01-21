@@ -2,13 +2,13 @@ from unittest                                                               impo
 from osbot_utils.helpers.Safe_Id                                            import Safe_Id
 from osbot_utils.testing.Temp_File                                          import Temp_File
 from osbot_utils.utils.Files                                                import file_exists
-from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Edge                       import Domain__Mermaid__Edge
-from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Node                       import Domain__Mermaid__Node
+from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Edge               import Domain__Mermaid__Edge
+from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Node               import Domain__Mermaid__Node
 from osbot_utils.utils.Objects                                              import __
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Diagram_Direction import Schema__Mermaid__Diagram__Direction
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Diagram__Type     import Schema__Mermaid__Diagram__Type
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Shape       import Schema__Mermaid__Node__Shape
-from mgraph_ai.providers.mermaid.MGraph__Mermaid                             import MGraph__Mermaid
+from mgraph_ai.providers.mermaid.MGraph__Mermaid                            import MGraph__Mermaid
 from osbot_utils.testing.Stdout                                             import Stdout
 from osbot_utils.utils.Str                                                  import str_dedent
 
@@ -56,6 +56,7 @@ class test_Mermaid__Render(TestCase):
             _.add_edge('C', 'D', label='One'      ).output_node_to().edge_mode__lr_using_pipe()
             _.add_edge('C', 'E', label='Two'      ).output_node_to().edge_mode__lr_using_pipe()
             _.add_edge('C', 'F', label='Three'    ).output_node_to().edge_mode__lr_using_pipe()
+
 
         with self.mermaid_render as _:
             file_path = _.save()

@@ -1,6 +1,6 @@
 import pytest
 from unittest                                                import TestCase
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Types import Schema__MGraph__Types
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Types          import Schema__MGraph__Types
 from osbot_utils.utils.Misc                                  import is_guid
 from mgraph_ai.mgraph.models.Model__MGraph__Edge             import Model__MGraph__Edge
 from mgraph_ai.mgraph.models.Model__MGraph__Node             import Model__MGraph__Node
@@ -77,6 +77,9 @@ class test_Model__MGraph__Graph(TestCase):
         edge_1_id = edge_1.edge_id()
         edge_2_id = edge_2.edge_id()
 
+        assert node_1_id                         != node_2_id
+        assert node_1_id                         != node_3_id
+        assert edge_1_id                         != edge_2_id
         assert len(self.graph.edges())           == 2                                       # Verify initial state
         assert self.graph.delete_node(node_2_id) is True                                    # Remove node_2 (should remove both edges)
         assert len(self.graph.edges())           == 0                                       # Verify edges were removed

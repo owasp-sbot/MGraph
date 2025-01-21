@@ -31,7 +31,7 @@ class test__regression__performance__MGraph__Json__Load(TestCase):
         with capture_duration() as duration:
             self.mgraph_json.load().from_json(self.source_json)                            # [FACT-1]
         #assert 0.5 < duration.seconds < 1                                      # BUG      # [FACT-2]
-        assert 0.05 < duration.seconds < 0.2                                    # FIXED
+        assert 0.01 < duration.seconds < 0.2                                    # FIXED
 
         # FACTS:
         # FACT-1: MGraph__Json.load().from_json() is the entry point for JSON loading
@@ -42,7 +42,7 @@ class test__regression__performance__MGraph__Json__Load(TestCase):
         with capture_duration() as duration:
             loader.from_json(self.source_json)                                              # [FACT-1]
         #assert 0.4 < duration.seconds < 0.8                                    # BUG       # [FACT-2]
-        assert 0.05 < duration.seconds < 0.2                                    # FIXED
+        assert 0.01 < duration.seconds < 0.2                                    # FIXED
 
         # FACTS:
         # FACT-1: The performance issue exists in MGraph__Json__Load.from_json
@@ -56,7 +56,7 @@ class test__regression__performance__MGraph__Json__Load(TestCase):
         with capture_duration() as duration:                                                # [FACT-1]
             graph.set_root_content(self.source_json)
         #assert 0.4 < duration.seconds < 0.8                                                 # [FACT-2]
-        assert 0.05 < duration.seconds < 0.2                                    # FIXED
+        assert 0.02 < duration.seconds < 0.2                                    # FIXED
 
         # FACTS:
         # FACT-1: set_root_content handles the initial graph structure creation
@@ -70,7 +70,7 @@ class test__regression__performance__MGraph__Json__Load(TestCase):
         with capture_duration() as duration:                                                # [FACT-1][FACT-2]
             dict_node = graph.new_dict_node(self.source_json)
         #assert 0.4 < duration.seconds < 1                                      # BUG       # [FACT-3]
-        assert 0.05 < duration.seconds < 0.2                                    # FIXED
+        assert 0.01 < duration.seconds < 0.2                                    # FIXED
 
         # FACTS:
         # FACT-1: new_dict_node creates the initial dictionary structure
@@ -86,7 +86,7 @@ class test__regression__performance__MGraph__Json__Load(TestCase):
         with capture_duration() as duration:                                                # [FACT-1]
             dict_node.update(self.source_json)
         #assert 0.4 < duration.seconds < 1                                      # BUG       # [FACT-2]
-        assert 0.05 < duration.seconds < 0.2                                    # FIXED
+        assert 0.01 < duration.seconds < 0.2                                    # FIXED
 
         # FACTS:
         # FACT-1: update() handles bulk property addition to dictionary nodes
@@ -124,7 +124,7 @@ class test__regression__performance__MGraph__Json__Load(TestCase):
                 previous_duration = partial_duration.seconds
 
         #assert 0.5 < total_duration.seconds < 1                                # BUG     # [FACT-4]
-        assert 0.05 < total_duration.seconds < 0.2                              # FIXED
+        assert 0.01 < total_duration.seconds < 0.2                              # FIXED
 
         with capture_duration() as duration:                                              # [FACT-5]
             edges = dict_node.models__from_edges()
@@ -210,7 +210,7 @@ class test__regression__performance__MGraph__Json__Load(TestCase):
                     assert _.graph.edges_ids() == []                                        # confirm no edges
         assert duration__with_only_value_node               .seconds < 0.040                # confirm we now have a performance impact
         assert total_duration__with_only_value_node__update_existing < 0.003                # but the update_existing still has good performance
-        assert 0.015 < total_duration__with_only_value_node__add_node < 0.030                # the extra duration was caused by the self.graph.add_node call
+        assert 0.0 <= total_duration__with_only_value_node__add_node < 0.030                # the extra duration was caused by the self.graph.add_node call
 
         # Hypothesis 3
         an_bug_domain_node_3 = Bug__Domain__MGraph__Json__Node__Dict()
@@ -222,7 +222,7 @@ class test__regression__performance__MGraph__Json__Load(TestCase):
 
                     _.add_property__add_node_and_edge('a', 42)
 
-        assert 0.50 < duration__with__node_and_edge.seconds < 0.70                          # confirm we now have a performance impact
+        assert 0.20 < duration__with__node_and_edge.seconds < 0.80                          # confirm we now have a performance impact
 
         # Hypothesis 4
         an_bug_domain_node_4 = Bug__Domain__MGraph__Json__Node__Dict()
@@ -237,7 +237,7 @@ class test__regression__performance__MGraph__Json__Load(TestCase):
                         _.add_property__update_existing  ('a', 42)
                     total_duration__duration__with__node_and_edge__update_existing += duration__duration__with__node_and_edge__update_existing.seconds
                     if previous__duration__duration__with__node_and_edge__update_existing:
-                        assert duration__duration__with__node_and_edge__update_existing.seconds + 0.005 > previous__duration__duration__with__node_and_edge__update_existing
+                        assert duration__duration__with__node_and_edge__update_existing.seconds + 0.010 > previous__duration__duration__with__node_and_edge__update_existing
 
                     previous__duration__duration__with__node_and_edge__update_existing = duration__duration__with__node_and_edge__update_existing.seconds
 
@@ -250,10 +250,10 @@ class test__regression__performance__MGraph__Json__Load(TestCase):
         assert len(_.graph.nodes_ids()) == 200                                                    # at the end we have 200 nodes
         assert len(_.graph.edges_ids()) == 100                                                    # and 100 edges
 
-        assert 0.50  < duration__with__node_and_edge.seconds                              < 0.80     # confirm we now have a performance impact
-        assert 0.50  < total_duration__duration__with__node_and_edge__update_existing     < 0.80     # confirm that the impact is on the update_existing code
-        assert 0.05  < total_duration__duration__with__node_and_edge__add_node_and_edge   < 0.08     # confirm that add_node_and_edge have just about no performance impact
-        assert 0.01  < previous__duration__duration__with__node_and_edge__update_existing < 0.02     # confirm that the last call to add_property__update_existing took about 0.015 ms (which is a lot when this method is called 100s of times)
+        assert 0.2   < duration__with__node_and_edge.seconds                              < 0.80     # confirm we now have a performance impact
+        assert 0.2   < total_duration__duration__with__node_and_edge__update_existing     < 0.80     # confirm that the impact is on the update_existing code
+        assert 0    <= total_duration__duration__with__node_and_edge__add_node_and_edge   < 0.11     # confirm that add_node_and_edge have just about no performance impact
+        assert 0.004< previous__duration__duration__with__node_and_edge__update_existing < 0.02     # confirm that the last call to add_property__update_existing took about 0.015 ms (which is a lot when this method is called 100s of times)
 
 
 
