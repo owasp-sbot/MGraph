@@ -51,7 +51,7 @@ class MGraph__Export__Json__Dot(MGraph__Export__Json__Base):                    
         if isinstance(value, str):                                                # dot specific escaping
             escaped = value.replace('"', '\\"')
             return f'{escaped}'
-        return f'"{value}"'
+        #return f'"{value}"'
         
     def process_node(self, node: Any) -> str:                                    # Process a node and generate DOT representation
         node_type = self.get_node_type(node)

@@ -1,9 +1,12 @@
 from unittest                                                                    import TestCase
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Node                               import Schema__MGraph__Node
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Data                         import Schema__MGraph__Node__Data
 from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node                 import Schema__MGraph__Json__Node
 from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Property__Data import Schema__MGraph__Json__Node__Property__Data
 from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Value__Data    import Schema__MGraph__Json__Node__Value__Data
 from osbot_utils.testing.performance.Performance_Measure__Session                import Performance_Measure__Session
-from osbot_utils.utils.Objects                                                   import __, type_full_name
+from osbot_utils.type_safe.Type_Safe                                             import Type_Safe
+from osbot_utils.utils.Objects                                                   import __, type_full_name, base_types
 from mgraph_ai.providers.json.actions.MGraph__Json__Obj_Factory__Schemas         import MGraph__Json__Obj_Factory__Schemas
 from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Edge                 import Schema__MGraph__Json__Edge
 from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Graph                import Schema__MGraph__Json__Graph
@@ -28,16 +31,37 @@ class test_MGraph__Json__Obj_Factory__Schemas(TestCase):
             print()
             print()
             _.padding = 50
-            _.measure(self.json_factory.create__Schema__MGraph__Json__Node__Value__Data  ).print().assert_time__less_than(300)
+            _.measure(self.json_factory.create__Schema__MGraph__Json__Node                ).print().assert_time__less_than(300)
+            _.measure(Schema__MGraph__Json__Node                                          ).print().assert_time__less_than(300)
+            print()
+            _.measure(self.json_factory.create__Schema__MGraph__Json__Node__Value__Data   ).print().assert_time__less_than(300)
+            _.measure(Schema__MGraph__Json__Node__Value__Data                             ).print().assert_time__less_than(300)
+            print()
             _.measure(self.json_factory.create__Schema__MGraph__Json__Node__Property__Data).print().assert_time__less_than(300)
-            _.measure(self.json_factory.create__Schema__MGraph__Json__Node__Value        ).print().assert_time__less_than(1000)
-            _.measure(self.json_factory.create__Schema__MGraph__Json__Node__Property     ).print().assert_time__less_than(1000)
-            _.measure(self.json_factory.create__Schema__MGraph__Json__Node__Dict         ).print().assert_time__less_than(1000)
-            _.measure(self.json_factory.create__Schema__MGraph__Json__Node__List         ).print().assert_time__less_than(1000)
-            _.measure(self.json_factory.create__Schema__MGraph__Json__Edge               ).print().assert_time__less_than(2000)
-            _.measure(self.json_factory.create__Schema__MGraph__Json__Graph__Data        ).print().assert_time__less_than(300)
-            _.measure(self.json_factory.create__Schema__MGraph__Json__Types              ).print().assert_time__less_than(500)
+            _.measure(Schema__MGraph__Json__Node__Property__Data                          ).print().assert_time__less_than(300)
+            print()
+            _.measure(self.json_factory.create__Schema__MGraph__Json__Node__Value         ).print().assert_time__less_than(1000)
+            _.measure(Schema__MGraph__Json__Node__Value                                   ).print().assert_time__less_than(300)
+            print()
+            _.measure(self.json_factory.create__Schema__MGraph__Json__Node__Property      ).print().assert_time__less_than(1000)
+            _.measure(Schema__MGraph__Json__Node__Property                                ).print().assert_time__less_than(300)
+            print()
+            _.measure(self.json_factory.create__Schema__MGraph__Json__Node__Dict          ).print().assert_time__less_than(1000)
+            _.measure(self.json_factory.create__Schema__MGraph__Json__Node__List          ).print().assert_time__less_than(1000)
+            _.measure(self.json_factory.create__Schema__MGraph__Json__Edge                ).print().assert_time__less_than(2000)
+            _.measure(self.json_factory.create__Schema__MGraph__Json__Graph__Data         ).print().assert_time__less_than(300)
+            _.measure(self.json_factory.create__Schema__MGraph__Json__Types               ).print().assert_time__less_than(500)
             _.measure(self.json_factory.create__Schema__MGraph__Json__Graph              ).print().assert_time__less_than(3000)
+
+    def test_create__Schema__MGraph__Json__Node(self):
+        node = self.json_factory.create__Schema__MGraph__Json__Node()
+        with node as _:
+            assert type(_)           is Schema__MGraph__Json__Node
+            assert type(_.node_data) is Schema__MGraph__Node__Data
+            assert base_types(_)     == [Schema__MGraph__Node, Type_Safe, object]
+            assert _.obj()           == __(node_data = __(),
+                                           node_id   = _.node_id,
+                                           node_type = type_full_name(Schema__MGraph__Json__Node))
 
     def test_create__Schema__MGraph__Json__Node__Value__Data(self):
         data = self.json_factory.create__Schema__MGraph__Json__Node__Value__Data()

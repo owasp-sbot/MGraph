@@ -23,6 +23,12 @@ class MGraph__Json__Obj_Factory__Models(Type_Safe):
         object.__setattr__(types, '__dict__', types_dict)
         return types
 
+    def create__Model__MGraph__Json__Node(self, data=None):
+        node      = object.__new__(Model__MGraph__Json__Node)
+        node_dict = dict(data = data or self.json_schema_factory.create__Schema__MGraph__Json__Node())
+        object.__setattr__(node, '__dict__', node_dict)
+        return node
+
     def create__Model__MGraph__Json__Node__Value(self):
         node = object.__new__(Model__MGraph__Json__Node__Value)
         node_dict = dict(data = self.json_schema_factory.create__Schema__MGraph__Json__Node__Value())

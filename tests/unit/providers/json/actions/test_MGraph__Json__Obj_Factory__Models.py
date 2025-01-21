@@ -35,6 +35,7 @@ class test_MGraph__Json__Obj_Factory__Models(TestCase):
             print()
             _.padding = 50
             _.measure(self.models_factory.create__Model__MGraph__Json__Types          ).print().assert_time__less_than(500)
+            _.measure(self.models_factory.create__Model__MGraph__Json__Node           ).print().assert_time__less_than(3000)
             _.measure(self.models_factory.create__Model__MGraph__Json__Node__Value    ).print().assert_time__less_than(3000)
             _.measure(self.models_factory.create__Model__MGraph__Json__Node__Property ).print().assert_time__less_than(3000)
             _.measure(self.models_factory.create__Model__MGraph__Json__Node__Dict     ).print().assert_time__less_than(3000)
@@ -58,6 +59,15 @@ class test_MGraph__Json__Obj_Factory__Models(TestCase):
             assert _.edge_model_type     is Model__MGraph__Json__Edge
             assert _.obj()               == __(node_model_type = type_full_name(Model__MGraph__Json__Node),
                                              edge_model_type = type_full_name(Model__MGraph__Json__Edge))
+
+    def test_create__Model__MGraph__Json__Node(self):
+        node = self.models_factory.create__Model__MGraph__Json__Node()
+        with node as _:
+            assert type(_)           is Model__MGraph__Json__Node
+            assert type(_.data)      is Schema__MGraph__Json__Node
+            assert _.obj()           == __(data = __(node_data = __(),
+                                                     node_id   = _.data.node_id,
+                                                     node_type = type_full_name(Schema__MGraph__Json__Node)))
 
     def test_create__Model__MGraph__Json__Node__Value(self):
         node = self.models_factory.create__Model__MGraph__Json__Node__Value()

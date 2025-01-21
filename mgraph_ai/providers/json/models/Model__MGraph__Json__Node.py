@@ -4,3 +4,5 @@ from mgraph_ai.mgraph.models.Model__MGraph__Node                 import Model__M
 class Model__MGraph__Json__Node(Model__MGraph__Node):                                       # Base model class for JSON nodes
     data: Schema__MGraph__Json__Node
 
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)

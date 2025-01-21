@@ -19,6 +19,14 @@ class MGraph__Json__Obj_Factory__Schemas(Type_Safe):
         super().__init__()
         self.schema_factory = MGraph__Obj_Factory__Schemas()
 
+    def create__Schema__MGraph__Json__Node(self):
+        node      = object.__new__(Schema__MGraph__Json__Node)
+        node_dict = dict(node_data = self.schema_factory.create__Schema__MGraph__Node__Data(),
+                         node_id   = self.schema_factory.create__Schema__MGraph__Node().node_id,
+                         node_type = Schema__MGraph__Json__Node)
+        object.__setattr__(node, '__dict__', node_dict)
+        return node
+
     def create__Schema__MGraph__Json__Node__Value__Data(self):
         data = object.__new__(Schema__MGraph__Json__Node__Value__Data)
         data_dict = dict(value = None,
