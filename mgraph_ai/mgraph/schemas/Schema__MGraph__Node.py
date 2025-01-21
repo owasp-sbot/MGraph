@@ -7,4 +7,4 @@ class Schema__MGraph__Node(Type_Safe):
     node_data : Schema__MGraph__Node__Data
     node_id   : Obj_Id
     node_type : Type['Schema__MGraph__Node']
-    
+

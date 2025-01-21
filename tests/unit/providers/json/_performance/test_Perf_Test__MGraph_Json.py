@@ -1,5 +1,10 @@
 import pytest
 from unittest                                               import TestCase
+
+from osbot_utils.context_managers.print_duration import print_duration
+
+from osbot_utils.utils.Dev import pprint
+
 from osbot_utils.utils.Http                                 import current_host_offline
 from mgraph_ai.providers.json.MGraph__Json                  import MGraph__Json
 from osbot_utils.helpers.trace.Trace_Call                   import trace_calls
@@ -32,18 +37,29 @@ class test_Perf_Test__MGraph_Json(TestCase):
             _.print()
             assert _.perf_test_duration.duration__total < 6 # shower in GitHub Actions (locally it's around 1.5)
 
-    # contains=['models__from_edges', 'edges', 'add_node', 'new_dict_node', 'add_property'],
-    @trace_calls(#include = ['*'],
-                 contains=['add_property', 'add_node', 'new_edge'],
-                 show_duration=True, duration_padding=120,
-                 show_class   =True,
-                 #duration_bigger_than=0.1
-                 )
+    # @trace_calls(#include = ['*'],
+    #              contains=['add_property', 'add_node', 'new_edge', 'schema'],
+    #              show_duration=True, duration_padding=120,
+    #              show_class   =True,
+    #              #duration_bigger_than=0.1
+    #              )
     def test_trace(self):
-        feed_start =  { 'channel': { 'description': 'Latest Technology News'}}
+        feed_start =  { 'channel': { 'description': 'Latest Technology News',
+                                     'abc': 'xyz'},
+                        'answer': 42,
+                        'an_list': [1,2,3]}
         target_json = TEST_DATA__TECH_NEWS__FEED_XML_JSON
         target_json = feed_start
-        MGraph__Json().load().from_json(target_json)
+        mgraph_json = MGraph__Json()
+        with print_duration(action_name='from-json'):
+            mgraph_json.load().from_json(target_json)
+        with print_duration(action_name='to-json'):
+            round_trip = mgraph_json.export().to_dict()
+        with print_duration(action_name='to-dot'):
+            dot_code = mgraph_json.export().to_dot().to_string()
+        #pprint(round_trip)
+        #print(dot_code)
+        assert target_json == round_trip
 
 
 
