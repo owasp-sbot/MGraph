@@ -1,8 +1,8 @@
 from typing                                                              import Dict, Any, List
 from mgraph_ai.providers.mermaid.MGraph__Mermaid                         import MGraph__Mermaid
 from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Graph           import Domain__Mermaid__Graph
+from osbot_utils.helpers.Obj_Id                                          import Obj_Id
 from osbot_utils.helpers.Safe_Id                                         import Safe_Id
-from osbot_utils.helpers.Random_Guid                                     import Random_Guid
 from mgraph_ai.mgraph.utils.MGraph__Random_Graph                         import MGraph__Random_Graph
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node           import Schema__Mermaid__Node
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge           import Schema__Mermaid__Edge
@@ -37,7 +37,7 @@ class Mermaid__Random_Graph(MGraph__Random_Graph):
                                   to_node  : Schema__Mermaid__Node,
                                   label    : str = None) -> Schema__Mermaid__Edge:
 
-        edge_config = Schema__Mermaid__Edge__Config(edge_id        = Random_Guid()                  )
+        edge_config = Schema__Mermaid__Edge__Config(edge_id        = Obj_Id()                       )
         return Schema__Mermaid__Edge               (edge_config    = edge_config                    ,
                                                     edge_type      = Schema__Mermaid__Edge          ,
                                                     from_node_id   = from_node.node_id  ,

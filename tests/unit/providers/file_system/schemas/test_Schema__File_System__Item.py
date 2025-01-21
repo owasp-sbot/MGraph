@@ -1,7 +1,8 @@
 import pytest
 import re
 from unittest                                                              import TestCase
-from osbot_utils.helpers.Random_Guid                                       import Random_Guid
+
+from osbot_utils.helpers.Obj_Id import Obj_Id
 from osbot_utils.helpers.Timestamp_Now                                     import Timestamp_Now
 from mgraph_ai.providers.file_system.schemas.Schema__File_System__Item     import Schema__File_System__Item
 
@@ -15,7 +16,7 @@ class test_Schema__File_System__Item(TestCase):
         self.folder_name = "test_folder"
         self.created_at  = Timestamp_Now()
         self.modified_at = Timestamp_Now()
-        self.node_id     = Random_Guid()
+        self.node_id     = Obj_Id       ()
         self.fs_item     = Schema__File_System__Item(folder_name  = self.folder_name         ,
                                                      created_at   = self.created_at          ,
                                                      modified_at  = self.modified_at         ,

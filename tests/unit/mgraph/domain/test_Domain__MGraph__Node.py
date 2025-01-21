@@ -7,7 +7,8 @@ from mgraph_ai.mgraph.schemas.Schema__MGraph__Node         import Schema__MGraph
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Data   import Schema__MGraph__Node__Data
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge         import Schema__MGraph__Edge
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge__Config import Schema__MGraph__Edge__Config
-from osbot_utils.helpers.Random_Guid                       import Random_Guid
+from osbot_utils.helpers.Obj_Id                            import Obj_Id
+
 
 class test_Domain__MGraph__Node(TestCase):
 
@@ -25,7 +26,7 @@ class test_Domain__MGraph__Node(TestCase):
         assert type(self.node)        is Domain__MGraph__Node
         assert self.node.node         is self.model_node
         assert self.node.graph        is self.graph
-        assert type(self.node.node_id) is Random_Guid
+        assert type(self.node.node_id) is Obj_Id
 
     def test_add_node(self):                                                                         # Tests node addition functionality
         new_node_data    = Schema__MGraph__Node__Data()
@@ -43,13 +44,13 @@ class test_Domain__MGraph__Node(TestCase):
     def test_models__edges(self):                                                                    # Tests retrieving all connected edges
         node_1_id = self.graph.new_node().node_id
         # Create test edges
-        edge_config_1 = Schema__MGraph__Edge__Config(edge_id=Random_Guid())
+        edge_config_1 = Schema__MGraph__Edge__Config(edge_id=Obj_Id())
         edge_1        = Schema__MGraph__Edge        (edge_config  = edge_config_1,
                                                      from_node_id = self.node.node_id,
                                                      to_node_id   = node_1_id,
                                                      edge_type    = Schema__MGraph__Edge)
 
-        edge_config_2 = Schema__MGraph__Edge__Config(edge_id=Random_Guid())
+        edge_config_2 = Schema__MGraph__Edge__Config(edge_id=Obj_Id())
         edge_2        = Schema__MGraph__Edge        (edge_config  = edge_config_2,
                                                      from_node_id = node_1_id,
                                                      to_node_id   = self.node.node_id,
@@ -68,13 +69,13 @@ class test_Domain__MGraph__Node(TestCase):
     def test_models__from_edges(self):                                                               # Tests retrieving outgoing edges
         node_1_id = self.graph.new_node().node_id
         # Create test edges
-        edge_config_1 = Schema__MGraph__Edge__Config(edge_id=Random_Guid())
+        edge_config_1 = Schema__MGraph__Edge__Config(edge_id=Obj_Id())
         outgoing_edge = Schema__MGraph__Edge        (edge_config  = edge_config_1,
                                                     from_node_id = self.node.node_id,
                                                     to_node_id   = node_1_id,
                                                     edge_type    = Schema__MGraph__Edge)
 
-        edge_config_2 = Schema__MGraph__Edge__Config(edge_id=Random_Guid())
+        edge_config_2 = Schema__MGraph__Edge__Config(edge_id=Obj_Id())
         incoming_edge = Schema__MGraph__Edge        (edge_config  = edge_config_2,
                                                     from_node_id = node_1_id,
                                                     to_node_id   = self.node.node_id,
@@ -92,13 +93,13 @@ class test_Domain__MGraph__Node(TestCase):
     def test_models__to_edges(self):                                                                 # Tests retrieving incoming edges
         node_1_id = self.graph.new_node().node_id
         # Create test edges
-        edge_config_1 = Schema__MGraph__Edge__Config(edge_id=Random_Guid())
+        edge_config_1 = Schema__MGraph__Edge__Config(edge_id=Obj_Id())
         outgoing_edge = Schema__MGraph__Edge        (edge_config  = edge_config_1,
                                                     from_node_id = self.node.node_id,
                                                     to_node_id   = node_1_id,
                                                     edge_type    = Schema__MGraph__Edge)
 
-        edge_config_2 = Schema__MGraph__Edge__Config(edge_id=Random_Guid())
+        edge_config_2 = Schema__MGraph__Edge__Config(edge_id=Obj_Id())
         incoming_edge = Schema__MGraph__Edge        (edge_config  = edge_config_2,
                                                     from_node_id = node_1_id,
                                                     to_node_id   = self.node.node_id,
@@ -122,7 +123,7 @@ class test_Domain__MGraph__Node(TestCase):
         self.graph.add_node(other_schema_node)
 
         # Create edge connecting nodes
-        edge_config = Schema__MGraph__Edge__Config(edge_id=Random_Guid())
+        edge_config = Schema__MGraph__Edge__Config(edge_id=Obj_Id())
         edge        = Schema__MGraph__Edge        (edge_config  = edge_config,
                                                   from_node_id = self.node.node_id,
                                                   to_node_id   = other_schema_node.node_id,
@@ -143,6 +144,6 @@ class test_Domain__MGraph__Node(TestCase):
         assert connected_node.data is other_schema_node
 
         # Test with unconnected edge
-        edge.from_node_id = Random_Guid()
-        edge.to_node_id = Random_Guid()
+        edge.from_node_id = Obj_Id()
+        edge.to_node_id   = Obj_Id()
         assert self.node.model__node_from_edge(model_edge) is None

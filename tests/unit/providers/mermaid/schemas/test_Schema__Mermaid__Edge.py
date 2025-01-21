@@ -1,18 +1,18 @@
 from unittest                                                            import TestCase
-from osbot_utils.helpers.Random_Guid                                     import Random_Guid
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge           import Schema__Mermaid__Edge
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge__Config   import Schema__Mermaid__Edge__Config
+from osbot_utils.helpers.Obj_Id import Obj_Id
 
 
 class test_Schema__Mermaid__Edge(TestCase):
 
     def setUp(self):                                                                # Initialize test data
-        self.edge_config = Schema__Mermaid__Edge__Config(edge_id = Random_Guid())
+        self.edge_config = Schema__Mermaid__Edge__Config(edge_id = Obj_Id())
 
         self.edge = Schema__Mermaid__Edge(edge_config  = self.edge_config         ,
                                           edge_type    = Schema__Mermaid__Edge    ,
-                                          from_node_id = Random_Guid()            ,
-                                          to_node_id   = Random_Guid()            ,
+                                          from_node_id = Obj_Id()                 ,
+                                          to_node_id   = Obj_Id()                 ,
                                           label        = "Test Edge"              )
 
     def test_init(self):                                                            # Tests basic initialization and type checking
@@ -24,8 +24,8 @@ class test_Schema__Mermaid__Edge(TestCase):
         with self.assertRaises(ValueError) as context:
             Schema__Mermaid__Edge(edge_config  = self.edge_config      ,
                                   edge_type    = Schema__Mermaid__Edge ,
-                                  from_node_id = Random_Guid()         ,
-                                  to_node_id   = Random_Guid()         ,
+                                  from_node_id = Obj_Id()              ,
+                                  to_node_id   = Obj_Id()              ,
                                   label        = 123                   ) # Invalid type for label
         assert "Invalid type for attribute 'label'" in str(context.exception)
 

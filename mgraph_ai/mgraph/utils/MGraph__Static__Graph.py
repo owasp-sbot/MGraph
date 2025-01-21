@@ -1,14 +1,14 @@
 from typing                             import List
-from mgraph_ai.mgraph.MGraph            import MGraph
-from osbot_utils.helpers.Random_Guid    import Random_Guid
-from osbot_utils.type_safe.Type_Safe    import Type_Safe
+from mgraph_ai.mgraph.MGraph         import MGraph
+from osbot_utils.helpers.Obj_Id      import Obj_Id
+from osbot_utils.type_safe.Type_Safe import Type_Safe
 
 class MGraph__Static__Graph(Type_Safe):
     graph   : MGraph
-    node_ids: List[Random_Guid]
-    edge_ids: List[Random_Guid]
+    node_ids: List[Obj_Id]
+    edge_ids: List[Obj_Id]
 
-    def create_nodes(self, count: int) -> List[Random_Guid]:                                                          # Creates specified number of nodes
+    def create_nodes(self, count: int) -> List[Obj_Id]:                                                          # Creates specified number of nodes
         with self.graph.edit() as edit:
             return [edit.new_node().node_id for _ in range(count)]
 
@@ -16,7 +16,7 @@ class MGraph__Static__Graph(Type_Safe):
         if num_nodes < min_nodes:
             raise ValueError(f"Number of nodes must be at least {min_nodes} for a {graph_type}")
 
-    def create_edge(self, from_node: Random_Guid, to_node: Random_Guid) -> Random_Guid:                               # Creates an edge between two nodes
+    def create_edge(self, from_node: Obj_Id, to_node: Obj_Id) -> Obj_Id:                               # Creates an edge between two nodes
         with self.graph.edit() as edit:
             edge = edit.new_edge(from_node_id=from_node, to_node_id=to_node)
             self.edge_ids.append(edge.edge_id)

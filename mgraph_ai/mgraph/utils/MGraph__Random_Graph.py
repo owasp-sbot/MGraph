@@ -5,7 +5,7 @@ from mgraph_ai.mgraph.models.Model__MGraph__Graph             import Model__MGra
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph           import Schema__MGraph__Graph
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph__Data     import Schema__MGraph__Graph__Data
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Types           import Schema__MGraph__Types
-from osbot_utils.helpers.Random_Guid                          import Random_Guid
+from osbot_utils.helpers.Obj_Id                               import Obj_Id
 from osbot_utils.type_safe.Type_Safe                          import Type_Safe
 from osbot_utils.utils.Misc                                   import random_int
 
@@ -27,7 +27,7 @@ class MGraph__Random_Graph(Type_Safe):
         self.graph        = MGraph                 ( graph         = self.graph__graph               )
         return self
 
-    def create_nodes(self, num_nodes: int) -> List[Random_Guid]:                                                        # Create specified number of nodes and return their IDs
+    def create_nodes(self, num_nodes: int) -> List[Obj_Id]:                                                        # Create specified number of nodes and return their IDs
         if num_nodes < 0:
             raise ValueError("Number of nodes cannot be negative")
 
@@ -37,7 +37,7 @@ class MGraph__Random_Graph(Type_Safe):
             node_ids.append(node.node_id)
         return node_ids
 
-    def create_random_edges(self, node_ids: List[Random_Guid], num_edges: int) -> None:                                 # Create random edges between existing nodes
+    def create_random_edges(self, node_ids: List[Obj_Id], num_edges: int) -> None:                                 # Create random edges between existing nodes
         if not node_ids:
             raise ValueError("No nodes available to create edges")
         if num_edges < 0:

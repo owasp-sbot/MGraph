@@ -1,7 +1,8 @@
 from unittest                                     import TestCase
 from mgraph_ai.mgraph.MGraph                      import MGraph
-from osbot_utils.utils.Misc                       import is_guid
 from mgraph_ai.mgraph.utils.MGraph__Static__Graph import MGraph__Static__Graph
+from osbot_utils.helpers.Obj_Id                   import is_obj_id
+
 
 class test_MGraph__Static__Graph(TestCase):
 
@@ -20,11 +21,11 @@ class test_MGraph__Static__Graph(TestCase):
         assert len(linear_graph.edge_ids) == 2                                                                          # Should have n-1 edges
 
         for node_id in linear_graph.node_ids:                                                                           # Verify node and edge existence
-            assert is_guid(node_id)                        is True
+            assert is_obj_id(node_id)                        is True
             assert linear_graph.graph.data().node(node_id) is not None
 
         for edge_id in linear_graph.edge_ids:
-            assert is_guid(edge_id)                        is True
+            assert is_obj_id(edge_id)                        is True
             assert linear_graph.graph.data().edge(edge_id) is not None
 
         node_ids = linear_graph.node_ids

@@ -1,5 +1,4 @@
 from unittest                                                          import TestCase
-from osbot_utils.utils.Misc                                            import is_guid
 from mgraph_ai.mgraph.domain.Domain__MGraph__Node                      import Domain__MGraph__Node
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge__Config             import Schema__MGraph__Edge__Config
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph__Data              import Schema__MGraph__Graph__Data
@@ -14,6 +13,7 @@ from mgraph_ai.providers.json.models.Model__MGraph__Json__Node         import Mo
 from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Edge       import Schema__MGraph__Json__Edge
 from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Graph      import Schema__MGraph__Json__Graph
 from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node       import Schema__MGraph__Json__Node
+from osbot_utils.helpers.Obj_Id                                        import is_obj_id
 from osbot_utils.type_safe.Type_Safe                                   import Type_Safe
 from osbot_utils.utils.Objects                                         import __, full_type_name, base_classes
 from mgraph_ai.mgraph.domain.Domain__MGraph__Graph                     import Domain__MGraph__Graph
@@ -71,8 +71,8 @@ class test_Domain__MGraph__Json__Graph(TestCase):
             root    = _.root()                                                                        # Create root node on first access
             root_id = root.node_id                                                                             # Store root ID for validations
 
-            assert is_guid(root_id)                             is True                                        # Validate root has proper GUID
-            assert _.nodes_ids()                                 == [root_id]                                   # Verify root added to graph nodes
+            assert is_obj_id(root_id)                           is True                                        # Validate root has proper GUID
+            assert _.nodes_ids()                                == [root_id]                                   # Verify root added to graph nodes
             assert isinstance(root, Domain__MGraph__Json__Node) is True                                        # Confirm correct root node type
             assert base_classes(root)                           == [Domain__MGraph__Node, Type_Safe, object]   # Validate inheritance chain
             assert _.model.data.graph_data.root_id              == root.node_id                                # Verify root ID properly stored

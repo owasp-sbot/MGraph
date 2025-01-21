@@ -2,7 +2,6 @@ from unittest                                                           import T
 from mgraph_ai.mgraph.models.Model__MGraph__Edge                        import Model__MGraph__Edge
 from mgraph_ai.mgraph.models.Model__MGraph__Node                        import Model__MGraph__Node
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph                     import Schema__MGraph__Graph
-from osbot_utils.helpers.Random_Guid                                    import Random_Guid
 from mgraph_ai.providers.mermaid.models.Model__Mermaid__Graph           import Model__Mermaid__Graph
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Graph         import Schema__Mermaid__Graph
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Graph__Config import Schema__Mermaid__Graph__Config

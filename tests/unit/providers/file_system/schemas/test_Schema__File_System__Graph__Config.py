@@ -1,13 +1,13 @@
 import pytest
 from unittest                                                                   import TestCase
-from osbot_utils.helpers.Random_Guid                                            import Random_Guid
 from mgraph_ai.providers.file_system.schemas.Schema__File_System__Graph__Config import Schema__File_System__Graph__Config
+from osbot_utils.helpers.Obj_Id                                                 import Obj_Id
 
 
 class test_Schema__File_System__Graph__Config(TestCase):
 
     def setUp(self):                                                                              # Initialize test data
-        self.graph_id           = Random_Guid()
+        self.graph_id           = Obj_Id()
         self.allow_circular_refs = False
         self.graph_config       = Schema__File_System__Graph__Config(allow_circular_refs = self.allow_circular_refs)
 

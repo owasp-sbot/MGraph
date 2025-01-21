@@ -1,9 +1,7 @@
-from typing                                                                   import List, Type
 from mgraph_ai.mgraph.models.Model__MGraph__Graph                             import Model__MGraph__Graph
 from mgraph_ai.providers.file_system.models.Model__File_System__Default_Types import Model__File_System__Default_Types
 from mgraph_ai.providers.file_system.schemas.Schema__File_System__Graph       import Schema__File_System__Graph
-from osbot_utils.helpers.Random_Guid                                          import Random_Guid
-
+from osbot_utils.helpers.Obj_Id                                               import Obj_Id
 
 
 class Model__File_System__Graph(Model__MGraph__Graph):                                                   # Model for filesystem graph
@@ -18,12 +16,12 @@ class Model__File_System__Graph(Model__MGraph__Graph):                          
         self.data.graph_data.allow_circular_refs = value
         return self
 
-    def validate_no_cycles(self, from_node_id: Random_Guid, to_node_id: Random_Guid) -> bool:           # Validate no circular refs
+    def validate_no_cycles(self, from_node_id: Obj_Id, to_node_id: Obj_Id) -> bool:           # Validate no circular refs
         if self.allow_circular_refs():
             return True
 
         visited = set()
-        def has_cycle(current_id: Random_Guid) -> bool:
+        def has_cycle(current_id: Obj_Id) -> bool:
             if current_id in visited:
                 return True
             visited.add(current_id)

@@ -5,10 +5,10 @@ from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Diagram_Direction impo
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Render__Config    import Schema__Mermaid__Render__Config
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Diagram__Type     import Schema__Mermaid__Diagram__Type
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Data        import Schema__Mermaid__Node__Data
+from osbot_utils.helpers.Obj_Id                                             import is_obj_id
 from osbot_utils.helpers.Safe_Id                                            import Safe_Id
 from osbot_utils.utils.Objects                                              import __, obj
 from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Node               import Domain__Mermaid__Node
-from osbot_utils.utils.Misc                                                 import is_guid
 from mgraph_ai.mgraph.actions.MGraph__Edit                                  import MGraph__Edit
 from mgraph_ai.providers.mermaid.actions.Mermaid__Edit                      import Mermaid__Edit
 from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Graph              import Domain__Mermaid__Graph
@@ -50,7 +50,7 @@ class test__Mermaid__Edit(TestCase):
             from_node        = nodes__by_key.get(from_node_key)
             to_node          = nodes__by_key.get(to_node_key  )
 
-            assert is_guid(edge_id     ) is True
+            assert is_obj_id(edge_id     ) is True
             assert type(from_node) == Domain__Mermaid__Node
             assert type(from_node) == Domain__Mermaid__Node
             assert type(edge     ) == Domain__Mermaid__Edge
@@ -73,19 +73,19 @@ class test__Mermaid__Edit(TestCase):
             node_id     = node.node_id
             node_key    = node.key
             node_data   = node.node_data
-            assert is_guid(node_id)  is True
-            assert type(node) is Domain__Mermaid__Node
-            assert type(node_key)    is Safe_Id
-            assert type(node_data) is Schema__Mermaid__Node__Data
-            assert node.obj()        == __(node=__(data=__(key         = node_key            ,
-                                                           label       = node_key    ,
-                                                           node_data =__(node_shape      = 'default',
-                                                                          show_label       = True   ,
-                                                                          wrap_with_quotes = True   ,
-                                                                          markdown         = False  ),
-                                                           node_id     = node_id                     ,
-                                                           node_type   = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node.Schema__Mermaid__Node')),
-                                           graph = _.graph.model.obj())
+            assert is_obj_id(node_id)  is True
+            assert type(node)          is Domain__Mermaid__Node
+            assert type(node_key)      is Safe_Id
+            assert type(node_data)     is Schema__Mermaid__Node__Data
+            assert node.obj()          == __(node=__(data=__(key         = node_key            ,
+                                                             label       = node_key    ,
+                                                             node_data =__(node_shape      = 'default',
+                                                                            show_label       = True   ,
+                                                                            wrap_with_quotes = True   ,
+                                                                            markdown         = False  ),
+                                                             node_id     = node_id                     ,
+                                                             node_type   = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node.Schema__Mermaid__Node')),
+                                             graph = _.graph.model.obj())
 
         node_2 = _.new_node(key='an-key', label = 'an-label')
         assert node_2.node.data.obj() == __(key       = 'an-key'               ,

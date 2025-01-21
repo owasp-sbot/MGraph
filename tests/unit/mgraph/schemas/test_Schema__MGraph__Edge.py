@@ -1,14 +1,14 @@
 from unittest                                               import TestCase
-from osbot_utils.helpers.Random_Guid                        import Random_Guid
+from osbot_utils.helpers.Obj_Id                             import Obj_Id
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge__Config  import Schema__MGraph__Edge__Config
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge          import Schema__MGraph__Edge
 
 class test_Schema__MGraph__Edge(TestCase):
 
     def setUp(self):    # Initialize test data
-        self.from_node_id = Random_Guid()
-        self.to_node_id   = Random_Guid()
-        self.edge_config  = Schema__MGraph__Edge__Config( edge_id      = Random_Guid()          )
+        self.from_node_id = Obj_Id()
+        self.to_node_id   = Obj_Id()
+        self.edge_config  = Schema__MGraph__Edge__Config( edge_id      = Obj_Id()          )
         self.edge        = Schema__MGraph__Edge         ( edge_config  = self.edge_config       ,
                                                           edge_type    = Schema__MGraph__Edge   ,
                                                           from_node_id = self.from_node_id      ,

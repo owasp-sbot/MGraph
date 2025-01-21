@@ -4,7 +4,8 @@ from mgraph_ai.mgraph.domain.Domain__MGraph__Graph  import Domain__MGraph__Graph
 from mgraph_ai.mgraph.models.Model__MGraph__Graph   import Model__MGraph__Graph
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph import Schema__MGraph__Graph
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Node  import Schema__MGraph__Node
-from osbot_utils.helpers.Random_Guid                import Random_Guid
+from osbot_utils.helpers.Obj_Id import Obj_Id
+
 
 class Simple_Node(Schema__MGraph__Node): pass  # Helper class for testing
 
@@ -45,6 +46,6 @@ class test_MGraph__Data(TestCase):
         assert edge.json()  == edges[0].json()
 
     def test_nonexistent_retrieval(self):
-        non_existent_id = Random_Guid()                                                                                 # Test retrieving non-existent node and edge
+        non_existent_id = Obj_Id()                                                                                 # Test retrieving non-existent node and edge
         assert self.graph_data.node(non_existent_id) is None
         assert self.graph_data.edge(non_existent_id) is None

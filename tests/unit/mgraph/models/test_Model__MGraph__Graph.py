@@ -1,14 +1,13 @@
 import pytest
 from unittest                                                import TestCase
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Types          import Schema__MGraph__Types
-from osbot_utils.utils.Misc                                  import is_guid
+from osbot_utils.helpers.Obj_Id                              import Obj_Id, is_obj_id
 from mgraph_ai.mgraph.models.Model__MGraph__Edge             import Model__MGraph__Edge
 from mgraph_ai.mgraph.models.Model__MGraph__Node             import Model__MGraph__Node
 from mgraph_ai.mgraph.models.Model__MGraph__Graph            import Model__MGraph__Graph
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph          import Schema__MGraph__Graph
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Node           import Schema__MGraph__Node
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge           import Schema__MGraph__Edge
-from osbot_utils.helpers.Random_Guid                         import Random_Guid
 
 class Simple_Node(Schema__MGraph__Node): pass                                               # Helper class for testing
 
@@ -40,7 +39,7 @@ class test_Model__MGraph__Graph(TestCase):
         assert self.graph.delete_node(node_id)        is False
         assert node_id                            not in self.graph.data.nodes
 
-        assert self.graph.delete_node(Random_Guid()) is False                               # Test removing non-existent node
+        assert self.graph.delete_node(Obj_Id())       is False                               # Test removing non-existent node
 
     def test_edge_operations(self):                                                         # Tests edge creation, addition, and removal
         node_1    = self.graph.new_node()                                            # Create two nodes
@@ -54,7 +53,7 @@ class test_Model__MGraph__Graph(TestCase):
         assert isinstance(edge, Model__MGraph__Edge)     is True
         assert edge.from_node_id()                       == node_1_id
         assert edge.to_node_id  ()                       == node_2_id
-        assert is_guid(edge_id)                          is True
+        assert is_obj_id(edge_id)                        is True
         assert retrieved.json()                          == edge.json()
         assert len(self.graph.node__to_edges(node_1_id)) == 0
         assert len(self.graph.node__to_edges(node_2_id)) == 1
@@ -62,7 +61,7 @@ class test_Model__MGraph__Graph(TestCase):
         assert self.graph.delete_edge(edge_id)           is False
         assert edge_id                               not in self.graph.data.edges
         assert len(self.graph.node__to_edges(node_2_id)) == 0
-        assert self.graph.delete_edge(Random_Guid())     is False                               # Test removing non-existent edge
+        assert self.graph.delete_edge(Obj_Id())          is False                               # Test removing non-existent edge
 
     def test_node_removal_cascades_to_edges(self):                                          # Tests that removing a node removes connected edges
         node_1    = self.graph.new_node()
@@ -89,10 +88,10 @@ class test_Model__MGraph__Graph(TestCase):
 
     def test_edge_validation(self):                                                         # Tests edge validation
         with pytest.raises(ValueError, match="From node .* not found"):                     # Test creating edge with non-existent nodes
-            self.graph.new_edge(from_node_id=Random_Guid(), to_node_id=Random_Guid())
+            self.graph.new_edge(from_node_id=Obj_Id(), to_node_id=Obj_Id())
 
         node_ok_id = self.graph.new_node().node_id
-        node_bad_id = Random_Guid()
+        node_bad_id = Obj_Id()
         with pytest.raises(ValueError, match=f"To node {node_bad_id} not found"):
             self.graph.new_edge(from_node_id=node_ok_id, to_node_id=node_bad_id)
 

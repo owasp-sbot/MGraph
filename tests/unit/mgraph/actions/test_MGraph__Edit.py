@@ -1,5 +1,5 @@
 from unittest                                       import TestCase
-from osbot_utils.utils.Misc                         import is_guid
+from osbot_utils.helpers.Obj_Id                     import is_obj_id
 from mgraph_ai.mgraph.domain.Domain__MGraph__Node   import Domain__MGraph__Node
 from osbot_utils.utils.Objects                      import __
 from mgraph_ai.mgraph.actions.MGraph__Edit          import MGraph__Edit
@@ -24,12 +24,12 @@ class test_MGraph__Edit(TestCase):
         with self.graph_edit as _:
             node    = _.new_node()
             node_id = node.node_id
-            assert type(node) is Domain__MGraph__Node
-            assert is_guid(node_id) is True
-            assert node.obj()       == __(node=__(data=__(node_data   = __()    ,
-                                                          node_id     = node_id ,
-                                                          node_type   = 'mgraph_ai.mgraph.schemas.Schema__MGraph__Node.Schema__MGraph__Node')),
-                                          graph=self.model_graph.obj())
+            assert type(node)         is Domain__MGraph__Node
+            assert is_obj_id(node_id) is True
+            assert node.obj()         == __(node=__(data=__(node_data   = __()    ,
+                                                            node_id     = node_id ,
+                                                            node_type   = 'mgraph_ai.mgraph.schemas.Schema__MGraph__Node.Schema__MGraph__Node')),
+                                            graph=self.model_graph.obj())
             assert node.node.json() == self.model_graph.node(node_id=node_id).json()
 
     def test_new_node(self):

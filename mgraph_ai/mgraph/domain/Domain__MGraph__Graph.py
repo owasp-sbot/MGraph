@@ -2,10 +2,10 @@ from typing                                        import List
 from mgraph_ai.mgraph.domain.Domain__MGraph__Types import Domain__MGraph__Types
 from mgraph_ai.mgraph.models.Model__MGraph__Edge   import Model__MGraph__Edge
 from mgraph_ai.mgraph.models.Model__MGraph__Node   import Model__MGraph__Node
-from osbot_utils.helpers.Random_Guid               import Random_Guid
 from mgraph_ai.mgraph.domain.Domain__MGraph__Edge  import Domain__MGraph__Edge
 from mgraph_ai.mgraph.domain.Domain__MGraph__Node  import Domain__MGraph__Node
 from mgraph_ai.mgraph.models.Model__MGraph__Graph  import Model__MGraph__Graph
+from osbot_utils.helpers.Obj_Id                    import Obj_Id
 from osbot_utils.type_safe.Type_Safe               import Type_Safe
 
 
@@ -14,13 +14,13 @@ class Domain__MGraph__Graph(Type_Safe):
     model        : Model__MGraph__Graph
 
 
-    def delete_edge(self, edge_id: Random_Guid) -> bool:
+    def delete_edge(self, edge_id: Obj_Id) -> bool:
         return self.model.delete_edge(edge_id)
 
-    def delete_node(self, node_id: Random_Guid) -> bool:
+    def delete_node(self, node_id: Obj_Id) -> bool:
         return self.model.delete_node(node_id)
 
-    def edge(self, edge_id: Random_Guid) -> Domain__MGraph__Edge:
+    def edge(self, edge_id: Obj_Id) -> Domain__MGraph__Edge:
         edge = self.model.edge(edge_id)
         if edge:
             return self.mgraph_edge(edge=edge)
@@ -48,7 +48,7 @@ class Domain__MGraph__Graph(Type_Safe):
         node = self.model.new_node(**kwargs)
         return self.mgraph_node(node=node)
 
-    def node(self, node_id: Random_Guid) -> Domain__MGraph__Node:
+    def node(self, node_id: Obj_Id) -> Domain__MGraph__Node:
         node = self.model.node(node_id)
         if node:
             return self.mgraph_node(node=node)

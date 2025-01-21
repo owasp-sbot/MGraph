@@ -1,4 +1,6 @@
+import pytest
 from unittest                                               import TestCase
+from osbot_utils.utils.Http                                 import current_host_offline
 from mgraph_ai.providers.json.MGraph__Json                  import MGraph__Json
 from osbot_utils.helpers.trace.Trace_Call                   import trace_calls
 from mgraph_ai.providers.json.utils.Perf_Test__MGraph_Json  import Perf_Test__MGraph_Json
@@ -21,6 +23,8 @@ class test_Perf_Test__MGraph_Json(TestCase):
             assert _.perf_test_duration.duration__total < 2   # shower in GitHub Actions (locally it's around 0.5)
 
     def test_run_workflow__on_url(self):
+        if current_host_offline():
+            pytest.skip("Current server is offline")
         url = URL__DBPEDIA__ZAP
         #url = "https://dev.myfeeds.ai/openapi.json"
         with self.perf_test as _:

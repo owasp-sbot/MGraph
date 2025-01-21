@@ -1,12 +1,13 @@
 from unittest                                                import TestCase
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Types import Schema__MGraph__Types
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Types          import Schema__MGraph__Types
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph          import Schema__MGraph__Graph
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph__Data    import Schema__MGraph__Graph__Data
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Node           import Schema__MGraph__Node
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Data     import Schema__MGraph__Node__Data
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge           import Schema__MGraph__Edge
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge__Config   import Schema__MGraph__Edge__Config
-from osbot_utils.helpers.Random_Guid                         import Random_Guid
+from osbot_utils.helpers.Obj_Id import Obj_Id
+
 
 class Simple_Node(Schema__MGraph__Node): pass    # Helper class for testing
 
@@ -19,11 +20,11 @@ class test_Schema__MGraph__Graph(TestCase):
         self.node_data     = Schema__MGraph__Node__Data    ()
         self.node          = Schema__MGraph__Node          (node_data      = self.node_data,
                                                             node_type      = Simple_Node)
-        self.edge_config   = Schema__MGraph__Edge__Config  (edge_id        = Random_Guid()       )
+        self.edge_config   = Schema__MGraph__Edge__Config  (edge_id        = Obj_Id()            )
         self.edge          = Schema__MGraph__Edge          (edge_config    = self.edge_config    ,
                                                             edge_type      = Schema__MGraph__Edge,
-                                                            from_node_id   = Random_Guid()       ,
-                                                            to_node_id     = Random_Guid()       )
+                                                            from_node_id   = Obj_Id()            ,
+                                                            to_node_id     = Obj_Id()            )
         self.graph         = Schema__MGraph__Graph         (schema_types   = self.schema_types,
                                                             edges          = {self.edge.edge_config.edge_id: self.edge},
                                                             graph_data     = self.graph_data,
@@ -60,7 +61,7 @@ class test_Schema__MGraph__Graph(TestCase):
     def test_multiple_nodes_and_edges(self):    # Tests graph with multiple nodes and edges
         node_data_2   = Schema__MGraph__Node__Data  (                                    )
         node_2        = Schema__MGraph__Node        (node_data    = node_data_2          )
-        edge_config_2 = Schema__MGraph__Edge__Config(edge_id      = Random_Guid()        )
+        edge_config_2 = Schema__MGraph__Edge__Config(edge_id      = Obj_Id()             )
         edge_2        = Schema__MGraph__Edge        (edge_config  = edge_config_2        ,
                                                      edge_type    = Schema__MGraph__Edge ,
                                                      from_node_id = self.node.node_id    ,

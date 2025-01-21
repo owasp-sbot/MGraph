@@ -1,16 +1,14 @@
-from unittest                                              import TestCase
-
-from mgraph_ai.mgraph.domain.Domain__MGraph__Node import Domain__MGraph__Node
-from osbot_utils.helpers.Safe_Id                           import Safe_Id
-from mgraph_ai.mgraph.domain.Domain__MGraph__Edge                  import Domain__MGraph__Edge
-from mgraph_ai.mgraph.models.Model__MGraph__Edge           import Model__MGraph__Edge
-from mgraph_ai.mgraph.models.Model__MGraph__Graph          import Model__MGraph__Graph
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge         import Schema__MGraph__Edge
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph        import Schema__MGraph__Graph
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node         import Schema__MGraph__Node
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge__Config import Schema__MGraph__Edge__Config
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Data  import Schema__MGraph__Node__Data
-from osbot_utils.helpers.Random_Guid                       import Random_Guid
+from unittest                                               import TestCase
+from mgraph_ai.mgraph.domain.Domain__MGraph__Node           import Domain__MGraph__Node
+from osbot_utils.helpers.Obj_Id                             import Obj_Id
+from mgraph_ai.mgraph.domain.Domain__MGraph__Edge           import Domain__MGraph__Edge
+from mgraph_ai.mgraph.models.Model__MGraph__Edge            import Model__MGraph__Edge
+from mgraph_ai.mgraph.models.Model__MGraph__Graph           import Model__MGraph__Graph
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge          import Schema__MGraph__Edge
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph         import Schema__MGraph__Graph
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Node          import Schema__MGraph__Node
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge__Config  import Schema__MGraph__Edge__Config
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Data    import Schema__MGraph__Node__Data
 
 class test_Domain__MGraph__Edge(TestCase):
 
@@ -29,11 +27,11 @@ class test_Domain__MGraph__Edge(TestCase):
                                                 graph_type   = Schema__MGraph__Graph)
 
         # Create edge configuration and schema
-        self.edge_config = Schema__MGraph__Edge__Config(edge_id        = Random_Guid())
-        self.schema_edge = Schema__MGraph__Edge       (edge_config    = self.edge_config,
-                                                       edge_type      = Schema__MGraph__Edge,
-                                                       from_node_id   = self.from_schema_node.node_id,
-                                                       to_node_id     = self.to_schema_node.node_id)
+        self.edge_config = Schema__MGraph__Edge__Config(edge_id        = Obj_Id())
+        self.schema_edge = Schema__MGraph__Edge        (edge_config    = self.edge_config,
+                                                        edge_type      = Schema__MGraph__Edge,
+                                                        from_node_id   = self.from_schema_node.node_id,
+                                                        to_node_id     = self.to_schema_node.node_id)
 
         # Create model and domain edge
         self.model_edge = Model__MGraph__Edge(data=self.schema_edge)
@@ -43,7 +41,7 @@ class test_Domain__MGraph__Edge(TestCase):
         assert type(self.edge)           is Domain__MGraph__Edge
         assert self.edge.edge            is self.model_edge
         assert self.edge.graph           is self.graph
-        assert type(self.edge.edge_id)   is Random_Guid
+        assert type(self.edge.edge_id)   is Obj_Id
 
     def test_node_operations(self):                                                         # Tests from_node and to_node methods
         from_node = self.edge.from_node()

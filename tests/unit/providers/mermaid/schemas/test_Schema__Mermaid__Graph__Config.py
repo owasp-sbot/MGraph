@@ -1,6 +1,5 @@
 from unittest                                                            import TestCase
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Types import Schema__Mermaid__Types
-from osbot_utils.helpers.Random_Guid                                     import Random_Guid
+from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Types          import Schema__Mermaid__Types
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Graph__Config  import Schema__Mermaid__Graph__Config
 
 class test_Schema__Mermaid__Graph__Config(TestCase):

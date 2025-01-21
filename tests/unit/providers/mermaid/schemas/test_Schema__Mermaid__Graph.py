@@ -1,7 +1,7 @@
 from unittest                                                            import TestCase
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Types import Schema__Mermaid__Types
-from osbot_utils.helpers.Random_Guid                                     import Random_Guid
 from osbot_utils.helpers.Safe_Id                                         import Safe_Id
+from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Types          import Schema__Mermaid__Types
+from osbot_utils.helpers.Obj_Id                                          import Obj_Id
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge           import Schema__Mermaid__Edge
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge__Config   import Schema__Mermaid__Edge__Config
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Graph          import Schema__Mermaid__Graph
@@ -20,10 +20,10 @@ class test_Schema__Mermaid__Graph(TestCase):
                                                             node_type   = Schema__Mermaid__Node                                   ,
                                                             key         = Safe_Id("node_1")                                       ,
                                                             label       = "Test Node"                                             )
-        self.edge          = Schema__Mermaid__Edge         (edge_config  = Schema__Mermaid__Edge__Config(edge_id= Random_Guid()   ),
+        self.edge          = Schema__Mermaid__Edge         (edge_config  = Schema__Mermaid__Edge__Config(edge_id= Obj_Id()   ),
                                                             edge_type    = Schema__Mermaid__Edge                                   ,
-                                                            from_node_id = Random_Guid()                                           ,
-                                                            to_node_id   = Random_Guid()                                           ,
+                                                            from_node_id = Obj_Id()                                           ,
+                                                            to_node_id   = Obj_Id()                                           ,
                                                             label        = "Test Edge"                                             )
         self.graph          = Schema__Mermaid__Graph       (schema_types = self.schema_types,
                                                             edges        = {self.edge.edge_config.edge_id: self.edge},

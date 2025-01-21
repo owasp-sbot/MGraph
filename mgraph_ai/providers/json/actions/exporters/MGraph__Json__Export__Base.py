@@ -4,7 +4,6 @@ from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node__List   import D
 from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node__Value  import Domain__MGraph__Json__Node__Value
 from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Graph        import Domain__MGraph__Json__Graph
 from osbot_utils.utils.Files                                            import file_save
-from osbot_utils.helpers.Random_Guid                                    import Random_Guid
 
 class Export__Json__Node_Type:                                                      # Node types in the graph
     OBJECT   = "object"    # JSON objects
@@ -44,9 +43,6 @@ class MGraph__Export__Json__Base:                                               
                 'array': 0
             }
         }
-
-    def shorten_id(self, guid: Random_Guid) -> str:                              # Extract first segment of GUID for cleaner output
-        return str(guid).split('-')[0]
 
     def generate_node_id(self, prefix: str) -> str:                              # Generate format-friendly node IDs
         counter = self.context['counters'].get(prefix, 0)

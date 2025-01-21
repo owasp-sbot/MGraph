@@ -1,16 +1,8 @@
 import uuid
-from unittest                                                                       import TestCase
-
 import pytest
-
-from osbot_utils.utils.Objects import __
-
-from osbot_utils.utils.Misc import random_guid, is_guid
-
-from osbot_utils.helpers.Random_Guid import Random_Guid
-
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node import Schema__MGraph__Node
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Data import Schema__MGraph__Node__Data
+from unittest                                                                       import TestCase
+from osbot_utils.helpers.Obj_Id                                                     import Obj_Id, is_obj_id
+from osbot_utils.utils.Objects                                                      import __
 from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Edge                     import Domain__MGraph__Json__Edge
 from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Graph                    import Domain__MGraph__Json__Graph
 from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node                     import Domain__MGraph__Json__Node
@@ -30,8 +22,7 @@ from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Property__Data
 from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Value             import Schema__MGraph__Json__Node__Value
 from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Value__Data       import Schema__MGraph__Json__Node__Value__Data
 from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Types                   import Schema__MGraph__Json__Types
-from osbot_utils.type_safe.Type_Safe import Type_Safe
-from osbot_utils.utils.Dev import pprint
+from osbot_utils.type_safe.Type_Safe                                                import Type_Safe
 
 
 from osbot_utils.testing.performance.Performance_Measure__Session import Performance_Measure__Session
@@ -45,11 +36,11 @@ class test_perf__Model__MGraph__Json__Graph(TestCase):
         cls.session     = Performance_Measure__Session(assert_enabled=cls.assert_enabled)
         cls.model_graph = Model__MGraph__Json__Graph()
 
-    def test_Random_Guid(self):
+    def test_Obj_Id(self):
         class An_Class(Type_Safe):
-            an_id: Random_Guid
+            an_id: Obj_Id
 
-        new_guid = Random_Guid()
+        new_guid = Obj_Id()
         def new_object():
             new_obj                   = object.__new__(An_Class)
             new_obj.__dict__['an_id'] = new_guid
@@ -70,18 +61,18 @@ class test_perf__Model__MGraph__Json__Graph(TestCase):
         #     _.measure(new_object ).print(15)
 
         an_class = new_object()
-        assert an_class.json()         == {'an_id': new_guid}
-        assert an_class.obj ()         == __(an_id = new_guid)
-        assert type(an_class         ) is An_Class
-        assert type(an_class.an_id   ) is Random_Guid
-        assert is_guid(an_class.an_id) is True
+        assert an_class.json()            == {'an_id': new_guid}
+        assert an_class.obj ()            == __(an_id = new_guid)
+        assert type     (an_class         ) is An_Class
+        assert type     (an_class.an_id   ) is Obj_Id
+        assert is_obj_id(an_class.an_id) is True
 
 
     def test__Schema__MGraph__Json__Node(self):
         with self.session as _:
             print()
             print()
-            _.measure(Schema__MGraph__Json__Node).assert_time(40_000)
+            _.measure(Schema__MGraph__Json__Node).print().assert_time__less_than(30_000)
 
     @pytest.mark.skip("heavy test")
     def test_measure_main_types_of_objects(self):
@@ -140,11 +131,11 @@ class test_perf__Model__MGraph__Json__Graph(TestCase):
 
 
 
-# import random
-#
-#
-#
-# _hex_table = [f"{i:02x}" for i in range(256)]
+import random
+
+
+
+#_hex_table = [f"{i:02x}" for i in range(256)]
 #
 #
 #

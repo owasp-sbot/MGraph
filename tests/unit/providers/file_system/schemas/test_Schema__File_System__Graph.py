@@ -1,6 +1,6 @@
 from unittest                                                                   import TestCase
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge                              import Schema__MGraph__Edge
-from osbot_utils.helpers.Random_Guid                                            import Random_Guid
+from osbot_utils.helpers.Obj_Id                                                 import Obj_Id
 from osbot_utils.helpers.Timestamp_Now                                          import Timestamp_Now
 from mgraph_ai.providers.file_system.schemas.Schema__File_System__Graph         import Schema__File_System__Graph
 from mgraph_ai.providers.file_system.schemas.Schema__Folder__Node               import Schema__Folder__Node
@@ -39,7 +39,7 @@ class test_Schema__File_System__Graph(TestCase):
                                            node_type   = Schema__Folder__Node)
 
         # Add folder to graph
-        self.fs_graph.nodes[Random_Guid()] = folder_node
+        self.fs_graph.nodes[Obj_Id()] = folder_node
         assert len(self.fs_graph.nodes) == 1
         assert isinstance(list(self.fs_graph.nodes.values())[0], Schema__Folder__Node)
 
@@ -49,7 +49,7 @@ class test_Schema__File_System__Graph(TestCase):
                                            created_at  = Timestamp_Now()     ,
                                            modified_at = Timestamp_Now()     ,
                                            node_type   = Schema__Folder__Node)
-        root_id = Random_Guid()
+        root_id = Obj_Id()
         self.fs_graph.nodes[root_id] = root_folder
 
         # Create child folder
@@ -57,9 +57,9 @@ class test_Schema__File_System__Graph(TestCase):
                                             created_at  = Timestamp_Now()       ,
                                             modified_at = Timestamp_Now()       ,
                                             node_type   = Schema__Folder__Node  )
-        child_id = Random_Guid()
+        child_id = Obj_Id()
         self.fs_graph.nodes[child_id] = child_folder
-        edge_id                       = Random_Guid()                                           # Add edge between folders
+        edge_id                       = Obj_Id()                                           # Add edge between folders
 
         self.fs_graph.edges[edge_id] = Schema__MGraph__Edge.from_json( {"from_node_id": root_id,
                                                                         "to_node_id"  : child_id })

@@ -2,7 +2,6 @@ from unittest                                              import TestCase
 from mgraph_ai.mgraph.models.Model__MGraph__Node           import Model__MGraph__Node
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Node         import Schema__MGraph__Node
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Data   import Schema__MGraph__Node__Data
-from osbot_utils.helpers.Random_Guid                       import Random_Guid
 
 class test_Model__MGraph__Node(TestCase):
 

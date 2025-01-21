@@ -1,12 +1,12 @@
 from unittest                                                          import TestCase
 
 import pytest
-
 from osbot_utils.helpers.Timestamp_Now                                 import Timestamp_Now
 from osbot_utils.utils.Objects                                         import __, full_type_name
 from mgraph_ai.providers.file_system.models.Model__File_System__Item   import Model__File_System__Item
 from mgraph_ai.providers.file_system.schemas.Schema__File_System__Item import Schema__File_System__Item
-from osbot_utils.utils.Misc                                            import random_string, is_guid, timestamp_utc_now
+from osbot_utils.utils.Misc                                            import random_string, timestamp_utc_now
+
 
 class test_Model__File_System__Item(TestCase):
 
@@ -30,7 +30,7 @@ class test_Model__File_System__Item(TestCase):
         assert self.model.folder_name           == self.folder_name
         assert self.model.created_at            is not None
         assert self.model.modified_at           is not None
-        assert is_guid(node_id)                 is True
+        assert is_obj_id(node_id)               is True
         assert type(created_at)                 is Timestamp_Now
         assert type(modified_at)                is Timestamp_Now
         assert isinstance(created_at, int)      is True

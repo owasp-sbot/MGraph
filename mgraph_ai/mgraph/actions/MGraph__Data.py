@@ -2,16 +2,16 @@ from typing                                         import List
 from mgraph_ai.mgraph.domain.Domain__MGraph__Edge   import Domain__MGraph__Edge
 from mgraph_ai.mgraph.domain.Domain__MGraph__Graph  import Domain__MGraph__Graph
 from mgraph_ai.mgraph.domain.Domain__MGraph__Node   import Domain__MGraph__Node
-from osbot_utils.helpers                            import Random_Guid
+from osbot_utils.helpers.Obj_Id import Obj_Id
 from osbot_utils.type_safe.Type_Safe                import Type_Safe
 
 class MGraph__Data(Type_Safe):
     graph: Domain__MGraph__Graph
 
-    def node(self, node_id: Random_Guid) -> Domain__MGraph__Node:                                                               # Get a node by its ID
+    def node(self, node_id: Obj_Id) -> Domain__MGraph__Node:                                                               # Get a node by its ID
         return self.graph.node(node_id)
 
-    def edge(self, edge_id: Random_Guid) -> Domain__MGraph__Edge:                                                               # Get an edge by its ID
+    def edge(self, edge_id: Obj_Id) -> Domain__MGraph__Edge:                                                               # Get an edge by its ID
         return self.graph.edge(edge_id)
 
     def edges(self) -> List[Domain__MGraph__Edge]:                                                                              # Get all edges in the graph

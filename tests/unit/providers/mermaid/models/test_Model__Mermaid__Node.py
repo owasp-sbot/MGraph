@@ -1,8 +1,8 @@
 from unittest                                                        import TestCase
-from osbot_utils.utils.Misc                                          import is_guid
 from mgraph_ai.mgraph.models.Model__MGraph__Node                     import Model__MGraph__Node
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Node                   import Schema__MGraph__Node
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Data             import Schema__MGraph__Node__Data
+from osbot_utils.helpers.Obj_Id                                      import is_obj_id
 from osbot_utils.helpers.Safe_Id                                     import Safe_Id
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node       import Schema__Mermaid__Node
 from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Data import Schema__Mermaid__Node__Data
@@ -55,7 +55,7 @@ class test_Model__Mermaid__Node(TestCase):
 
     def test_inheritance_from_model_mgraph_node(self):                                  # Tests inheritance behavior
         assert isinstance(self.model, Model__MGraph__Node)                              # Verify that Model__Mermaid__Node inherits Model__MGraph__Node functionality
-        assert is_guid(self.model.node_id)
+        assert is_obj_id(self.model.node_id)
 
     def test_mermaid_specific_implementations(self):                                    # Tests Mermaid-specific class implementations
         assert issubclass(Schema__Mermaid__Node, Schema__MGraph__Node)                  # Verify schema inheritance
