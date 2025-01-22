@@ -27,10 +27,13 @@ class test_Perf_Test__MGraph_Json(TestCase):
     def test_run_workflow__on_url(self):
         if current_host_offline():
             pytest.skip("Current server is offline")
-        url = URL__DBPEDIA__ZAP                             #  0.4 sec  (from  1 sec)
-        #url = "https://dbpedia.org/data/OWASP.json"        # 21.3 sec
-        #url = "https://dev.myfeeds.ai/openapi.json"        #  10.2 sec  (from 70 secs)
-        #url = URL__DBPEDIA__OWASP_ZAP                      #  6.8 sec  (from 49 secs)
+        url = URL__DBPEDIA__ZAP                                     #  0.291 sec  (from  1 sec )
+        #url = "https://dbpedia.org/data/OWASP.json"                #     1.83    (1491 nodes  )
+        #url = "https://dev.myfeeds.ai/openapi.json"                 #  0.8 sec    (from 70 secs)
+        #url = "https://dbpedia.org/data/AI.json"                   # 14.0 sec    (4524 nodes  )
+        #url = URL__DBPEDIA__OWASP_ZAP                              #  0.6 sec    (from 49 secs)
+        #url = "https://dbpedia.org/data/Application_security.json"  #  1.3 sec    (1124 nodes  )
+        #url = "https://dbpedia.org/data/General_Data_Protection_Regulation.json" # 16 sec (5037 Nodes)
 
         with self.perf_test as _:
             _.run_workflow__on_url(url)
