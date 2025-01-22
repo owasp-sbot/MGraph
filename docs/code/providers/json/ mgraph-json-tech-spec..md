@@ -1,306 +1,324 @@
-# MGraph JSON Provider Technical Specification
+# MGraph__Json Technical Specification
+
+## Introduction
+
+MGraph__Json is a powerful component of the MGraph system that enables graph-based manipulation of JSON data structures. It transforms JSON documents into graph representations while preserving their semantic relationships, allowing developers to perform complex operations that would be difficult or impossible with traditional JSON parsing methods.
+
+This technical specification serves as both a reference guide and a template for implementing providers in the MGraph ecosystem. It documents the internal architecture, design patterns, and implementation details derived from the current source code, providing a foundation for understanding and extending the system.
+
+### Quick Start Example
+
+Here's a practical example showing MGraph__Json in action:
+
+```python
+# Create MGraph__Json instance and load JSON from a URL
+mgraph_json = MGraph__Json()
+json_data   = GET_json("https://api.example.com/data-feed")
+mgraph_json.load().from_json(json_data)
+
+# Perform graph operations
+with mgraph_json.edit() as edit:
+    root = edit.root()
+    # Manipulate the data structure
+    
+# Export modified JSON
+result = mgraph_json.export().to_dict()
+```
+
+Performance metrics from real-world usage (based on a feed with 1,400 nodes):
+- JSON Fetch: ~0.5 seconds
+- Graph Construction: ~2.0 seconds
+- Total Processing: ~2.5 seconds
+
+This demonstrates MGraph__Json's ability to handle substantial JSON documents while maintaining reasonable performance characteristics.
+
+## Purpose and Use Cases
+
+MGraph__Json converts a JSON file into a graph object based on nodes and edges.
+
+By doing this MGraph__Json addresses several key challenges in JSON data handling:
+
+1. **Complex Structure Manipulation**
+   - Modify deeply nested JSON structures
+   - Preserve relationships during transformations
+   - Handle circular references
+
+2. **Type Safety and Validation**
+   - Ensure type consistency
+   - Validate structural changes
+   - Maintain JSON semantics
+
+3. **Performance and Scale**
+   - Handle large JSON documents
+   - Support streaming operations
+   - Enable partial document updates
+
+4. **Data Integration**
+   - Convert between JSON and graph representations
+   - Preserve metadata and relationships
+   - Support bidirectional transformation
+   - Enable format-specific optimizations
 
 ## Overview
 
-The JSON Provider enables MGraph to ingest, manipulate, and export JSON data structures using MGraph's core graph capabilities. This document outlines the technical approach, architecture, and implementation details.
+MGraph__Json serves as the primary interface for JSON document handling within the MGraph system. It implements a sophisticated graph-based representation of JSON data structures, enabling complex manipulations while preserving JSON semantics and relationships. The implementation follows MGraph's three-layer architecture pattern: Schema, Model, and Domain layers.
 
-## Core Concept: A Graph-Native Approach
+## Core Architecture
 
-The JSON Provider implements a pure graph-native approach to JSON representation, where every JSON element becomes a node in its own right. This aligns perfectly with graph thinking and MGraph's core principles.
+### Class Hierarchy
 
-Key Principles:
-- Every JSON element (value, object, array) is a node
-- Structure is maintained purely through edges
-- Property names are represented as dedicated nodes
-- Natural graph traversal and transformation
-- Maximum simplicity and flexibility
-
-## Architecture
-
-### Three-Layer Architecture
-
-Following MGraph's architectural principles, the implementation is divided into three clean layers:
-
-```mermaid
-classDiagram
-    %% Schema Layer
-    class Schema__MGraph__Json__Node {
-        +node_data: Schema__MGraph__Node__Data
-    }
-    
-    class Schema__MGraph__Json__Node__Value {
-        +node_data: Schema__MGraph__Json__Node__Value__Data
-    }
-
-    class Schema__MGraph__Json__Node__Value__Data {
-        +value: Any
-        +value_type: type
-    }
-    
-    class Schema__MGraph__Json__Node__Property {
-        +node_data: Schema__MGraph__Json__Node__Property__Data
-    }
-
-    class Schema__MGraph__Json__Node__Property__Data {
-        +name: str
-    }
-    
-    class Schema__MGraph__Json__Node__Dict
-    class Schema__MGraph__Json__Node__List
-    
-    %% Model Layer
-    class Model__MGraph__Json__Node {
-        +data: Schema__MGraph__Json__Node
-        +node_id
-        +node_type
-    }
-    
-    class Model__MGraph__Json__Node__Value {
-        +data: Schema__MGraph__Json__Node__Value
-        +value
-        +value_type
-        +is_primitive()
-    }
-
-    class Model__MGraph__Json__Node__Property {
-        +data: Schema__MGraph__Json__Node__Property
-        +name
-    }
-
-    %% Inheritance
-    Schema__MGraph__Json__Node__Value --|> Schema__MGraph__Json__Node
-    Schema__MGraph__Json__Node__Dict --|> Schema__MGraph__Json__Node
-    Schema__MGraph__Json__Node__List --|> Schema__MGraph__Json__Node
-    Schema__MGraph__Json__Node__Property --|> Schema__MGraph__Json__Node
-
-    Model__MGraph__Json__Node__Value --|> Model__MGraph__Json__Node
-    Model__MGraph__Json__Node__Dict --|> Model__MGraph__Json__Node
-    Model__MGraph__Json__Node__List --|> Model__MGraph__Json__Node
-    Model__MGraph__Json__Node__Property --|> Model__MGraph__Json__Node
+```
+MGraph__Json
+├── graph: Domain__MGraph__Json__Graph
+├── data   () -> MGraph__Data
+├── edit   () -> MGraph__Edit
+├── export () -> MGraph__Json__Export
+├── load   () -> MGraph__Json__Load
+└── storage() -> MGraph__Storage
 ```
 
-Each layer has clear responsibilities:
-- **Schema Layer**: Pure data structures and type definitions through inheritance
-- **Model Layer**: Operations on single entities, type validation, and value access
-- **Domain Layer**: High-level JSON operations and business logic (graph traversal, queries)
+The main class provides access to five primary operation categories through its methods, each returning specialized operation handlers.
 
-### Node Types
+### Layer Implementation
 
-The system uses inheritance to define different types of nodes, each serving a specific purpose in representing JSON structures:
+#### Schema Layer
+
+The Schema layer defines the core data structures and type definitions:
+
+1. **Node Types**:
+   - `Schema__MGraph__Json__Node`          : Base node class
+   - `Schema__MGraph__Json__Node__Dict`    : JSON object nodes
+   - `Schema__MGraph__Json__Node__List`    : JSON array nodes
+   - `Schema__MGraph__Json__Node__Value`   : Primitive value nodes
+   - `Schema__MGraph__Json__Node__Property`: Property name nodes
+
+2. **Edge Type**:
+   - `Schema__MGraph__Json__Edge`: Represents relationships between nodes
+
+3. **Graph Type**:
+   - `Schema__MGraph__Json__Graph`: Maintains the overall graph structure
+
+#### Model Layer
+
+The Model layer handles direct data manipulations and enforces type safety:
+
+1. **Node Models**:
+   - `Model__MGraph__Json__Node`: Base node operations
+   - `Model__MGraph__Json__Node__Dict`: Dictionary operations
+   - `Model__MGraph__Json__Node__List`: Array operations
+   - `Model__MGraph__Json__Node__Value`: Value operations
+   - `Model__MGraph__Json__Node__Property`: Property operations
+
+2. **Graph Model**:
+   - `Model__MGraph__Json__Graph`: Graph-wide operations and node type resolution
+
+#### Domain Layer
+
+The Domain layer implements high-level business logic and orchestrates operations:
+
+1. **Node Domain Classes**:
+   - `Domain__MGraph__Json__Node`: Base node functionality
+   - `Domain__MGraph__Json__Node__Dict`: Dictionary manipulation
+   - `Domain__MGraph__Json__Node__List`: Array manipulation
+   - `Domain__MGraph__Json__Node__Value`: Value handling
+   - `Domain__MGraph__Json__Node__Property`: Property management
+
+2. **Graph Domain**:
+   - `Domain__MGraph__Json__Graph`: High-level graph operations
+
+## JSON Structure Representation
+
+### Node Types and Their Roles
+
+1. **Dict Nodes** (`Schema__MGraph__Json__Node__Dict`):
+   - Represents JSON objects
+   - Contains property-value pairs
+   - Maintains property ordering
+
+2. **List Nodes** (`Schema__MGraph__Json__Node__List`):
+   - Represents JSON arrays
+   - Maintains ordered sequence of values
+   - Supports mixed type elements
+
+3. **Value Nodes** (`Schema__MGraph__Json__Node__Value`):
+   - Stores primitive JSON values
+   - Handles: strings, numbers, booleans, null
+   - Maintains type information
+
+4. **Property Nodes** (`Schema__MGraph__Json__Node__Property`):
+   - Represents object property names
+   - Links to corresponding values
+   - Stores property metadata
+
+### Edge Relationships
+
+The system uses edges to represent relationships between nodes:
+
+1. **Object Properties**:
+   ```
+   Dict Node → Property Node → Value/Dict/List Node
+   ```
+
+2. **Array Elements**:
+   ```
+   List Node → Value/Dict/List Node
+   ```
+
+### JSON to Graph Mapping
+
+The system transforms JSON structures into graph representations while preserving both structure and semantics. Here are key mapping patterns:
+
+1. **Simple Object**
+```json
+{
+    "name": "John",
+    "age": 30
+}
+```
+Graph Structure:
+```
+Dict Node ──→ Property("name") ──→ Value("John")
+          └──→ Property("age")  ──→ Value(30)
+```
+
+2. **Nested Object**
+```json
+{
+    "user": {
+        "address": {
+            "city": "London"
+        }
+    }
+}
+```
+Graph Structure:
+```
+Dict Node ──→ Property("user") ──→ Dict Node ──→ Property("address") ──→ Dict Node ──→ Property("city") ──→ Value("London")
+```
+
+3. **Array with Mixed Types**
+```json
+{
+    "items": [
+        {"id": 1},
+        42,
+        "text",
+        [1, 2]
+    ]
+}
+```
+Graph Structure:
+```
+Dict Node ──→ Property("items") ──→ List Node ──→ Dict Node ──→ Property("id") ──→ Value(1)
+                                            ├──→ Value(42)
+                                            ├──→ Value("text")
+                                            └──→ List Node ──→ Value(1)
+                                                          └──→ Value(2)
+```
+
+### Type System
+
+The JSON provider implements comprehensive type handling through the `Schema__MGraph__Json__Types` class:
+
+#### Type Mapping Table
+
+| JSON Type | Python Type | Graph Node Type | Description |
+|-----------|-------------|-----------------|-------------|
+| object | dict | Dict Node | Container for key-value pairs |
+| array | list | List Node | Ordered collection of values |
+| string | str | Value Node | Text values |
+| number | int/float | Value Node | Numeric values |
+| boolean | bool | Value Node | True/false values |
+| null | None | Value Node | Null/empty values |
 
 ```python
-class Schema__MGraph__Json__Node(Schema__MGraph__Node):
-    """Base schema for all JSON nodes"""
-    pass
-
-class Schema__MGraph__Json__Node__Value__Data:
-    """Value node data"""
-    value: Any                # The actual JSON value
-    value_type: type         # Python type of the value
-
-class Schema__MGraph__Json__Node__Value(Schema__MGraph__Json__Node):
-    """For JSON primitive values (str, int, bool, null)"""
-    node_data: Schema__MGraph__Json__Node__Value__Data
-
-class Schema__MGraph__Json__Node__Dict(Schema__MGraph__Json__Node):
-    """For JSON objects {}"""
-    pass
-
-class Schema__MGraph__Json__Node__List(Schema__MGraph__Json__Node):
-    """For JSON arrays []"""
-    pass
-
-class Schema__MGraph__Json__Node__Property__Data:
-    """Property node data"""
-    name: str                # Property name
-
-class Schema__MGraph__Json__Node__Property(Schema__MGraph__Json__Node):
-    """For object property names"""
-    node_data: Schema__MGraph__Json__Node__Property__Data
+class Schema__MGraph__Json__Types:
+    edge_type: Type[Schema__MGraph__Json__Edge]
+    edge_config_type: Type[Schema__MGraph__Edge__Config]
+    graph_data_type: Type[Schema__MGraph__Graph__Data]
+    node_type: Type[Schema__MGraph__Json__Node]
+    node_data_type: Type[Schema__MGraph__Node__Data]
 ```
 
-This inheritance-based structure provides type safety and clear separation of concerns while maintaining the simplicity of the graph representation.
+## Key Operations
 
-## JSON to Graph Mapping
+### Dictionary Operations
 
-In our graph-native approach, every JSON element becomes a node, creating a pure graph structure. 
-
-### Examples
-
-1. **Simple Object**:
-   ```json
-   {
-     "name": "John"
-   }
-   ```
-   Becomes:
-   ```
-   [Dict node] --> [Property node: name="name"] --> [Value node: value="John", value_type=str]
-   ```
-
-2. **Array**:
-   ```json
-   ["a", "b"]
-   ```
-   Becomes:
-   ```
-   [List node] --> [Value node: value="a", value_type=str]
-                   [Value node: value="b", value_type=str]
-   ```
-   Edge order preserves array ordering through edge metadata.
-
-3. **Nested Structures**:
-   ```json
-   {
-     "user": {
-       "details": {
-         "age": 30
-       }
-     }
-   }
-   ```
-   Becomes:
-   ```
-   [Dict] --> [Property: "user"] --> [Dict] --> [Property: "details"] --> [Dict] --> [Property: "age"] --> [Value: 30]
-   ```
-
-### Node and Edge Patterns
-
-The system uses a minimal set of node types with clear responsibilities:
-
-**Node Types:**
-| Type     | Purpose | Contains |
-|----------|---------|----------|
-| VALUE    | Represents any JSON value | value + value_type |
-| DICT     | Represents JSON objects | Nothing (pure structure) |
-| LIST     | Represents JSON arrays | Nothing (pure structure) |
-| PROPERTY | Represents object keys | Property name |
-
-**Edge Usage:**
-- Edges maintain structure and ordering
-- Object property edges connect:
-  1. DICT → PROPERTY → VALUE
-  2. DICT → PROPERTY → DICT
-  3. DICT → PROPERTY → LIST
-- Array edges connect:
-  1. LIST → VALUE
-  2. LIST → DICT
-  3. LIST → LIST
-- Array ordering preserved through edge metadata
-- No special edge types needed - structure implied by node types
-
-## Model Layer Features
-
-The Model layer provides type-safe operations on individual nodes:
+The `Domain__MGraph__Json__Node__Dict` class provides dictionary manipulation:
 
 ```python
-class Model__MGraph__Json__Node__Value:
-    """Model for JSON value nodes"""
-    
-    @property
-    def value(self) -> Any:
-        """Get the actual value"""
-        return self.data.node_data.value
-        
-    @value.setter
-    def value(self, new_value: Any):
-        """Set value and automatically update type"""
-        self.data.node_data.value = new_value
-        self.data.node_data.value_type = type(new_value)
-        
-    def is_primitive(self) -> bool:
-        """Check if value is JSON primitive"""
-        return self.value_type in (str, int, float, bool, type(None))
-
-class Model__MGraph__Json__Node__Property:
-    """Model for JSON property nodes"""
-    
-    @property
-    def name(self) -> str:
-        """Get property name"""
-        return self.data.node_data.name
-        
-    @name.setter
-    def name(self, new_name: str):
-        """Set property name"""
-        self.data.node_data.name = new_name
+def properties(self) -> Dict[str, Any]            # Get all properties
+def property(self, name: str) -> Optional[Any]    # Get single property
+def add_property(self, name: str, value: Any)     # Add/update property
+def update(self, properties: Dict[str, Any])      # Bulk update
+def delete_property(self, name: str) -> bool      # Remove property
 ```
 
-### Special Cases
+### List Operations
 
-| Case | Handling Strategy |
-|------|------------------|
-| Circular References | Handled at Domain layer through cycle detection |
-| Large Arrays | Lazy loading implemented at Domain layer |
-| Deep Nesting | Depth tracking and limits at Domain layer |
-| Schema Validation | Optional JSON Schema validation at Domain layer |
-| Array Ordering | Edge metadata maintains sequence |
-| Number Types | Preserved through value_type |
+The `Domain__MGraph__Json__Node__List` class handles array operations:
 
-## Implementation Phases
+```python
+def items (self                  ) -> List[Any]     # Get all items
+def add   (self, value: Any      )                   # Add single item
+def extend(self, items: List[Any])                  # Add multiple items
+def remove(self, value: Any      ) -> bool          # Remove item
+def clear (self                  )                  # Remove all items
+```
 
-1. **Phase 1: Core Implementation** [Complete]
-   - Schema layer inheritance structure
-   - Model layer value handling
-   - Basic node types and relations
-   - Primitive value support
+### Value Operations
 
-2. **Phase 2: Domain Layer**
-   - JSON structure traversal
-   - Circular reference handling
-   - Array order management
-   - Performance optimizations
+The `Domain__MGraph__Json__Node__Value` class manages primitive values:
 
-3. **Phase 3: Advanced Features**
-   - JSON Path queries
-   - Format conversion
-   - Schema validation
-   - Large dataset support
+```python
+class Domain__MGraph__Json__Node__Value:
+    value: Any                                      # The stored value
+    value_type: type                                # Value's type
+    def is_primitive(self) -> bool                  # Check if JSON primitive
+```
 
-## Testing Strategy
+## Graph Management
 
-1. **Unit Tests**
-   - Schema inheritance validation
-   - Model layer operations
-   - Value type handling
-   - Property name management
+### Root Node System
 
-2. **Integration Tests**
-   - Node type interactions
-   - Value updates and type changes
-   - Property name modifications
-   - Inheritance chain verification
+The graph maintains a root node that serves as the entry point:
 
-3. **Domain Tests** (Future)
-   - Structure traversal
-   - Circular references
-   - Array ordering
-   - Deep nesting
+```python
+def root            (self           ) -> Domain__MGraph__Json__Node                 # Get/create root
+def root_content    (self           ) -> Optional[Domain__MGraph__Json__Node]       # Get content
+def set_root_content(self, data: Any) -> Domain__MGraph__Json__Node
+```
 
-## Success Criteria
+### Node Creation
 
-1. **Type Safety**
-   - Clear inheritance hierarchy
-   - Strong type checking
-   - Proper value type handling
-   - Consistent node type system
+The system provides specialized methods for creating different node types:
 
-2. **Simplicity**
-   - Minimal node types
-   - Clear responsibilities
-   - Intuitive model operations
-   - Simple property access
+```python
+def new_dict_node (self, properties = None) -> Domain__MGraph__Json__Node__Dict
+def new_list_node (self, items      = None) -> Domain__MGraph__Json__Node__List
+def new_value_node(self, value      : Any ) -> Domain__MGraph__Json__Node__Value
+```
 
-3. **Extensibility**
-   - Easy to add node types
-   - Flexible value handling
-   - Clear extension points
-   - Domain layer preparation
+## Implementation Patterns
 
-## Next Steps
+### Type Safety
 
-1. Complete Domain layer implementation
-2. Add array ordering metadata
-3. Implement traversal helpers
-4. Add format conversion
-5. Implement query capabilities
+1. The implementation uses Python's type hints extensively
+2. Each layer maintains its own type definitions
+3. Type validation occurs at the Schema layer
+4. Model layer enforces type safety during operations
+
+
+### Edge Management
+
+Edges maintain relationships with specific attributes:
+
+```python
+class Schema__MGraph__Json__Edge:
+    edge_config: Schema__MGraph__Json__Edge__Config
+    from_node_id: Random_Guid
+    to_node_id: Random_Guid
+```
+## Conclusion
+
+The MGraph__Json implementation provides a robust foundation for representing and manipulating JSON data in a graph structure. Its clear separation of concerns, type safety, and comprehensive operation set make it a reliable pattern for implementing other data format providers in the MGraph system.

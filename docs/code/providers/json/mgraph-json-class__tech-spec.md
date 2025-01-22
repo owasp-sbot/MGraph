@@ -190,26 +190,3 @@ Type mapping between JSON and graph representations forms the foundation of accu
 | boolean   | bool        | Value Node      | True/false values            |
 | null      | None        | Value Node      | Null/empty values            |
 
-### Error Handling
-
-The error handling system provides specific, actionable information about failures while maintaining consistency with MGraph's overall error handling patterns.
-
-```python
-class MGraph__Json__ImportError(Exception):                                      # Base import error
-    pass
-
-class JsonSyntaxError(MGraph__Json__ImportError):                               # Invalid JSON syntax
-    pass
-
-class JsonValidationError(MGraph__Json__ImportError):                           # Invalid structure/content
-    pass
-
-class MGraph__Json__ExportError(Exception):                                     # Base export error
-    pass
-
-class CircularReferenceError(MGraph__Json__ExportError):                        # Circular reference found
-    pass
-
-class InvalidGraphError(MGraph__Json__ExportError):                             # Invalid graph structure
-    pass
-```

@@ -34,4 +34,4 @@ class test_Schema__MGraph__Json__Graph__Bug(TestCase):
         assert graph_round_trip.nodes[value_node.node_id].obj()            == __(node_data=__(value='test_value', value_type='builtins.str'),   # BUG should not be empty
                                                                                  node_id=node_id,
                                                                                  node_type=full_type_name(Schema__MGraph__Json__Node__Value)) # node_type is correct Schema__MGraph__Json__Node__Value
-        pprint(graph_round_trip.json())
+        #pprint(graph_round_trip.json())
