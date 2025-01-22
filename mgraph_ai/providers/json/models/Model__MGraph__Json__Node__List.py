@@ -4,3 +4,8 @@ from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__List  import S
 
 class Model__MGraph__Json__Node__List(Model__MGraph__Json__Node):                          # Model class for JSON array nodes
     data: Schema__MGraph__Json__Node__List
+
+    def __init__(self, **kwargs):
+        data      = kwargs.get('data') or self.__annotations__['data']()
+        node_dict = dict(data=data)
+        object.__setattr__(self, '__dict__', node_dict)

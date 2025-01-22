@@ -44,6 +44,7 @@ class test_MGraph__Json__Obj_Factory__Models(TestCase):
             _.measure(self.models_factory.create__Model__MGraph__Json__Graph          ).print().assert_time__less_than(5000)
             print()
             _.measure(Model__MGraph__Json__Types          ).print()
+            _.measure(Model__MGraph__Json__Node           ).print()
             _.measure(Model__MGraph__Json__Node__Value    ).print()
             _.measure(Model__MGraph__Json__Node__Property ).print()
             _.measure(Model__MGraph__Json__Node__Dict     ).print()

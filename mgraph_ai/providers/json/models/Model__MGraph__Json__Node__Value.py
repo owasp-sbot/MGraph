@@ -4,9 +4,13 @@ from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Value import S
 from osbot_utils.type_safe.methods.type_safe_property                   import set_as_property
 
 class Model__MGraph__Json__Node__Value(Model__MGraph__Json__Node):                         # Model class for JSON value nodes
-    data: Schema__MGraph__Json__Node__Value
-
+    data       : Schema__MGraph__Json__Node__Value
     value_type = set_as_property('data.node_data', 'value_type')
+
+    def __init__(self, **kwargs):
+        data      = kwargs.get('data') or self.__annotations__['data']()
+        node_dict = dict(data=data)
+        object.__setattr__(self, '__dict__', node_dict)
 
     def is_primitive(self) -> bool:                                                         # Check if the value is a primitive type
         return self.value_type in (str, int, float, bool, type(None))

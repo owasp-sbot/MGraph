@@ -16,6 +16,12 @@ class Model__MGraph__Json__Graph(Model__MGraph__Graph):
     data       : Schema__MGraph__Json__Graph
     model_types: Model__MGraph__Json__Types
 
+    def __init__(self, **kwargs):
+        data        = kwargs.get('data'       ) or self.__annotations__['data']()
+        model_types = kwargs.get('model_types') or self.__annotations__['model_types']()
+        node_dict   = dict(data=data, model_types=model_types)
+        object.__setattr__(self, '__dict__', node_dict)
+
     def node(self, node_id):
         node  = self.data.nodes.get(node_id)
         if node:

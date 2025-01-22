@@ -5,4 +5,6 @@ class Model__MGraph__Json__Node(Model__MGraph__Node):                           
     data: Schema__MGraph__Json__Node
 
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+        data      = kwargs.get('data') or self.__annotations__['data']()
+        node_dict = dict(data=data)
+        object.__setattr__(self, '__dict__', node_dict)

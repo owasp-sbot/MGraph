@@ -7,3 +7,8 @@ class Model__MGraph__Json__Node__Property(Model__MGraph__Json__Node):           
     data: Schema__MGraph__Json__Node__Property
 
     name = set_as_property('data.node_data', 'name')
+
+    def __init__(self, **kwargs):
+        data      = kwargs.get('data') or self.__annotations__['data']()
+        node_dict = dict(data=data)
+        object.__setattr__(self, '__dict__', node_dict)
