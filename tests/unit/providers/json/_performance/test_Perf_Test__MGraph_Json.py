@@ -1,10 +1,6 @@
 import pytest
 from unittest                                               import TestCase
-
-from osbot_utils.context_managers.print_duration import print_duration
-
-from osbot_utils.utils.Dev import pprint
-
+from osbot_utils.context_managers.print_duration            import print_duration
 from osbot_utils.utils.Http                                 import current_host_offline
 from mgraph_ai.providers.json.MGraph__Json                  import MGraph__Json
 from osbot_utils.helpers.trace.Trace_Call                   import trace_calls
@@ -12,6 +8,7 @@ from mgraph_ai.providers.json.utils.Perf_Test__MGraph_Json  import Perf_Test__MG
 
 
 URL__DBPEDIA__ZAP          = "https://dbpedia.org/data/ZAP.json"
+URL__DBPEDIA__OWASP        = "https://dbpedia.org/data/OWASP.json"
 URL__DBPEDIA__OWASP_ZAP    = "https://dbpedia.org/data/OWASP_ZAP.json"
 URL__MY_FEEDS__HACKER_NEWS = "https://dev.myfeeds.ai/hacker-news/data-feed-current"
 URL__MY_FEEDS__OPENAPI     = "https://dev.myfeeds.ai/openapi.json"
@@ -30,19 +27,22 @@ class test_Perf_Test__MGraph_Json(TestCase):
     def test_run_workflow__on_url(self):
         if current_host_offline():
             pytest.skip("Current server is offline")
-        url = URL__DBPEDIA__ZAP
-        #url = "https://dev.myfeeds.ai/openapi.json"
+        url = URL__DBPEDIA__ZAP                             #  0.4 sec  (from  1 sec)
+        #url = "https://dbpedia.org/data/OWASP.json"        # 21.3 sec
+        #url = "https://dev.myfeeds.ai/openapi.json"        #  10.2 sec  (from 70 secs)
+        #url = URL__DBPEDIA__OWASP_ZAP                      #  6.8 sec  (from 49 secs)
+
         with self.perf_test as _:
             _.run_workflow__on_url(url)
             _.print()
             assert _.perf_test_duration.duration__total < 6 # shower in GitHub Actions (locally it's around 1.5)
 
-    # @trace_calls(#include = ['*'],
-    #              contains=['add_property', 'add_node', 'new_edge', 'schema'],
-    #              show_duration=True, duration_padding=120,
-    #              show_class   =True,
-    #              #duration_bigger_than=0.1
-    #              )
+    @trace_calls(#include = ['*'],
+                 contains=['add_property', 'add_node', 'new_edge', 'schema'],
+                 show_duration=True, duration_padding=120,
+                 show_class   =True,
+                 #duration_bigger_than=0.1
+                 )
     def test_trace(self):
         feed_start =  { 'channel': { 'description': 'Latest Technology News',
                                      'abc': 'xyz'},

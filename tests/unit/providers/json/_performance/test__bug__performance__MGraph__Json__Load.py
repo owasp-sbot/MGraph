@@ -56,7 +56,7 @@ class test__regression__performance__MGraph__Json__Load(TestCase):
         with capture_duration() as duration:                                                # [FACT-1]
             graph.set_root_content(self.source_json)
         #assert 0.4 < duration.seconds < 0.8                                                 # [FACT-2]
-        assert 0.02 < duration.seconds < 0.2                                    # FIXED
+        assert 0    < duration.seconds < 0.2                                    # FIXED
 
         # FACTS:
         # FACT-1: set_root_content handles the initial graph structure creation
@@ -86,7 +86,7 @@ class test__regression__performance__MGraph__Json__Load(TestCase):
         with capture_duration() as duration:                                                # [FACT-1]
             dict_node.update(self.source_json)
         #assert 0.4 < duration.seconds < 1                                      # BUG       # [FACT-2]
-        assert 0.01 < duration.seconds < 0.2                                    # FIXED
+        assert 0 <= duration.seconds < 0.2                                    # FIXED
 
         # FACTS:
         # FACT-1: update() handles bulk property addition to dictionary nodes
