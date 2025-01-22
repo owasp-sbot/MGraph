@@ -1,5 +1,6 @@
 import pytest
 from unittest                                               import TestCase
+from osbot_utils.utils.Json                                 import json_file_load
 from osbot_utils.context_managers.print_duration            import print_duration
 from osbot_utils.utils.Http                                 import current_host_offline
 from mgraph_ai.providers.json.MGraph__Json                  import MGraph__Json
@@ -24,21 +25,27 @@ class test_Perf_Test__MGraph_Json(TestCase):
             _.print()
             assert _.perf_test_duration.duration__total < 2   # shower in GitHub Actions (locally it's around 0.5)
 
+            assert json_file_load('/tmp/mgraph_2.json') == json_file_load('/tmp/mgraph_1.json')
+
     def test_run_workflow__on_url(self):
         if current_host_offline():
             pytest.skip("Current server is offline")
-        url = URL__DBPEDIA__ZAP                                     #  0.291 sec  (from  1 sec )
-        #url = "https://dbpedia.org/data/OWASP.json"                #     1.83    (1491 nodes  )
-        #url = "https://dev.myfeeds.ai/openapi.json"                 #  0.8 sec    (from 70 secs)
-        #url = "https://dbpedia.org/data/AI.json"                   # 14.0 sec    (4524 nodes  )
-        #url = URL__DBPEDIA__OWASP_ZAP                              #  0.6 sec    (from 49 secs)
-        #url = "https://dbpedia.org/data/Application_security.json"  #  1.3 sec    (1124 nodes  )
-        #url = "https://dbpedia.org/data/General_Data_Protection_Regulation.json" # 16 sec (5037 Nodes)
+        url = URL__DBPEDIA__ZAP                                                   #  0.291 sec (from  1 sec )
+        #url = "https://dbpedia.org/data/OWASP.json"                              #  1.83      (1491 nodes  )
+        #url = "https://dev.myfeeds.ai/openapi.json"                              #  0.8 sec   (from 70 secs)
+        #url = "https://dbpedia.org/data/AI.json"                                 # 14.0 sec   (4524 nodes  )
+        #url = URL__DBPEDIA__OWASP_ZAP                                            #  0.6 sec   (from 49 secs)
+        #url = "https://dbpedia.org/data/Application_security.json"               #  1.3 sec   (1124 nodes  )
+        #url = "https://dbpedia.org/data/General_Data_Protection_Regulation.json" # 16 sec     (5037 Nodes  )
+        #url = "https://dev.myfeeds.ai/hacker-news/data-feed-current"              # 2.069      (1400 nodes  )
 
         with self.perf_test as _:
             _.run_workflow__on_url(url)
             _.print()
             assert _.perf_test_duration.duration__total < 6 # shower in GitHub Actions (locally it's around 1.5)
+
+            #file_create('/tmp/mgraph-dot.txt', _.dot_code)
+
 
     @trace_calls(#include = ['*'],
                  contains=['add_property', 'add_node', 'new_edge', 'schema'],

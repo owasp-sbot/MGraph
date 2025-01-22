@@ -1,14 +1,12 @@
-import re
-from unittest import TestCase
-
 import pytest
-
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge__Config import Schema__MGraph__Edge__Config
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph__Data import Schema__MGraph__Graph__Data
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Data import Schema__MGraph__Node__Data
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Edge import Schema__MGraph__Json__Edge
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node import Schema__MGraph__Json__Node
-from osbot_utils.utils.Objects import __, type_full_name
+import re
+from unittest                                                       import TestCase
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge__Config          import Schema__MGraph__Edge__Config
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph__Data           import Schema__MGraph__Graph__Data
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Data            import Schema__MGraph__Node__Data
+from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Edge    import Schema__MGraph__Json__Edge
+from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node    import Schema__MGraph__Json__Node
+from osbot_utils.utils.Objects                                      import __, type_full_name
 
 from osbot_utils.utils.Dev import pprint
 
@@ -34,8 +32,14 @@ class test_Schema__MGraph__Json__Graph(TestCase):
                                  edges        = __() ,
                                  nodes        = __() )
 
-    def test__bug__from_json(self):
+
+    def test__regression__from_json(self):
         with self.schema_graph as _:
-            error_message = "Invalid type for attribute 'graph_type'. Expected 'typing.Type[ForwardRef('Schema__MGraph__Graph')]' but got '<class 'str'>'"
-            with pytest.raises(ValueError, match=re.escape(error_message)):
-                Schema__MGraph__Json__Graph.from_json(_.json())
+            #error_message = "Invalid type for attribute 'graph_type'. Expected 'typing.Type[ForwardRef('Schema__MGraph__Graph')]' but got '<class 'str'>'"
+            # with pytest.raises(ValueError, match=re.escape(error_message)):
+            #     Schema__MGraph__Json__Graph.from_json(_.json())           # Fixed: BUG should had worked
+            original_json = _.json()
+            round_trip    = Schema__MGraph__Json__Graph.from_json(original_json)
+            assert type(round_trip)      == Schema__MGraph__Json__Graph
+            assert round_trip.graph_type == Schema__MGraph__Json__Graph
+            assert round_trip.json()     == original_json

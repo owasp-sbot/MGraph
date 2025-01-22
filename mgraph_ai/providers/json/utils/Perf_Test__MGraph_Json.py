@@ -1,10 +1,8 @@
 from typing                                         import Union
 
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Graph import Schema__MGraph__Json__Graph
-from osbot_utils.utils.Files import file_exists
+from osbot_utils.context_managers.print_duration import print_duration
 
-from osbot_utils.utils.Json import json_file_create, json_file_load
-
+from osbot_utils.utils.Json                         import json_file_create, json_file_load
 from mgraph_ai.providers.json.MGraph__Json          import MGraph__Json
 from osbot_utils.context_managers.capture_duration  import capture_duration
 from osbot_utils.utils.Http                         import GET_json
@@ -55,7 +53,26 @@ class Perf_Test__MGraph_Json(Type_Safe):
             #pprint(file_exists(target_file))
             assert json_file_load(target_file) == exported__mgraph_json # round trip
 
-            #mgraph = Schema__MGraph__Json__Graph.from_json(exported__mgraph_json)
+            print()
+            mgraph_json = self.mgraph_json.json()
+            mgraph_2    = MGraph__Json.from_json(mgraph_json)
+            json_file_create(mgraph_json    , '/tmp/mgraph_1.json')
+            json_file_create(mgraph_2.json(), '/tmp/mgraph_2.json')
+
+            assert mgraph_2.json() == mgraph_json
+            # #pprint(mgraph_2.export().to_dict())
+            # print(mgraph_2.export().to_dot().to_string())
+            # todo: review the load of json_mgraph data
+            # from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Graph import Schema__MGraph__Json__Graph
+            # mgraph_schema = Schema__MGraph__Json__Graph.from_json(exported__mgraph_json)
+            # from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Graph import Domain__MGraph__Json__Graph
+            # from mgraph_ai.providers.json.models.Model__MGraph__Json__Graph import Model__MGraph__Json__Graph
+            # mgraph_model  = Model__MGraph__Json__Graph(data=mgraph_schema)
+            # mgraph_domain = Domain__MGraph__Json__Graph(model=mgraph_model)
+            # mgraph_json   = MGraph__Json(graph=mgraph_domain)
+            # pprint(mgraph_json.export().to_dot().to_string())
+
+
 
 
         self.perf_test_duration.duration__save_mgraph_json = duration.seconds
@@ -71,8 +88,9 @@ class Perf_Test__MGraph_Json(Type_Safe):
 
     def run_workflow__on_json(self, source_json):
         self.source_json = source_json
-        (self.step__create_mgraph()
-             .step__create_dot   ())
+        (self.step__create_mgraph       ()
+             .step__create_dot          ()
+             .step__save__mgraph_json   ())
 
     def print(self):
         print()
