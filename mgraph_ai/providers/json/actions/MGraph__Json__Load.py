@@ -1,9 +1,10 @@
 from typing                                                      import Any
+from osbot_utils.type_safe.Type_Safe                             import Type_Safe
 from osbot_utils.utils.Files                                     import file_contents, file_exists
 from osbot_utils.utils.Json                                      import json_loads
 from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Graph import Domain__MGraph__Json__Graph
 
-class MGraph__Json__Load:                                                                    # JSON import handler
+class MGraph__Json__Load(Type_Safe):                                                                    # JSON import handler
     def __init__(self, graph: Domain__MGraph__Json__Graph):                                   # Initialize with graph
         self.graph = graph
 
