@@ -38,8 +38,8 @@ class Model__MGraph__Graph(Type_Safe):
         return self.add_edge(edge)
 
     def new_node(self, **kwargs):
-        node_type = self.data.schema_types.node_type
-        node      = node_type(**kwargs)
+        node_type       = self.data.schema_types.node_type
+        node            = node_type(**kwargs)
         return self.add_node(node)
 
     def edges(self):

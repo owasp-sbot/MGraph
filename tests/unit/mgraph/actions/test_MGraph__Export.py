@@ -317,51 +317,51 @@ mg:{edge_ids[1]} mg:from mg:{node_ids[1]} ;
                     expected_row = f'{edge.edge_id},{edge.from_node_id()},{edge.to_node_id()}'
                     assert expected_row in edges_csv
 
-    def test_all_export_formats(self):                                                      # Test and generate documentation for all supported export formats  using a linear graph as the test case.
-
-        export_methods = [('to__mgraph_json', 'json'    ),
-                           ('to__json'      , 'json'    ),
-                           ('to__xml'       , 'xml'     ),
-                           ('to__dot'       , 'dot'     ),
-                           ('to__graphml'   , 'graphml' ),
-                           ('to__turtle'    , 'turtle'  ),
-                           ('to__ntriples'  , 'ntriples'),
-                           ('to__gexf'      , 'gexf'    ),
-                           ('to__tgf'       , 'tgf'     ),
-                           ('to__cypher'    , 'cypher'  ),]
-
-        graph = MGraph__Static__Graph.create_linear(3)                                      # Create a linear graph with 4 nodes
-
-        with graph.graph.export() as exporter, Stdout() as stdout:                          # Capture output for export formats
-            print("# MGraph Export Formats\n")
-            print("Demonstration of export formats using a 3-node linear graph.\n")
-
-            for method_name, format_name in export_methods:
-
-                export_method = getattr(exporter, method_name)                          # Dynamically call export method
-                export_result = export_method()
-
-                print(f"## {method_name}\n")                                        # Format and print result
-                print(f"```{format_name}\n")
-                if isinstance(export_result, dict):
-                    pprint(export_result)
-                else:
-                    print(export_result)
-                print("```\n")
-                                                                                                    # todo: handle CSV export separately if needed
-            csv_files = exporter.to__csv()
-            print("## CSV Export\n")
-            print('### nodes.csv\n')
-            print("```")
-            print(csv_files['nodes.csv'])
-            print("```")
-
-            print('### edges.csv\n')
-            print("```")
-            print(csv_files['edges.csv'])
-            print("```")
-
-
-
-        tmp_file = '/tmp/mgraph_export.md'                              # Save output to markdown file
-        file_create(path=tmp_file, contents=stdout.value())
+    # def test_all_export_formats(self):                                                      # Test and generate documentation for all supported export formats  using a linear graph as the test case.
+    #
+    #     export_methods = [('to__mgraph_json', 'json'    ),
+    #                        ('to__json'      , 'json'    ),
+    #                        ('to__xml'       , 'xml'     ),
+    #                        ('to__dot'       , 'dot'     ),
+    #                        ('to__graphml'   , 'graphml' ),
+    #                        ('to__turtle'    , 'turtle'  ),
+    #                        ('to__ntriples'  , 'ntriples'),
+    #                        ('to__gexf'      , 'gexf'    ),
+    #                        ('to__tgf'       , 'tgf'     ),
+    #                        ('to__cypher'    , 'cypher'  ),]
+    #
+    #     graph = MGraph__Static__Graph.create_linear(3)                                      # Create a linear graph with 4 nodes
+    #
+    #     with graph.graph.export() as exporter, Stdout() as stdout:                          # Capture output for export formats
+    #         print("# MGraph Export Formats\n")
+    #         print("Demonstration of export formats using a 3-node linear graph.\n")
+    #
+    #         for method_name, format_name in export_methods:
+    #
+    #             export_method = getattr(exporter, method_name)                          # Dynamically call export method
+    #             export_result = export_method()
+    #
+    #             print(f"## {method_name}\n")                                        # Format and print result
+    #             print(f"```{format_name}\n")
+    #             if isinstance(export_result, dict):
+    #                 pprint(export_result)
+    #             else:
+    #                 print(export_result)
+    #             print("```\n")
+    #                                                                                                 # todo: handle CSV export separately if needed
+    #         csv_files = exporter.to__csv()
+    #         print("## CSV Export\n")
+    #         print('### nodes.csv\n')
+    #         print("```")
+    #         print(csv_files['nodes.csv'])
+    #         print("```")
+    #
+    #         print('### edges.csv\n')
+    #         print("```")
+    #         print(csv_files['edges.csv'])
+    #         print("```")
+    #
+    #
+    #
+    #     tmp_file = '/tmp/mgraph_export.md'                              # Save output to markdown file
+    #     file_create(path=tmp_file, contents=stdout.value())

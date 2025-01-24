@@ -188,11 +188,14 @@ class test_MGraph_Index(TestCase):
             _.add_node(node_1)
             _.add_node(node_2)
             _.add_edge(edge_1)
+            nodes_by_type = list(_.index.data.nodes_by_type['Schema__MGraph__Node'])            # we need to get this value since nodes_by_type is a list and the order can change
+            assert node_1_id      in nodes_by_type
+            assert node_2_id      in nodes_by_type
             assert _.index.json() == { 'data': { 'edge_to_nodes'          : { edge_1_id: [node_1_id, node_2_id]},
                                                  'edges_by_attribute'     : {},
                                                  'edges_by_type'          : {'Schema__MGraph__Edge': [edge_1_id]},
                                                  'nodes_by_attribute'     : {},
-                                                 'nodes_by_type'          : {'Schema__MGraph__Node': [node_1_id, node_2_id]},
+                                                 'nodes_by_type'          : {'Schema__MGraph__Node': nodes_by_type },
                                                  'nodes_to_incoming_edges': { node_2_id: [edge_1_id],
                                                                               node_1_id: []},
                                                  'nodes_to_outgoing_edges': { node_2_id: [],
