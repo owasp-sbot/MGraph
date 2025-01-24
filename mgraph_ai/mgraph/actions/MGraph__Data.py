@@ -2,7 +2,7 @@ from typing                                         import List
 from mgraph_ai.mgraph.domain.Domain__MGraph__Edge   import Domain__MGraph__Edge
 from mgraph_ai.mgraph.domain.Domain__MGraph__Graph  import Domain__MGraph__Graph
 from mgraph_ai.mgraph.domain.Domain__MGraph__Node   import Domain__MGraph__Node
-from osbot_utils.helpers.Obj_Id import Obj_Id
+from osbot_utils.helpers.Obj_Id                     import Obj_Id
 from osbot_utils.type_safe.Type_Safe                import Type_Safe
 
 class MGraph__Data(Type_Safe):

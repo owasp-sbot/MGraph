@@ -23,7 +23,7 @@ class test_File_System__Edit(TestCase):
     def test_set_root(self):                                                                          # Test root folder creation
         # Test initial root setup
         root = Folder__Node(graph=self.graph, name="root")
-        pprint(root.node_id)
+        #pprint(root.node_id)
         #self.edit.set_root(root)
         return
 
