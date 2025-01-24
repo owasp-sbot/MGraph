@@ -9,6 +9,7 @@ from osbot_utils.helpers.Obj_Id                       import Obj_Id
 from osbot_utils.type_safe.Type_Safe                  import Type_Safe
 from osbot_utils.type_safe.decorators.type_safe       import type_safe
 from osbot_utils.type_safe.methods.type_safe_property import set_as_property
+from osbot_utils.type_safe.shared.Type_Safe__Cache    import type_safe_cache
 
 
 class Model__MGraph__Graph(Type_Safe):
@@ -38,8 +39,24 @@ class Model__MGraph__Graph(Type_Safe):
         return self.add_edge(edge)
 
     def new_node(self, **kwargs):
-        node_type       = self.data.schema_types.node_type
-        node            = node_type(**kwargs)
+        node_type      = self.data.schema_types.node_type               # Get the node type from the schema
+        node_data_type = self.data.schema_types.node_data_type          # Get the node data type from the schema
+
+
+        node_type__kwargs           = {}                                # Separate kwargs for node_type and node_data_type
+        node_data__type_kwargs      = {}
+        node_type__annotations      = dict(type_safe_cache.get_class_annotations(node_type     ))
+        node_data_type__annotations = dict(type_safe_cache.get_class_annotations(node_data_type))
+
+        for key, value in kwargs.items():                               # todo: review this 'feature' to split the kwargs based on the node and the data class
+            if key in node_type__annotations:                           #       there could be some cases where this is useful (like how it is used in the mermaid provider
+                node_type__kwargs[key] = value                          #       but in general this is not a good pattern to follow
+            if key in node_data_type__annotations:
+                node_data__type_kwargs[key] = value
+
+        node_data = node_data_type(**node_data__type_kwargs                )   # Create node data object
+        node      = node_type     (node_data=node_data, **node_type__kwargs)  # Create a node with the node data
+
         return self.add_node(node)
 
     def edges(self):

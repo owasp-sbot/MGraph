@@ -1,19 +1,14 @@
 from unittest                                                   import TestCase
-
-import pytest
-
-from osbot_utils.utils.Dev import pprint
-
 from mgraph_ai.mgraph.models.Model__MGraph__Edge                import Model__MGraph__Edge
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge              import Schema__MGraph__Edge
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge__Config      import Schema__MGraph__Edge__Config
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph__Data       import Schema__MGraph__Graph__Data
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Data        import Schema__MGraph__Node__Data
 from mgraph_ai.providers.simple.models.Model__Simple__Graph     import Model__Simple__Graph
 from mgraph_ai.providers.simple.models.Model__Simple__Node      import Model__Simple__Node
 from mgraph_ai.providers.simple.models.Model__Simple__Types     import Model__Simple__Types
 from mgraph_ai.providers.simple.schemas.Schema__Simple__Graph   import Schema__Simple__Graph
 from mgraph_ai.providers.simple.schemas.Schema__Simple__Node    import Schema__Simple__Node
+from mgraph_ai.providers.simple.schemas.Schema__Simple__Node__Data import Schema__Simple__Node__Data
 from osbot_utils.helpers.Obj_Id                                 import Obj_Id
 from osbot_utils.type_safe.Type_Safe                            import Type_Safe
 from osbot_utils.utils.Objects                                  import base_types, __, type_full_name
@@ -28,9 +23,6 @@ from mgraph_ai.providers.simple.domain.Domain__Simple__Graph    import Domain__S
 
 
 class test_MGraph__Simple(TestCase):
-    @classmethod
-    def setUpClass(cls):
-        pytest.skip("tests need fixing")
 
     def setUp(self):                                                            # Initialize MGraph__Simple instance
         self.mgraph_simple = MGraph__Simple()
@@ -86,7 +78,7 @@ class test_MGraph__Simple(TestCase):
                                                                        'schema_types': {'edge_config_type': type_full_name(Schema__MGraph__Edge__Config ),
                                                                                         'edge_type'       : type_full_name(Schema__MGraph__Edge         ),
                                                                                         'graph_data_type' : type_full_name(Schema__MGraph__Graph__Data  ),
-                                                                                        'node_data_type'  : type_full_name(Schema__MGraph__Node__Data   ),
+                                                                                        'node_data_type'  : type_full_name(Schema__Simple__Node__Data   ),
                                                                                         'node_type'       : type_full_name(Schema__Simple__Node         )}},
                                              'model_types'          : {'edge_model_type' : type_full_name(Model__MGraph__Edge          ),
                                                                        'node_model_type' : type_full_name(Model__Simple__Node          )}},
@@ -97,17 +89,15 @@ class test_MGraph__Simple(TestCase):
 
     def test_edit_new_node_with_value(self):                                    # Test creating a node with specific value
         with self.mgraph_simple.edit() as edit:
-            node = edit.new_node(value='test_value')
-
-            pprint(node)
-            #assert node.data.value == 'test_value'                                   # Verify node value
+            node = edit.new_node(value='test_value')                            # create a new node with the node data 'value' field set
+            assert node.node_data.value == 'test_value'                         # confirm the node data was set
 
     def test_edit_new_node_with_name(self):                                     # Test creating a node with specific name
         with self.mgraph_simple.edit() as edit:
             node = edit.new_node(name='test_name')
 
             # Verify node name
-            assert node.name == 'test_name'
+            assert node.node_data.name == 'test_name'
 
     def test_edit_new_edge(self):                                               # Test creating an edge between nodes
         with self.mgraph_simple.edit() as edit:
@@ -136,8 +126,8 @@ class test_MGraph__Simple(TestCase):
 
             # Verify nodes can be retrieved
             assert len(all_nodes) == 2
-            assert any(node.value == 'node1' for node in all_nodes)
-            assert any(node.value == 'node2' for node in all_nodes)
+            assert any(node.node_data.value == 'node1' for node in all_nodes)
+            assert any(node.node_data.value == 'node2' for node in all_nodes)
 
     def test_node_multiple_operations(self):                                    # Test multiple node and edge operations
         with self.mgraph_simple.edit() as edit:
@@ -181,5 +171,5 @@ class test_MGraph__Simple(TestCase):
         with restored_mgraph.data() as data:
             all_nodes = data.nodes()
             assert len(all_nodes) == 2
-            assert any(node.value == 'node1' for node in all_nodes)
-            assert any(node.value == 'node2' for node in all_nodes)
+            assert any(node.node_data.value == 'node1' for node in all_nodes)
+            assert any(node.node_data.value == 'node2' for node in all_nodes)
