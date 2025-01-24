@@ -4,6 +4,8 @@ from mgraph_ai.mgraph.actions.MGraph__Edit    import MGraph__Edit
 from mgraph_ai.mgraph.actions.MGraph__Filter  import MGraph__Filter
 from mgraph_ai.mgraph.actions.MGraph__Storage import MGraph__Storage
 from mgraph_ai.mgraph.MGraph                  import MGraph
+from mgraph_ai.mgraph.index.MGraph__Index     import MGraph__Index
+
 
 class test_MGraph(TestCase):
 
@@ -20,6 +22,10 @@ class test_MGraph(TestCase):
         with self.graph.edit() as _:
             assert type(_) is MGraph__Edit
             assert _.graph == self.graph.graph
+
+    def test_index(self):
+        with self.graph.index() as _:
+            assert type(_) is MGraph__Index
 
     def test_storage(self):
         with self.graph.storage() as _:

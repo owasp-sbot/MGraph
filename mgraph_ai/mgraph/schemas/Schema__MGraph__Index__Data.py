@@ -10,6 +10,3 @@ class Schema__MGraph__Index__Data(Type_Safe):
     edges_by_type          : Dict[str   , set[Obj_Id          ]]  # edge_type -> set of edge_ids
     nodes_by_attribute     : Dict[str   , Dict[Any, set[Obj_Id]]] # attr_name -> {value -> set of node_ids}
     edges_by_attribute     : Dict[str   , Dict[Any, set[Obj_Id]]] # attr_name -> {value -> set of edge_ids}
-
-class Schema__MGraph__Index(Type_Safe):
-    data: Schema__MGraph__Index__Data

@@ -1,113 +1,116 @@
-from unittest                                               import TestCase
+from unittest                                                import TestCase
 
 import pytest
 
-from mgraph_ai.mgraph.index.MGraph__Index                   import MGraph__Index
-from mgraph_ai.mgraph.index.MGraph__Query import Graph__Query
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph         import Schema__MGraph__Graph
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node          import Schema__MGraph__Node
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Data    import Schema__MGraph__Node__Data
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge          import Schema__MGraph__Edge
-from osbot_utils.helpers.Random_Guid                        import Random_Guid
+from mgraph_ai.mgraph.index.MGraph__Index                    import MGraph__Index
+from mgraph_ai.mgraph.index.MGraph__Query                    import MGraph__Query
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph          import Schema__MGraph__Graph
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Index__Data    import Schema__MGraph__Index__Data
+from mgraph_ai.providers.simple.MGraph__Simple__Test_Data    import MGraph__Simple__Test_Data
+from mgraph_ai.providers.simple.domain.Domain__Simple__Graph import Domain__Simple__Graph
+from mgraph_ai.providers.simple.schemas.Schema__Simple__Node import Schema__Simple__Node
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge           import Schema__MGraph__Edge
 
-# Helper classes for testing
-class Schema__Test__Node(Schema__MGraph__Node):
-    node_data: Schema__MGraph__Node__Data
-
-# todo: replace this with an  MGraph__Simple object
-class Graph__Query__Test:
-    @classmethod
-    def create_test_graph(cls) -> tuple[Schema__MGraph__Graph, MGraph__Index]:
-        # Create test graph with known structure
-        graph = Schema__MGraph__Graph()
-        index = MGraph__Index(graph=graph)
-
-        # Create nodes
-        user_node   = Schema__Test__Node(node_id=Random_Guid(), value='john')
-        name_node   = Schema__Test__Node(node_id=Random_Guid(), name='name')
-        age_node    = Schema__Test__Node(node_id=Random_Guid(), name='age'  )
-        value_node  = Schema__Test__Node(node_id=Random_Guid(), value=30    )
-
-        # Add nodes to graph
-        graph.nodes[user_node.node_id  ] = user_node
-        graph.nodes[name_node.node_id  ] = name_node
-        graph.nodes[age_node.node_id   ] = age_node
-        graph.nodes[value_node.node_id ] = value_node
-
-        # Create edges
-        name_edge = Schema__MGraph__Edge(from_node_id=user_node.node_id,
-                                        to_node_id   =name_node.node_id   )
-        value_edge = Schema__MGraph__Edge(from_node_id=name_node.node_id,
-                                         to_node_id   =value_node.node_id )
-
-        graph.edges[name_edge.edge_config.edge_id  ] = name_edge
-        graph.edges[value_edge.edge_config.edge_id ] = value_edge
-
-        # Add nodes and edges to index
-        index.add_node(user_node  )
-        index.add_node(name_node  )
-        index.add_node(age_node   )
-        index.add_node(value_node )
-        index.add_edge(name_edge  )
-        index.add_edge(value_edge )
-
-        return graph, index
-
-class test_Graph__Query(TestCase):
+class test_MGraph__Query(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        pytest.skip("implement once MGraph__Simple is working")
+        pytest.skip("test need fixing")
 
-    def setUp(self):                                                                # Initialize test data
-        self.graph, self.index = Graph__Query__Test.create_test_graph()
-        self.query = Graph__Query(self.index)
+    def setUp(self):
+        self.mgraph = MGraph__Simple__Test_Data().create()
+        self.graph  = self.mgraph.graph
+        self.index = MGraph__Index.from_graph(self.graph)
+        self.query = MGraph__Query           (index=self.index)
 
-    def test_by_type(self):                                                         # Test type-based filtering
-        result = self.query.by_type(Schema__Test__Node)
-        self.assertTrue(bool(result))
-        self.assertIsNotNone(result.value())
+    def test_init(self):
+        assert type(self.mgraph          ) is MGraph__Simple__Test_Data
+        assert type(self.graph           ) is Domain__Simple__Graph
+        assert type(self.index           ) is MGraph__Index
+        assert type(self.index.index_data) is Schema__MGraph__Index__Data
 
-    def test_with_attribute(self):                                                  # Test attribute-based filtering
-        result = self.query.with_attribute('value', 'john')
-        self.assertTrue(bool(result))
-        self.assertEqual(result.value(), 'john')
+        with self.query as _:
+            assert type(_) is MGraph__Query
+            assert isinstance(self.query, MGraph__Query)
+            assert self.query.index is self.index
+            assert len(self.query._current_node_ids) == 0
+            assert self.query._current_node_type is None
 
-    def test_traverse_properties(self):                                             # Test property traversal
+    def test_by_type(self):
+        result = self.query.by_type(Schema__Simple__Node)
+        assert result.count() == 3
+        assert all(isinstance(self.graph.graph.model.data.nodes[node_id], Schema__Simple__Node)
+                  for node_id in result._current_node_ids)
+
+    def test_with_attribute_name(self):
+        nodes = self.query.with_attribute('name', 'Node 1')
+        assert nodes.count() == 1
+        node = nodes.first()
+        assert node.node_data.name == 'Node 1'
+        assert node.node_data.value == 'A'
+
+    def test_with_attribute_value(self):
+        nodes = self.query.with_attribute('value', 'B')
+        assert nodes.count() == 1
+        assert nodes.first().node_data.value == 'B'
+
+    def test_traverse(self):
+        # Start with Node 1 and traverse its outgoing edges
+        start = self.query.with_attribute('name', 'Node 1')
+        connected = start.traverse()
+        assert connected.count() == 2  # Node 1 has two edges to Node 2
+        assert all(node.node_data.name == 'Node 2'
+                  for node in connected.collect())
+
+    def test_traverse_with_edge_type(self):
+        start = self.query.with_attribute('name', 'Node 1')
+        connected = start.traverse(edge_type=Schema__MGraph__Edge)
+        assert connected.count() == 2
+
+    def test_filter(self):
+        result = self.query.by_type(Schema__Simple__Node).filter(
+            lambda node: node.node_data.value in ['A', 'B']
+        )
+        assert result.count() == 2
+        values = [node.node_data.value for node in result.collect()]
+        assert sorted(values) == ['A', 'B']
+
+    def test_collect(self):
+        nodes = self.query.by_type(Schema__Simple__Node).collect()
+        assert len(nodes) == 3
+        assert all(isinstance(node, Schema__Simple__Node) for node in nodes)
+
+    def test_value(self):
+        value = self.query.with_attribute('name', 'Node 1').value()
+        assert value == 'A'
+
+    def test_empty_query(self):
+        empty = self.query.with_attribute('name', 'NonexistentNode')
+        assert empty.count() == 0
+        assert not empty.exists()
+        assert empty.value() is None
+        assert empty.first() is None
+        assert empty.collect() == []
+
+    def test_property_access(self):
+        node = self.query.with_attribute('value', 'A')
+        assert node.name == 'Node 1'
+        assert node.value == 'A'
+
+    def test_exists(self):
+        assert self.query.by_type(Schema__Simple__Node).exists()
+        assert not self.query.with_attribute('name', 'NonexistentNode').exists()
+
+    def test_first(self):
+        node = self.query.by_type(Schema__Simple__Node).first()
+        assert isinstance(node, Schema__Simple__Node)
+        assert node.node_data.value in ['A', 'B', 'C']
+
+    def test_chained_operations(self):
         result = (self.query
-                    .by_type(Schema__Test__Node)
-                    .name
-                    .value()
-                 )
-        self.assertEqual(result, 30)
-
-    def test_collect(self):                                                         # Test collect method
-        result = (self.query
-                    .by_type(Schema__Test__Node)
-                    .name
-                    .collect()
-                 )
-        self.assertEqual(result, ['age'])
-
-    def test_empty_query(self):                                                     # Test empty query behavior
-        result = self.query.with_attribute('non_existent', 'value')
-        self.assertFalse(bool(result))
-        self.assertIsNone(result.value())
-
-    def test_chained_query(self):                                                   # Test multiple query methods
-        result = (self.query
-                    .by_type(Schema__Test__Node)
-                    .name
-                 )
-        self.assertTrue(bool(result))
-
-        # Test node truth value
-        self.assertTrue(result)
-        self.assertFalse(self.query.with_attribute('non_existent', 'value'))
-
-    def test_callable_query(self):                                                  # Test callable query method
-        result = (self.query
-                    .by_type(Schema__Test__Node)
-                    .name
-                 )()
-        self.assertEqual(result, 'age')
+                 .by_type(Schema__Simple__Node)
+                 .filter(lambda n: n.node_data.value in ['A', 'B'])
+                 .traverse()
+                 .with_attribute('value', 'B'))
+        assert result.exists()
+        assert result.first().node_data.value == 'B'

@@ -5,6 +5,8 @@ from mgraph_ai.mgraph.models.Model__MGraph__Node   import Model__MGraph__Node
 from mgraph_ai.mgraph.domain.Domain__MGraph__Edge  import Domain__MGraph__Edge
 from mgraph_ai.mgraph.domain.Domain__MGraph__Node  import Domain__MGraph__Node
 from mgraph_ai.mgraph.models.Model__MGraph__Graph  import Model__MGraph__Graph
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge import Schema__MGraph__Edge
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Node import Schema__MGraph__Node
 from osbot_utils.helpers.Obj_Id                    import Obj_Id
 from osbot_utils.type_safe.Type_Safe               import Type_Safe
 
@@ -40,9 +42,17 @@ class Domain__MGraph__Graph(Type_Safe):
     def mgraph_node(self, node: Model__MGraph__Node) -> Domain__MGraph__Edge:
         return self.domain_types.node_domain_type(node=node, graph=self.model)
 
+    def add_edge(self, edge: Schema__MGraph__Edge):
+        edge = self.model.add_edge(edge)
+        return self.mgraph_edge(edge=edge)
+
     def new_edge(self, **kwargs) -> Domain__MGraph__Edge:
         edge = self.model.new_edge(**kwargs)
         return self.mgraph_edge(edge=edge)
+
+    def add_node(self, node: Schema__MGraph__Node):
+        node = self.model.add_node(node)
+        return self.mgraph_node(node=node)
 
     def new_node(self, **kwargs)-> Domain__MGraph__Node:
         node = self.model.new_node(**kwargs)

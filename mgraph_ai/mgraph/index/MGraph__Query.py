@@ -1,107 +1,148 @@
-from typing                               import Any, Dict, List, Optional, Set, Type, Union
-from mgraph_ai.mgraph.index.MGraph__Index import MGraph__Index
-from osbot_utils.helpers.Random_Guid      import Random_Guid
-from osbot_utils.type_safe.Type_Safe      import Type_Safe
+from typing                                 import Any, Dict, List, Optional, Set, Type, Union, Iterable
+from mgraph_ai.mgraph.index.MGraph__Index   import MGraph__Index
+from osbot_utils.helpers.Obj_Id             import Obj_Id
+from osbot_utils.type_safe.Type_Safe        import Type_Safe
+
+class MGraph__Query(Type_Safe):
+    index               : MGraph__Index
+    graph               : Any                           # Reference to graph for data access
+
+    _current_node_ids   : Set[Obj_Id]                   # Support multiple active nodes
+    _current_node_type  : Optional[str       ]
+    _filters            : List[Dict[str, Any]]
 
 
-class Graph__Query(Type_Safe):
-    index       : MGraph__Index
-    graph       : Any
-
-    _current_node_id    : Optional[Random_Guid] = None
-    _current_node_type  : Optional[str        ] = None
-    _filters            : List[Dict[str, Any]  ] = []
-
-    def _get_property(self, name: str) -> 'Graph__Query':                        # Navigate through a property edge
-        if not self._current_node_id:
+    def _get_property(self, name: str) -> 'MGraph__Query':
+        """Navigate through property edges, preserving type safety"""
+        if not self._current_node_ids:
             return self._empty_query()
 
-        outgoing_edges = self.index.get_node_outgoing_edges(self._current_node_id)
-        for edge_id in outgoing_edges:
-            edge        = self.graph.edges[edge_id]
-            target_node = self.graph.nodes[edge.to_node_id]
-            if hasattr(target_node, 'name') and target_node.name == name:
-                new_query = Graph__Query(self.index)
-                new_query._current_node_id   = edge.to_node_id
-                new_query._current_node_type = target_node.node_type.__name__
-                return new_query
+        result_nodes = set()
+        for node_id in self._current_node_ids:
+            outgoing_edges = self.index.get_node_outgoing_edges(self.graph.nodes[node_id])
+            for edge_id in outgoing_edges:
+                edge = self.graph.edges[edge_id]
+                target_node = self.graph.nodes[edge.to_node_id]
+                if hasattr(target_node, 'name') and target_node.name == name:
+                    result_nodes.add(edge.to_node_id)
 
-        return self._empty_query()
+        new_query = MGraph__Query(self.index, self.graph)
+        new_query._current_node_ids = result_nodes
+        if result_nodes:
+            new_query._current_node_type = self.graph.nodes[next(iter(result_nodes))].node_type.__name__
+        return new_query
 
-    def _empty_query(self) -> 'Graph__Query':                                   # Return an empty query instance
-        return Graph__Query(self.index)
+    def _empty_query(self) -> 'MGraph__Query':
+        """Return an empty query instance"""
+        return MGraph__Query(self.index, self.graph)
 
-    def by_type(self, node_type: Type) -> 'Graph__Query':                        # Filter nodes by type
+    def by_type(self, node_type: Type) -> 'MGraph__Query':
+        """Filter nodes by type with O(1) lookup"""
         matching_nodes = self.index.get_nodes_by_type(node_type)
         if not matching_nodes:
             return self._empty_query()
 
-        new_query = Graph__Query(self.index)
-        new_query._current_node_id   = list(matching_nodes)[0]                   # Get first match
+        new_query = MGraph__Query(self.index, self.graph)
+        new_query._current_node_ids = matching_nodes
         new_query._current_node_type = node_type.__name__
         return new_query
 
-    def with_attribute(self, name: str, value: Any) -> 'Graph__Query':            # Filter nodes by attribute value
+    def with_attribute(self, name: str, value: Any) -> 'MGraph__Query':
+        """Filter nodes by attribute using index"""
         matching_nodes = self.index.get_nodes_by_attribute(name, value)
         if not matching_nodes:
             return self._empty_query()
 
-        new_query = Graph__Query(self.index)
-        new_query._current_node_id = list(matching_nodes)[0]
+        new_query = MGraph__Query(self.index, self.graph)
+        new_query._current_node_ids = matching_nodes
+        if matching_nodes:
+            new_query._current_node_type = self.graph.nodes[next(iter(matching_nodes))].node_type.__name__
         return new_query
 
-    def traverse(self, edge_type: Optional[Type] = None) -> 'Graph__Query':       # Traverse to connected nodes
-        if not self._current_node_id:
+    def traverse(self, edge_type: Optional[Type] = None) -> 'MGraph__Query':
+        """Traverse to connected nodes efficiently"""
+        if not self._current_node_ids:
             return self._empty_query()
 
-        outgoing_edges = self.index.get_node_outgoing_edges(self._current_node_id)
-        if edge_type:
-            outgoing_edges = {edge_id for edge_id in outgoing_edges
-                            if self.graph.edges[edge_id].edge_type == edge_type}
+        result_nodes = set()
+        for node_id in self._current_node_ids:
+            outgoing_edges = self.index.get_node_outgoing_edges(self.graph.nodes[node_id])
+            if edge_type:
+                outgoing_edges = {edge_id for edge_id in outgoing_edges
+                                if self.graph.edges[edge_id].edge_type == edge_type}
 
-        if not outgoing_edges:
-            return self._empty_query()
+            for edge_id in outgoing_edges:
+                edge = self.graph.edges[edge_id]
+                result_nodes.add(edge.to_node_id)
 
-
-        edge_id = list(outgoing_edges)[0]                                           # Get first connected node
-        edge    = self.graph.edges[edge_id]
-
-        new_query = Graph__Query(self.index)
-        new_query._current_node_id   = edge.to_node_id
-        new_query._current_node_type = self.graph.nodes[edge.to_node_id].node_type.__name__
+        new_query = MGraph__Query(self.index, self.graph)
+        new_query._current_node_ids = result_nodes
+        if result_nodes:
+            new_query._current_node_type = self.graph.nodes[next(iter(result_nodes))].node_type.__name__
         return new_query
 
-    def collect(self) -> List[Any]:                                                 # Collect all matching nodes
-        if not self._current_node_id:
+    def filter(self, predicate: callable) -> 'MGraph__Query':
+        """Apply custom filter to current nodes"""
+        if not self._current_node_ids:
+            return self._empty_query()
+
+        matching_nodes = {node_id for node_id in self._current_node_ids
+                        if predicate(self.graph.nodes[node_id])}
+
+        new_query = MGraph__Query(self.index, self.graph)
+        new_query._current_node_ids = matching_nodes
+        if matching_nodes:
+            new_query._current_node_type = self.graph.nodes[next(iter(matching_nodes))].node_type.__name__
+        return new_query
+
+    def collect(self) -> List[Any]:
+        """Collect all matching nodes preserving type information"""
+        if not self._current_node_ids:
             return []
 
         results = []
-        node    = self.graph.nodes[self._current_node_id]
-
-        # Handle value nodes
-        if hasattr(node, 'value'):
-            results.append(node.value)
-        # Handle property nodes
-        elif hasattr(node, 'name'):
-            results.append(node.name)
-        # Handle other node types
-        else:
-            results.append(node)
-
+        for node_id in self._current_node_ids:
+            node = self.graph.nodes[node_id]
+            if hasattr(node, 'value'):
+                results.append(node.value)
+            elif hasattr(node, 'name'):
+                results.append(node.name)
+            else:
+                results.append(node)
         return results
 
-    def value(self) -> Any:                                                      # Get the value of the current node
-        if not self._current_node_id:
+    def value(self) -> Any:
+        """Get value of current node(s)"""
+        if not self._current_node_ids:
             return None
 
-        node = self.graph.nodes[self._current_node_id]
-        return getattr(node, 'value', None)
+        values = []
+        for node_id in self._current_node_ids:
+            node = self.graph.nodes[node_id]
+            if hasattr(node, 'value'):
+                values.append(node.value)
 
-    def __getattr__(self, name: str) -> 'Graph__Query':                           # Enable property-based traversal
-        return self._get_property(name)
+        return values[0] if values else None
 
-    def __call__(self, *args, **kwargs) -> Any:                                   # Make query callable to get value
-        return self.value()
+    def count(self) -> int:
+        """Count matching nodes"""
+        return len(self._current_node_ids)
 
-    def __bool__(self) -> bool:                                                   # Enable truthiness check
-        return self._current_node_id is not None
+    def exists(self) -> bool:
+        """Check if any nodes match the query"""
+        return bool(self._current_node_ids)
+
+    def first(self) -> Optional[Any]:
+        """Get first matching node"""
+        if not self._current_node_ids:
+            return None
+        node_id = next(iter(self._current_node_ids))
+        return self.graph.nodes[node_id]
+
+    # def __getattr__(self, name: str) -> 'MGraph__Query':
+    #     """Enable property-based traversal"""
+    #     return self._get_property(name)
+
+    def __bool__(self) -> bool:
+        """Enable truthiness check"""
+        return bool(self._current_node_ids)
