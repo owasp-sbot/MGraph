@@ -1,12 +1,12 @@
-from typing                                                 import Dict, Type
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Attribute     import Schema__MGraph__Attribute
+from typing                                                 import Type
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge__Config  import Schema__MGraph__Edge__Config
+from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge__Data    import Schema__MGraph__Edge__Data
+from osbot_utils.helpers.Obj_Id                             import Obj_Id
 from osbot_utils.type_safe.Type_Safe                        import Type_Safe
-from osbot_utils.helpers.Random_Guid                        import Random_Guid
 
 class Schema__MGraph__Edge(Type_Safe):
-    attributes    : Dict[Random_Guid, Schema__MGraph__Attribute]
-    edge_config   : Schema__MGraph__Edge__Config
+    edge_config   : Schema__MGraph__Edge__Config                # remove this and mode all config data into the edge_data (to make it consistent with the node)
+    edge_data     : Schema__MGraph__Edge__Data
     edge_type     : Type['Schema__MGraph__Edge']
-    from_node_id  : Random_Guid
-    to_node_id    : Random_Guid
+    from_node_id  : Obj_Id
+    to_node_id    : Obj_Id

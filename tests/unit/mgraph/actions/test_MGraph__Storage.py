@@ -1,7 +1,7 @@
 import pytest
 from unittest                                 import TestCase
 from mgraph_ai.mgraph.actions.MGraph__Storage import MGraph__Storage
-from mgraph_ai.mgraph.domain.MGraph__Graph    import MGraph__Graph
+from mgraph_ai.mgraph.domain.Domain__MGraph__Graph    import Domain__MGraph__Graph
 
 
 class test_MGraph__Storage(TestCase):
@@ -13,7 +13,7 @@ class test_MGraph__Storage(TestCase):
     def test_create(self):
         with self.mgraph_storage as _:
             assert _.create()    == _.graph
-            assert type(_.graph) is MGraph__Graph
+            assert type(_.graph) is Domain__MGraph__Graph
 
     def test_delete(self):
         with pytest.raises(NotImplementedError, match="delete applicable to memory only mode") as _:

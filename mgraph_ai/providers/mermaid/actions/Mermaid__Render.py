@@ -1,16 +1,17 @@
 from typing                                                                 import List
+
+from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Render__Config import Schema__Mermaid__Render__Config
+from osbot_utils.type_safe.methods.type_safe_property import set_as_property
 from osbot_utils.utils.Str                                                  import safe_str
-from mgraph_ai.providers.mermaid.domain.Mermaid__Node                       import LINE_PADDING, Mermaid__Node
-from mgraph_ai.providers.mermaid.domain.Mermaid__Graph                      import Mermaid__Graph
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Diagram_Direction import Schema__Mermaid__Diagram__Direction
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Diagram__Type     import Schema__Mermaid__Diagram__Type
+from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Node                       import LINE_PADDING, Domain__Mermaid__Node
+from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Graph                      import Domain__Mermaid__Graph
 from osbot_utils.type_safe.Type_Safe                                        import Type_Safe
 
 
 class Mermaid__Render(Type_Safe):
-    graph             : Mermaid__Graph
-    mermaid_code      : List
-
+    graph         : Domain__Mermaid__Graph
+    mermaid_code  : List
+    render_config = set_as_property('graph.model.data', 'render_config', Schema__Mermaid__Render__Config)
 
     def add_line(self, line:str) -> str:
         self.mermaid_code.append(line)
@@ -26,14 +27,14 @@ class Mermaid__Render(Type_Safe):
                 _.reset_code()
             elif self.mermaid_code:                 # if the code has already been created, don't create it
                 return self                         #   todo: find a better way to do this, namely around the concept of auto detecting (on change) when the recreation needs to be done (vs being able to use the previously calculated data)
-            for directive in _.config().directives:
+            for directive in _.render_config.directives:
                 _.add_line(f'%%{{{directive}}}%%')
             _.add_line(self.graph_header())
-            if self.config().add_nodes:
+            if self.render_config.add_nodes:
                 for node in self.graph.nodes():
                     node_code = self.render_node(node)
                     _.add_line(node_code)
-            if self.config().line_before_edges:
+            if self.render_config.line_before_edges:
                 _.add_line('')
             for edge in self.graph.edges():
                 edge_code = self.render_edge(edge)
@@ -51,23 +52,22 @@ class Mermaid__Render(Type_Safe):
 
         return '\n'.join(markdown)
 
-    def config(self):
-        return self.graph.model.data.render_config
+
 
     def graph_header(self):
-        value = self.config().diagram_type.name
-        return f'{value} {self.config().diagram_direction.name}'
+        value = self.render_config.diagram_type.name
+        return f'{value} {self.render_config.diagram_direction.name}'
 
     def render_edge(self,edge):
-        from_node     = self.graph.node(edge.from_node_id())
-        to_node       = self.graph.node(edge.to_node_id  ())
-        from_node_key = safe_str(from_node.node_key())
-        to_node_key   = safe_str(to_node  .node_key())
-        if edge.config().output_node_from:
+        from_node     = self.graph.node(edge.from_node_id)
+        to_node       = self.graph.node(edge.to_node_id  )
+        from_node_key = safe_str(from_node.key)
+        to_node_key   = safe_str(to_node  .key)
+        if edge.edge_config.output_node_from:
             from_node_key =  self.render_node(from_node, include_padding=False)
-        if edge.config().output_node_to:
+        if edge.edge_config.output_node_to:
             to_node_key   = self.render_node(to_node, include_padding=False   )
-        if edge.config().edge_mode == 'lr_using_pipe':
+        if edge.edge_config.edge_mode == 'lr_using_pipe':
             link_code      = f'-->|{edge.label}|'
         elif edge.label:
             link_code      = f'--"{edge.label}"-->'
@@ -79,21 +79,21 @@ class Mermaid__Render(Type_Safe):
     def print_code(self):
         print(self.code())
 
-    def render_node(self, node: Mermaid__Node, include_padding=True):
-        node_config = node.node_config()
-        node_label  = node.node_label()
-        node_key    = node.node_key()
-        left_char, right_char = node_config.node_shape.value
+    def render_node(self, node: Domain__Mermaid__Node, include_padding=True):
+        node_data = node.node_data
+        node_label  = node.label
+        node_key    = node.key
+        left_char, right_char = node_data.node_shape.value
 
-        if node_config.markdown:
+        if node_data.markdown:
             label = f'`{node_label}`'
         else:
             label = node_label
 
-        if node_config.show_label is False:
+        if node_data.show_label is False:
             node_code = f'{node_key}'
         else:
-            if node_config.wrap_with_quotes is False:
+            if node_data.wrap_with_quotes is False:
                 node_code = f'{node_key}{left_char}{label}{right_char}'
             else:
                 node_code = f'{node_key}{left_char}"{label}"{right_char}'
