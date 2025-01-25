@@ -1,7 +1,8 @@
-from typing                                         import Dict
+from typing                                         import Dict, Any, Optional
 from xml.dom                                        import minidom
 from xml.etree                                      import ElementTree
 from xml.etree.ElementTree                          import Element, SubElement
+from osbot_utils.utils.Files                        import temp_file, file_create
 from mgraph_ai.mgraph.actions.MGraph__Data          import MGraph__Data
 from mgraph_ai.mgraph.domain.Domain__MGraph__Graph  import Domain__MGraph__Graph
 from osbot_utils.type_safe.Type_Safe                import Type_Safe
@@ -9,35 +10,40 @@ from osbot_utils.type_safe.Type_Safe                import Type_Safe
 class MGraph__Export(Type_Safe):
     graph: Domain__MGraph__Graph
 
-    def data(self):                                                                        # Access to graph data
+    def data(self):                                                                             # Access to graph data
         return MGraph__Data(graph=self.graph)
 
-    def to__mgraph_json(self):                                                            # Export full graph data
+    def to__mgraph_json(self):                                                                  # Export full graph data
         return self.graph.model.data.json()
 
-    def to__json(self):                                                                   # Export minimal topology
+    def to__json(self) -> Dict[str, Any]:                                                       # Export minimal topology with node data
         nodes = {}
         edges = {}
         with self.data() as _:
-            for domain_node in _.nodes():
-                node = domain_node.node_id
-                nodes[node] = {}
-            for domain_edge in _.edges():
+            for domain_node in _.nodes():                                                       # Process nodes
+                node_id = domain_node.node_id
+                node_data = {}
+                if domain_node.node_data:
+                    for field_name, field_value in domain_node.node_data.__dict__.items():
+                        node_data[field_name] = field_value
+                nodes[node_id] = node_data if node_data else {}
+
+            for domain_edge in _.edges():                                                       # Process edges
                 edge = domain_edge.edge_id
                 edges[edge] = {'from_node_id': domain_edge.from_node_id(),
                              'to_node_id'   : domain_edge.to_node_id  ()}
         return dict(nodes=nodes, edges=edges)
 
-    def to__xml(self) -> str:                                                               # Export as XML
-        root  = Element('graph')                                                            # Create root element and main containers
+    def to__xml(self) -> str:                                                                   # Export as XML
+        root  = Element('graph')                                                                # Create root element and main containers
         nodes = SubElement(root, 'nodes')
         edges = SubElement(root, 'edges')
 
-        with self.data() as _:                                                              # Add all nodes
+        with self.data() as _:                                                                  # Add all nodes
             for node in _.nodes():
                 SubElement(nodes, 'node', {'id': str(node.node_id)})
 
-        with self.data() as _:                                                              # Add all edges
+        with self.data() as _:                                                                  # Add all edges
             for edge in _.edges():
                 edge_elem       = SubElement(edges, 'edge', {'id': str(edge.edge_id)})
                 from_elem       = SubElement(edge_elem, 'from')
@@ -46,39 +52,40 @@ class MGraph__Export(Type_Safe):
                 to_elem.text    = str(edge.to_node_id())
         return self.format_xml(root, indent='  ')
 
-    def to__dot(self) -> str:                                                            # Export as DOT graph
+    def to__dot(self) -> str:                                                                   # Export as DOT graph
         lines = ['digraph {']
 
         with self.data() as _:
-            # First output all nodes
-            for node in _.nodes():
-                lines.append(f'  "{node.node_id}"')
+            for node in _.nodes():                                                              # Output nodes with data
+                node_attrs = []
+                if node.node_data:
+                    for field_name, field_value in node.node_data.__dict__.items():
+                        if not field_name.startswith('_'):                                      # Skip private attributes
+                            node_attrs.append(f'{field_name}="{field_value}"')
 
-            # Then output all edges
-            for edge in _.edges():
+                attrs_str = f' [{", ".join(node_attrs)}]' if node_attrs else ''
+                lines.append(f'  "{node.node_id}"{attrs_str}')
+
+            for edge in _.edges():                                                          # Output edges with IDs
                 lines.append(f'  "{edge.from_node_id()}" -> "{edge.to_node_id()}" [id="{edge.edge_id}"]')
 
         lines.append('}')
         return '\n'.join(lines)
 
-    def to__graphml(self) -> str:  # Export as GraphML
-        graphml_ns = "http://graphml.graphdrawing.org/xmlns"  # Define namespace
+    def to__graphml(self) -> str:                                                               # Export as GraphML
+        graphml_ns = "http://graphml.graphdrawing.org/xmlns"                                    # Define namespace
 
-        # Create root element with namespace attribute
-        root = Element('graphml', {
-            'xmlns': graphml_ns  # Add namespace as attribute
-        })
 
-        graph = SubElement(root, 'graph', {
-            'id': 'G',
-            'edgedefault': 'directed'
-        })
+        root = Element('graphml', { 'xmlns': graphml_ns  })                                     # Create root element with namespace attribute
 
-        with self.data() as _:  # Add all nodes
+        graph = SubElement(root, 'graph', { 'id'         : 'G'       ,
+                                            'edgedefault': 'directed'})
+
+        with self.data() as _:                                                                  # Add all nodes
             for node in _.nodes():
                 SubElement(graph, 'node', {'id': str(node.node_id)})
 
-        with self.data() as _:  # Add all edges
+        with self.data() as _:                                                                  # Add all edges
             for edge in _.edges():
                 SubElement(graph, 'edge', {
                     'id': str(edge.edge_id),
@@ -88,7 +95,41 @@ class MGraph__Export(Type_Safe):
 
         return self.format_xml(root, indent='  ')
 
-    def to__turtle(self) -> str:                                                         # Export as RDF/Turtle
+    def to__mermaid(self) -> str:                                                               # Export as Mermaid graph
+        lines = ['graph TD']                                                                    # Top-Down directed graph
+
+        with self.data() as _:
+            for node in _.nodes():                                                              # Output nodes with data
+                node_attrs = []
+                if node.node_data:
+                    for field_name, field_value in node.node_data.__dict__.items():
+                        node_attrs.append(f'{field_name}:{field_value}')
+
+                node_label = f'["{"|".join(node_attrs)}"]' if node_attrs else ''
+                lines.append(f'    {node.node_id}{node_label}')                                 # Indent for readability
+
+            for edge in _.edges():                                                              # Output edges with IDs
+                lines.append(f'    {edge.from_node_id()} -->|{edge.edge_id}| {edge.to_node_id()}')
+
+        return '\n'.join(lines)
+
+    def to__mermaid__markdown(self, target_file: Optional[str] = None) -> str:                  # Export DOT graph with Markdown
+        if target_file is None:
+            target_file = temp_file('.md')
+
+        markdown_lines = [
+            "# MGraph Export to Mermaid\n",
+            "```mermaid",
+            self.to__mermaid(),
+            "```"
+        ]
+
+        markdown_text = '\n'.join(markdown_lines)
+        file_create(target_file, markdown_text)
+
+        return markdown_text
+
+    def to__turtle(self) -> str:                                                                # Export as RDF/Turtle
         lines = ['@prefix mg: <http://mgraph.org/> .']
         lines.append('')
 

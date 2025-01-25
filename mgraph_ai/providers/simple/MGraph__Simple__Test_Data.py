@@ -10,13 +10,13 @@ class MGraph__Simple__Test_Data(MGraph__Simple):
             node_2_id = _.new_node(value='B', name='Node 2').node_id
             node_3_id = _.new_node(value='C', name='Node 3').node_id
             edge_1_id = _.new_edge(from_node_id=node_1_id, to_node_id=node_2_id).edge_id
-            edge_2_id = _.new_edge(from_node_id=node_1_id, to_node_id=node_2_id).edge_id
+            edge_2_id = _.new_edge(from_node_id=node_1_id, to_node_id=node_3_id).edge_id
 
         self.test_data = {'nodes': [{ 'node_id': node_1_id , 'name'        : 'Node 1'   , 'value'   : 'A'      } ,              # todo: allow this to be customised
                                     { 'node_id': node_2_id , 'name'        : 'Node 2'   , 'value'   : 'B'      } ,
                                     { 'node_id': node_3_id , 'name'        : 'Node 3'   , 'value'   : 'C'      } ],
                           'edges': [{ 'edge_id': edge_1_id  ,'from_node_id': node_1_id, 'to_node_id': node_2_id} ,
-                                    { 'edge_id': edge_2_id  ,'from_node_id': node_1_id, 'to_node_id': node_2_id} ]}
+                                    { 'edge_id': edge_2_id  ,'from_node_id': node_1_id, 'to_node_id': node_3_id} ]}
         return self
 
     def edges_ids(self):

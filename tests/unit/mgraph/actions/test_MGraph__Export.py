@@ -1,8 +1,5 @@
-from pprint                                         import pprint
 from unittest                                       import TestCase
 from xml.etree.ElementTree                          import fromstring
-from osbot_utils.utils.Files                        import file_create
-from osbot_utils.testing.Stdout                     import Stdout
 from mgraph_ai.mgraph.MGraph                        import MGraph
 from mgraph_ai.mgraph.utils.MGraph__Static__Graph   import MGraph__Static__Graph
 from osbot_utils.utils.Objects                      import obj, __

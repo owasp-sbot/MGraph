@@ -1,4 +1,4 @@
-from typing                                               import Type, Set, Any
+from typing import Type, Set, Any, Dict
 from mgraph_ai.mgraph.domain.Domain__MGraph__Graph        import Domain__MGraph__Graph
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Node        import Schema__MGraph__Node
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge        import Schema__MGraph__Edge
@@ -139,20 +139,43 @@ class MGraph__Index(Type_Safe):
         index_data = self.index_data.json()                                                              # get json (serialised) representation of the index object
         return json_file_create(index_data, target_file)                                            # save it to the target file
 
-    @classmethod
-    def from_graph(cls, graph: Domain__MGraph__Graph) -> 'MGraph__Index':                           # Create index from graph
-        with cls() as _:
-            _.load_index_from_graph(graph)                                                             # Build initial index
-            return _
+    def stats(self) -> Dict[str, Any]:                                                    # Returns statistical summary of index data
+        edge_counts = {                                                                                   # Calculate total edges per node
+            node_id: {
+                'incoming': len(self.index_data.nodes_to_incoming_edges.get(node_id, [])),
+                'outgoing': len(self.index_data.nodes_to_outgoing_edges.get(node_id, []))
+            }
+            for node_id in set(self.index_data.nodes_to_incoming_edges.keys()) |
+                           set(self.index_data.nodes_to_outgoing_edges.keys())
+        }
+        avg_incoming_edges = sum(n['incoming'] for n in edge_counts.values()) / len(edge_counts) if edge_counts else 0
+        avg_outgoing_edges = sum(n['outgoing'] for n in edge_counts.values()) / len(edge_counts) if edge_counts else 0
+        stats_data = {                                                                                   # Initialize stats dictionary
+            'index_data': {
+                'edge_to_nodes'          : len(self.index_data.edge_to_nodes)          ,                # Count of edge to node mappings
+                'edges_by_field'         : self.index_data.edges_by_field              ,                # Field indexing for edges
+                'edges_by_type'          : {k: len(v) for k,v in                                        # Count of edges per type
+                                          self.index_data.edges_by_type.items()}        ,
+                'nodes_by_field'         : {                                                            # Counts for field values
+                    field_name: { value: len(nodes) for value, nodes in field_values.items()}
+                    for field_name, field_values in self.index_data.nodes_by_field.items()
+                },
+                'nodes_by_type'          : {k: len(v) for k,v in                                        # Count of nodes per type
+                                          self.index_data.nodes_by_type.items()}        ,
+                'node_edge_connections'   : {                                                           # Consolidated edge counts
+                    'total_nodes'        : len(edge_counts)                            ,
+                    'avg_incoming_edges' : round(avg_incoming_edges),
+                    'avg_outgoing_edges' : round(avg_outgoing_edges),
+                    'max_incoming_edges' : max((n['incoming'] for n in edge_counts.values()), default=0),
+                    'max_outgoing_edges' : max((n['outgoing'] for n in edge_counts.values()), default=0)
+                }
+            }
+        }
 
-    @classmethod
-    def from_file(cls, source_file: str) -> 'MGraph__Index':                                           # Load index from file
-        with cls() as _:
-            index_data   = json_load_file(source_file)
-            _.index_data = Schema__MGraph__Index__Data.from_json(index_data)
-            return _
+        return stats_data
 
 
+    # getters for data
     def get_node_outgoing_edges(self, node: Schema__MGraph__Node) -> Set[Obj_Id]:           # Get all outgoing edges for a node
         return self.index_data.nodes_to_outgoing_edges.get(node.node_id, set())
 
@@ -179,3 +202,16 @@ class MGraph__Index(Type_Safe):
     def nodes_by_type           (self): return self.index_data.nodes_by_type
     def nodes_to_incoming_edges (self): return self.index_data.nodes_to_incoming_edges
     def nodes_to_outgoing_edges (self): return self.index_data.nodes_to_outgoing_edges
+
+    @classmethod
+    def from_graph(cls, graph: Domain__MGraph__Graph) -> 'MGraph__Index':                           # Create index from graph
+        with cls() as _:
+            _.load_index_from_graph(graph)                                                             # Build initial index
+            return _
+
+    @classmethod
+    def from_file(cls, source_file: str) -> 'MGraph__Index':                                           # Load index from file
+        with cls() as _:
+            index_data   = json_load_file(source_file)
+            _.index_data = Schema__MGraph__Index__Data.from_json(index_data)
+            return _

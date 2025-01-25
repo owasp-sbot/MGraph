@@ -11,24 +11,37 @@ class MGraph__Query(Type_Safe):
     current_node_type   : Optional[str]
     current__filters    : List[Dict[str, Any]]
 
-    def _get_property(self, name: str) -> 'MGraph__Query':
-        if not self.current_node_ids:
-            return self._empty_query()
+    def current_nodes(self):
+        return [self.mgraph_data.node(node_id) for node_id in self.current_node_ids]
 
-        result_nodes = set()
-        for node_id in self.current_node_ids:
-            outgoing_edges = self.mgraph_index.get_node_outgoing_edges(self.mgraph_data.node(node_id))
-            for edge_id in outgoing_edges:
-                edge        = self.mgraph_data.edge(edge_id)
-                target_node = self.mgraph_data.node(edge.to_node_id)
-                if hasattr(target_node.node_data, 'name') and target_node.node_data.name == name:         # todo: remove hard code
-                    result_nodes.add(edge.to_node_id)
+    def current_edges(self):
+        return [self.mgraph_data.edge(edge_id) for edge_id in self.current_edges_ids()]
 
-        new_query = MGraph__Query(index=self.mgraph_index, graph=self.mgraph_data)
-        new_query.current_node_ids = result_nodes
-        if result_nodes:
-            new_query.current_node_type = self.mgraph_data.node(next(iter(result_nodes))).node_type.__name__
-        return new_query
+    def current_edges_ids(self):
+        unique_edge_ids = set()                                                         # Initialize an empty set to store unique edge IDs
+        for node_id in self.current_node_ids:                                           # Loop through each node ID in the current node IDs
+            outgoing_edges = self.mgraph_index.nodes_to_outgoing_edges()[node_id]       # Get the set of outgoing edges for the current node
+            unique_edge_ids.update(outgoing_edges)                                      # Add all edge IDs from the outgoing edges to the set
+        return unique_edge_ids
+
+    # def _get_property(self, name: str) -> 'MGraph__Query':
+    #     if not self.current_node_ids:
+    #         return self._empty_query()
+    #
+    #     result_nodes = set()
+    #     for node_id in self.current_node_ids:
+    #         outgoing_edges = self.mgraph_index.get_node_outgoing_edges(self.mgraph_data.node(node_id))
+    #         for edge_id in outgoing_edges:
+    #             edge        = self.mgraph_data.edge(edge_id)
+    #             target_node = self.mgraph_data.node(edge.to_node_id)
+    #             if hasattr(target_node.node_data, 'name') and target_node.node_data.name == name:         # todo: remove hard code
+    #                 result_nodes.add(edge.to_node_id)
+    #
+    #     new_query = MGraph__Query(index=self.mgraph_index, graph=self.mgraph_data)
+    #     new_query.current_node_ids = result_nodes
+    #     if result_nodes:
+    #         new_query.current_node_type = self.mgraph_data.node(next(iter(result_nodes))).node_type.__name__
+    #     return new_query
 
     def _empty_query(self) -> 'MGraph__Query':
         return MGraph__Query(mgraph_index=self.mgraph_index, mgraph_data=self.mgraph_data)

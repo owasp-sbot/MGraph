@@ -5,15 +5,14 @@ from osbot_utils.utils.Json                                      import json_loa
 from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Graph import Domain__MGraph__Json__Graph
 
 class MGraph__Json__Load(Type_Safe):                                                                    # JSON import handler
-    def __init__(self, graph: Domain__MGraph__Json__Graph):                                   # Initialize with graph
-        self.graph = graph
+    graph: Domain__MGraph__Json__Graph
 
     def from_string(self, json_str: str) -> Domain__MGraph__Json__Graph:                      # Import from JSON string
         data = json_loads(json_str)
         if data:
             return self.from_json(data)
 
-    def from_json(self, data: Any) -> Domain__MGraph__Json__Graph:                            # Import from Python object
+    def from_json(self, data: dict) -> Domain__MGraph__Json__Graph:                            # Import from Python object
         self.graph.set_root_content(data)
         return self.graph
 
