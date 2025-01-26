@@ -32,7 +32,7 @@ class Perf_Test__MGraph_Json(Type_Safe):
 
     def step__create_mgraph(self):
         with capture_duration() as duration:
-            self.mgraph_json.load().from_json(self.source_json)
+            self.mgraph_json.load().from_data(self.source_json)
         self.perf_test_duration.duration__dot_creation = duration.seconds
         self.perf_test_duration.duration__total       += duration.seconds
         return self

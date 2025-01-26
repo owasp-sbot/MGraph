@@ -46,7 +46,7 @@ class MGraph_RSS:
         """Load RSS feed from URL"""
         xml = GET(url)
         json_data = self._xml_to_json(xml)
-        self.mgraph.load().from_json(json_data)
+        self.mgraph.load().from_data(json_data)
         return RSS_Feed(self.mgraph)
 
     def export_feed(self) -> str:

@@ -38,5 +38,5 @@ class MGraph__Json__Export(MGraph__Export):                     # JSON export ha
             return True
         return False
 
-    def to__mermaid(self) -> MGraph__Export__Json__Mermaid:
+    def to_mermaid(self) -> MGraph__Export__Json__Mermaid:
         return MGraph__Export__Json__Mermaid(graph=self.graph)

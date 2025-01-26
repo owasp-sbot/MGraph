@@ -1,4 +1,3 @@
-from typing                                                      import Any
 from osbot_utils.type_safe.Type_Safe                             import Type_Safe
 from osbot_utils.utils.Files                                     import file_contents, file_exists
 from osbot_utils.utils.Json                                      import json_loads
@@ -10,9 +9,9 @@ class MGraph__Json__Load(Type_Safe):                                            
     def from_string(self, json_str: str) -> Domain__MGraph__Json__Graph:                      # Import from JSON string
         data = json_loads(json_str)
         if data:
-            return self.from_json(data)
+            return self.from_data(data)
 
-    def from_json(self, data: dict) -> Domain__MGraph__Json__Graph:                            # Import from Python object
+    def from_data(self, data: dict) -> Domain__MGraph__Json__Graph:                            # Import from Python object
         self.graph.set_root_content(data)
         return self.graph
 

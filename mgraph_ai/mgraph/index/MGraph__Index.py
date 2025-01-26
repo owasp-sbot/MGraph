@@ -7,12 +7,6 @@ from osbot_utils.helpers.Obj_Id                           import Obj_Id
 from osbot_utils.type_safe.Type_Safe                      import Type_Safe
 from osbot_utils.utils.Json                               import json_file_create, json_load_file
 
-# note we don't have a top level Domain__MGraph__Graph because that is
-#       a) not needed
-#       b) would add complexity to this class
-#       c) could imply that the index was up-to-date with the graph
-#          todo: look into the detection and handling of the scenario where the a graph is not in sync from a loaded graph
-
 class MGraph__Index(Type_Safe):
     index_data : Schema__MGraph__Index__Data
 

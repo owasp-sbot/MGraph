@@ -170,7 +170,7 @@ The investigation systematically traced the issue through the call stack, with e
 ```python
 def test_bug_call_1_load_simple_json(self):
     with capture_duration() as duration:
-        self.mgraph_json.load().from_json(self.source_json)
+        self.mgraph_json.load().from_data(self.source_json)
     assert 0.5 < duration.seconds < 1
 
     # FACTS:

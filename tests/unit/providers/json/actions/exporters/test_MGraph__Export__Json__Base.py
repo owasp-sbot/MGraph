@@ -48,18 +48,18 @@ class test_MGraph__Export__Json__Base(TestCase):
         assert 'counters'                 in self.exporter.context
 
     def test_node_type_detection(self):                                        # Test node type detection
-        self.mgraph.load().from_json(self.test_data)
+        self.mgraph.load().from_data(self.test_data)
         root = self.mgraph.graph.root_content()
 
         assert self.exporter.get_node_type(root)                == Export__Json__Node_Type.OBJECT
 
         array_data = [1, 2, 3]
-        self.mgraph.load().from_json(array_data)
+        self.mgraph.load().from_data(array_data)
         array_root = self.mgraph.graph.root_content()
         assert self.exporter.get_node_type(array_root)          == Export__Json__Node_Type.ARRAY
 
         value_data = "test"
-        self.mgraph.load().from_json(value_data)
+        self.mgraph.load().from_data(value_data)
         value_root = self.mgraph.graph.root_content()
         assert self.exporter.get_node_type(value_root)          == Export__Json__Node_Type.VALUE
 
@@ -78,19 +78,19 @@ class test_MGraph__Export__Json__Base(TestCase):
         assert self.exporter.generate_node_id("property")        == "property_0"
 
     def test_object_export(self):                                             # Test object export
-        self.mgraph.load().from_json({"key": "value"})
+        self.mgraph.load().from_data({"key": "value"})
         output = self.exporter.to_string()
         assert output                                            == "test_output"
         assert self.exporter.last_processed[0]                   == "object"
 
     def test_array_export(self):                                              # Test array export
-        self.mgraph.load().from_json([1, 2, 3])
+        self.mgraph.load().from_data([1, 2, 3])
         output = self.exporter.to_string()
         assert output                                            == "test_output"
         assert self.exporter.last_processed[0]                   == "array"
 
     def test_value_export(self):                                              # Test value export
-        self.mgraph.load().from_json("test")
+        self.mgraph.load().from_data("test")
         output = self.exporter.to_string()
         assert output                                            == "test_output"
         assert self.exporter.last_processed[0]                   == "value"
@@ -104,7 +104,7 @@ class test_MGraph__Export__Json__Base(TestCase):
             raise Exception("Test error")
 
         self.exporter.process_object_node = failing_process
-        self.mgraph.load().from_json({"key": "value"})
+        self.mgraph.load().from_data({"key": "value"})
 
         with self.assertRaises(Export__Json__Format_Error):
             self.exporter.to_string()
@@ -114,7 +114,7 @@ class test_MGraph__Export__Json__Base(TestCase):
 
     def test_file_export(self):                                               # Test file export with mock
         file_name = 'test.txt'
-        self.mgraph.load().from_json(self.test_data)
+        self.mgraph.load().from_data(self.test_data)
         assert self.exporter.to_file(file_name)    is True
         assert file_exists(file_name) is True
         assert file_delete(file_name) is True

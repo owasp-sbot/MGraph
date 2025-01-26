@@ -14,7 +14,7 @@ Here's a practical example showing MGraph__Json in action:
 # Create MGraph__Json instance and load JSON from a URL
 mgraph_json = MGraph__Json()
 json_data   = GET_json("https://api.example.com/data-feed")
-mgraph_json.load().from_json(json_data)
+mgraph_json.load().from_data(json_data)
 
 # Perform graph operations
 with mgraph_json.edit() as edit:
