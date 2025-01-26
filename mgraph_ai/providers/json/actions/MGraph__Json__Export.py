@@ -1,12 +1,13 @@
-from typing                                                               import Union, Dict, List, Optional, Any
-from mgraph_ai.providers.json.actions.exporters.MGraph__Export__Json__Dot import MGraph__Export__Json__Dot
-from osbot_utils.utils.Files                                              import file_save
-from osbot_utils.utils.Json                                               import json_dumps
-from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node__Dict     import Domain__MGraph__Json__Node__Dict
-from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node__List     import Domain__MGraph__Json__Node__List
-from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node__Value    import Domain__MGraph__Json__Node__Value
-from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Graph          import Domain__MGraph__Json__Graph
-from mgraph_ai.mgraph.actions.MGraph__Export                              import MGraph__Export
+from typing                                                                     import Union, Dict, List, Optional, Any
+from mgraph_ai.providers.json.actions.exporters.MGraph__Export__Json__Dot       import MGraph__Export__Json__Dot
+from mgraph_ai.providers.json.actions.exporters.MGraph__Export__Json__Mermaid   import MGraph__Export__Json__Mermaid
+from osbot_utils.utils.Files                                                    import file_save
+from osbot_utils.utils.Json                                                     import json_dumps
+from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node__Dict           import Domain__MGraph__Json__Node__Dict
+from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node__List           import Domain__MGraph__Json__Node__List
+from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node__Value          import Domain__MGraph__Json__Node__Value
+from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Graph                import Domain__MGraph__Json__Graph
+from mgraph_ai.mgraph.actions.MGraph__Export                                    import MGraph__Export
 
 class MGraph__Json__Export(MGraph__Export):                     # JSON export handler
     graph: Domain__MGraph__Json__Graph
@@ -36,3 +37,6 @@ class MGraph__Json__Export(MGraph__Export):                     # JSON export ha
             file_save(contents=file_contents, path=file_path)
             return True
         return False
+
+    def to__mermaid(self) -> MGraph__Export__Json__Mermaid:
+        return MGraph__Export__Json__Mermaid(graph=self.graph)
