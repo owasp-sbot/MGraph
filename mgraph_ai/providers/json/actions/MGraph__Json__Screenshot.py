@@ -52,6 +52,6 @@ class MGraph__Json__Screenshot(Type_Safe):
 
     def url__render_server(self):
         url = get_env(ENV_NAME__URL__MGRAPH_AI_SERVERLESS)
-        if not url:                                                                         # todo: see if there is a better place to put this check (maybe in a setup method)
-            raise ValueError(f"in MGraph__Json__Screenshot.url__render_server, missing env var: {ENV_NAME__URL__MGRAPH_AI_SERVERLESS}")
+        # if not url:                                                                         # todo: see if there is a better place to put this check (maybe in a setup method)
+        #     raise ValueError(f"in MGraph__Json__Screenshot.url__render_server, missing env var: {ENV_NAME__URL__MGRAPH_AI_SERVERLESS}")
         return url
