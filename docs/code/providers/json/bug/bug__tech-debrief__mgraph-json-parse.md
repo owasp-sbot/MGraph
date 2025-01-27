@@ -49,7 +49,7 @@ def test_trace(self):
         'c': json_example,
         #'d': [json_example, json_example],  # Commented out for initial testing
     }
-    mgraph_json.load().from_json(source_json)
+    mgraph_json.load().from_data(source_json)
 ```
 
 The trace output revealed severe performance degradation:
@@ -149,7 +149,7 @@ source_json = {
              show_class=True)
 def test_trace(self):
     mgraph_json = MGraph__Json()
-    mgraph_json.load().from_json(source_json)
+    mgraph_json.load().from_data(source_json)
 ```
 
 ### Trace Configuration Explanation
@@ -185,7 +185,7 @@ def test_trace(self):
         'c': {'d': 4, 'e': 5},
         "f": ['x', 'y', 'z']
     }
-    mgraph_json.load().from_json(source_json)
+    mgraph_json.load().from_data(source_json)
 ```
 
 The trace output shows 29 operation calls with interesting patterns:
@@ -327,7 +327,7 @@ Rather than jumping to solutions or creating high-level performance tests, we ne
 #### Investigation Philosophy
 
 1. **Top-Down Call Stack Investigation**
-   - Start at the highest level API call: `mgraph_json.load().from_json(source_json)`
+   - Start at the highest level API call: `mgraph_json.load().from_data(source_json)`
    - Create tests that incrementally dig one level deeper into the call stack
    - Each test should isolate and verify behavior at that specific level
    - Focus particularly on the `models__from_edges` and `edges` methods where we see degradation

@@ -22,7 +22,7 @@ class test__regression__Domain__MGraph__Json__Node__Dict(TestCase):             
                        'g': json_data, 'h': json_data}
 
         with capture_duration() as duration:
-            mgraph_json.load().from_json(source_json)
+            mgraph_json.load().from_data(source_json)
         #assert 0.5 < duration.seconds < 1                      # BUG
-        assert 0    < duration.seconds < 0.2                    # Fixed
+        assert 0    <= duration.seconds < 0.2                    # Fixed
 

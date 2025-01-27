@@ -16,7 +16,7 @@ class test_MGraph__Json__Export(TestCase):
                            "object" : {"key": "value"}}
 
     def test_export_formats(self):                                                            # Test different export formats
-        self.mgraph.load().from_json(self.test_data)
+        self.mgraph.load().from_data(self.test_data)
 
         dict_export         = self.mgraph.export().to_dict()                                  # Test dict export
         str_export          = self.mgraph.export().to_string()                                # Test string export without indent
@@ -32,7 +32,7 @@ class test_MGraph__Json__Export(TestCase):
 
     def test_file_operations(self):                                                 # Test file import/export
         file_path = "test.json"
-        self.mgraph.load().from_json(self.test_data)                             # Test export to file
+        self.mgraph.load().from_data(self.test_data)                             # Test export to file
         assert self.mgraph.export().to_file(str(file_path), indent=2) is True
         assert file_exists(file_path)                                 is True
 

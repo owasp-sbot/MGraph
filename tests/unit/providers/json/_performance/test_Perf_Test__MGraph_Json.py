@@ -62,7 +62,7 @@ class test_Perf_Test__MGraph_Json(TestCase):
         target_json = feed_start
         mgraph_json = MGraph__Json()
         with print_duration(action_name='from-json'):
-            mgraph_json.load().from_json(target_json)
+            mgraph_json.load().from_data(target_json)
         with print_duration(action_name='to-json'):
             round_trip = mgraph_json.export().to_dict()
         with print_duration(action_name='to-dot'):

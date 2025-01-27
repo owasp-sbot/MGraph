@@ -1,21 +1,21 @@
-from unittest                                             import TestCase
-
-from osbot_utils.context_managers.print_duration import print_duration
-
-from osbot_utils.utils.Dev import pprint
-
-from mgraph_ai.mgraph.index.MGraph__Query import MGraph__Query
-from mgraph_ai.providers.json.MGraph__Json                import MGraph__Json
-from mgraph_ai.providers.json.actions.MGraph__Json__Query import MGraph__Json__Query
-from mgraph_ai.mgraph.index.MGraph__Index                 import MGraph__Index
-from mgraph_ai.mgraph.actions.MGraph__Data                import MGraph__Data
-from osbot_utils.type_safe.Type_Safe                      import Type_Safe
-from osbot_utils.utils.Objects                            import base_types
+from unittest                                               import TestCase
+from osbot_utils.utils.Env                                  import load_dotenv
+from mgraph_ai.providers.json.actions.MGraph__Json__Export  import MGraph__Json__Export
+from osbot_utils.context_managers.print_duration            import print_duration
+from osbot_utils.utils.Dev                                  import pprint
+from mgraph_ai.mgraph.index.MGraph__Query                   import MGraph__Query
+from mgraph_ai.providers.json.MGraph__Json                 import MGraph__Json
+from mgraph_ai.providers.json.actions.MGraph__Json__Query  import MGraph__Json__Query
+from mgraph_ai.mgraph.index.MGraph__Index                  import MGraph__Index
+from mgraph_ai.mgraph.actions.MGraph__Data                 import MGraph__Data
+from osbot_utils.type_safe.Type_Safe                       import Type_Safe
+from osbot_utils.utils.Objects                             import base_types
 
 class test_MGraph__Json__Query(TestCase):
 
     @classmethod
     def setUpClass(cls):
+        load_dotenv()
         import pytest
         pytest.skip("test needs fixing, after MGraph__Json__Query is refactored")
 
@@ -26,7 +26,7 @@ class test_MGraph__Json__Query(TestCase):
                            "object"  : { "nested": True                       ,
                                         "list"   : [1, 2, {"item": "value"}]} ,
                            "array"   : ["a", "b", {"key": "value"}]           }
-        self.mgraph_json.load().from_json(self.test_data)
+        self.mgraph_json.load().from_data(self.test_data)
         self.mgraph_index = MGraph__Index.from_graph( graph        = self.mgraph_json.graph)
         self.mgraph_data  = MGraph__Data            ( graph        = self.mgraph_json.graph)
         self.json_query   = MGraph__Json__Query     ( mgraph_index = self.mgraph_index,
@@ -42,6 +42,9 @@ class test_MGraph__Json__Query(TestCase):
             assert self.json_query.current_node_type is None
 
             assert _.count()                         == 0
+
+        #self.mgraph_json.screenshot().save_to('/tmp/json-screenshot.png').dot()
+
 
         with self.json_query.mgraph_index as _:
             assert _.stats() == {'index_data': { 'edge_to_nodes'         : 23                                                        ,
@@ -76,14 +79,13 @@ class test_MGraph__Json__Query(TestCase):
                                                                             'Schema__MGraph__Json__Node__Value'   : 9                }}}
 
     def test_property_access(self):
+        graph = self.json_query.mgraph_data.graph
+        export = MGraph__Json__Export(graph=graph)
+        dot_code = export.to_dot().to_string()
+        pprint(dot_code)
+        return
         query = self.json_query
 
-        with print_duration():
-            with query.name('string') as _:
-                assert type(_) is MGraph__Json__Query
-                assert len(_.current_node_ids) == 1
-                pprint(_.current_edges())
-                pprint(_.current_nodes()[0].node.json())
         with print_duration():
             with query.name('string') as _:
                 assert type(_) is MGraph__Json__Query

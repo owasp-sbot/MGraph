@@ -70,7 +70,7 @@ During the performance fix implementation, several property management bugs were
    ```python
    def test__regression__performance__mgraph_json__load__from_json(self):
        with capture_duration() as duration:
-           mgraph_json.load().from_json(source_json)
+           mgraph_json.load().from_data(source_json)
        assert 0.05 < duration.seconds < 0.1  # New performance target
    ```
 

@@ -37,7 +37,7 @@ class test_MGraph__Export__Json__Mermaid(TestCase):
 
 
     def test_simple_value_export(self):                                                           # Test value node export
-        self.mgraph.load().from_json("test_value")
+        self.mgraph.load().from_data("test_value")
         mermaid = self.exporter.to_string()
         assert mermaid == """\
 flowchart LR
@@ -47,7 +47,7 @@ flowchart LR
 
     def test_array_export(self):                                                                  # Test array node export
         test_array = [1, 2, "three"]
-        self.mgraph.load().from_json(test_array)
+        self.mgraph.load().from_data(test_array)
         mermaid = self.exporter.to_string()
         assert mermaid == """\
 flowchart LR
@@ -67,7 +67,7 @@ flowchart LR
 
     def test_object_export(self):                                                                 # Test object node export
         test_obj = {"key1": "value1", "key2": 42}
-        self.mgraph.load().from_json(test_obj)
+        self.mgraph.load().from_data(test_obj)
         mermaid = self.exporter.to_string()
         assert mermaid == """\
 flowchart LR
@@ -89,7 +89,7 @@ flowchart LR
     style value_1 fill:#FFF9C4,stroke:#FBC02D"""
 
     def test_complex_structure(self):                                                             # Test complex nested structure
-        self.mgraph.load().from_json(self.test_data)
+        self.mgraph.load().from_data(self.test_data)
         mermaid = self.exporter.to_string()
 
         # Basic structure checks
@@ -117,7 +117,7 @@ flowchart LR
         assert style_section.startswith('    style ')
 
     def test_visual_attributes(self):                                                             # Test visual styling
-        self.mgraph.load().from_json(self.test_data)
+        self.mgraph.load().from_data(self.test_data)
         mermaid = self.exporter.to_string()
 
         # Style attributes
@@ -143,7 +143,7 @@ flowchart LR
                 }
             }
         }
-        self.mgraph.load().from_json(nested_data)
+        self.mgraph.load().from_data(nested_data)
         assert json_loads(self.mgraph.export().to_string()) == nested_data
         mermaid = self.exporter.to_string()
         assert mermaid == """\
@@ -205,7 +205,7 @@ flowchart LR
     style value_4 fill:#FFF9C4,stroke:#FBC02D"""
 
     def test_mermaid_syntax(self):                                                               # Test valid Mermaid syntax elements
-        self.mgraph.load().from_json(self.test_data)
+        self.mgraph.load().from_data(self.test_data)
         mermaid = self.exporter.to_string()
 
         # Basic Mermaid syntax elements

@@ -29,7 +29,7 @@ class test__regression__performance__MGraph__Json__Load(TestCase):
 
     def test__regression__call_1__load__simple_json(self):                                        # Test the top-level load operation
         with capture_duration() as duration:
-            self.mgraph_json.load().from_json(self.source_json)                            # [FACT-1]
+            self.mgraph_json.load().from_data(self.source_json)                            # [FACT-1]
         #assert 0.5 < duration.seconds < 1                                      # BUG      # [FACT-2]
         assert 0    < duration.seconds < 0.2                                    # FIXED
 
@@ -37,10 +37,10 @@ class test__regression__performance__MGraph__Json__Load(TestCase):
         # FACT-1: MGraph__Json.load().from_json() is the entry point for JSON loading
         # FACT-2: Loading a moderately complex JSON (8 identical structures) takes > 0.5s
 
-    def test__regression__call_2__load__from_json(self):                                          # Test MGraph__Json__Load.from_json
+    def test__regression__call_2__load__from_data(self):                                          # Test MGraph__Json__Load.from_json
         loader = self.mgraph_json.load()
         with capture_duration() as duration:
-            loader.from_json(self.source_json)                                              # [FACT-1]
+            loader.from_data(self.source_json)                                              # [FACT-1]
         #assert 0.4 < duration.seconds < 0.8                                    # BUG       # [FACT-2]
         assert 0    < duration.seconds < 0.2                                    # FIXED
 
@@ -263,4 +263,4 @@ class test__regression__performance__MGraph__Json__Load(TestCase):
     # def test__trace__performance__mgraph_json__load__from_json(self):
     #     mgraph_json = MGraph__Json()
     #     simple_json = {'a':42}
-    #     mgraph_json.load().from_json(simple_json)
+    #     mgraph_json.load().from_data(simple_json)
