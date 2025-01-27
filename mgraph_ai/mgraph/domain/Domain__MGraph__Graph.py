@@ -1,4 +1,4 @@
-from typing                                        import List
+from typing                                        import List, Type
 from mgraph_ai.mgraph.domain.Domain__MGraph__Types import Domain__MGraph__Types
 from mgraph_ai.mgraph.models.Model__MGraph__Edge   import Model__MGraph__Edge
 from mgraph_ai.mgraph.models.Model__MGraph__Node   import Model__MGraph__Node
@@ -14,6 +14,7 @@ from osbot_utils.type_safe.Type_Safe               import Type_Safe
 class Domain__MGraph__Graph(Type_Safe):
     domain_types : Domain__MGraph__Types
     model        : Model__MGraph__Graph
+    graph_type   : Type['Domain__MGraph__Graph']
 
 
     def delete_edge(self, edge_id: Obj_Id) -> bool:

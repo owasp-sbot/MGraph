@@ -31,6 +31,7 @@ class test_Domain__MGraph__Json__Graph(TestCase):
             assert isinstance(_, Domain__MGraph__Graph)
             assert _.obj() == __(domain_types = __(node_domain_type = full_type_name(Domain__MGraph__Json__Node),
                                                    edge_domain_type = full_type_name(Domain__MGraph__Json__Edge)),
+                                 graph_type   = full_type_name(Domain__MGraph__Json__Graph)                            ,
                                  model        = __(data             = __(schema_types    = __(edge_type        = full_type_name(Schema__MGraph__Json__Edge   ),
                                                                                               edge_config_type = full_type_name(Schema__MGraph__Edge__Config ),
                                                                                               graph_data_type  = full_type_name(Schema__MGraph__Graph__Data  ),
