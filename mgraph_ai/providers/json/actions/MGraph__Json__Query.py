@@ -1,88 +1,119 @@
-from typing                                                             import Dict, Any, Optional, List, Union
-from mgraph_ai.mgraph.index.MGraph__Query                               import MGraph__Query
-from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node__Dict   import Domain__MGraph__Json__Node__Dict
+from typing                                                             import Dict, Any, Optional, List, Union, Set
+from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node         import Domain__MGraph__Json__Node
 from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node__List   import Domain__MGraph__Json__Node__List
-from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node__Value  import Domain__MGraph__Json__Node__Value
-
+from mgraph_ai.query.MGraph__Query                                      import MGraph__Query
+from osbot_utils.helpers.Obj_Id                                         import Obj_Id
 
 class MGraph__Json__Query(MGraph__Query):
 
-    def name(self, property_name: str) -> 'MGraph__Json__Query':              # Property access by name
-        base_query = self.with_field('name', property_name)
-        return self._wrap_base_query(base_query)
+    # def dict(self) -> Dict[str, Any]:
+    #     nodes_ids, _ = self.get_current_ids()
+    #     if not nodes_ids:
+    #         return {}
+    #
+    #     node = self.mgraph_data.node(next(iter(nodes_ids)))
+    #     if isinstance(node, Domain__MGraph__Json__Node__Dict):
+    #         return node.properties()
+    #     return {}
+    #
+    # def list(self) -> List[Any]:
+    #     nodes_ids, _ = self.get_current_ids()
+    #     if not nodes_ids:
+    #         return []
+    #
+    #     node = self.mgraph_data.node(next(iter(nodes_ids)))
+    #     if isinstance(node, Domain__MGraph__Json__Node__List):
+    #         return node.items()
+    #     return []
+    #
+    # def value(self) -> Optional[Any]:
+    #     nodes_ids, _ = self.get_current_ids()
+    #     if not nodes_ids:
+    #         return None
+    #
+    #     node = self.mgraph_data.node(next(iter(nodes_ids)))
+    #     if isinstance(node, Domain__MGraph__Json__Node__Value):
+    #         return node.value
+    #     return None
 
-    def dict(self) -> Dict[str, Any]:                                         # Get current node as dictionary
-        if not self.current_node_ids:
-            return {}
-
-        node = self.first()
-        if isinstance(node, Domain__MGraph__Json__Node__Dict):
-            return node.properties()
-        return {}
-
-    def list(self) -> List[Any]:                                              # Get current node as list
-        if not self.current_node_ids:
-            return []
-
-        node = self.first()
-        if isinstance(node, Domain__MGraph__Json__Node__List):
-            return node.items()
-        return []
-
-    def value(self) -> Optional[Any]:                                         # Override base value() for JSON specifics
-        if not self.current_node_ids:
-            return None
-
-        node = self.first()
-        if isinstance(node, Domain__MGraph__Json__Node__Value):
-            return node.value
-        return None
-
-    def __getitem__(self, key: Union[str, int]) -> 'MGraph__Json__Query':    # Array/dict access via [] notation
+    def __getitem__(self, key: Union[str, int]) -> 'MGraph__Json__Query':           # todo: check this method workflow
         if isinstance(key, int):
-            return self._get_array_item(key)
-        return self._get_dict_item(str(key))
+            return self.get_array_item(key)
+        return self.get_dict_item(str(key))
 
-    def _get_array_item(self, index: int) -> 'MGraph__Json__Query':
-        if not self.current_node_ids:
-            return self._empty_json_query()
+    def get_array_item(self, index: int) -> 'MGraph__Json__Query':                  # todo: check this method workflow
+        nodes_ids, _ = self.get_current_ids()
+        if not nodes_ids:
+            return self.create_empty_view()
 
-        node = self.first()
+        node = self.mgraph_data.node(next(iter(nodes_ids)))
         if not isinstance(node, Domain__MGraph__Json__Node__List):
-            return self._empty_json_query()
+            return self.create_empty_view()
 
         items = node.items()
-        if 0 <= index < len(items):
-            return self._wrap_value(items[index])
-        return self._empty_json_query()
+        if not (0 <= index < len(items)):
+            return self.create_empty_view()
 
-    def _get_dict_item(self, key: str) -> 'MGraph__Json__Query':
-        if not self.current_node_ids:
-            return self._empty_json_query()
+        item = items[index]
+        if isinstance(item, Domain__MGraph__Json__Node):
+            return self.with_new_view({item.node_id}, 'array_access', {'index': index})
 
-        node = self.first()
-        if not isinstance(node, Domain__MGraph__Json__Node__Dict):
-            return self._empty_json_query()
+        return self.create_empty_view()
 
-        value = node.property(key)
-        if value is not None:
-            return self._wrap_value(value)
-        return self._empty_json_query()
+    def get_dict_item(self, key: str) -> 'MGraph__Json__Query':                         # this method needs refactoring into smaller logical steps and parts
+        nodes_ids, _ = self.get_current_ids()
+        if not nodes_ids:
+            return self.create_empty_view()
 
-    def _wrap_value(self, value: Any) -> 'MGraph__Json__Query':
-        new_query = self._empty_json_query()
-        if isinstance(value, (Domain__MGraph__Json__Node__Dict,
-                            Domain__MGraph__Json__Node__List,
-                            Domain__MGraph__Json__Node__Value)):
-            new_query.current_node_ids = {value.node_id}
-            new_query.current_node_type = value.__class__.__name__
-        return new_query
+        matched_properties = self.mgraph_index.get_nodes_by_field('name', key)          # Find all property nodes with this key
 
-    def _empty_json_query(self) -> 'MGraph__Json__Query':
-        return MGraph__Json__Query(mgraph_index=self.mgraph_index, mgraph_data=self.mgraph_data)
 
-    def _wrap_base_query(self, base_query: MGraph__Query) -> 'MGraph__Json__Query':
-        json_query = self._empty_json_query()
-        json_query.current_node_ids = base_query.current_node_ids
-        json_query.current_node_type = base_query.current_node_type
-        return json_query
+        connecting_edges = set()                                                        # Get all edges connecting our current nodes to these properties
+        target_nodes     = set()
+
+        for node_id in nodes_ids:
+            edges = self.mgraph_index.get_node_outgoing_edges(self.mgraph_data.node(node_id))
+            for edge_id in edges:
+                edge = self.mgraph_data.edge(edge_id)
+                if edge.to_node_id() in matched_properties:
+                    connecting_edges.add(edge_id)
+                    value_edges = self.mgraph_index.get_node_outgoing_edges(self.mgraph_data.node(edge.to_node_id()))   # Also get the value nodes connected to these properties
+                    connecting_edges.update(value_edges)
+                    for value_edge in value_edges:
+                        target_nodes.add(self.mgraph_data.edge(value_edge).to_node_id())
+
+        if not target_nodes:
+            return self.create_empty_view()
+
+        return self.with_new_view(target_nodes, 'dict_access', {'key': key})
+
+    def name(self, property_name: str) -> 'MGraph__Json__Query':
+        matching_ids = self.mgraph_index.get_nodes_by_field('name', property_name)
+        nodes_ids, _ = self.get_current_ids()
+
+        filtered_nodes = matching_ids & nodes_ids if nodes_ids else matching_ids
+        filtered_edges = self.get_connecting_edges(filtered_nodes)
+
+        self.create_view(nodes_ids=filtered_nodes,
+                        edges_ids=filtered_edges,
+                        operation='name',
+                        params={'name': property_name})
+        return self
+
+    def create_empty_view(self) -> 'MGraph__Json__Query':
+        self.create_view(nodes_ids=set(),
+                        edges_ids=set(),
+                        operation='empty',
+                        params={})
+        return self
+
+    def with_new_view(self, nodes    : Set[Obj_Id   ],
+                            operation: str           ,
+                            params   : Dict[str, Any]
+                      ) -> 'MGraph__Json__Query':
+        edges = self.get_connecting_edges(nodes)
+        self.create_view(nodes_ids=nodes,
+                        edges_ids=edges,
+                        operation=operation,
+                        params=params)
+        return self
