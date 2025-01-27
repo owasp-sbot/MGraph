@@ -1,8 +1,8 @@
 from typing                                                             import Dict, Any, Optional, List, Union
-from mgraph_ai.mgraph.index.MGraph__Query                               import MGraph__Query
 from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node__Dict   import Domain__MGraph__Json__Node__Dict
 from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node__List   import Domain__MGraph__Json__Node__List
 from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node__Value  import Domain__MGraph__Json__Node__Value
+from mgraph_ai.query.MGraph__Query                                      import MGraph__Query
 
 
 class MGraph__Json__Query(MGraph__Query):

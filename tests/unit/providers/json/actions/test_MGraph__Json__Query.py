@@ -1,15 +1,15 @@
 from unittest                                               import TestCase
+from mgraph_ai.query.MGraph__Query                          import MGraph__Query
 from osbot_utils.utils.Env                                  import load_dotenv
 from mgraph_ai.providers.json.actions.MGraph__Json__Export  import MGraph__Json__Export
 from osbot_utils.context_managers.print_duration            import print_duration
 from osbot_utils.utils.Dev                                  import pprint
-from mgraph_ai.mgraph.index.MGraph__Query                   import MGraph__Query
-from mgraph_ai.providers.json.MGraph__Json                 import MGraph__Json
-from mgraph_ai.providers.json.actions.MGraph__Json__Query  import MGraph__Json__Query
-from mgraph_ai.mgraph.index.MGraph__Index                  import MGraph__Index
-from mgraph_ai.mgraph.actions.MGraph__Data                 import MGraph__Data
-from osbot_utils.type_safe.Type_Safe                       import Type_Safe
-from osbot_utils.utils.Objects                             import base_types
+from mgraph_ai.providers.json.MGraph__Json                  import MGraph__Json
+from mgraph_ai.providers.json.actions.MGraph__Json__Query   import MGraph__Json__Query
+from mgraph_ai.mgraph.index.MGraph__Index                   import MGraph__Index
+from mgraph_ai.mgraph.actions.MGraph__Data                  import MGraph__Data
+from osbot_utils.type_safe.Type_Safe                        import Type_Safe
+from osbot_utils.utils.Objects                              import base_types
 
 class test_MGraph__Json__Query(TestCase):
 

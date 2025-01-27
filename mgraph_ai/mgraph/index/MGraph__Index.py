@@ -1,4 +1,4 @@
-from typing import Type, Set, Any, Dict
+from typing                                               import Type, Set, Any, Dict
 from mgraph_ai.mgraph.domain.Domain__MGraph__Graph        import Domain__MGraph__Graph
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Node        import Schema__MGraph__Node
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge        import Schema__MGraph__Edge
