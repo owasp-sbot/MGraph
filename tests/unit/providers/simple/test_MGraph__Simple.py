@@ -71,7 +71,7 @@ class test_MGraph__Simple(TestCase):
                                                                        'graph_data'  : {},
                                                                        'graph_id'    : graph_id,
                                                                        'graph_type'  : type_full_name(Schema__Simple__Graph),
-                                                                       'nodes'       : { node_id: { 'node_data': {'name' : ''  ,
+                                                                       'nodes'       : { node_id: { 'node_data': {'name' : None ,
                                                                                                                   'value': None},
                                                                                                     'node_id'  : node_id,
                                                                                                     'node_type' : type_full_name(Schema__Simple__Node    )}},
@@ -82,7 +82,7 @@ class test_MGraph__Simple(TestCase):
                                                                                         'node_type'       : type_full_name(Schema__Simple__Node         )}},
                                              'model_types'          : {'edge_model_type' : type_full_name(Model__MGraph__Edge          ),
                                                                        'node_model_type' : type_full_name(Model__Simple__Node          )}},
-                                   'node': {'data': {'node_data': {'name': '', 'value': None}           ,
+                                   'node': {'data': {'node_data': {'name': None, 'value': None}         ,
                                                      'node_id'  : node_id                               ,
                                                      'node_type': type_full_name(Schema__Simple__Node)  }}}
 
