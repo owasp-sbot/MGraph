@@ -1,4 +1,4 @@
-from fontTools.misc.testTools                              import TestCase
+from unittest                                              import TestCase
 from mgraph_ai.query.models.Model__MGraph__Query__Views    import Model__MGraph__Query__Views
 from mgraph_ai.query.schemas.Schema__MGraph__Query__Views  import Schema__MGraph__Query__Views
 from osbot_utils.type_safe.Type_Safe                       import Type_Safe
