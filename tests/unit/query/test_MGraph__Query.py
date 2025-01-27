@@ -6,25 +6,36 @@ from mgraph_ai.mgraph.index.MGraph__Index                    import MGraph__Inde
 from mgraph_ai.mgraph.actions.MGraph__Data                   import MGraph__Data
 from mgraph_ai.providers.simple.MGraph__Simple__Test_Data    import MGraph__Simple__Test_Data
 from mgraph_ai.query.MGraph__Query                           import MGraph__Query
-from osbot_utils.utils.Objects                               import base_types
+from osbot_utils.utils.Objects                               import base_types, __
 from osbot_utils.type_safe.Type_Safe                         import Type_Safe
 from osbot_utils.helpers.Obj_Id                              import Obj_Id
 
 class test_MGraph__Query__Methods(TestCase):
 
     def setUp(self):
-        self.mgraph       = MGraph__Simple__Test_Data().create()               # Create test graph
+        self.mgraph       = MGraph__Simple__Test_Data().create()                    # Create test graph
         self.graph        = self.mgraph.graph
-        self.mgraph_index = MGraph__Index.from_graph(self.graph)              # Create index
-        self.mgraph_data  = MGraph__Data(graph=self.mgraph.graph)            # Create data access
-        self.query        = MGraph__Query(mgraph_index=self.mgraph_index,     # Create query instance
-                                        mgraph_data=self.mgraph_data)
+        self.mgraph_index = MGraph__Index.from_graph(self.graph)                    # Create index
+        self.mgraph_data  = MGraph__Data(graph=self.mgraph.graph)                   # Create data access
+        self.query        = MGraph__Query(mgraph_index = self.mgraph_index,         # Create query instance
+                                          mgraph_data   = self.mgraph_data ).setup()
 
     def test_init(self):                                                       # Test initialization
-        assert type(self.query)              is MGraph__Query
-        assert base_types(self.query)        == [Type_Safe, object]
-        assert type(self.query.mgraph_index) is MGraph__Index
-        assert type(self.query.mgraph_data)  is MGraph__Data
+        with self.query as _:
+            assert type(_)              is MGraph__Query
+            assert base_types(_)        == [Type_Safe, object]
+            assert type(_.mgraph_index) is MGraph__Index
+            assert type(_.mgraph_data)  is MGraph__Data
+            assert _.obj()              == __(mgraph_data  = _.mgraph_data .obj(),
+                                              mgraph_index = _.mgraph_index.obj(),
+                                              query_views  = _.query_views .obj())
+            initial_view    = _.current_view()                                              # test .setup() method (which will create a default view)
+            initial_view_id = initial_view.view_id()
+            assert _.query_views.json() == {'data': { 'current_view_id': initial_view_id,
+                                                      'first_view_id'  : initial_view_id,
+                                                      'views'          : { initial_view_id: initial_view.data.json() }}}
+
+
 
     def test__get_source_ids(self):                                           # Test _get_source_ids
         with self.mgraph.data() as _:
@@ -80,20 +91,18 @@ class test_MGraph__Query__Methods(TestCase):
     def test__create_view__first_view(self):                                # Test _create_view with no previous view
         test_nodes = {Obj_Id(), Obj_Id()}
         test_edges = {Obj_Id(), Obj_Id()}
-
-        self.query.create_view(                                             # Create first view
-            nodes_ids = test_nodes,
-            edges_ids = test_edges,
-            operation = 'test_op',
-            params    = {'test': 'value'}
-        )
+        initial_view = self.query.query_views.current_view()
+        self.query.create_view(nodes_ids = test_nodes       ,               # Create first view
+                               edges_ids = test_edges       ,
+                               operation = 'test_op'        ,
+                               params    = {'test': 'value'})
 
         view = self.query.query_views.current_view()                         # Check view
         assert view.nodes_ids()       == test_nodes
         assert view.edges_ids()       == test_edges
         assert view.query_operation() == 'test_op'
         assert view.query_params()    == {'test': 'value'}
-        assert view.previous_view_id() is None
+        assert view.previous_view_id() == initial_view.view_id()
 
     def test__create_view__with_previous(self):                             # Test _create_view with previous view
         # Create first view
@@ -147,8 +156,7 @@ class test_MGraph__Query__Methods(TestCase):
         assert len(current_view.nodes_ids()) == 1                            # Should maintain filter
 
     def test_go_back__no_history(self):                                      # Test go_back with no history
-        assert self.query.go_back() is False                                 # Should return False
-        assert self.query.query_views.current_view() is None                 # No current view
+        assert self.query.go_back()                  is False                # Should return False
 
     def test_go_back__with_history(self):                                    # Test go_back with history
         # Create history

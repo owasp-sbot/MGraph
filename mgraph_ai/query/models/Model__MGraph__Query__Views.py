@@ -85,3 +85,5 @@ class Model__MGraph__Query__Views(Type_Safe):
             self.data.current_view_id = view.view_data.previous_view_id
 
         return True
+
+

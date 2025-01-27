@@ -25,7 +25,8 @@ class MGraph(Type_Safe):                                                        
     def query(self) -> MGraph__Query:
         mgraph_data  = self.data()
         mgraph_index = self.index()
-        return MGraph__Query(mgraph_data=mgraph_data, mgraph_index=mgraph_index)
+        mgraph_query = MGraph__Query(mgraph_data=mgraph_data, mgraph_index=mgraph_index).setup()
+        return mgraph_query
 
     def storage(self) -> MGraph__Storage:
         return MGraph__Storage(graph=self.graph)

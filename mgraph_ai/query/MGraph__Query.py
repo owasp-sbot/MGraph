@@ -8,13 +8,25 @@ from osbot_utils.helpers.Obj_Id                             import Obj_Id
 from mgraph_ai.mgraph.actions.MGraph__Data                  import MGraph__Data
 from mgraph_ai.mgraph.index.MGraph__Index                   import MGraph__Index
 from osbot_utils.type_safe.Type_Safe                        import Type_Safe
-
+from osbot_utils.utils.Dev                                  import pprint
 
 class MGraph__Query(Type_Safe):
     mgraph_data  : MGraph__Data
     mgraph_index : MGraph__Index
     query_views  : Model__MGraph__Query__Views
 
+    def setup(self):
+        source_nodes, source_edges = self.get_source_ids()              # get all the current nodes and edges
+        self.create_view(nodes_ids = source_nodes,                      # create a view for it which is the initial view
+                         edges_ids = source_edges,
+                         operation = 'initial'   ,
+                         params    = {}          )
+        return self
+
+    def reset(self):
+        self.query_views = Model__MGraph__Query__Views()
+        self.setup()
+        return self
     def get_source_ids(self) -> tuple[Set[Obj_Id], Set[Obj_Id]]:
         return (set(self.mgraph_data.nodes_ids()),
                 set(self.mgraph_data.edges_ids()))
@@ -171,3 +183,23 @@ class MGraph__Query(Type_Safe):
                         operation = 'filter',
                         params    = {'predicate': str(predicate)})
         return self
+
+    def print_stats(self):
+        pprint(self.stats())
+
+    def stats(self) -> Dict[str, Any]:
+        source_nodes, source_edges   = self.get_source_ids()
+        current_view                 = self.query_views.current_view()
+
+        stats = { 'source_graph': { 'nodes': len(source_nodes),
+                                    'edges': len(source_edges)},
+                  'current_view' : current_view.stats()}
+        return stats
+
+    def edges_ids(self):
+        current_view = self.query_views.current_view()
+        return current_view.edges_ids()
+
+    def nodes_ids(self):
+        current_view = self.query_views.current_view()
+        return current_view.nodes_ids()

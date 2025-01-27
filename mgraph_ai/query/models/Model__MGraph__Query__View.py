@@ -27,3 +27,12 @@ class Model__MGraph__Query__View(Type_Safe):
 
     def query_params(self) -> Dict[str, Any]:
         return self.data.view_data.query_params
+
+    def stats(self):
+        with self as _:
+            return { 'has_next'   : len(_.next_view_ids()) > 0       ,
+                     'has_prev'   : _.previous_view_id() is not None ,
+                     'operation'  : _.query_operation()              ,
+                     'params'     : _.query_params   ()              ,
+                     'view_edges' : len(self.edges_ids())            ,
+                     'view_nodes' : len(_.nodes_ids())               }
