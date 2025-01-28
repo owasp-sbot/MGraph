@@ -11,7 +11,7 @@ class MGraph__Json__Edit(MGraph__Edit):
 
     def add_property(self, property_name, value=None, node_id=None):
         print()
-        node_property_data = Schema__MGraph__Json__Node__Property__Data(name      = property_name     )
+        node_property_data  = Schema__MGraph__Json__Node__Property__Data(name      = property_name     )
         node_property       = Schema__MGraph__Json__Node__Property     (node_data = node_property_data)
         new_node            = self.add_node(node_property)
 

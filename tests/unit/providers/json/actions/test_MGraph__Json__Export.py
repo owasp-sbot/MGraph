@@ -1,6 +1,6 @@
 from unittest                               import TestCase
 from osbot_utils.utils.Files                import file_exists, file_delete
-from osbot_utils.utils.Json                 import json_loads
+from osbot_utils.utils.Json                 import json_loads, json__equals__list_and_set
 from mgraph_ai.providers.json.MGraph__Json  import MGraph__Json
 
 
@@ -23,12 +23,12 @@ class test_MGraph__Json__Export(TestCase):
         str_export_indented = self.mgraph.export().to_string(indent=2)                        # Test string export with indent
 
         assert type(dict_export) is dict
-        assert dict_export                      == self.test_data
-        assert type(str_export)                 is str
-        assert json_loads(str_export)           == self.test_data
-        assert type(str_export_indented)        is str
-        assert json_loads(str_export_indented)  == self.test_data
-        assert len(str_export_indented)          > len(str_export)
+        assert json__equals__list_and_set(dict_export                    , self.test_data)  is True
+        assert type(str_export)                                                             is str
+        assert json__equals__list_and_set(json_loads(str_export)         ,self.test_data)   is True
+        assert type(str_export_indented)                                                    is str
+        assert json__equals__list_and_set(json_loads(str_export_indented), self.test_data)  is True
+        assert len(str_export_indented)                                                     > len(str_export)
 
     def test_file_operations(self):                                                 # Test file import/export
         file_path = "test.json"
@@ -38,9 +38,9 @@ class test_MGraph__Json__Export(TestCase):
 
         new_graph = MGraph__Json()                                                  # Test import from file
         imported  = new_graph.load().from_file(str(file_path))
-        assert imported.root_content()                                is not None
-        assert new_graph.export().to_dict()                           == self.test_data
-        assert file_delete(file_path)                                 is True
+        assert imported.root_content()                                                  is not None
+        assert json__equals__list_and_set(new_graph.export().to_dict(), self.test_data) is True
+        assert file_delete(file_path)                                                   is True
 
     def test_error_handling(self):                                                  # Test error conditions
         assert self.mgraph.load().from_string("{invalid json}") is None

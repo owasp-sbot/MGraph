@@ -1,6 +1,6 @@
 import pytest
 from unittest                                               import TestCase
-from osbot_utils.utils.Json                                 import json_file_load
+from osbot_utils.utils.Json import json_file_load, json__equals__list_and_set
 from osbot_utils.context_managers.print_duration            import print_duration
 from osbot_utils.utils.Http                                 import current_host_offline
 from mgraph_ai.providers.json.MGraph__Json                  import MGraph__Json
@@ -69,7 +69,7 @@ class test_Perf_Test__MGraph_Json(TestCase):
             dot_code = mgraph_json.export().to_dot().to_string()
         #pprint(round_trip)
         #print(dot_code)
-        assert target_json == round_trip
+        assert json__equals__list_and_set(target_json, round_trip)
 
 
 

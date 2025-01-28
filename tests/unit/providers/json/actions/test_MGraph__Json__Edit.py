@@ -1,4 +1,7 @@
 from unittest                                                           import TestCase
+
+from osbot_utils.utils.Dev import pprint
+
 from osbot_utils.helpers.Obj_Id                                         import Obj_Id
 from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node         import Domain__MGraph__Json__Node
 from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node__Dict   import Domain__MGraph__Json__Node__Dict
@@ -31,8 +34,6 @@ class test_MGraph__Json__Edit(TestCase):
 
     def test_add_property(self):
         assert self.mgraph_json.export().to_dict() is None
-        with self.mgraph_json.data() as _:
-            root_property_id = _.root_property_id()
         with self.mgraph_json.edit() as _:
 
             root_property_node    = _.add_root_property_node()
@@ -50,5 +51,28 @@ class test_MGraph__Json__Edit(TestCase):
 
         assert self.mgraph_json.export().to_dict() == {'1234': 'xyz', 'abc': '12345'}               # confirm values set correctly
 
-        #self.mgraph_json.screenshot().save().dot__just_ids()
+    def test_add_property_to_property(self):
+        with self.mgraph_json.edit() as _:
+            root_property_node    = _.add_root_property_node()
+            new_property_1 = _.add_property('parent', node_id=root_property_node.node_id)
+            new_property_2 = _.add_property('child' , node_id=new_property_1.node_id    )
+
+            assert type(new_property_1) == Domain__MGraph__Json__Node
+            assert type(new_property_2) == Domain__MGraph__Json__Node
+            # print()
+            # print('root_property_node', root_property_node.node_id)
+            # print('new_property_1    ', new_property_1.node_id    )
+            # print('new_property_2    ', new_property_2.node_id    )
+            # pprint(new_property_1.node.json())
+            pprint(new_property_2.node.json())
+
+        # with self.mgraph_json.index() as _:
+        #     _.print()
+
+
+        self.mgraph_json.screenshot().save().dot__just_ids()
         #self.mgraph_json.screenshot().save().dot()
+
+        #assert self.mgraph_json.export().to_dict() == {'parent': None}
+
+        pprint(self.mgraph_json.export().to_dict())

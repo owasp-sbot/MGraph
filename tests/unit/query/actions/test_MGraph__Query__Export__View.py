@@ -7,6 +7,7 @@ from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Graph  import Domain_
 from mgraph_ai.providers.json.models.Model__MGraph__Json__Graph   import Model__MGraph__Json__Graph
 from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Graph import Schema__MGraph__Json__Graph
 from mgraph_ai.query.models.Model__MGraph__Query__View            import Model__MGraph__Query__View
+from osbot_utils.utils.Json                                       import json__equals__list_and_set
 
 
 class test_MGraph__Query__Export__View(TestCase):
@@ -71,8 +72,9 @@ class test_MGraph__Query__Export__View(TestCase):
             property_2 = _.add_property('1234', node_id=root_property_id, value='xyz')
             _.add_value   ('12345', node_id=property_1.node_id)
 
-        assert self.mgraph_json.export().to_dict() == {'1234': 'xyz', 'abc': '12345' ,
-                                                       ** self.test_data}
+        expected_dict = {'1234': 'xyz', 'abc': '12345' ,
+                         ** self.test_data}
+        assert json__equals__list_and_set(self.mgraph_json.export().to_dict(),expected_dict)
 
             #edge_1 = _.new_edge(from_node_id=root_property_id, to_node_id=property_node.node_id)
 

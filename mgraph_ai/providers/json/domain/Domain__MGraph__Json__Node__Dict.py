@@ -22,7 +22,7 @@ class Domain__MGraph__Json__Node__Dict(Domain__MGraph__Json__Node):
                 if value_edge.from_node_id() == property_node.node_id:
                     value_node = self.graph.node(value_edge.to_node_id())
                     if value_node.data.node_type == Schema__MGraph__Json__Node__Value:              # todo: there is an interest case here, what happens if there is more than one Schema__MGraph__Json__Node__Value per Schema__MGraph__Json__Node__Property
-                        result[property_name] = value_node.data.node_data.value # todo: solve issue of value not being recognized here
+                        result[property_name] = value_node.data.node_data.value                     # todo: solve issue of value not being recognized here
                         break
                     elif value_node.data.node_type == Schema__MGraph__Json__Node__List:
                         from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node__List import Domain__MGraph__Json__Node__List
