@@ -1,4 +1,5 @@
 from typing                                               import Type, Set, Any, Dict
+from osbot_utils.utils.Dev                                import pprint
 from mgraph_ai.mgraph.domain.Domain__MGraph__Graph        import Domain__MGraph__Graph
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Node        import Schema__MGraph__Node
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge        import Schema__MGraph__Edge
@@ -128,6 +129,10 @@ class MGraph__Index(Type_Safe):
         for edge_id, edge in graph.model.data.edges.items():                                           # Add all edges to index
             self.add_edge(edge)
 
+    def print_stats(self):
+        stats = self.stats()
+        pprint(stats)
+        return stats
 
     def save_to_file(self, target_file: str) -> None:                                               # Save index to file
         index_data = self.index_data.json()                                                              # get json (serialised) representation of the index object

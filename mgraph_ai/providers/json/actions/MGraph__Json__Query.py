@@ -117,3 +117,6 @@ class MGraph__Json__Query(MGraph__Query):
                         operation=operation,
                         params=params)
         return self
+
+    def field(self, name):
+        return self.with_field('name', name)

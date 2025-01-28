@@ -1,5 +1,6 @@
 from unittest                                                   import TestCase
 from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Graph  import Domain__Mermaid__Graph
+from mgraph_ai.query.MGraph__Query                              import MGraph__Query
 from osbot_utils.helpers.Obj_Id                                 import is_obj_id
 from osbot_utils.utils.Objects                                  import __, full_type_name
 from mgraph_ai.providers.mermaid.MGraph__Mermaid                import MGraph__Mermaid
@@ -38,4 +39,5 @@ class test_Mermaid(TestCase):
                                                                                                   line_before_edges = True   ,
                                                                                                   directives        = []     )),
                                                                          model_types =__(node_model_type='mgraph_ai.providers.mermaid.models.Model__Mermaid__Node.Model__Mermaid__Node',
-                                                                                          edge_model_type='mgraph_ai.providers.mermaid.models.Model__Mermaid__Edge.Model__Mermaid__Edge'))))
+                                                                                          edge_model_type='mgraph_ai.providers.mermaid.models.Model__Mermaid__Edge.Model__Mermaid__Edge'))),
+                                             query_class= full_type_name(MGraph__Query))

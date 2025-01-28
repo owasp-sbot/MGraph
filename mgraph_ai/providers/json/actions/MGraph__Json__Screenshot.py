@@ -1,13 +1,16 @@
 import requests
-from mgraph_ai.providers.json.actions.MGraph__Json__Export          import MGraph__Json__Export
-from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Graph    import Domain__MGraph__Json__Graph
-from osbot_utils.utils.Files                                        import file_create_from_bytes
-from osbot_utils.utils.Http                                         import url_join_safe
-from osbot_utils.utils.Env                                          import get_env
+from dataclasses                                                                    import asdict
+from mgraph_ai.providers.json.actions.MGraph__Json__Export                          import MGraph__Json__Export
+from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Graph                    import Domain__MGraph__Json__Graph
+from mgraph_ai_serverless.graph_engines.matplotlib.models.Model__Matplotlib__Render import Model__Matplotlib__Render
+from osbot_utils.utils.Files                                                        import file_create_from_bytes
+from osbot_utils.utils.Http                                                         import url_join_safe
+from osbot_utils.utils.Env                                                          import get_env
 
 from osbot_utils.type_safe.Type_Safe import Type_Safe
 
 ENV_NAME__URL__MGRAPH_AI_SERVERLESS = 'URL__MGRAPH_AI_SERVERLESS'
+PATH__RENDER_MATPLOTLIB             = '/matplotlib/render-graph'
 PATH__RENDER_MERMAID                = '/web_root/render-mermaid'
 PATH__RENDER_DOT                    = '/graphviz/render-dot'
 
@@ -35,6 +38,12 @@ class MGraph__Json__Screenshot(Type_Safe):
         dot_source       = self.export().to_dot().to_string()
         method_path      = PATH__RENDER_DOT
         method_params    = {'dot_source': dot_source}
+        return self.execute_request(method_path, method_params)
+
+    def matplotlib(self):
+        render_config    = Model__Matplotlib__Render(graph_data=self.graph.json())
+        method_path      = PATH__RENDER_MERMAID
+        method_params    = asdict(render_config)
         return self.execute_request(method_path, method_params)
 
     def mermaid(self):

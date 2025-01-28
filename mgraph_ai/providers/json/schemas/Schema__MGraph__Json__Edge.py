@@ -1,12 +1,15 @@
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge                       import Schema__MGraph__Edge
 from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Edge__Config import Schema__MGraph__Json__Edge__Config
 from osbot_utils.helpers.Obj_Id                                          import Obj_Id
-
+from osbot_utils.type_safe.shared.Type_Safe__Cache                       import type_safe_cache
 
 class Schema__MGraph__Json__Edge(Schema__MGraph__Edge):
-    #edge_config : Schema__MGraph__Json__Edge__Config           # todo: figure out how to add this without breaking the self.__annotations__ below
+    edge_config : Schema__MGraph__Json__Edge__Config
 
     def __init__(self, **kwargs):
+
+        self.__annotations__ = type_safe_cache.get_obj_annotations(self)            # need to do this because there some cases where the __annotations__ was being lost when using from_json
+
         edge_config  = kwargs.get('edge_config' ) or self.__annotations__['edge_config']()
         edge_data    = kwargs.get('edge_data'   ) or self.__annotations__['edge_data'  ]()
         edge_type    = kwargs.get('edge_type'   ) or self.__class__
@@ -18,4 +21,5 @@ class Schema__MGraph__Json__Edge(Schema__MGraph__Edge):
                          edge_type    = edge_type   ,
                          from_node_id = from_node_id,
                          to_node_id   = to_node_id  )
+
         object.__setattr__(self, '__dict__', edge_dict)
