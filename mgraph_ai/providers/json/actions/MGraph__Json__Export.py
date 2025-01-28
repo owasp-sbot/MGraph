@@ -33,6 +33,8 @@ class MGraph__Json__Export(MGraph__Export):
                 if value_edges:
                     value_node_id = index.edge_to_nodes()[value_edges[0]][1]
                     result[property_name] = self.process_node(value_node_id, index)
+                else:
+                    result[property_name] = None
         return result
 
     def process_list_node(self, node_id: Obj_Id, index: MGraph__Index) -> List[Any]:

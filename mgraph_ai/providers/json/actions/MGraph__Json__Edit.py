@@ -1,4 +1,6 @@
 from mgraph_ai.providers.json.actions.MGraph__Json__Data                            import MGraph__Json__Data
+from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Dict              import Schema__MGraph__Json__Node__Dict
+from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__List              import Schema__MGraph__Json__Node__List
 from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Property__Data    import Schema__MGraph__Json__Node__Property__Data
 from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Value             import Schema__MGraph__Json__Node__Value
 from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Value__Data       import Schema__MGraph__Json__Node__Value__Data
@@ -9,8 +11,21 @@ from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Property      
 class MGraph__Json__Edit(MGraph__Edit):
     data_type : type[MGraph__Json__Data]
 
+    def add_dict(self, node_id=None):                       # todo: add check that node_id is either a property or a list
+        node_dict = Schema__MGraph__Json__Node__Dict()
+        new_node = self.add_node(node_dict)
+        if node_id:
+            self.new_edge(from_node_id=node_id, to_node_id= new_node.node_id)
+        return new_node
+
+    def add_list(self, node_id=None):                       # todo: add check that node_id is either a property or a list
+        node_dict = Schema__MGraph__Json__Node__List()
+        new_node = self.add_node(node_dict)
+        if node_id:
+            self.new_edge(from_node_id=node_id, to_node_id= new_node.node_id)
+        return new_node
+
     def add_property(self, property_name, value=None, node_id=None):
-        print()
         node_property_data  = Schema__MGraph__Json__Node__Property__Data(name      = property_name     )
         node_property       = Schema__MGraph__Json__Node__Property     (node_data = node_property_data)
         new_node            = self.add_node(node_property)

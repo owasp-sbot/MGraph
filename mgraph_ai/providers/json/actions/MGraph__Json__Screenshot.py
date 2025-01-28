@@ -40,7 +40,17 @@ class MGraph__Json__Screenshot(Type_Safe):
         return screenshot_bytes
 
     def dot__just_ids(self):
-        dot_code = self.export().to__dot()
+        dot_code         = self.export().to__dot()
+        screenshot_bytes = self.create_screenshot__from__dot_code(dot_code)
+        return screenshot_bytes
+
+    def dot__just_types(self):
+        dot_code = self.export().to__dot_types()
+        screenshot_bytes = self.create_screenshot__from__dot_code(dot_code)
+        return screenshot_bytes
+
+    def dot__schema(self):
+        dot_code = self.export().to__dot_schema()
         screenshot_bytes = self.create_screenshot__from__dot_code(dot_code)
         return screenshot_bytes
 
