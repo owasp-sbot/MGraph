@@ -151,7 +151,7 @@ class test_MGraph__Json__Edit(TestCase):
     # self.mgraph_json.screenshot().save().dot__just_types()
     # self.mgraph_json.screenshot().save().dot__schema()
     # self.mgraph_json.screenshot().save().dot()
-    
+
     # def test_show(self):
     #     test_data = {'a': {'b':123}}
     #     self.mgraph_json.load().from_data(test_data)
