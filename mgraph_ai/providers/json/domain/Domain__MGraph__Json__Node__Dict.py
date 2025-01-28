@@ -17,22 +17,25 @@ class Domain__MGraph__Json__Node__Dict(Domain__MGraph__Json__Node):
         result = {}
         for edge in self.models__from_edges():
             property_node = self.model__node_from_edge(edge)
-
+            property_name = property_node.data.node_data.name
             for value_edge in self.graph.edges():                                           # todo: see why we need to use self.graph.edges()
                 if value_edge.from_node_id() == property_node.node_id:
                     value_node = self.graph.node(value_edge.to_node_id())
                     if value_node.data.node_type == Schema__MGraph__Json__Node__Value:              # todo: there is an interest case here, what happens if there is more than one Schema__MGraph__Json__Node__Value per Schema__MGraph__Json__Node__Property
-                        result[property_node.data.node_data.name] = value_node.data.node_data.value # todo: solve issue of value not being recognized here
+                        result[property_name] = value_node.data.node_data.value # todo: solve issue of value not being recognized here
                         break
                     elif value_node.data.node_type == Schema__MGraph__Json__Node__List:
                         from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node__List import Domain__MGraph__Json__Node__List
                         list_domain_node = Domain__MGraph__Json__Node__List(node=value_node, graph=self.graph)
-                        result[property_node.data.node_data.name] = list_domain_node.items()
+                        result[property_name] = list_domain_node.items()
                         break
                     elif value_node.data.node_type == Schema__MGraph__Json__Node__Dict:
                         dict_domain_node = Domain__MGraph__Json__Node__Dict(node=value_node, graph=self.graph)
-                        result[property_node.data.node_data.name] = dict_domain_node.properties()
+                        result[property_name] = dict_domain_node.properties()
                         break
+                if value_edge.to_node_id() == property_node.node_id:            # when we find the property node_id
+                    if result.get('property_name') is None:                     # if it has not been set
+                        result[property_name] = None                            # set it to None
         return result
 
     def property(self, name: str) -> Optional[Any]:                                                                     # Get value of a property by name

@@ -112,6 +112,9 @@ class MGraph__Query(Type_Safe):
                          params    = {'name': name, 'value': value})
         return self
 
+    def index(self):
+        return self.mgraph_index
+
     def re_index(self):
         self.mgraph_index = MGraph__Index.from_graph(self.mgraph_data.graph)
 

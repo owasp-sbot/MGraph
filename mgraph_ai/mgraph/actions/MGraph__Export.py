@@ -67,7 +67,7 @@ class MGraph__Export(Type_Safe):
                 lines.append(f'  "{node.node_id}"{attrs_str}')
 
             for edge in _.edges():                                                          # Output edges with IDs
-                lines.append(f'  "{edge.from_node_id()}" -> "{edge.to_node_id()}" [id="{edge.edge_id}"]')
+                lines.append(f'  "{edge.from_node_id()}" -> "{edge.to_node_id()}" [label="  {edge.edge_id}"]')
 
         lines.append('}')
         return '\n'.join(lines)

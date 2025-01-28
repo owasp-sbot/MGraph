@@ -11,6 +11,8 @@ from osbot_utils.utils.Json                               import json_file_creat
 class MGraph__Index(Type_Safe):
     index_data : Schema__MGraph__Index__Data
 
+    # todo: refactor all these add_* methods to an MGraph__Index__Create class (which will hold all the login to create the index)
+    #       the main methods in this class should be focused on easy access to the MGraph index data
     def add_node(self, node: Schema__MGraph__Node) -> None:                         # Add a node to the index
         node_id   = node.node_id
         node_type = node.node_type.__name__
@@ -173,8 +175,12 @@ class MGraph__Index(Type_Safe):
 
         return stats_data
 
+    # todo: refactor all methods above to MGraph__Index__Create
 
-    # getters for data
+
+    ##### getters for data
+    # todo refactor this to names like edges__from__node , nodes_from_node
+
     def get_node_outgoing_edges(self, node: Schema__MGraph__Node) -> Set[Obj_Id]:           # Get all outgoing edges for a node
         return self.index_data.nodes_to_outgoing_edges.get(node.node_id, set())
 
@@ -193,7 +199,8 @@ class MGraph__Index(Type_Safe):
     def get_edges_by_field(self, field_name: str, field_value: Any) -> Set[Obj_Id]:         # Get all edges with a specific field value
         return self.index_data.edges_by_field.get(field_name, {}).get(field_value, set())
 
-
+    # todo: refactor this to something like raw__edges_to_nodes , ...
+    #       in fact once we add the main helper methods (like edges_ids__from__node_id) see if these methods are still needed
     def edge_to_nodes           (self): return self.index_data.edge_to_nodes
     def edges_by_field          (self): return self.index_data.edges_by_field
     def edges_by_type           (self): return self.index_data.edges_by_type
@@ -202,6 +209,23 @@ class MGraph__Index(Type_Safe):
     def nodes_to_incoming_edges (self): return self.index_data.nodes_to_incoming_edges
     def nodes_to_outgoing_edges (self): return self.index_data.nodes_to_outgoing_edges
 
+    # todo: create this @as_list decorator which converts the return value set to a list (see if that is the better name)
+    # @set_to_list
+    def edges_ids__from__node_id(self, node_id) -> list:
+        with self.index_data as _:
+            return list(_.nodes_to_outgoing_edges.get(node_id, {}))         # convert set to list
+
+    def nodes_ids__from__node_id(self, node_id) -> list:
+        with self.index_data as _:
+            nodes_ids = []
+            for edge_id in self.edges_ids__from__node_id(node_id):
+                (from_node_id, to_node_id) = _.edge_to_nodes[edge_id]
+                nodes_ids.append(to_node_id)
+            return nodes_ids
+
+
+
+    # todo: see there is a better place to put these static methods (or if we need them to be static)
     @classmethod
     def from_graph(cls, graph: Domain__MGraph__Graph) -> 'MGraph__Index':                           # Create index from graph
         with cls() as _:

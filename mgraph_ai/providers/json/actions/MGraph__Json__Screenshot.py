@@ -7,10 +7,12 @@ from osbot_utils.utils.Env                                                      
 
 from osbot_utils.type_safe.Type_Safe import Type_Safe
 
-ENV_NAME__URL__MGRAPH_AI_SERVERLESS = 'URL__MGRAPH_AI_SERVERLESS'
-PATH__RENDER_MATPLOTLIB             = '/matplotlib/render-graph'
-PATH__RENDER_MERMAID                = '/web_root/render-mermaid'
-PATH__RENDER_DOT                    = '/graphviz/render-dot'
+ENV_NAME__URL__MGRAPH_AI_SERVERLESS     = 'URL__MGRAPH_AI_SERVERLESS'
+PATH__RENDER_MATPLOTLIB                 = '/matplotlib/render-graph'
+PATH__RENDER_MERMAID                    = '/web_root/render-mermaid'
+PATH__RENDER_DOT                        = '/graphviz/render-dot'
+DEFAULT__FILE_NAME__SCREENSHOT__SAVE_TO = './mgraph-screenshot.png'
+DEFAULT__URL__LOCAL__MGRAPH_AI_API      = 'http://localhost:8080'
 
 class MGraph__Json__Screenshot(Type_Safe):
     graph       : Domain__MGraph__Json__Graph
@@ -33,9 +35,18 @@ class MGraph__Json__Screenshot(Type_Safe):
         return MGraph__Json__Export(graph=self.graph)
 
     def dot(self):
-        dot_source       = self.export().to_dot().to_string()
-        method_path      = PATH__RENDER_DOT
-        method_params    = {'dot_source': dot_source}
+        dot_code         = self.export().to_dot().to_string()
+        screenshot_bytes = self.create_screenshot__from__dot_code(dot_code)
+        return screenshot_bytes
+
+    def dot__just_ids(self):
+        dot_code = self.export().to__dot()
+        screenshot_bytes = self.create_screenshot__from__dot_code(dot_code)
+        return screenshot_bytes
+
+    def create_screenshot__from__dot_code(self, dot_code):
+        method_path   = PATH__RENDER_DOT
+        method_params = {'dot_source': dot_code}
         return self.execute_request(method_path, method_params)
 
 # from mgraph_ai_serverless.graph_engines.matplotlib.models.Model__Matplotlib__Render import Model__Matplotlib__Render
@@ -52,6 +63,9 @@ class MGraph__Json__Screenshot(Type_Safe):
         method_params    = {'mermaid_code': mermaid_code}
         return self.execute_request(method_path, method_params)
 
+    def save(self):
+        return self.save_to(DEFAULT__FILE_NAME__SCREENSHOT__SAVE_TO)
+
     def save_to(self, target_file):
         self.target_file = target_file
         return self
@@ -60,7 +74,5 @@ class MGraph__Json__Screenshot(Type_Safe):
         return url_join_safe(self.url__render_server(), path)
 
     def url__render_server(self):
-        url = get_env(ENV_NAME__URL__MGRAPH_AI_SERVERLESS)
-        # if not url:                                                                         # todo: see if there is a better place to put this check (maybe in a setup method)
-        #     raise ValueError(f"in MGraph__Json__Screenshot.url__render_server, missing env var: {ENV_NAME__URL__MGRAPH_AI_SERVERLESS}")
+        url = get_env(ENV_NAME__URL__MGRAPH_AI_SERVERLESS, DEFAULT__URL__LOCAL__MGRAPH_AI_API)
         return url

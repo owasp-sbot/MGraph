@@ -40,8 +40,8 @@ class test_MGraph__Simple__Test_Data(TestCase):
   "{nodes_ids[0]}" [value="A", name="Node 1"]
   "{nodes_ids[1]}" [value="B", name="Node 2"]
   "{nodes_ids[2]}" [value="C", name="Node 3"]
-  "{nodes_ids[0]}" -> "{nodes_ids[1]}" [id="{edges_ids[0]}"]
-  "{nodes_ids[0]}" -> "{nodes_ids[2]}" [id="{edges_ids[1]}"]
+  "{nodes_ids[0]}" -> "{nodes_ids[1]}" [label="  {edges_ids[0]}"]
+  "{nodes_ids[0]}" -> "{nodes_ids[2]}" [label="  {edges_ids[1]}"]
 }}"""
             assert _.to__dot() == expected_dot
 
