@@ -3,7 +3,7 @@ from mgraph_ai.providers.json.actions.MGraph__Json__Export                      
 from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Graph                    import Domain__MGraph__Json__Graph
 from osbot_utils.utils.Files                                                        import file_create_from_bytes
 from osbot_utils.utils.Http                                                         import url_join_safe
-from osbot_utils.utils.Env                                                          import get_env
+from osbot_utils.utils.Env import get_env, not_in_github_action
 
 from osbot_utils.type_safe.Type_Safe import Type_Safe
 
@@ -74,5 +74,7 @@ class MGraph__Json__Screenshot(Type_Safe):
         return url_join_safe(self.url__render_server(), path)
 
     def url__render_server(self):
-        url = get_env(ENV_NAME__URL__MGRAPH_AI_SERVERLESS, DEFAULT__URL__LOCAL__MGRAPH_AI_API)
+        url = get_env(ENV_NAME__URL__MGRAPH_AI_SERVERLESS)
+        if url is None and not_in_github_action():
+            url = DEFAULT__URL__LOCAL__MGRAPH_AI_API
         return url

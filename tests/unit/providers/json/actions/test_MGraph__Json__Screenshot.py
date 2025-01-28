@@ -12,7 +12,6 @@ class test_MGraph__Json__Screenshot(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        load_dotenv()
         cls.test_data = {"aa": "bb", "cc": ["dd", "ee"], "an_list": [1, 2, 3, 4]}
         cls.target_file     = '/tmp/json-screenshot.png'
         cls.delete_on_exit  = False
