@@ -1,5 +1,5 @@
 from unittest                                                                  import TestCase
-from osbot_utils.utils.Json import json_loads, json__equals__list_and_set
+from osbot_utils.utils.Json                                                     import json_loads, json__equals__list_and_set
 from mgraph_ai.providers.json.MGraph__Json                                     import MGraph__Json
 from mgraph_ai.providers.json.actions.exporters.MGraph__Export__Json__Mermaid  import MGraph__Export__Json__Mermaid
 from mgraph_ai.providers.json.actions.exporters.MGraph__Json__Export__Base     import Export__Json__Node_Type, Export__Json__Relation_Type

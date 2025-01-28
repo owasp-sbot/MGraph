@@ -70,9 +70,9 @@ class test_MGraph__Json__Edit(TestCase):
         #     _.print()
 
 
-        self.mgraph_json.screenshot().save().dot__just_ids()
+        #self.mgraph_json.screenshot().save().dot__just_ids()
         #self.mgraph_json.screenshot().save().dot()
 
-        #assert self.mgraph_json.export().to_dict() == {'parent': None}
+        assert self.mgraph_json.export().to_dict() == {'parent': None}   # BUG should be {'parent': { 'child': None }}
 
-        pprint(self.mgraph_json.export().to_dict())
+        #pprint(self.mgraph_json.export().to_dict())

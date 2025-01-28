@@ -13,6 +13,7 @@ from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Value__Data   
 class Domain__MGraph__Json__Node__Dict(Domain__MGraph__Json__Node):
     node: Model__MGraph__Json__Node__Dict                                                         # Reference to dict node model
 
+    # todo: refactor out these methods which are barely used and have quite a number of performance issues (this will be better done at the MGraph__Json__Data layer
     def properties(self) -> Dict[str, Any]:
         result = {}
         for edge in self.models__from_edges():
