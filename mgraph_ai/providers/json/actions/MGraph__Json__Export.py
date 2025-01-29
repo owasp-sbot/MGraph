@@ -9,7 +9,7 @@ from osbot_utils.utils.Files                                                    
 from osbot_utils.utils.Json                                                     import json_dumps
 from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Graph                import Domain__MGraph__Json__Graph
 from mgraph_ai.mgraph.actions.MGraph__Export                                    import MGraph__Export
-from mgraph_ai.mgraph.index.MGraph__Index                                       import MGraph__Index
+from mgraph_ai.mgraph.actions.MGraph__Index                                     import MGraph__Index
 from osbot_utils.helpers.Obj_Id                                                 import Obj_Id
 
 class MGraph__Json__Export(MGraph__Export):

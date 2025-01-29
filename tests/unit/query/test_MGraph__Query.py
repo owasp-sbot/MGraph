@@ -2,7 +2,7 @@ from unittest                                                import TestCase
 from mgraph_ai.mgraph.domain.Domain__MGraph__Edge            import Domain__MGraph__Edge
 from mgraph_ai.mgraph.domain.Domain__MGraph__Node            import Domain__MGraph__Node
 from mgraph_ai.providers.simple.schemas.Schema__Simple__Node import Schema__Simple__Node
-from mgraph_ai.mgraph.index.MGraph__Index                    import MGraph__Index
+from mgraph_ai.mgraph.actions.MGraph__Index                  import MGraph__Index
 from mgraph_ai.mgraph.actions.MGraph__Data                   import MGraph__Data
 from mgraph_ai.providers.simple.MGraph__Simple__Test_Data    import MGraph__Simple__Test_Data
 from mgraph_ai.query.MGraph__Query                           import MGraph__Query

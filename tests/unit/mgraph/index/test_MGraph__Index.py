@@ -4,7 +4,7 @@ from osbot_utils.utils.Objects                              import __
 from osbot_utils.testing.Temp_File                          import Temp_File
 from mgraph_ai.mgraph.MGraph                                import MGraph
 from osbot_utils.utils.Files                                import file_not_exists, file_exists
-from mgraph_ai.mgraph.index.MGraph__Index                   import MGraph__Index
+from mgraph_ai.mgraph.actions.MGraph__Index                 import MGraph__Index
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Index__Data   import Schema__MGraph__Index__Data
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Node          import Schema__MGraph__Node
 from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge          import Schema__MGraph__Edge
