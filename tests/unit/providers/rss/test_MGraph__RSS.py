@@ -33,17 +33,8 @@ class test_MGraph_RSS(TestCase):
             assert type(_.graph) is MGraph__Json
             _.graph.query().print_stats()
 
-    def test__render_as_dot(self):
-        #load_dotenv()
-        with self.mgraph_rss as _:
-            target_file = './dot.png'
-            _.graph.screenshot().save_to(target_file).dot()                 # this is working quite well
-            #_.graph.screenshot().save_to(target_file).matplotlib()         # BUG, this is not working
-            assert file_exists(target_file) is True
-            assert file_delete(target_file) is True
 
-
-    def test__experiments(self):
+    def test__navigate_rss_feed(self):
         with self.mgraph_rss.graph.query() as _:
             assert type(_) is MGraph__Json__Query
             _.field('items')
@@ -54,10 +45,18 @@ class test_MGraph_RSS(TestCase):
             export_view = MGraph__Json__Query__Export__View(mgraph_query=_)
             domain_graph_exported = export_view.export()
             mgraph_json__exported = MGraph__Json(graph=domain_graph_exported)
+
             mgraph_json__exported.screenshot().save().dot()
             mgraph_json__exported.export().print__dict()
         #self.mgraph_json.screenshot().save().dot()
 
+    def test__render_as_dot(self):
+        with self.mgraph_rss as _:
+            target_file = './dot.png'
+            _.graph.screenshot().save_to(target_file).dot()                 # this is working quite well
+            #_.graph.screenshot().save_to(target_file).matplotlib()         # BUG, this is not working
+            assert file_exists(target_file) is True
+            assert file_delete(target_file) is True
 
     def test_init(self):                                                  # Test initialization
         self.assertIsInstance(self.mgraph_rss         , MGraph__RSS  )
