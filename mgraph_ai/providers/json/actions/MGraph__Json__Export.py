@@ -28,13 +28,14 @@ class MGraph__Json__Export(MGraph__Export):
             property_node = self.graph.node(property_id)
 
             if property_node:
-                property_name = property_node.node_data.name
-                value_edges  = index.edges_ids__from__node_id(property_id)
-                if value_edges:
-                    value_node_id = index.edge_to_nodes()[value_edges[0]][1]
-                    result[property_name] = self.process_node(value_node_id, index)
-                else:
-                    result[property_name] = None
+                if hasattr(property_node.node_data, 'name'):
+                    property_name = property_node.node_data.name
+                    value_edges  = index.edges_ids__from__node_id(property_id)
+                    if value_edges:
+                        value_node_id = index.edge_to_nodes()[value_edges[0]][1]
+                        result[property_name] = self.process_node(value_node_id, index)
+                    else:
+                        result[property_name] = None
         return result
 
     def process_list_node(self, node_id: Obj_Id, index: MGraph__Index) -> List[Any]:

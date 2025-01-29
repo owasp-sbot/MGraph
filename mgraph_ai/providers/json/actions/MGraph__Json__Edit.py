@@ -37,7 +37,7 @@ class MGraph__Json__Edit(MGraph__Edit):
         return new_node
 
     def add_root_property_node(self):
-        root_property_node = self.root_property_node()
+        root_property_node = self.root_property_node_id()
         if not root_property_node:
             root_node_id       = self.data().root_node_id()
             root_property_node = self.graph.new_dict_node()
@@ -53,6 +53,6 @@ class MGraph__Json__Edit(MGraph__Edit):
             self.new_edge(from_node_id=node_id, to_node_id=new_node.node_id)
         return new_node
 
-    def root_property_node(self):
+    def root_property_node_id(self):
         root_property_id = self.data().root_property_id()
         return root_property_id

@@ -21,7 +21,7 @@ class MGraph__Json__Screenshot(Type_Safe):
     def handle_response(self, response):
         if response.status_code == 200:
             screenshot_bytes = response.content
-            if self.target_file:
+            if self.target_file and screenshot_bytes:
                 file_create_from_bytes(self.target_file, screenshot_bytes)
             return screenshot_bytes
 
@@ -41,6 +41,11 @@ class MGraph__Json__Screenshot(Type_Safe):
 
     def dot__just_ids(self):
         dot_code         = self.export().to__dot()
+        screenshot_bytes = self.create_screenshot__from__dot_code(dot_code)
+        return screenshot_bytes
+
+    def dot__just_values(self):
+        dot_code         = self.export().to__dot(show_value=True, show_edge_ids=False)
         screenshot_bytes = self.create_screenshot__from__dot_code(dot_code)
         return screenshot_bytes
 

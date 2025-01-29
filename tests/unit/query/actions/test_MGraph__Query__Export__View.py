@@ -1,8 +1,10 @@
-from unittest                                                     import TestCase
-from mgraph_ai.query.actions.MGraph__Query__Export__View          import MGraph__Query__Export__View
-from mgraph_ai.providers.json.MGraph__Json                        import MGraph__Json
-from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Graph  import Domain__MGraph__Json__Graph
-from osbot_utils.utils.Json                                       import json__equals__list_and_set
+from unittest                                                            import TestCase
+from osbot_utils.utils.Dev import pprint
+from mgraph_ai.providers.json.actions.MGraph__Json__Query__Export__View  import MGraph__Json__Query__Export__View
+from mgraph_ai.query.actions.MGraph__Query__Export__View                 import MGraph__Query__Export__View
+from mgraph_ai.providers.json.MGraph__Json                               import MGraph__Json
+from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Graph         import Domain__MGraph__Json__Graph
+from osbot_utils.utils.Json                                              import json__equals__list_and_set
 
 
 class test_MGraph__Query__Export__View(TestCase):
@@ -10,12 +12,11 @@ class test_MGraph__Query__Export__View(TestCase):
     @classmethod
     def setUpClass(cls):
         cls.mgraph_json = MGraph__Json()
-        cls.test_data = {   'name'  : 'root'                      ,
-                            'values': [1, 2, 3]                   ,
-                            'nested': { 'name' : 'child'          ,
-                                        'value': 42 }             ,
-                            'items' : [{ 'id': 1, 'name': 'first' },
-                                       { 'id': 2, 'name': 'second'}]}
+        cls.test_data = { 'values': [1, 2, 3]                   ,
+                          'nested': { 'name' : 'child'          ,
+                                      'value': 42 }             ,
+                          'items' : [{ 'id': 1, 'name': 'first' },
+                                     { 'id': 2, 'name': 'second'}]}
         cls.mgraph_json.load().from_data(cls.test_data)
         cls.query = cls.mgraph_json.query().setup()
 
@@ -25,55 +26,57 @@ class test_MGraph__Query__Export__View(TestCase):
             export_view           = MGraph__Query__Export__View(mgraph_query=_)
             view_graph            = export_view.export()
             mgraph_json__exported = MGraph__Json(graph=view_graph)
-            dict__original_graph  = self.mgraph_json.export().to_dict()
+            dict__exported_graph  = mgraph_json__exported.export().to_dict()
+
+            assert type(mgraph_json__exported) is MGraph__Json
+            assert type(view_graph           ) is Domain__MGraph__Json__Graph
+            assert dict__exported_graph is None
+
+
+    def test__export_view__root__expanded(self):
+        with self.mgraph_json.data() as _:
+            root_id        = _.root_property_node().node_id
+            first_nodes_id = _.index().nodes_ids__from__node_id(root_id)
+
+        #return
+        with self.query as _:
+            _.add_nodes_ids(first_nodes_id)
+            _.add_outgoing_edges__with_depth(5)
+            export_view           = MGraph__Json__Query__Export__View(mgraph_query=_)
+            view_graph            = export_view.export()
+            mgraph_json__exported = MGraph__Json(graph=view_graph)
+
+            dict__original_graph  = self.mgraph_json.export     ().to_dict()
             dict__exported_graph  = mgraph_json__exported.export().to_dict()
 
             assert type(mgraph_json__exported) is MGraph__Json
             assert type(view_graph           ) is Domain__MGraph__Json__Graph
 
+            # pprint(dict__exported_graph)
+            # pprint(dict__original_graph)
             assert json__equals__list_and_set(dict__original_graph, dict__exported_graph)
 
+    def test__export_view__with_filter(self):
+        test_data = { 'values': [1, 2, 3]                   ,
+                      'nested': { 'name' : 'here'           ,
+                                  'value': 42 ,
+                                  'another': {'level': {'with': {'an': {'array':[1,2,3]}}}}},
+                      'items' : [{ 'id': 1, 'name': 'first' },
+                                 { 'id': 2, 'name': 'second'}]}
+        fields_to_export = set(test_data)
+        for field_to_export in fields_to_export:
+            mgraph_json__original = MGraph__Json()
+            mgraph_json__original.load().from_data(test_data)
 
-            # self.mgraph_json.screenshot().save().dot__schema()
-            # json_graph__exported.screenshot().save().dot__schema()
+            with mgraph_json__original.query().setup() as _:
+                _.field(field_to_export)
+                _.add_outgoing_edges__with_depth(12)
+                export_view            = MGraph__Json__Query__Export__View(mgraph_query=_)
+                domain_graph_exported  = export_view.export()
+                mgraph_json__exported = MGraph__Json(graph=domain_graph_exported)
 
-            # _.name('nested')
-            # assert len(edges_ids) == 2
-            # assert len(nodes_ids) == 1
-            # view_graph = export_view.export()
-            # assert type(view_graph) is Domain__MGraph__Json__Graph
-            #mgraph_2 = MGraph__Json(graph=view_graph)
-            # load_dotenv()
-            # pprint(mgraph_2.json())
-            #pprint(mgraph_2.screenshot().dot())            # this need a root node (which should be the view_id)
+                exported_dict = mgraph_json__exported.export().to_dict()
+                expected_data = {field_to_export: test_data[field_to_export]}
+                assert json__equals__list_and_set(exported_dict, expected_data)
 
-            #_.print_stats()
-
-
-
-
-
-
-            #edge_1 = _.new_edge(from_node_id=root_property_id, to_node_id=property_node.node_id)
-
-        #     pprint(property_node.node.json())
-        #     root_id = _.graph.root().node_id
-        #     print(root_id)
-
-        #     # node_1 = _.new_node(name='abc')
-        #     # node_2 = _.new_node(value='xyz')
-        #     # pprint(_.graph.model.data.graph_data.root_id)
-        #     #
-        #     # edge_1 = _.new_edge(from_node_id=node_1.node_id, to_node_id=node_2.node_id)
-        #     # #edge_2 = _.new_edge(from_node_id=root_id, to_node_id=node_1.node_id)
-
-        # with self.mgraph_json.query() as _:
-        #     _.print_stats()
-
-        # with self.mgraph_json as _:
-        #     _.screenshot().save_to('./dot-graph.png').dot()
-        #     #_.screenshot().save_to('./dot-graph.png').dot__just_ids()
-        #
-        #     pprint(_.export().to_dict())
-        #     #_.query().re_index()
-
+                #mgraph_json__exported.screenshot().save_to(f'./exported-{field_to_export}.png').dot()

@@ -10,15 +10,18 @@ from mgraph_ai.mgraph.index.MGraph__Index                   import MGraph__Index
 from osbot_utils.type_safe.Type_Safe                        import Type_Safe
 from osbot_utils.utils.Dev                                  import pprint
 
+VIEW__OPERATION__INITIAL = 'initial'
+
 class MGraph__Query(Type_Safe):
     mgraph_data  : MGraph__Data
     mgraph_index : MGraph__Index
     query_views  : Model__MGraph__Query__Views
+    root_nodes   : Set[Obj_Id]
 
     def setup(self):
         source_nodes, source_edges = self.get_source_ids()              # get all the current nodes and edges
-        self.create_view(nodes_ids = source_nodes,                      # create a view for it which is the initial view
-                         edges_ids = source_edges,
+        self.create_view(nodes_ids = set()       ,                      # create a view for it which is the initial view
+                         edges_ids = set()       ,
                          operation = 'initial'   ,
                          params    = {}          )
         return self
@@ -27,14 +30,15 @@ class MGraph__Query(Type_Safe):
         self.query_views = Model__MGraph__Query__Views()
         self.setup()
         return self
+
     def get_source_ids(self) -> tuple[Set[Obj_Id], Set[Obj_Id]]:
         return (set(self.mgraph_data.nodes_ids()),
                 set(self.mgraph_data.edges_ids()))
 
     def get_current_ids(self) -> tuple[Set[Obj_Id], Set[Obj_Id]]:
         current_view = self.query_views.current_view()
-        if not current_view:
-            return self.get_source_ids()
+        # if not current_view:
+        #     return self.get_source_ids()
         return (current_view.nodes_ids(),
                 current_view.edges_ids())
 
@@ -54,7 +58,10 @@ class MGraph__Query(Type_Safe):
                           params    : Dict[str, Any]
                     )  -> Model__MGraph__Query__View:
         current_view = self.query_views.current_view()
-        previous_id = current_view.view_id() if current_view else None
+        previous_id  = current_view.view_id() if current_view else None
+
+        if self.in_initial_view() and nodes_ids:
+            self.root_nodes = nodes_ids
 
         return self.query_views.add_view(nodes_ids   = nodes_ids  ,
                                          edges_ids   = edges_ids  ,
@@ -97,20 +104,19 @@ class MGraph__Query(Type_Safe):
 
         return self.query_views.set_current_view(next(iter(next_ids)))
 
-
     def with_field(self, name: str, value: Any) -> 'MGraph__Query':
-        matching_ids = self.mgraph_index.get_nodes_by_field(name, value)
+        matching_ids = self.mgraph_index.get_nodes_by_field(name, value)               # Get matching nodes from index
 
-        current_nodes, current_edges = self.get_current_ids()
+        current_nodes, current_edges = self.get_current_ids()                          # Get current state
 
-        filtered_nodes = matching_ids & current_nodes if current_nodes else matching_ids
-        filtered_edges = self.get_connecting_edges(filtered_nodes)
+        new_nodes = matching_ids | current_nodes                                       # Merge with current nodes
 
-        self.create_view(nodes_ids = filtered_nodes,
-                         edges_ids = filtered_edges,
+        self.create_view(nodes_ids = new_nodes,
+                         edges_ids = current_edges,                                     # Keep current edges
                          operation = 'with_field',
                          params    = {'name': name, 'value': value})
         return self
+
 
     def index(self):
         return self.mgraph_index
@@ -141,6 +147,10 @@ class MGraph__Query(Type_Safe):
 
     def current_view(self) -> Optional[Model__MGraph__Query__View]:                                     # Returns current view if any
         return self.query_views.current_view()
+
+    def in_initial_view(self):
+        current_view = self.current_view()
+        return (current_view is None) or (self.current_view().query_operation() == VIEW__OPERATION__INITIAL)
 
     def traverse(self, edge_type: Optional[Type[Schema__MGraph__Edge]] = None) -> 'MGraph__Query':      # Traverses to connected nodes, optionally filtering by edge type"""
         current_nodes, _ = self.get_current_ids()
@@ -206,3 +216,70 @@ class MGraph__Query(Type_Safe):
     def nodes_ids(self):
         current_view = self.query_views.current_view()
         return current_view.nodes_ids()
+
+    def add_outgoing_edges(self) -> 'MGraph__Query':                                        # Add outgoing edges to current view
+        current_nodes, current_edges = self.get_current_ids()                               # Get current nodes and edges
+        new_nodes = set()                                                                   # Initialize new node set
+        new_edges = set()                                                                   # Initialize new edge set
+
+        for node_id in current_nodes:                                                       # For each current node
+            node = self.mgraph_data.node(node_id)                                           # Get the node
+            if node:
+                outgoing_edges = self.mgraph_index.get_node_outgoing_edges(node)            # Get outgoing edges
+                new_edges.update(outgoing_edges)                                            # Add to new edges set
+
+                for edge_id in outgoing_edges:                                              # For each outgoing edge
+                    edge = self.mgraph_data.edge(edge_id)                                   # Get the edge
+                    if edge:
+                        new_nodes.add(edge.to_node_id())                                    # Add target node to new nodes
+
+        combined_nodes = current_nodes | new_nodes                                          # Combine current and new nodes/edges
+        combined_edges = current_edges | new_edges
+
+        self.create_view(nodes_ids = combined_nodes,                                        # Create new view with combined sets
+                         edges_ids = combined_edges,
+                         operation = 'add_outgoing_edges',
+                         params    = {})
+        return
+
+    def add_outgoing_edges__with_depth(self, depth:int)  -> 'MGraph__Query':
+        for _ in range(0, depth):
+            self.add_outgoing_edges()
+        return self
+
+    def add_node_id(self, node_id: Obj_Id) -> 'MGraph__Query':                                      # Add specific node to view
+
+        current_nodes, current_edges = self.get_current_ids()                                       # Get current nodes and edges
+
+        if not self.mgraph_data.node(node_id):                                                      # Validate node exists
+            return self
+
+        new_nodes = current_nodes | {node_id}                                                       # Add new node to set
+        new_edges = current_edges                                                                   # Start with current edges
+
+
+        self.create_view(nodes_ids = new_nodes,
+                         edges_ids = new_edges,
+                         operation = 'add_node_id',
+                         params    = {'node_id': str(node_id)})                                     # Create new view with added node
+        return self
+
+    def add_nodes_ids(self, nodes_ids: Set[Obj_Id]) -> 'MGraph__Query':  # Add multiple nodes to view
+        current_nodes, current_edges = self.get_current_ids()  # Get current nodes and edges
+
+        # Filter out any invalid node IDs
+        valid_nodes = {node_id for node_id in nodes_ids
+                       if self.mgraph_data.node(node_id)}  # Validate nodes exist
+
+        if not valid_nodes:  # Return if no valid nodes
+            return self
+
+        new_nodes = current_nodes | valid_nodes  # Add new nodes to set
+        new_edges = current_edges  # Start with current edges
+
+        self.create_view(nodes_ids=new_nodes,
+                         edges_ids=new_edges,
+                         operation='add_nodes_ids',
+                         params={'nodes_ids': [str(node_id) for node_id in
+                                               valid_nodes]})  # Create new view with added nodes
+        return self

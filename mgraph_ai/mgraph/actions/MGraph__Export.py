@@ -52,22 +52,33 @@ class MGraph__Export(Type_Safe):
                 to_elem.text    = str(edge.to_node_id())
         return self.format_xml(root, indent='  ')
 
-    def to__dot(self) -> str:                                                                   # Export as DOT graph
+    def to__dot(self, show_value=False, show_edge_ids=True) -> str:                                                                   # Export as DOT graph
         lines = ['digraph {']
 
         with self.data() as _:
             for node in _.nodes():                                                              # Output nodes with data
                 node_attrs = []
                 if node.node_data:
-                    for field_name, field_value in node.node_data.__dict__.items():
-                        if not field_name.startswith('_'):                                      # Skip private attributes
+                    node_items = node.node_data.__dict__.items()
+                    if node_items:
+                        for field_name, field_value in node_items:
                             node_attrs.append(f'{field_name}="{field_value}"')
+                            if show_value and (field_name =='value' or field_name =='name'):
+                                node_attrs.append(f'label="{field_value}"')
+                    else:
+                        if show_value:
+                            label = type(node.node.data).__name__.split('__').pop().lower()
+                            node_attrs.append(f'label="{label}"')
 
                 attrs_str = f' [{", ".join(node_attrs)}]' if node_attrs else ''
                 lines.append(f'  "{node.node_id}"{attrs_str}')
 
             for edge in _.edges():                                                          # Output edges with IDs
-                lines.append(f'  "{edge.from_node_id()}" -> "{edge.to_node_id()}" [label="  {edge.edge_id}"]')
+                if show_edge_ids:
+                    edge_label = f"  {edge.edge_id}"
+                else:
+                    edge_label = ""
+                lines.append(f'  "{edge.from_node_id()}" -> "{edge.to_node_id()}" [label="{edge_label}"]')
 
         lines.append('}')
         return '\n'.join(lines)
