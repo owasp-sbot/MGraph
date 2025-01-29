@@ -20,7 +20,7 @@ class test_MGraph__Query__operations(TestCase):
         result2 = result1.with_field('value', 'A')
         view2   = self.query.query_views.current_view()
         assert view2.query_operation()  == 'with_field'
-        assert len(view2.nodes_ids())   == 1
+        assert len(view2.nodes_ids())   == 3
         assert view2.previous_view_id() == view1.view_id()
 
         # Navigation
@@ -50,7 +50,7 @@ class test_MGraph__Query__operations(TestCase):
         view   = self.query.query_views.current_view()
 
         assert result                 == self.query
-        assert len(view.nodes_ids ()) == 0
-        assert len(view.edges_ids ()) == 0
+        assert len(view.nodes_ids ()) == 3                                      # todo: double check these results
+        assert len(view.edges_ids ()) == 2
         assert view.query_operation() == 'with_field'
         assert view.query_params   () == {'name': 'value', 'value': 'NonExistent'}

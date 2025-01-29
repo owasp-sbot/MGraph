@@ -3,11 +3,11 @@ from datetime                                            import datetime
 from osbot_utils.helpers.xml.rss.RSS__Feed               import RSS__Feed
 from osbot_utils.type_safe.Type_Safe                     import Type_Safe
 from mgraph_ai.providers.json.MGraph__Json               import MGraph__Json
-from osbot_utils.utils.Json                              import Json
 
 class MGraph__RSS(Type_Safe):
     rss_feed : RSS__Feed
     graph    : MGraph__Json
+
 
     # RSS Channel Properties
     @property
@@ -62,4 +62,4 @@ class MGraph__RSS(Type_Safe):
 
     def load_rss(self, rss_feed: RSS__Feed):
         self.rss_feed = rss_feed
-        self.graph.load().from_json(rss_feed.json())
+        self.graph.load().from_data(rss_feed.json())

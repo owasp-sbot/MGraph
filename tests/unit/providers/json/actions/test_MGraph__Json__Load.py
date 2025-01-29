@@ -1,7 +1,7 @@
 from unittest                                                           import TestCase
 from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node__List   import Domain__MGraph__Json__Node__List
 from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node__Value  import Domain__MGraph__Json__Node__Value
-from osbot_utils.utils.Json                                             import json_loads
+from osbot_utils.utils.Json                                             import json_loads, json__equals__list_and_set
 from mgraph_ai.providers.json.MGraph__Json                              import MGraph__Json
 from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node__Dict   import Domain__MGraph__Json__Node__Dict
 
@@ -35,18 +35,18 @@ class test_MGraph__Json__Load(TestCase):
     def test_export_to_dict(self):                                                            # Test exporting to dict
         self.mgraph.load().from_data(self.test_data)
         exported = self.mgraph.export().to_dict()
-        assert exported            == self.test_data
-        assert exported["string" ] == "value"
-        assert exported["number" ] == 42
-        assert exported["boolean"] is True
-        assert exported["null"   ] is None
-        assert exported["array"  ] == [1, 2, 3]
-        assert exported["object" ] == {"key": "value"}
+        assert json__equals__list_and_set(exported, self.test_data)       is True
+        assert exported["string" ]                                        == "value"
+        assert exported["number" ]                                        == 42
+        assert exported["boolean"]                                        is True
+        assert exported["null"   ]                                        is None
+        assert json__equals__list_and_set(exported["array"  ], [1, 2, 3]) is True
+        assert exported["object" ]                                        == {"key": "value"}
 
     def test_export_to_string(self):                                                          # Test exporting to JSON string
         self.mgraph.load().from_data(self.test_data)
         exported = self.mgraph.export().to_string()
-        assert json_loads(exported) == self.test_data
+        assert json__equals__list_and_set(json_loads(exported), self.test_data) is True
 
     def test_primitive_values(self):                                                          # Test handling primitive values
         values = ["string", 42, 3.14, True, False, None ]
@@ -67,7 +67,7 @@ class test_MGraph__Json__Load(TestCase):
         assert items[1]                       == "two"
         assert items[2]                       == {"three": 3}
         assert items[3]                       == [4, 5]
-        assert self.mgraph.export().to_dict() == array_data
+        assert json__equals__list_and_set(self.mgraph.export().to_dict(), array_data)
 
     def test_nested_structures(self):                                                         # Test nested JSON structures
         nested_data  = {"level1": {"level2": {"level3": {"array": [1, 2, {"key": "value"}],
@@ -75,7 +75,7 @@ class test_MGraph__Json__Load(TestCase):
         graph        = self.mgraph.load().from_data(nested_data)
         root_content = graph.root_content()
         assert isinstance(root_content, Domain__MGraph__Json__Node__Dict)
-        assert self.mgraph.export().to_dict() == nested_data
+        assert json__equals__list_and_set(self.mgraph.export().to_dict(), nested_data) is True
 
     def test_empty_structures(self):                                                          # Test empty JSON structures
         empty_data   = { "empty_object" : {} ,

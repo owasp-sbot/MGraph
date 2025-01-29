@@ -4,7 +4,7 @@ from mgraph_ai.providers.json.MGraph__Json                          import MGrap
 from mgraph_ai.providers.json.actions.MGraph__Json__Export          import MGraph__Json__Export
 from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Graph    import Domain__MGraph__Json__Graph
 from osbot_utils.utils.Files                                        import file_delete
-from osbot_utils.utils.Env                                          import load_dotenv
+from osbot_utils.utils.Env                                          import not_in_github_action
 from mgraph_ai.providers.json.actions.MGraph__Json__Screenshot      import MGraph__Json__Screenshot
 
 
@@ -12,7 +12,6 @@ class test_MGraph__Json__Screenshot(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        load_dotenv()
         cls.test_data = {"aa": "bb", "cc": ["dd", "ee"], "an_list": [1, 2, 3, 4]}
         cls.target_file     = '/tmp/json-screenshot.png'
         cls.delete_on_exit  = False
@@ -42,5 +41,7 @@ class test_MGraph__Json__Screenshot(TestCase):
         assert result.startswith(b'\x89PNG\r\n\x1a\n') is True
 
     def test_mermaid(self):
+        if not_in_github_action():
+            pytest.skip("runs quite slowly")
         result = self.json_screenshot.mermaid()
         assert result.startswith(b'\x89PNG\r\n\x1a\n') is True

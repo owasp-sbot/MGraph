@@ -59,6 +59,7 @@ class Domain__MGraph__Graph(Type_Safe):
         node = self.model.new_node(**kwargs)
         return self.mgraph_node(node=node)
 
+    # todo: check this logic to if we need to create new objects every time this is called
     def node(self, node_id: Obj_Id) -> Domain__MGraph__Node:
         node = self.model.node(node_id)
         if node:

@@ -16,6 +16,7 @@ class Domain__MGraph__Node(Type_Safe):                                          
     def add_node(self, node: Model__MGraph__Node) -> None:                                 # Add a node to the graph
         self.graph.add_node(node.data)
 
+    # todo: refactor to not use self.graph.edges()
     def models__edges(self) -> List[Model__MGraph__Edge]:                                  # Get all model edges connected to this node
         connected_edges = []
         for edge in self.graph.edges():
@@ -23,6 +24,7 @@ class Domain__MGraph__Node(Type_Safe):                                          
                 connected_edges.append(edge)
         return connected_edges
 
+    # todo: this needed to be refactored to the MGraph_Index (since this is transversing all of self.graph.edges() to find an edge)
     def models__from_edges(self) -> List[Model__MGraph__Edge]:                             # Get model edges where this node is the source
         outgoing_edges = []
         for edge in self.graph.edges():
@@ -30,6 +32,7 @@ class Domain__MGraph__Node(Type_Safe):                                          
                 outgoing_edges.append(edge)
         return outgoing_edges
 
+    # todo: refactor to not use self.graph.edges()
     def models__to_edges(self) -> List[Model__MGraph__Edge]:                               # Get model edges where this node is the target
         incoming_edges = []
         for edge in self.graph.edges():

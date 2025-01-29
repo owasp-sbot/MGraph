@@ -20,6 +20,8 @@ class test_MGraph__Json__Query(TestCase):
         self.json_query = MGraph__Json__Query(mgraph_data=self.mgraph.data(), mgraph_index=self.mgraph.index()).setup()
 
     def test_value_access(self):
+        with self.mgraph.edit() as _:
+            root_id = _.root_property_node_id()
         with self.json_query as json_query:
             assert obj(json_query.stats()) == __(source_graph = __( nodes      = 27      ,
                                                                     edges      = 26      ),
@@ -27,12 +29,14 @@ class test_MGraph__Json__Query(TestCase):
                                                                     has_prev   = False   ,
                                                                     operation  ='initial',
                                                                     params     = __()    ,
-                                                                    view_edges = 26      ,
-                                                                    view_nodes = 27      ))
-            assert len(json_query.edges_ids()) == 26
-            assert len(json_query.nodes_ids()) == 27
+                                                                    view_edges = 0      ,
+                                                                    view_nodes = 0      ))
+            assert len(json_query.edges_ids()) == 0
+            assert len(json_query.nodes_ids()) == 0
+            json_query.add_node_id(root_id)
 
             query_nested = json_query  ['nested']
+
             assert obj(json_query.stats()) == __(source_graph = __( nodes      = 27              ,
                                                                     edges      = 26              ),
                                                  current_view = __( has_next   = False           ,
@@ -44,7 +48,8 @@ class test_MGraph__Json__Query(TestCase):
             assert len(json_query.edges_ids()) == 3
             assert len(json_query.nodes_ids()) == 1
 
-            query_value  = query_nested['value' ]
+            query_value = query_nested['value' ]
+
             assert obj(json_query.stats()) == __(source_graph = __( nodes      = 27              ,
                                                                     edges      = 26              ),
                                                  current_view = __( has_next   = False           ,
@@ -56,6 +61,7 @@ class test_MGraph__Json__Query(TestCase):
             assert len(json_query.edges_ids()) == 1
             assert len(json_query.nodes_ids()) == 1
             assert query_value.value       () == 42
+
             json_query.reset()
             assert obj(json_query.stats()) == __(source_graph = __( nodes      = 27      ,
                                                                     edges      = 26      ),
@@ -63,8 +69,9 @@ class test_MGraph__Json__Query(TestCase):
                                                                     has_prev   = False   ,
                                                                     operation  ='initial',
                                                                     params     = __()    ,
-                                                                    view_edges = 26      ,
-                                                                    view_nodes = 27      ))
+                                                                    view_edges = 0       ,
+                                                                    view_nodes = 0      ))
+            json_query.add_node_id(root_id)
             assert json_query['nested']['value'].value() == 42
 
     def test_empty_access(self):
@@ -86,6 +93,10 @@ class test_MGraph__Json__Query(TestCase):
                 assert _.value() is None
 
     def test_view_navigation(self):
+        with self.mgraph.edit() as _:
+            root_id = _.root_property_node_id()
+            self.json_query.add_node_id(root_id)
+
         with self.mgraph.data() as data:
             result = self.json_query['nested']['value']                                 # Navigate through views
             assert result.value() == 42
@@ -100,6 +111,10 @@ class test_MGraph__Json__Query(TestCase):
             assert self.json_query.go_back()                        is True                                # Go back to root
             assert self.json_query.current_view().query_operation() == 'dict_access'
             assert self.json_query.current_view().query_params   () == {'key': 'nested'}
+
+            assert self.json_query.go_back()                        is True
+            assert self.json_query.current_view().query_operation() == 'add_node_id'
+            assert self.json_query.current_view().query_params   () == {'node_id': root_id}
 
             assert self.json_query.go_back()                        is True
             assert self.json_query.current_view().query_operation() == 'initial'
