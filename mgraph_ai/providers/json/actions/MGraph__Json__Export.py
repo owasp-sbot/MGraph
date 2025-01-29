@@ -1,4 +1,5 @@
 from typing                                                                     import Union, Dict, List, Optional, Any
+from osbot_utils.utils.Dev                                                      import pprint
 from mgraph_ai.providers.json.actions.exporters.MGraph__Export__Json__Dot       import MGraph__Export__Json__Dot
 from mgraph_ai.providers.json.actions.exporters.MGraph__Export__Json__Mermaid   import MGraph__Export__Json__Mermaid
 from mgraph_ai.providers.json.models.Model__MGraph__Json__Node__Dict            import Model__MGraph__Json__Node__Dict
@@ -81,3 +82,6 @@ class MGraph__Json__Export(MGraph__Export):
 
     def to_mermaid(self) -> MGraph__Export__Json__Mermaid:
         return MGraph__Export__Json__Mermaid(graph=self.graph)
+
+    def print__dict(self):
+        pprint(self.to_dict())
