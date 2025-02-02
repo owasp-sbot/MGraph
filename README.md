@@ -1,6 +1,6 @@
 # MGraph-DB: A Memory-based GraphDB for Python, GenAI, Semantic Web and Serverless
 
-![Current Release](https://img.shields.io/badge/release-v0.12.0-blue)
+![Current Release](https://img.shields.io/badge/release-v0.12.1-blue)
 
 MGraph-DB is a high-performance, type-safe graph database implementation in Python, optimized for in-memory operations with JSON persistence. Its architecture makes it particularly well-suited for:
 
