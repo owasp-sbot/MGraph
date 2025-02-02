@@ -1,12 +1,12 @@
 from unittest                                       import TestCase
 from osbot_utils.helpers.Obj_Id                     import is_obj_id
-from mgraph_ai.mgraph.domain.Domain__MGraph__Node   import Domain__MGraph__Node
+from mgraph_db.mgraph.domain.Domain__MGraph__Node   import Domain__MGraph__Node
 from osbot_utils.utils.Objects                      import __
-from mgraph_ai.mgraph.actions.MGraph__Edit          import MGraph__Edit
-from mgraph_ai.mgraph.domain.Domain__MGraph__Graph  import Domain__MGraph__Graph
-from mgraph_ai.mgraph.models.Model__MGraph__Graph   import Model__MGraph__Graph
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph import Schema__MGraph__Graph
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node  import Schema__MGraph__Node
+from mgraph_db.mgraph.actions.MGraph__Edit          import MGraph__Edit
+from mgraph_db.mgraph.domain.Domain__MGraph__Graph  import Domain__MGraph__Graph
+from mgraph_db.mgraph.models.Model__MGraph__Graph   import Model__MGraph__Graph
+from mgraph_db.mgraph.schemas.Schema__MGraph__Graph import Schema__MGraph__Graph
+from mgraph_db.mgraph.schemas.Schema__MGraph__Node  import Schema__MGraph__Node
 
 class Simple_Node(Schema__MGraph__Node): pass  # Helper class for testing
 
@@ -28,7 +28,7 @@ class test_MGraph__Edit(TestCase):
             assert is_obj_id(node_id) is True
             assert node.obj()         == __(node=__(data=__(node_data   = __()    ,
                                                             node_id     = node_id ,
-                                                            node_type   = 'mgraph_ai.mgraph.schemas.Schema__MGraph__Node.Schema__MGraph__Node')),
+                                                            node_type   = 'mgraph_db.mgraph.schemas.Schema__MGraph__Node.Schema__MGraph__Node')),
                                             graph=self.model_graph.obj())
             assert node.node.json() == self.model_graph.node(node_id=node_id).json()
 

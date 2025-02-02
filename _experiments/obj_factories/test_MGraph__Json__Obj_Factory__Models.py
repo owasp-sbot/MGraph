@@ -1,25 +1,25 @@
 from unittest                                                                 import TestCase
 from osbot_utils.testing.performance.Performance_Measure__Session             import Performance_Measure__Session
 from osbot_utils.utils.Objects                                                import __, type_full_name
-from mgraph_ai.providers.json.actions.MGraph__Json__Obj_Factory__Models       import MGraph__Json__Obj_Factory__Models
-from mgraph_ai.providers.json.models.Model__MGraph__Json__Edge                import Model__MGraph__Json__Edge
-from mgraph_ai.providers.json.models.Model__MGraph__Json__Graph               import Model__MGraph__Json__Graph
-from mgraph_ai.providers.json.models.Model__MGraph__Json__Node                import Model__MGraph__Json__Node
-from mgraph_ai.providers.json.models.Model__MGraph__Json__Node__Dict          import Model__MGraph__Json__Node__Dict
-from mgraph_ai.providers.json.models.Model__MGraph__Json__Node__List          import Model__MGraph__Json__Node__List
-from mgraph_ai.providers.json.models.Model__MGraph__Json__Node__Property      import Model__MGraph__Json__Node__Property
-from mgraph_ai.providers.json.models.Model__MGraph__Json__Node__Value         import Model__MGraph__Json__Node__Value
-from mgraph_ai.providers.json.models.Model__MGraph__Json__Types               import Model__MGraph__Json__Types
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge__Config                    import Schema__MGraph__Edge__Config
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Edge              import Schema__MGraph__Json__Edge
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Graph             import Schema__MGraph__Json__Graph
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Dict        import Schema__MGraph__Json__Node__Dict
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__List        import Schema__MGraph__Json__Node__List
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Property    import Schema__MGraph__Json__Node__Property
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Value       import Schema__MGraph__Json__Node__Value
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Graph__Data       import Schema__MGraph__Json__Graph__Data
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node              import Schema__MGraph__Json__Node
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Value__Data import Schema__MGraph__Json__Node__Value__Data
+from mgraph_db.providers.json.actions.MGraph__Json__Obj_Factory__Models       import MGraph__Json__Obj_Factory__Models
+from mgraph_db.providers.json.models.Model__MGraph__Json__Edge                import Model__MGraph__Json__Edge
+from mgraph_db.providers.json.models.Model__MGraph__Json__Graph               import Model__MGraph__Json__Graph
+from mgraph_db.providers.json.models.Model__MGraph__Json__Node                import Model__MGraph__Json__Node
+from mgraph_db.providers.json.models.Model__MGraph__Json__Node__Dict          import Model__MGraph__Json__Node__Dict
+from mgraph_db.providers.json.models.Model__MGraph__Json__Node__List          import Model__MGraph__Json__Node__List
+from mgraph_db.providers.json.models.Model__MGraph__Json__Node__Property      import Model__MGraph__Json__Node__Property
+from mgraph_db.providers.json.models.Model__MGraph__Json__Node__Value         import Model__MGraph__Json__Node__Value
+from mgraph_db.providers.json.models.Model__MGraph__Json__Types               import Model__MGraph__Json__Types
+from mgraph_db.mgraph.schemas.Schema__MGraph__Edge__Config                    import Schema__MGraph__Edge__Config
+from mgraph_db.providers.json.schemas.Schema__MGraph__Json__Edge              import Schema__MGraph__Json__Edge
+from mgraph_db.providers.json.schemas.Schema__MGraph__Json__Graph             import Schema__MGraph__Json__Graph
+from mgraph_db.providers.json.schemas.Schema__MGraph__Json__Node__Dict        import Schema__MGraph__Json__Node__Dict
+from mgraph_db.providers.json.schemas.Schema__MGraph__Json__Node__List        import Schema__MGraph__Json__Node__List
+from mgraph_db.providers.json.schemas.Schema__MGraph__Json__Node__Property    import Schema__MGraph__Json__Node__Property
+from mgraph_db.providers.json.schemas.Schema__MGraph__Json__Node__Value       import Schema__MGraph__Json__Node__Value
+from mgraph_db.providers.json.schemas.Schema__MGraph__Json__Graph__Data       import Schema__MGraph__Json__Graph__Data
+from mgraph_db.providers.json.schemas.Schema__MGraph__Json__Node              import Schema__MGraph__Json__Node
+from mgraph_db.providers.json.schemas.Schema__MGraph__Json__Node__Value__Data import Schema__MGraph__Json__Node__Value__Data
 
 class test_MGraph__Json__Obj_Factory__Models(TestCase):
 

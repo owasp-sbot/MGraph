@@ -1,7 +1,7 @@
 from unittest                               import TestCase
 from osbot_utils.utils.Files                import file_exists, file_delete
 from osbot_utils.utils.Json                 import json_loads, json__equals__list_and_set
-from mgraph_ai.providers.json.MGraph__Json  import MGraph__Json
+from mgraph_db.providers.json.MGraph__Json  import MGraph__Json
 
 
 class test_MGraph__Json__Export(TestCase):

@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from mgraph_ai.providers.json.MGraph__Json         import MGraph__Json
+from mgraph_db.providers.json.MGraph__Json         import MGraph__Json
 from osbot_utils.context_managers.capture_duration import capture_duration
 
 class test__regression__Domain__MGraph__Json__Node__Dict(TestCase):                     # Test that captures the property visibility bug

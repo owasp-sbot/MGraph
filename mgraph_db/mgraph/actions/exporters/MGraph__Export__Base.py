@@ -1,5 +1,5 @@
 from typing                                          import Dict, Any, List
-from mgraph_ai.mgraph.domain.Domain__MGraph__Graph   import Domain__MGraph__Graph
+from mgraph_db.mgraph.domain.Domain__MGraph__Graph   import Domain__MGraph__Graph
 from osbot_utils.type_safe.Type_Safe                 import Type_Safe
 
 class Model__MGraph__Export__Context__Counters(Type_Safe):

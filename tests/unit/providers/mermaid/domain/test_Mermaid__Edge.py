@@ -1,8 +1,8 @@
 from unittest                                                 import TestCase
-from mgraph_ai.providers.mermaid.models.Model__Mermaid__Graph import Model__Mermaid__Graph
+from mgraph_db.providers.mermaid.models.Model__Mermaid__Graph import Model__Mermaid__Graph
 from osbot_utils.helpers.Obj_Id                               import is_obj_id
 from osbot_utils.utils.Objects                                import __
-from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Edge import Domain__Mermaid__Edge
+from mgraph_db.providers.mermaid.domain.Domain__Mermaid__Edge import Domain__Mermaid__Edge
 
 class test_Mermaid__Edge(TestCase):
 
@@ -22,7 +22,7 @@ class test_Mermaid__Edge(TestCase):
                                                                                       output_node_to   = False,
                                                                                       edge_mode        = '',
                                                                                       edge_id          = _.edge_config.edge_id),
-                                                                    edge_type    = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge.Schema__Mermaid__Edge',
+                                                                    edge_type    = 'mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Edge.Schema__Mermaid__Edge',
                                                                     edge_data    = __()           ,
                                                                     from_node_id = _.from_node_id ,
                                                                     to_node_id   = _.to_node_id   )),

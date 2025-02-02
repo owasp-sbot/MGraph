@@ -1,4 +1,4 @@
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node  import Schema__MGraph__Node
+from mgraph_db.mgraph.schemas.Schema__MGraph__Node  import Schema__MGraph__Node
 from osbot_utils.helpers.Timestamp_Now              import Timestamp_Now
 
 

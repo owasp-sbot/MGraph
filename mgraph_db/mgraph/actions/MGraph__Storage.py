@@ -1,4 +1,4 @@
-from mgraph_ai.mgraph.domain.Domain__MGraph__Graph  import Domain__MGraph__Graph
+from mgraph_db.mgraph.domain.Domain__MGraph__Graph  import Domain__MGraph__Graph
 from osbot_utils.type_safe.Type_Safe                import Type_Safe
 
 class MGraph__Storage(Type_Safe):

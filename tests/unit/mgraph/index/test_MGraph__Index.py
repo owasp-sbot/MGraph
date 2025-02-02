@@ -1,13 +1,13 @@
 from unittest                                               import TestCase
-from mgraph_ai.providers.simple.MGraph__Simple__Test_Data   import MGraph__Simple__Test_Data
+from mgraph_db.providers.simple.MGraph__Simple__Test_Data   import MGraph__Simple__Test_Data
 from osbot_utils.utils.Objects                              import __
 from osbot_utils.testing.Temp_File                          import Temp_File
-from mgraph_ai.mgraph.MGraph                                import MGraph
+from mgraph_db.mgraph.MGraph                                import MGraph
 from osbot_utils.utils.Files                                import file_not_exists, file_exists
-from mgraph_ai.mgraph.actions.MGraph__Index                 import MGraph__Index
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Index__Data   import Schema__MGraph__Index__Data
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node          import Schema__MGraph__Node
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge          import Schema__MGraph__Edge
+from mgraph_db.mgraph.actions.MGraph__Index                 import MGraph__Index
+from mgraph_db.mgraph.schemas.Schema__MGraph__Index__Data   import Schema__MGraph__Index__Data
+from mgraph_db.mgraph.schemas.Schema__MGraph__Node          import Schema__MGraph__Node
+from mgraph_db.mgraph.schemas.Schema__MGraph__Edge          import Schema__MGraph__Edge
 
 
 class test_MGraph_Index(TestCase):

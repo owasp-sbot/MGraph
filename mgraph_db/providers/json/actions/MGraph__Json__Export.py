@@ -1,15 +1,15 @@
 from typing                                                                     import Union, Dict, List, Optional, Any
 from osbot_utils.utils.Dev                                                      import pprint
-from mgraph_ai.providers.json.actions.exporters.MGraph__Export__Json__Dot       import MGraph__Export__Json__Dot
-from mgraph_ai.providers.json.actions.exporters.MGraph__Export__Json__Mermaid   import MGraph__Export__Json__Mermaid
-from mgraph_ai.providers.json.models.Model__MGraph__Json__Node__Dict            import Model__MGraph__Json__Node__Dict
-from mgraph_ai.providers.json.models.Model__MGraph__Json__Node__List            import Model__MGraph__Json__Node__List
-from mgraph_ai.providers.json.models.Model__MGraph__Json__Node__Value           import Model__MGraph__Json__Node__Value
+from mgraph_db.providers.json.actions.exporters.MGraph__Export__Json__Dot       import MGraph__Export__Json__Dot
+from mgraph_db.providers.json.actions.exporters.MGraph__Export__Json__Mermaid   import MGraph__Export__Json__Mermaid
+from mgraph_db.providers.json.models.Model__MGraph__Json__Node__Dict            import Model__MGraph__Json__Node__Dict
+from mgraph_db.providers.json.models.Model__MGraph__Json__Node__List            import Model__MGraph__Json__Node__List
+from mgraph_db.providers.json.models.Model__MGraph__Json__Node__Value           import Model__MGraph__Json__Node__Value
 from osbot_utils.utils.Files                                                    import file_save
 from osbot_utils.utils.Json                                                     import json_dumps
-from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Graph                import Domain__MGraph__Json__Graph
-from mgraph_ai.mgraph.actions.MGraph__Export                                    import MGraph__Export
-from mgraph_ai.mgraph.actions.MGraph__Index                                     import MGraph__Index
+from mgraph_db.providers.json.domain.Domain__MGraph__Json__Graph                import Domain__MGraph__Json__Graph
+from mgraph_db.mgraph.actions.MGraph__Export                                    import MGraph__Export
+from mgraph_db.mgraph.actions.MGraph__Index                                     import MGraph__Index
 from osbot_utils.helpers.Obj_Id                                                 import Obj_Id
 
 class MGraph__Json__Export(MGraph__Export):

@@ -1,6 +1,6 @@
-from mgraph_ai.providers.mermaid.models.Model__Mermaid__Types   import Model__Mermaid__Types
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Graph import Schema__Mermaid__Graph
-from mgraph_ai.mgraph.models.Model__MGraph__Graph               import Model__MGraph__Graph
+from mgraph_db.providers.mermaid.models.Model__Mermaid__Types   import Model__Mermaid__Types
+from mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Graph import Schema__Mermaid__Graph
+from mgraph_db.mgraph.models.Model__MGraph__Graph               import Model__MGraph__Graph
 
 class Model__Mermaid__Graph(Model__MGraph__Graph):
     data          : Schema__Mermaid__Graph

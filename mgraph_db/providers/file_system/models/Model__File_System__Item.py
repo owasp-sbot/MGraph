@@ -1,5 +1,5 @@
-from mgraph_ai.mgraph.models.Model__MGraph__Node                        import Model__MGraph__Node
-from mgraph_ai.providers.file_system.schemas.Schema__File_System__Item  import Schema__File_System__Item
+from mgraph_db.mgraph.models.Model__MGraph__Node                        import Model__MGraph__Node
+from mgraph_db.providers.file_system.schemas.Schema__File_System__Item  import Schema__File_System__Item
 from osbot_utils.type_safe.methods.type_safe_property import set_as_property
 
 

@@ -1,12 +1,12 @@
 from typing                                                                   import List, Any, Union
-from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node               import Domain__MGraph__Json__Node
-from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node__Dict         import Domain__MGraph__Json__Node__Dict
-from mgraph_ai.providers.json.models.Model__MGraph__Json__Node__Dict          import Model__MGraph__Json__Node__Dict
-from mgraph_ai.providers.json.models.Model__MGraph__Json__Node__List          import Model__MGraph__Json__Node__List
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Dict        import Schema__MGraph__Json__Node__Dict
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__List        import Schema__MGraph__Json__Node__List
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Value       import Schema__MGraph__Json__Node__Value
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Value__Data import \
+from mgraph_db.providers.json.domain.Domain__MGraph__Json__Node               import Domain__MGraph__Json__Node
+from mgraph_db.providers.json.domain.Domain__MGraph__Json__Node__Dict         import Domain__MGraph__Json__Node__Dict
+from mgraph_db.providers.json.models.Model__MGraph__Json__Node__Dict          import Model__MGraph__Json__Node__Dict
+from mgraph_db.providers.json.models.Model__MGraph__Json__Node__List          import Model__MGraph__Json__Node__List
+from mgraph_db.providers.json.schemas.Schema__MGraph__Json__Node__Dict        import Schema__MGraph__Json__Node__Dict
+from mgraph_db.providers.json.schemas.Schema__MGraph__Json__Node__List        import Schema__MGraph__Json__Node__List
+from mgraph_db.providers.json.schemas.Schema__MGraph__Json__Node__Value       import Schema__MGraph__Json__Node__Value
+from mgraph_db.providers.json.schemas.Schema__MGraph__Json__Node__Value__Data import \
     Schema__MGraph__Json__Node__Value__Data
 
 

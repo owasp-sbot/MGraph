@@ -1,7 +1,7 @@
 # Post-Mortem: Type_Safe Annotation Inheritance Bug
 
 ## Introduction
-This document presents a detailed post-mortem analysis of a complex bug encountered in the Type_Safe system's annotation inheritance mechanism. The bug manifested in the MGraph-AI project when attempting to clone graph edges using Type_Safe's serialization capabilities. What made this bug particularly interesting was its inconsistent behavior - operations would succeed on first attempt but fail on subsequent tries, suggesting a subtle interaction between Python's type system, inheritance mechanics, and our custom type safety implementation.
+This document presents a detailed post-mortem analysis of a complex bug encountered in the Type_Safe system's annotation inheritance mechanism. The bug manifested in the MGraph-DB project when attempting to clone graph edges using Type_Safe's serialization capabilities. What made this bug particularly interesting was its inconsistent behavior - operations would succeed on first attempt but fail on subsequent tries, suggesting a subtle interaction between Python's type system, inheritance mechanics, and our custom type safety implementation.
 
 The bug investigation spanned multiple areas including:
 - Python's annotation inheritance system

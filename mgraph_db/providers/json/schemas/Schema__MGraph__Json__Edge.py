@@ -1,5 +1,5 @@
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge                       import Schema__MGraph__Edge
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Edge__Config import Schema__MGraph__Json__Edge__Config
+from mgraph_db.mgraph.schemas.Schema__MGraph__Edge                       import Schema__MGraph__Edge
+from mgraph_db.providers.json.schemas.Schema__MGraph__Json__Edge__Config import Schema__MGraph__Json__Edge__Config
 from osbot_utils.helpers.Obj_Id                                          import Obj_Id
 from osbot_utils.type_safe.shared.Type_Safe__Cache                       import type_safe_cache
 

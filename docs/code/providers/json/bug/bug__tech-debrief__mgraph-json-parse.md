@@ -2,7 +2,7 @@
 
 ## Background
 
-The MGraph_Json implementation is a critical component of the MGraph-AI project, designed to handle bidirectional conversion between JSON data structures and graph representations. This component is essential for:
+The MGraph_Json implementation is a critical component of the MGraph-DB project, designed to handle bidirectional conversion between JSON data structures and graph representations. This component is essential for:
 
 1. Data import/export operations
 2. JSON document analysis

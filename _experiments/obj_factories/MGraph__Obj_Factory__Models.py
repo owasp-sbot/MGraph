@@ -1,8 +1,8 @@
-from mgraph_ai.mgraph.actions.MGraph__Obj_Factory__Schemas  import MGraph__Obj_Factory__Schemas
-from mgraph_ai.mgraph.models.Model__MGraph__Edge            import Model__MGraph__Edge
-from mgraph_ai.mgraph.models.Model__MGraph__Graph           import Model__MGraph__Graph
-from mgraph_ai.mgraph.models.Model__MGraph__Node            import Model__MGraph__Node
-from mgraph_ai.mgraph.models.Model__MGraph__Types           import Model__MGraph__Types
+from mgraph_db.mgraph.actions.MGraph__Obj_Factory__Schemas  import MGraph__Obj_Factory__Schemas
+from mgraph_db.mgraph.models.Model__MGraph__Edge            import Model__MGraph__Edge
+from mgraph_db.mgraph.models.Model__MGraph__Graph           import Model__MGraph__Graph
+from mgraph_db.mgraph.models.Model__MGraph__Node            import Model__MGraph__Node
+from mgraph_db.mgraph.models.Model__MGraph__Types           import Model__MGraph__Types
 from osbot_utils.type_safe.Type_Safe                        import Type_Safe
 
 class MGraph__Obj_Factory__Models(Type_Safe):

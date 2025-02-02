@@ -1,7 +1,7 @@
 import pytest
 from unittest                                 import TestCase
-from mgraph_ai.mgraph.actions.MGraph__Storage import MGraph__Storage
-from mgraph_ai.mgraph.domain.Domain__MGraph__Graph    import Domain__MGraph__Graph
+from mgraph_db.mgraph.actions.MGraph__Storage import MGraph__Storage
+from mgraph_db.mgraph.domain.Domain__MGraph__Graph    import Domain__MGraph__Graph
 
 
 class test_MGraph__Storage(TestCase):

@@ -1,9 +1,9 @@
 from unittest                                                           import TestCase
-from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node__List   import Domain__MGraph__Json__Node__List
-from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node__Value  import Domain__MGraph__Json__Node__Value
+from mgraph_db.providers.json.domain.Domain__MGraph__Json__Node__List   import Domain__MGraph__Json__Node__List
+from mgraph_db.providers.json.domain.Domain__MGraph__Json__Node__Value  import Domain__MGraph__Json__Node__Value
 from osbot_utils.utils.Json                                             import json_loads, json__equals__list_and_set
-from mgraph_ai.providers.json.MGraph__Json                              import MGraph__Json
-from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node__Dict   import Domain__MGraph__Json__Node__Dict
+from mgraph_db.providers.json.MGraph__Json                              import MGraph__Json
+from mgraph_db.providers.json.domain.Domain__MGraph__Json__Node__Dict   import Domain__MGraph__Json__Node__Dict
 
 class test_MGraph__Json__Load(TestCase):
     def setUp(self):                                                                          # Initialize test data

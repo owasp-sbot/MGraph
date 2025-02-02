@@ -4,7 +4,7 @@ from unittest                                                              impor
 
 from osbot_utils.helpers.Obj_Id import Obj_Id
 from osbot_utils.helpers.Timestamp_Now                                     import Timestamp_Now
-from mgraph_ai.providers.file_system.schemas.Schema__File_System__Item     import Schema__File_System__Item
+from mgraph_db.providers.file_system.schemas.Schema__File_System__Item     import Schema__File_System__Item
 
 class test_Schema__File_System__Item(TestCase):
 

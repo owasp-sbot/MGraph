@@ -1,4 +1,4 @@
-import requests
+#import requests
 from typing                              import Dict, Any
 from osbot_utils.type_safe.Type_Safe    import Type_Safe
 from osbot_utils.utils.Env              import get_env

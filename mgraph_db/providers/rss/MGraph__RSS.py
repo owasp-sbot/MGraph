@@ -2,7 +2,7 @@ from typing                                              import List, Dict, Any,
 from datetime                                            import datetime
 from osbot_utils.helpers.xml.rss.RSS__Feed               import RSS__Feed
 from osbot_utils.type_safe.Type_Safe                     import Type_Safe
-from mgraph_ai.providers.json.MGraph__Json               import MGraph__Json
+from mgraph_db.providers.json.MGraph__Json               import MGraph__Json
 
 class MGraph__RSS(Type_Safe):
     rss_feed : RSS__Feed

@@ -1,15 +1,15 @@
 from unittest                                               import TestCase
 from typing                                                 import Dict, Any
 from datetime                                               import datetime, timezone
-from mgraph_ai.providers.json.actions.MGraph__Json__Query   import MGraph__Json__Query
-from mgraph_ai.providers.json.actions.MGraph__Json__Query__Export__View import MGraph__Json__Query__Export__View
+from mgraph_db.providers.json.actions.MGraph__Json__Query   import MGraph__Json__Query
+from mgraph_db.providers.json.actions.MGraph__Json__Query__Export__View import MGraph__Json__Query__Export__View
 from osbot_utils.utils.Files                                import file_exists, file_delete
 from osbot_utils.utils.Env                                  import load_dotenv
 from osbot_utils.helpers.xml.rss.RSS__Feed                  import RSS__Feed
-from mgraph_ai.providers.rss.MGraph__RSS__Test_Data         import MGraph__RSS__Test_Data
+from mgraph_db.providers.rss.MGraph__RSS__Test_Data         import MGraph__RSS__Test_Data
 from osbot_utils.helpers.xml.rss.RSS__Feed__Parser          import RSS__Feed__Parser
-from mgraph_ai.providers.rss.MGraph__RSS                    import MGraph__RSS
-from mgraph_ai.providers.json.MGraph__Json                  import MGraph__Json
+from mgraph_db.providers.rss.MGraph__RSS                    import MGraph__RSS
+from mgraph_db.providers.json.MGraph__Json                  import MGraph__Json
 from osbot_utils.testing.Duration                           import Duration
 from osbot_utils.utils.Dev                                  import pprint
 

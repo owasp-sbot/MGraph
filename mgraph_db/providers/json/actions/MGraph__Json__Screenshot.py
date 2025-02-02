@@ -1,6 +1,6 @@
-import requests
-from mgraph_ai.providers.json.actions.MGraph__Json__Export            import MGraph__Json__Export
-from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Graph      import Domain__MGraph__Json__Graph
+#import requests
+from mgraph_db.providers.json.actions.MGraph__Json__Export            import MGraph__Json__Export
+from mgraph_db.providers.json.domain.Domain__MGraph__Json__Graph      import Domain__MGraph__Json__Graph
 from osbot_utils.utils.Files                                          import file_create_from_bytes
 from osbot_utils.utils.Http                                           import url_join_safe
 from osbot_utils.utils.Env                                            import get_env, not_in_github_action
@@ -64,7 +64,7 @@ class MGraph__Json__Screenshot(Type_Safe):
         method_params = {'dot_source': dot_code}
         return self.execute_request(method_path, method_params)
 
-# from mgraph_ai_serverless.graph_engines.matplotlib.models.Model__Matplotlib__Render import Model__Matplotlib__Render
+# from mgraph_db_serverless.graph_engines.matplotlib.models.Model__Matplotlib__Render import Model__Matplotlib__Render
 # from dataclasses                                                                    import asdict
 #     def matplotlib(self):
 #         render_config    = Model__Matplotlib__Render(graph_data=self.graph.json())

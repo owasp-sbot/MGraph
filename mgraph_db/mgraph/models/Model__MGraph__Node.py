@@ -1,6 +1,6 @@
 from osbot_utils.helpers.Obj_Id                         import Obj_Id
 from osbot_utils.type_safe.Type_Safe                    import Type_Safe
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node      import Schema__MGraph__Node
+from mgraph_db.mgraph.schemas.Schema__MGraph__Node      import Schema__MGraph__Node
 from osbot_utils.type_safe.methods.type_safe_property   import set_as_property
 
 

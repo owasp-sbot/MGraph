@@ -1,10 +1,10 @@
 from unittest                                                                   import TestCase
-from mgraph_ai.providers.graph_rag.actions.Graph_RAG__Document__Processor       import Graph_RAG__Document__Processor
-from mgraph_ai.providers.graph_rag.schemas.Schema__Graph_RAG__Document          import Schema__Graph_RAG__Document
-from mgraph_ai.providers.graph_rag.schemas.Schema__Graph_RAG__Entity            import Schema__Graph_RAG__Entity
-from mgraph_ai.providers.graph_rag.schemas.Schema__Graph_RAG__Entity__Data      import Schema__Graph_RAG__Entity__Data
-from mgraph_ai.providers.graph_rag.schemas.Schema__Graph_RAG__Relation          import Schema__Graph_RAG__Relation
-from mgraph_ai.providers.llms.utils.API__LLM                                    import API__LLM
+from mgraph_db.providers.graph_rag.actions.Graph_RAG__Document__Processor       import Graph_RAG__Document__Processor
+from mgraph_db.providers.graph_rag.schemas.Schema__Graph_RAG__Document          import Schema__Graph_RAG__Document
+from mgraph_db.providers.graph_rag.schemas.Schema__Graph_RAG__Entity            import Schema__Graph_RAG__Entity
+from mgraph_db.providers.graph_rag.schemas.Schema__Graph_RAG__Entity__Data      import Schema__Graph_RAG__Entity__Data
+from mgraph_db.providers.graph_rag.schemas.Schema__Graph_RAG__Relation          import Schema__Graph_RAG__Relation
+from mgraph_db.providers.llms.utils.API__LLM                                    import API__LLM
 from osbot_utils.helpers.xml.rss.RSS__Item                                      import RSS__Item
 from osbot_utils.utils.Env                                                      import load_dotenv
 

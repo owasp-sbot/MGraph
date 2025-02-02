@@ -1,8 +1,8 @@
 from unittest                                                                  import TestCase
 from osbot_utils.utils.Json                                                    import json_loads
-from mgraph_ai.providers.json.MGraph__Json                                     import MGraph__Json
-from mgraph_ai.providers.json.actions.exporters.MGraph__Export__Json__Cypher   import MGraph__Export__Json__Cypher
-from mgraph_ai.providers.json.actions.exporters.MGraph__Json__Export__Base     import Export__Json__Node_Type, Export__Json__Relation_Type
+from mgraph_db.providers.json.MGraph__Json                                     import MGraph__Json
+from mgraph_db.providers.json.actions.exporters.MGraph__Export__Json__Cypher   import MGraph__Export__Json__Cypher
+from mgraph_db.providers.json.actions.exporters.MGraph__Json__Export__Base     import Export__Json__Node_Type, Export__Json__Relation_Type
 
 
 class test_MGraph__Export__Json__Cypher(TestCase):

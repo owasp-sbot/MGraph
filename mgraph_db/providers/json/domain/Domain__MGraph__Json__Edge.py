@@ -1,5 +1,5 @@
-from mgraph_ai.mgraph.domain.Domain__MGraph__Edge import Domain__MGraph__Edge
-from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node import Domain__MGraph__Json__Node
+from mgraph_db.mgraph.domain.Domain__MGraph__Edge import Domain__MGraph__Edge
+from mgraph_db.providers.json.domain.Domain__MGraph__Json__Node import Domain__MGraph__Json__Node
 
 
 class Domain__MGraph__Json__Edge(Domain__MGraph__Edge):

@@ -2,14 +2,14 @@
 
 ## Introduction
 
-The MGraph-AI project has reached a critical point where architectural refinement is necessary to support its expanding capabilities and use cases. The ability to make these significant architectural changes is enabled by our comprehensive test coverage, achieved through AI-assisted test generation. This 100% code coverage provides confidence in refactoring while maintaining system integrity and functionality.
+The MGraph-DB project has reached a critical point where architectural refinement is necessary to support its expanding capabilities and use cases. The ability to make these significant architectural changes is enabled by our comprehensive test coverage, achieved through AI-assisted test generation. This 100% code coverage provides confidence in refactoring while maintaining system integrity and functionality.
 
-At its core, MGraph-AI serves as a universal graph-based data transformation and manipulation system. It creates an internal representation that can seamlessly convert between different data formats while preserving data fidelity. This enables powerful data manipulation capabilities while maintaining the ability to round-trip data back to its original format or transform it into any supported format.
+At its core, MGraph-DB serves as a universal graph-based data transformation and manipulation system. It creates an internal representation that can seamlessly convert between different data formats while preserving data fidelity. This enables powerful data manipulation capabilities while maintaining the ability to round-trip data back to its original format or transform it into any supported format.
 
 ## Data Flow Architecture
 
 ### Provider Data Flow
-MGraph-AI implements a sophisticated data flow pattern where external data formats are transformed into an internal representation and back:
+MGraph-DB implements a sophisticated data flow pattern where external data formats are transformed into an internal representation and back:
 
 1. **Input Phase**
    - External data in various formats (RSS, XML, JSON, etc.)
@@ -160,7 +160,7 @@ class MGraph__Provider(MGraph):
 
 ### Core Concepts
 
-MGraph-AI's internal representation serves as a universal intermediate format that captures all necessary information from source formats while enabling lossless transformation to target formats. This is achieved through several key mechanisms:
+MGraph-DB's internal representation serves as a universal intermediate format that captures all necessary information from source formats while enabling lossless transformation to target formats. This is achieved through several key mechanisms:
 
 1. **Universal ID System**
    - Internal GUID-based identification
@@ -179,7 +179,7 @@ MGraph-AI's internal representation serves as a universal intermediate format th
 
 ### Format-Specific Considerations
 
-Different formats have varying capabilities for representing relationships and metadata. MGraph-AI handles these differences through:
+Different formats have varying capabilities for representing relationships and metadata. MGraph-DB handles these differences through:
 
 1. **JSON Format**
    ```json
@@ -380,7 +380,7 @@ The path forward focuses on these key areas:
 
 ## Conclusion
 
-The refined architecture of MGraph-AI provides a solid foundation for handling diverse data formats while maintaining system flexibility and extensibility. The clear separation of concerns across layers, combined with standardized provider templates and robust format conversion capabilities, enables efficient implementation of new providers while ensuring consistent behavior across the system.
+The refined architecture of MGraph-DB provides a solid foundation for handling diverse data formats while maintaining system flexibility and extensibility. The clear separation of concerns across layers, combined with standardized provider templates and robust format conversion capabilities, enables efficient implementation of new providers while ensuring consistent behavior across the system.
 
 The success of these architectural improvements will be measured by:
 - Reduced implementation time for new providers

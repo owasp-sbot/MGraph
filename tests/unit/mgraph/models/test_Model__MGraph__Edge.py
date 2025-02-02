@@ -1,7 +1,7 @@
 from unittest                                              import TestCase
-from mgraph_ai.mgraph.models.Model__MGraph__Edge           import Model__MGraph__Edge
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge         import Schema__MGraph__Edge
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge__Config import Schema__MGraph__Edge__Config
+from mgraph_db.mgraph.models.Model__MGraph__Edge           import Model__MGraph__Edge
+from mgraph_db.mgraph.schemas.Schema__MGraph__Edge         import Schema__MGraph__Edge
+from mgraph_db.mgraph.schemas.Schema__MGraph__Edge__Config import Schema__MGraph__Edge__Config
 from osbot_utils.helpers.Obj_Id                            import Obj_Id
 
 

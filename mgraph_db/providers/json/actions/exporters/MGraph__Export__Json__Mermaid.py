@@ -1,12 +1,12 @@
 from typing                                                                 import Dict, Any
-from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node__Property   import Domain__MGraph__Json__Node__Property
-from mgraph_ai.providers.json.models.Model__MGraph__Json__Node__Dict        import Model__MGraph__Json__Node__Dict
-from mgraph_ai.providers.json.models.Model__MGraph__Json__Node__List        import Model__MGraph__Json__Node__List
-from mgraph_ai.providers.json.models.Model__MGraph__Json__Node__Value       import Model__MGraph__Json__Node__Value
-from mgraph_ai.providers.json.actions.exporters.MGraph__Json__Export__Base  import MGraph__Export__Json__Base, Export__Json__Node_Type, Export__Json__Relation_Type
-from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node__Dict       import Domain__MGraph__Json__Node__Dict
-from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node__List       import Domain__MGraph__Json__Node__List
-from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node__Value      import Domain__MGraph__Json__Node__Value
+from mgraph_db.providers.json.domain.Domain__MGraph__Json__Node__Property   import Domain__MGraph__Json__Node__Property
+from mgraph_db.providers.json.models.Model__MGraph__Json__Node__Dict        import Model__MGraph__Json__Node__Dict
+from mgraph_db.providers.json.models.Model__MGraph__Json__Node__List        import Model__MGraph__Json__Node__List
+from mgraph_db.providers.json.models.Model__MGraph__Json__Node__Value       import Model__MGraph__Json__Node__Value
+from mgraph_db.providers.json.actions.exporters.MGraph__Json__Export__Base  import MGraph__Export__Json__Base, Export__Json__Node_Type, Export__Json__Relation_Type
+from mgraph_db.providers.json.domain.Domain__MGraph__Json__Node__Dict       import Domain__MGraph__Json__Node__Dict
+from mgraph_db.providers.json.domain.Domain__MGraph__Json__Node__List       import Domain__MGraph__Json__Node__List
+from mgraph_db.providers.json.domain.Domain__MGraph__Json__Node__Value      import Domain__MGraph__Json__Node__Value
 
 class MGraph__Export__Json__Mermaid(MGraph__Export__Json__Base):                                    # Mermaid format exporter for graph visualization
 

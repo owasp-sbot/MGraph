@@ -1,6 +1,6 @@
-from mgraph_ai.mgraph.models.Model__MGraph__Graph                             import Model__MGraph__Graph
-from mgraph_ai.providers.file_system.models.Model__File_System__Default_Types import Model__File_System__Default_Types
-from mgraph_ai.providers.file_system.schemas.Schema__File_System__Graph       import Schema__File_System__Graph
+from mgraph_db.mgraph.models.Model__MGraph__Graph                             import Model__MGraph__Graph
+from mgraph_db.providers.file_system.models.Model__File_System__Default_Types import Model__File_System__Default_Types
+from mgraph_db.providers.file_system.schemas.Schema__File_System__Graph       import Schema__File_System__Graph
 from osbot_utils.helpers.Obj_Id                                               import Obj_Id
 
 

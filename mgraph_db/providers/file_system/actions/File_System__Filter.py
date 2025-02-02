@@ -1,7 +1,7 @@
 from typing                                                           import List
 from fnmatch                                                         import fnmatch
-from mgraph_ai.providers.file_system.domain.Folder__Node                import Folder__Node
-from mgraph_ai.providers.file_system.models.Model__File_System__Graph   import Model__File_System__Graph
+from mgraph_db.providers.file_system.domain.Folder__Node                import Folder__Node
+from mgraph_db.providers.file_system.models.Model__File_System__Graph   import Model__File_System__Graph
 from osbot_utils.type_safe.Type_Safe                                    import Type_Safe
 
 class File_System__Filter(Type_Safe):

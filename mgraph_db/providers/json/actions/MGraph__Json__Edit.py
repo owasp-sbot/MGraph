@@ -1,11 +1,11 @@
-from mgraph_ai.providers.json.actions.MGraph__Json__Data                            import MGraph__Json__Data
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Dict              import Schema__MGraph__Json__Node__Dict
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__List              import Schema__MGraph__Json__Node__List
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Property__Data    import Schema__MGraph__Json__Node__Property__Data
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Value             import Schema__MGraph__Json__Node__Value
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Value__Data       import Schema__MGraph__Json__Node__Value__Data
-from mgraph_ai.mgraph.actions.MGraph__Edit                                          import MGraph__Edit
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Property          import Schema__MGraph__Json__Node__Property
+from mgraph_db.providers.json.actions.MGraph__Json__Data                            import MGraph__Json__Data
+from mgraph_db.providers.json.schemas.Schema__MGraph__Json__Node__Dict              import Schema__MGraph__Json__Node__Dict
+from mgraph_db.providers.json.schemas.Schema__MGraph__Json__Node__List              import Schema__MGraph__Json__Node__List
+from mgraph_db.providers.json.schemas.Schema__MGraph__Json__Node__Property__Data    import Schema__MGraph__Json__Node__Property__Data
+from mgraph_db.providers.json.schemas.Schema__MGraph__Json__Node__Value             import Schema__MGraph__Json__Node__Value
+from mgraph_db.providers.json.schemas.Schema__MGraph__Json__Node__Value__Data       import Schema__MGraph__Json__Node__Value__Data
+from mgraph_db.mgraph.actions.MGraph__Edit                                          import MGraph__Edit
+from mgraph_db.providers.json.schemas.Schema__MGraph__Json__Node__Property          import Schema__MGraph__Json__Node__Property
 
 
 class MGraph__Json__Edit(MGraph__Edit):

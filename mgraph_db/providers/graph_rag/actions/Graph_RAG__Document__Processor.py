@@ -1,15 +1,15 @@
 from typing                                                                     import Dict, List, Any
-from mgraph_ai.providers.graph_rag.schemas.Schema__Graph_RAG__Document__Data    import Schema__Graph_RAG__Document__Data
-from mgraph_ai.providers.graph_rag.schemas.Schema__Graph_RAG__Relation__Data    import Schema__Graph_RAG__Relation__Data
-from mgraph_ai.providers.graph_rag.testing.MGraph__Graph_Rag__LLM_Cache__Simple import mgraph_llm_cache_simple
-from mgraph_ai.providers.llms.utils.API__LLM                                    import API__LLM
+from mgraph_db.providers.graph_rag.schemas.Schema__Graph_RAG__Document__Data    import Schema__Graph_RAG__Document__Data
+from mgraph_db.providers.graph_rag.schemas.Schema__Graph_RAG__Relation__Data    import Schema__Graph_RAG__Relation__Data
+from mgraph_db.providers.graph_rag.testing.MGraph__Graph_Rag__LLM_Cache__Simple import mgraph_llm_cache_simple
+from mgraph_db.providers.llms.utils.API__LLM                                    import API__LLM
 from osbot_utils.helpers.Obj_Id                                                 import Obj_Id
 from osbot_utils.helpers.xml.rss.RSS__Item                                      import RSS__Item
 from osbot_utils.type_safe.Type_Safe                                            import Type_Safe
-from mgraph_ai.providers.graph_rag.schemas.Schema__Graph_RAG__Entity            import Schema__Graph_RAG__Entity
-from mgraph_ai.providers.graph_rag.schemas.Schema__Graph_RAG__Entity__Data      import Schema__Graph_RAG__Entity__Data
-from mgraph_ai.providers.graph_rag.schemas.Schema__Graph_RAG__Relation          import Schema__Graph_RAG__Relation
-from mgraph_ai.providers.graph_rag.schemas.Schema__Graph_RAG__Document          import Schema__Graph_RAG__Document
+from mgraph_db.providers.graph_rag.schemas.Schema__Graph_RAG__Entity            import Schema__Graph_RAG__Entity
+from mgraph_db.providers.graph_rag.schemas.Schema__Graph_RAG__Entity__Data      import Schema__Graph_RAG__Entity__Data
+from mgraph_db.providers.graph_rag.schemas.Schema__Graph_RAG__Relation          import Schema__Graph_RAG__Relation
+from mgraph_db.providers.graph_rag.schemas.Schema__Graph_RAG__Document          import Schema__Graph_RAG__Document
 
 
 class Graph_RAG__Document__Processor(Type_Safe):

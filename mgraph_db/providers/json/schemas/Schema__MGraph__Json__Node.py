@@ -1,5 +1,5 @@
 from osbot_utils.helpers.Obj_Id                    import Obj_Id
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node import Schema__MGraph__Node
+from mgraph_db.mgraph.schemas.Schema__MGraph__Node import Schema__MGraph__Node
 from osbot_utils.type_safe.shared.Type_Safe__Cache import type_safe_cache
 
 

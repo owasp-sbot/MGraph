@@ -1,7 +1,7 @@
 from unittest                                                         import TestCase
-from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Node         import Domain__Mermaid__Node
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Shape import Schema__Mermaid__Node__Shape
-from mgraph_ai.providers.mermaid.utils.Test_Data__Mermaid             import Test_Data_Mermaid
+from mgraph_db.providers.mermaid.domain.Domain__Mermaid__Node         import Domain__Mermaid__Node
+from mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Node__Shape import Schema__Mermaid__Node__Shape
+from mgraph_db.providers.mermaid.utils.Test_Data__Mermaid             import Test_Data_Mermaid
 
 
 class test_Mermaid__Node__config(TestCase):     # todo: refactor these tests to the correct location since most are related to the node's .node_data

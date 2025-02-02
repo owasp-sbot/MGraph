@@ -1,7 +1,7 @@
-from mgraph_ai.query.MGraph__Query                                  import MGraph__Query
-from mgraph_ai.mgraph.domain.Domain__MGraph__Graph                  import Domain__MGraph__Graph
-from mgraph_ai.query.models.Model__MGraph__Query__Export__View      import Model__MGraph__Query__Export__View
-from mgraph_ai.query.schemas.Schema__MGraph__Query__Export__View    import Schema__MGraph__Query__Export__View
+from mgraph_db.query.MGraph__Query                                  import MGraph__Query
+from mgraph_db.mgraph.domain.Domain__MGraph__Graph                  import Domain__MGraph__Graph
+from mgraph_db.query.models.Model__MGraph__Query__Export__View      import Model__MGraph__Query__Export__View
+from mgraph_db.query.schemas.Schema__MGraph__Query__Export__View    import Schema__MGraph__Query__Export__View
 from osbot_utils.type_safe.Type_Safe                                import Type_Safe
 
 

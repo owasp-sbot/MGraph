@@ -1,12 +1,12 @@
 from typing                                                      import Type
-from mgraph_ai.mgraph.MGraph                                     import MGraph
-from mgraph_ai.providers.json.actions.MGraph__Json__Data         import MGraph__Json__Data
-from mgraph_ai.providers.json.actions.MGraph__Json__Export       import MGraph__Json__Export
-from mgraph_ai.providers.json.actions.MGraph__Json__Load         import MGraph__Json__Load
-from mgraph_ai.providers.json.actions.MGraph__Json__Query        import MGraph__Json__Query
-from mgraph_ai.providers.json.actions.MGraph__Json__Screenshot   import MGraph__Json__Screenshot
-from mgraph_ai.providers.json.actions.MGraph__Json__Edit         import MGraph__Json__Edit
-from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Graph import Domain__MGraph__Json__Graph
+from mgraph_db.mgraph.MGraph                                     import MGraph
+from mgraph_db.providers.json.actions.MGraph__Json__Data         import MGraph__Json__Data
+from mgraph_db.providers.json.actions.MGraph__Json__Export       import MGraph__Json__Export
+from mgraph_db.providers.json.actions.MGraph__Json__Load         import MGraph__Json__Load
+from mgraph_db.providers.json.actions.MGraph__Json__Query        import MGraph__Json__Query
+from mgraph_db.providers.json.actions.MGraph__Json__Screenshot   import MGraph__Json__Screenshot
+from mgraph_db.providers.json.actions.MGraph__Json__Edit         import MGraph__Json__Edit
+from mgraph_db.providers.json.domain.Domain__MGraph__Json__Graph import Domain__MGraph__Json__Graph
 
 
 class MGraph__Json(MGraph):                                                                                          # Main JSON graph manager

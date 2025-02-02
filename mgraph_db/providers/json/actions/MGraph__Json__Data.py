@@ -1,5 +1,5 @@
-from mgraph_ai.mgraph.actions.MGraph__Data                       import MGraph__Data
-from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Graph import Domain__MGraph__Json__Graph
+from mgraph_db.mgraph.actions.MGraph__Data                       import MGraph__Data
+from mgraph_db.providers.json.domain.Domain__MGraph__Json__Graph import Domain__MGraph__Json__Graph
 
 
 class MGraph__Json__Data(MGraph__Data):

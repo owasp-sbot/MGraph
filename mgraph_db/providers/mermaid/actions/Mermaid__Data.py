@@ -1,5 +1,5 @@
-from mgraph_ai.mgraph.actions.MGraph__Data                      import MGraph__Data
-from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Graph  import Domain__Mermaid__Graph
+from mgraph_db.mgraph.actions.MGraph__Data                      import MGraph__Data
+from mgraph_db.providers.mermaid.domain.Domain__Mermaid__Graph  import Domain__Mermaid__Graph
 
 class Mermaid__Data(MGraph__Data):
     graph: Domain__Mermaid__Graph

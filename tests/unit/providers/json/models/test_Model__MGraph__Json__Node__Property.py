@@ -1,8 +1,8 @@
 from unittest                                                                       import TestCase
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Property__Data    import Schema__MGraph__Json__Node__Property__Data
+from mgraph_db.providers.json.schemas.Schema__MGraph__Json__Node__Property__Data    import Schema__MGraph__Json__Node__Property__Data
 from osbot_utils.utils.Objects                                                      import __, type_full_name
-from mgraph_ai.providers.json.models.Model__MGraph__Json__Node__Property            import Model__MGraph__Json__Node__Property
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Property          import Schema__MGraph__Json__Node__Property
+from mgraph_db.providers.json.models.Model__MGraph__Json__Node__Property            import Model__MGraph__Json__Node__Property
+from mgraph_db.providers.json.schemas.Schema__MGraph__Json__Node__Property          import Schema__MGraph__Json__Node__Property
 
 class test_Model__MGraph__Json__Node__Property(TestCase):
     @classmethod

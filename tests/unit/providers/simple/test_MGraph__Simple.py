@@ -1,25 +1,25 @@
 from unittest                                                       import TestCase
-from mgraph_ai.mgraph.models.Model__MGraph__Edge                    import Model__MGraph__Edge
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge                  import Schema__MGraph__Edge
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge__Config          import Schema__MGraph__Edge__Config
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph__Data           import Schema__MGraph__Graph__Data
-from mgraph_ai.providers.simple.models.Model__Simple__Graph         import Model__Simple__Graph
-from mgraph_ai.providers.simple.models.Model__Simple__Node          import Model__Simple__Node
-from mgraph_ai.providers.simple.models.Model__Simple__Types         import Model__Simple__Types
-from mgraph_ai.providers.simple.schemas.Schema__Simple__Graph       import Schema__Simple__Graph
-from mgraph_ai.providers.simple.schemas.Schema__Simple__Node        import Schema__Simple__Node
-from mgraph_ai.providers.simple.schemas.Schema__Simple__Node__Data  import Schema__Simple__Node__Data
+from mgraph_db.mgraph.models.Model__MGraph__Edge                    import Model__MGraph__Edge
+from mgraph_db.mgraph.schemas.Schema__MGraph__Edge                  import Schema__MGraph__Edge
+from mgraph_db.mgraph.schemas.Schema__MGraph__Edge__Config          import Schema__MGraph__Edge__Config
+from mgraph_db.mgraph.schemas.Schema__MGraph__Graph__Data           import Schema__MGraph__Graph__Data
+from mgraph_db.providers.simple.models.Model__Simple__Graph         import Model__Simple__Graph
+from mgraph_db.providers.simple.models.Model__Simple__Node          import Model__Simple__Node
+from mgraph_db.providers.simple.models.Model__Simple__Types         import Model__Simple__Types
+from mgraph_db.providers.simple.schemas.Schema__Simple__Graph       import Schema__Simple__Graph
+from mgraph_db.providers.simple.schemas.Schema__Simple__Node        import Schema__Simple__Node
+from mgraph_db.providers.simple.schemas.Schema__Simple__Node__Data  import Schema__Simple__Node__Data
 from osbot_utils.helpers.Obj_Id                                     import Obj_Id
 from osbot_utils.type_safe.Type_Safe                                import Type_Safe
 from osbot_utils.utils.Objects                                      import base_types, __, type_full_name
-from mgraph_ai.mgraph.MGraph                                        import MGraph
-from mgraph_ai.mgraph.domain.Domain__MGraph__Graph                  import Domain__MGraph__Graph
-from mgraph_ai.mgraph.actions.MGraph__Data                          import MGraph__Data
-from mgraph_ai.mgraph.actions.MGraph__Edit                          import MGraph__Edit
-from mgraph_ai.mgraph.actions.MGraph__Export                        import MGraph__Export
-from mgraph_ai.mgraph.actions.MGraph__Storage                       import MGraph__Storage
-from mgraph_ai.providers.simple.MGraph__Simple                      import MGraph__Simple
-from mgraph_ai.providers.simple.domain.Domain__Simple__Graph        import Domain__Simple__Graph
+from mgraph_db.mgraph.MGraph                                        import MGraph
+from mgraph_db.mgraph.domain.Domain__MGraph__Graph                  import Domain__MGraph__Graph
+from mgraph_db.mgraph.actions.MGraph__Data                          import MGraph__Data
+from mgraph_db.mgraph.actions.MGraph__Edit                          import MGraph__Edit
+from mgraph_db.mgraph.actions.MGraph__Export                        import MGraph__Export
+from mgraph_db.mgraph.actions.MGraph__Storage                       import MGraph__Storage
+from mgraph_db.providers.simple.MGraph__Simple                      import MGraph__Simple
+from mgraph_db.providers.simple.domain.Domain__Simple__Graph        import Domain__Simple__Graph
 
 
 class test_MGraph__Simple(TestCase):

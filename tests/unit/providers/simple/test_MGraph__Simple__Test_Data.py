@@ -1,10 +1,10 @@
 from unittest                                             import TestCase
 from osbot_utils.utils.Files                              import file_exists, file_delete
-from mgraph_ai.mgraph.MGraph                              import MGraph
-from mgraph_ai.providers.simple.MGraph__Simple            import MGraph__Simple
+from mgraph_db.mgraph.MGraph                              import MGraph
+from mgraph_db.providers.simple.MGraph__Simple            import MGraph__Simple
 from osbot_utils.type_safe.Type_Safe                      import Type_Safe
 from osbot_utils.utils.Objects                            import base_types
-from mgraph_ai.providers.simple.MGraph__Simple__Test_Data import MGraph__Simple__Test_Data
+from mgraph_db.providers.simple.MGraph__Simple__Test_Data import MGraph__Simple__Test_Data
 
 
 class test_MGraph__Simple__Test_Data(TestCase):

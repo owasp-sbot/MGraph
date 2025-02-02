@@ -1,5 +1,5 @@
 from typing                                              import Dict, Any, List
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Data import Schema__MGraph__Node__Data
+from mgraph_db.mgraph.schemas.Schema__MGraph__Node__Data import Schema__MGraph__Node__Data
 
 class Schema__Graph_RAG__Entity__Data(Schema__MGraph__Node__Data):
     name                 : str                                                       # Core entity name

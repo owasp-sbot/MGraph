@@ -3,9 +3,9 @@ from unittest                                               import TestCase
 from osbot_utils.utils.Json                                 import json_file_load, json__equals__list_and_set
 from osbot_utils.context_managers.print_duration            import print_duration
 from osbot_utils.utils.Http                                 import current_host_offline
-from mgraph_ai.providers.json.MGraph__Json                  import MGraph__Json
+from mgraph_db.providers.json.MGraph__Json                  import MGraph__Json
 from osbot_utils.helpers.trace.Trace_Call                   import trace_calls
-from mgraph_ai.providers.json.utils.Perf_Test__MGraph_Json  import Perf_Test__MGraph_Json
+from mgraph_db.providers.json.utils.Perf_Test__MGraph_Json  import Perf_Test__MGraph_Json
 
 
 URL__DBPEDIA__ZAP          = "https://dbpedia.org/data/ZAP.json"

@@ -1,4 +1,4 @@
-from mgraph_ai.providers.simple.MGraph__Simple import MGraph__Simple
+from mgraph_db.providers.simple.MGraph__Simple import MGraph__Simple
 
 
 class MGraph__Simple__Test_Data(MGraph__Simple):

@@ -1,15 +1,15 @@
 from typing                                                                 import Dict
-from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Node               import Domain__Mermaid__Node
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Render__Config    import Schema__Mermaid__Render__Config
+from mgraph_db.providers.mermaid.domain.Domain__Mermaid__Node               import Domain__Mermaid__Node
+from mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Render__Config    import Schema__Mermaid__Render__Config
 from osbot_utils.utils.Misc                                                 import random_text
-from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Edge               import Domain__Mermaid__Edge
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Diagram_Direction import Schema__Mermaid__Diagram__Direction
+from mgraph_db.providers.mermaid.domain.Domain__Mermaid__Edge               import Domain__Mermaid__Edge
+from mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Diagram_Direction import Schema__Mermaid__Diagram__Direction
 from osbot_utils.helpers.Safe_Id                                            import Safe_Id
-from mgraph_ai.providers.mermaid.actions.Mermaid__Data                      import Mermaid__Data
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Diagram__Type     import Schema__Mermaid__Diagram__Type
+from mgraph_db.providers.mermaid.actions.Mermaid__Data                      import Mermaid__Data
+from mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Diagram__Type     import Schema__Mermaid__Diagram__Type
 from osbot_utils.decorators.methods.cache_on_self                           import cache_on_self
-from mgraph_ai.mgraph.actions.MGraph__Edit                                  import MGraph__Edit
-from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Graph              import Domain__Mermaid__Graph
+from mgraph_db.mgraph.actions.MGraph__Edit                                  import MGraph__Edit
+from mgraph_db.providers.mermaid.domain.Domain__Mermaid__Graph              import Domain__Mermaid__Graph
 
 
 class Mermaid__Edit(MGraph__Edit):

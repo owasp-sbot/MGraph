@@ -1,7 +1,7 @@
 from typing                                           import List
-from mgraph_ai.mgraph.models.Model__MGraph__Graph     import Model__MGraph__Graph
-from mgraph_ai.mgraph.models.Model__MGraph__Node      import Model__MGraph__Node
-from mgraph_ai.mgraph.models.Model__MGraph__Edge      import Model__MGraph__Edge
+from mgraph_db.mgraph.models.Model__MGraph__Graph     import Model__MGraph__Graph
+from mgraph_db.mgraph.models.Model__MGraph__Node      import Model__MGraph__Node
+from mgraph_db.mgraph.models.Model__MGraph__Edge      import Model__MGraph__Edge
 from osbot_utils.type_safe.Type_Safe                  import Type_Safe
 from osbot_utils.type_safe.methods.type_safe_property import set_as_property
 

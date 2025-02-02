@@ -1,5 +1,5 @@
 from typing                                                 import Dict, Optional
-from mgraph_ai.query.schemas.Schema__MGraph__Query__View    import Schema__MGraph__Query__View
+from mgraph_db.query.schemas.Schema__MGraph__Query__View    import Schema__MGraph__Query__View
 from osbot_utils.helpers.Obj_Id                             import Obj_Id
 from osbot_utils.type_safe.Type_Safe                        import Type_Safe
 

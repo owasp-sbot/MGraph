@@ -1,14 +1,14 @@
-# MGraph-AI Architecture Overview
+# MGraph-DB Architecture Overview
 
 ## Introduction
 
-MGraph-AI is a universal graph-based data transformation and manipulation system designed to provide a flexible foundation for representing and manipulating connected data structures. This document outlines its core architecture, components, and design principles.
+MGraph-DB is a universal graph-based data transformation and manipulation system designed to provide a flexible foundation for representing and manipulating connected data structures. This document outlines its core architecture, components, and design principles.
 
 ## Architecture Overview
 
 ### Three-Layer Architecture
 
-MGraph-AI implements a three-layer architecture that separates concerns and provides clear responsibilities:
+MGraph-DB implements a three-layer architecture that separates concerns and provides clear responsibilities:
 
 #### 1. Schema Layer (Base Layer)
 - **Purpose**: Defines pure data structures and validation rules
@@ -200,4 +200,4 @@ Basic operations include:
 
 ## Conclusion
 
-MGraph-AI's architecture provides a robust foundation for graph-based data management while maintaining flexibility and extensibility. Its layered approach and minimal core structure allow for diverse implementations while ensuring consistency and reliability.
+MGraph-DB's architecture provides a robust foundation for graph-based data management while maintaining flexibility and extensibility. Its layered approach and minimal core structure allow for diverse implementations while ensuring consistency and reliability.

@@ -1,4 +1,4 @@
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph__Data import Schema__MGraph__Graph__Data
+from mgraph_db.mgraph.schemas.Schema__MGraph__Graph__Data import Schema__MGraph__Graph__Data
 from osbot_utils.helpers.Obj_Id                           import Obj_Id
 
 

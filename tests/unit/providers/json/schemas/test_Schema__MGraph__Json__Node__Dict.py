@@ -1,5 +1,5 @@
 from unittest                                                          import TestCase
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Dict import Schema__MGraph__Json__Node__Dict
+from mgraph_db.providers.json.schemas.Schema__MGraph__Json__Node__Dict import Schema__MGraph__Json__Node__Dict
 from osbot_utils.utils.Objects                                         import __, full_type_name
 
 

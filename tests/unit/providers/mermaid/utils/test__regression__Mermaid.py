@@ -1,12 +1,12 @@
 from unittest                                                   import TestCase
-from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Edge   import Domain__Mermaid__Edge
-from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Graph  import Domain__Mermaid__Graph
-from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Node   import Domain__Mermaid__Node
-from mgraph_ai.providers.mermaid.models.Model__Mermaid__Edge    import Model__Mermaid__Edge
-from mgraph_ai.providers.mermaid.models.Model__Mermaid__Node    import Model__Mermaid__Node
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge  import Schema__Mermaid__Edge
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node  import Schema__Mermaid__Node
-from mgraph_ai.providers.mermaid.utils.Mermaid__Random_Graph    import create_test_mermaid_graph
+from mgraph_db.providers.mermaid.domain.Domain__Mermaid__Edge   import Domain__Mermaid__Edge
+from mgraph_db.providers.mermaid.domain.Domain__Mermaid__Graph  import Domain__Mermaid__Graph
+from mgraph_db.providers.mermaid.domain.Domain__Mermaid__Node   import Domain__Mermaid__Node
+from mgraph_db.providers.mermaid.models.Model__Mermaid__Edge    import Model__Mermaid__Edge
+from mgraph_db.providers.mermaid.models.Model__Mermaid__Node    import Model__Mermaid__Node
+from mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Edge  import Schema__Mermaid__Edge
+from mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Node  import Schema__Mermaid__Node
+from mgraph_db.providers.mermaid.utils.Mermaid__Random_Graph    import create_test_mermaid_graph
 
 
 class test__regression__Mermaid(TestCase):

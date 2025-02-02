@@ -1,5 +1,5 @@
 from typing                                              import Optional, Dict, Any
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Data import Schema__MGraph__Node__Data
+from mgraph_db.mgraph.schemas.Schema__MGraph__Node__Data import Schema__MGraph__Node__Data
 
 class Schema__Graph_RAG__Document__Data(Schema__MGraph__Node__Data):
     title        : str                                                             # Document title

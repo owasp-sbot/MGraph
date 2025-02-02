@@ -1,17 +1,17 @@
 from unittest                                                               import TestCase
-from mgraph_ai.providers.mermaid.MGraph__Mermaid                            import MGraph__Mermaid
-from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Edge               import Domain__Mermaid__Edge
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Diagram_Direction import Schema__Mermaid__Diagram__Direction
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Render__Config    import Schema__Mermaid__Render__Config
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Diagram__Type     import Schema__Mermaid__Diagram__Type
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Data        import Schema__Mermaid__Node__Data
+from mgraph_db.providers.mermaid.MGraph__Mermaid                            import MGraph__Mermaid
+from mgraph_db.providers.mermaid.domain.Domain__Mermaid__Edge               import Domain__Mermaid__Edge
+from mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Diagram_Direction import Schema__Mermaid__Diagram__Direction
+from mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Render__Config    import Schema__Mermaid__Render__Config
+from mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Diagram__Type     import Schema__Mermaid__Diagram__Type
+from mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Node__Data        import Schema__Mermaid__Node__Data
 from osbot_utils.helpers.Obj_Id                                             import is_obj_id
 from osbot_utils.helpers.Safe_Id                                            import Safe_Id
 from osbot_utils.utils.Objects                                              import __, obj
-from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Node               import Domain__Mermaid__Node
-from mgraph_ai.mgraph.actions.MGraph__Edit                                  import MGraph__Edit
-from mgraph_ai.providers.mermaid.actions.Mermaid__Edit                      import Mermaid__Edit
-from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Graph              import Domain__Mermaid__Graph
+from mgraph_db.providers.mermaid.domain.Domain__Mermaid__Node               import Domain__Mermaid__Node
+from mgraph_db.mgraph.actions.MGraph__Edit                                  import MGraph__Edit
+from mgraph_db.providers.mermaid.actions.Mermaid__Edit                      import Mermaid__Edit
+from mgraph_db.providers.mermaid.domain.Domain__Mermaid__Graph              import Domain__Mermaid__Graph
 
 
 class test__Mermaid__Edit(TestCase):
@@ -62,7 +62,7 @@ class test__Mermaid__Edit(TestCase):
                                                                             output_node_from = False   ,
                                                                             output_node_to   = False   ,
                                                                             edge_mode        = ''      ),
-                                                          edge_type    = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge.Schema__Mermaid__Edge',
+                                                          edge_type    = 'mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Edge.Schema__Mermaid__Edge',
                                                           edge_data    = __()                           ,
                                                           from_node_id = from_node.node_id              ,
                                                           to_node_id   = to_node.node_id                ))
@@ -84,14 +84,14 @@ class test__Mermaid__Edit(TestCase):
                                                                             wrap_with_quotes = True   ,
                                                                             markdown         = False  ),
                                                              node_id     = node_id                     ,
-                                                             node_type   = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node.Schema__Mermaid__Node')),
+                                                             node_type   = 'mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Node.Schema__Mermaid__Node')),
                                              graph = _.graph.model.obj())
 
         node_2 = _.new_node(key='an-key', label = 'an-label')
         assert node_2.node.data.obj() == __(key       = 'an-key'               ,
                                             label     = 'an-label'             ,
                                             node_data = node_2.node_data.obj() ,
-                                            node_type = 'mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node.Schema__Mermaid__Node',
+                                            node_type = 'mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Node.Schema__Mermaid__Node',
                                             node_id   = node_2.node_id         )
 
     def test_render_config(self):

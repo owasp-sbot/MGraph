@@ -1,7 +1,7 @@
 from unittest                                                           import TestCase
-from mgraph_ai.providers.mermaid.MGraph__Mermaid                         import MGraph__Mermaid
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Diagram__Type import Schema__Mermaid__Diagram__Type
-from mgraph_ai.providers.mermaid.utils.Mermaid_Examples__FlowChart      import Mermain_Examples__FlowChart
+from mgraph_db.providers.mermaid.MGraph__Mermaid                         import MGraph__Mermaid
+from mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Diagram__Type import Schema__Mermaid__Diagram__Type
+from mgraph_db.providers.mermaid.utils.Mermaid_Examples__FlowChart      import Mermain_Examples__FlowChart
 from osbot_utils.utils.Str                                              import str_dedent
 
 

@@ -1,7 +1,7 @@
 from typing                                     import List, Dict, Any
 from datetime                                   import datetime
-from mgraph_ai.providers.rss.MGraph__RSS_Item   import MGraph__RSS_Item
-from mgraph_ai.providers.json.MGraph__Json      import MGraph__Json
+from mgraph_db.providers.rss.MGraph__RSS_Item   import MGraph__RSS_Item
+from mgraph_db.providers.json.MGraph__Json      import MGraph__Json
 from osbot_utils.type_safe.Type_Safe            import Type_Safe
 
 

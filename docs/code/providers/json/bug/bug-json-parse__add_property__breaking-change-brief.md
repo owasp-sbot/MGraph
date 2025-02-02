@@ -51,7 +51,7 @@ This analysis recommends implementing this breaking change to transition from a 
 ## 1. Business Context
 
 ### Current Usage
-MGraph-AI serves as a universal graph-based data transformation system, with JSON parsing being one of its core capabilities. The system is used for:
+MGraph-DB serves as a universal graph-based data transformation system, with JSON parsing being one of its core capabilities. The system is used for:
 - Data import/export operations
 - JSON document analysis
 - Graph-based JSON transformations

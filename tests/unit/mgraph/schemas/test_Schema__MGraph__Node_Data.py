@@ -1,7 +1,7 @@
 from unittest                                            import TestCase
 from osbot_utils.utils.Objects                           import __
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Data import Schema__MGraph__Node__Data
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node       import Schema__MGraph__Node
+from mgraph_db.mgraph.schemas.Schema__MGraph__Node__Data import Schema__MGraph__Node__Data
+from mgraph_db.mgraph.schemas.Schema__MGraph__Node       import Schema__MGraph__Node
 
 class Simple_Node(Schema__MGraph__Node): pass                                   # Helper class for testing
 

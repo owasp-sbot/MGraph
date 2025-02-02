@@ -1,8 +1,8 @@
-# Building Intelligent Knowledge Systems with MGraph-AI: A Comprehensive Guide
+# Building Intelligent Knowledge Systems with MGraph-DB: A Comprehensive Guide
 
 ## Introduction
 
-In the evolving landscape of artificial intelligence and knowledge management, organizations face growing challenges in processing, understanding, and utilizing vast amounts of information effectively. This comprehensive guide introduces MGraph-AI, a novel approach to building intelligent knowledge systems that combines the power of graph databases, semantic understanding, and large language models.
+In the evolving landscape of artificial intelligence and knowledge management, organizations face growing challenges in processing, understanding, and utilizing vast amounts of information effectively. This comprehensive guide introduces MGraph-DB, a novel approach to building intelligent knowledge systems that combines the power of graph databases, semantic understanding, and large language models.
 
 ### The Challenge
 
@@ -30,7 +30,7 @@ Modern organizations face several critical challenges:
 
 This documentation presents a comprehensive solution built on three key innovations:
 
-1. **MGraph-AI: A Serverless Type-Safe Graph Database**
+1. **MGraph-DB: A Serverless Type-Safe Graph Database**
    - Serverless architecture for simplified deployment
    - Strong type safety for reliable operations
    - File-based storage for portability
@@ -147,7 +147,7 @@ The following sections provide:
 4. Best practices and patterns
 5. Integration guidance
 
-Whether you're a technical architect designing knowledge systems, a developer implementing intelligent applications, or a business stakeholder evaluating solutions, this guide provides the comprehensive information needed to understand and utilize MGraph-AI effectively.
+Whether you're a technical architect designing knowledge systems, a developer implementing intelligent applications, or a business stakeholder evaluating solutions, this guide provides the comprehensive information needed to understand and utilize MGraph-DB effectively.
 
 Let's begin by exploring the technical implementation in detail...
 
@@ -408,11 +408,11 @@ This makes it particularly suitable for applications requiring:
 
 ---
 
-# Part 2 - MGraph-AI: A Serverless Type-Safe Graph Database
+# Part 2 - MGraph-DB: A Serverless Type-Safe Graph Database
 
 ## Core Architecture
 
-MGraph-AI implements a unique three-layer architecture that separates concerns while maintaining strict type safety:
+MGraph-DB implements a unique three-layer architecture that separates concerns while maintaining strict type safety:
 
 ### Layer Structure
 
@@ -447,7 +447,7 @@ graph TD
 
 ## Serverless Architecture
 
-MGraph-AI is designed to be completely serverless, operating entirely in-memory with file-based persistence:
+MGraph-DB is designed to be completely serverless, operating entirely in-memory with file-based persistence:
 
 ### File-Based Storage System
 
@@ -487,7 +487,7 @@ Benefits:
 
 ## Type Safety System
 
-MGraph-AI uses a sophisticated type safety system built on the `Type_Safe` base class:
+MGraph-DB uses a sophisticated type safety system built on the `Type_Safe` base class:
 
 ### Type_Safe Foundation
 
@@ -534,7 +534,7 @@ Benefits:
 
 ## File-Based Data Store
 
-MGraph-AI uses a sophisticated file-based storage system that maintains both performance and data integrity:
+MGraph-DB uses a sophisticated file-based storage system that maintains both performance and data integrity:
 
 ### Storage Format
 
@@ -561,7 +561,7 @@ MGraph-AI uses a sophisticated file-based storage system that maintains both per
 
 ### Index System
 
-MGraph-AI maintains performant operations through a sophisticated indexing system:
+MGraph-DB maintains performant operations through a sophisticated indexing system:
 
 ```python
 class Schema__MGraph__Index__Data(Type_Safe):
@@ -579,7 +579,7 @@ Features:
 
 ## Provider System
 
-MGraph-AI supports different data formats through its provider system:
+MGraph-DB supports different data formats through its provider system:
 
 ### Provider Architecture
 
@@ -608,7 +608,7 @@ Supported formats:
 
 ### Context Manager Support
 
-MGraph-AI provides safe resource management through context managers:
+MGraph-DB provides safe resource management through context managers:
 
 ```python
 with graph.edit() as edit:
@@ -703,7 +703,7 @@ with graph.data() as data:
 
 ## Comparison with Traditional Graph Databases
 
-| Feature | MGraph-AI | Traditional Graph DB |
+| Feature | MGraph-DB | Traditional Graph DB |
 |---------|-----------|---------------------|
 | Deployment | Serverless | Server required |
 | Type Safety | Built-in | Optional/None |
@@ -714,7 +714,7 @@ with graph.data() as data:
 
 ## Conclusion
 
-MGraph-AI represents a unique approach to graph databases, combining:
+MGraph-DB represents a unique approach to graph databases, combining:
 1. Serverless operation
 2. Strong type safety
 3. File-based persistence
@@ -1019,7 +1019,7 @@ def process_user_query(query: str, user_role: str) -> str:
 
 ## Conclusion
 
-This example demonstrates how MGraph-AI can:
+This example demonstrates how MGraph-DB can:
 1. Process security news into structured knowledge
 2. Maintain relationship context
 3. Adapt responses to user roles

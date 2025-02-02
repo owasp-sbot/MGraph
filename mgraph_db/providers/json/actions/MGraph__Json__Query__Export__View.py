@@ -1,7 +1,7 @@
-from mgraph_ai.mgraph.domain.Domain__MGraph__Graph                      import Domain__MGraph__Graph
-from mgraph_ai.providers.json.actions.MGraph__Json__Edit                import MGraph__Json__Edit
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Graph__Data import Schema__MGraph__Json__Graph__Data
-from mgraph_ai.query.actions.MGraph__Query__Export__View                import MGraph__Query__Export__View
+from mgraph_db.mgraph.domain.Domain__MGraph__Graph                      import Domain__MGraph__Graph
+from mgraph_db.providers.json.actions.MGraph__Json__Edit                import MGraph__Json__Edit
+from mgraph_db.providers.json.schemas.Schema__MGraph__Json__Graph__Data import Schema__MGraph__Json__Graph__Data
+from mgraph_db.query.actions.MGraph__Query__Export__View                import MGraph__Query__Export__View
 
 
 class MGraph__Json__Query__Export__View(MGraph__Query__Export__View):

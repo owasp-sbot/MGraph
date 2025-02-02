@@ -1,8 +1,8 @@
 from typing                                                     import Dict, Any
-from mgraph_ai.mgraph.actions.exporters.MGraph__Export__Base    import MGraph__Export__Base
-from mgraph_ai.mgraph.actions.exporters.Model__Cytoscape__Types import Model__Cytoscape__Node, Model__Cytoscape__Edge
-from mgraph_ai.mgraph.actions.exporters.Model__Cytoscape__Types import Model__Cytoscape__Node__Data, Model__Cytoscape__Edge__Data
-from mgraph_ai.mgraph.actions.exporters.Model__Cytoscape__Types import Model__Cytoscape__Elements
+from mgraph_db.mgraph.actions.exporters.MGraph__Export__Base    import MGraph__Export__Base
+from mgraph_db.mgraph.actions.exporters.Model__Cytoscape__Types import Model__Cytoscape__Node, Model__Cytoscape__Edge
+from mgraph_db.mgraph.actions.exporters.Model__Cytoscape__Types import Model__Cytoscape__Node__Data, Model__Cytoscape__Edge__Data
+from mgraph_db.mgraph.actions.exporters.Model__Cytoscape__Types import Model__Cytoscape__Elements
 
 class MGraph__Export__Cytoscape(MGraph__Export__Base):
 

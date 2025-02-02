@@ -1,17 +1,17 @@
 from typing                                                              import Dict, Any, List
-from mgraph_ai.providers.mermaid.MGraph__Mermaid                         import MGraph__Mermaid
-from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Graph           import Domain__Mermaid__Graph
+from mgraph_db.providers.mermaid.MGraph__Mermaid                         import MGraph__Mermaid
+from mgraph_db.providers.mermaid.domain.Domain__Mermaid__Graph           import Domain__Mermaid__Graph
 from osbot_utils.helpers.Obj_Id                                          import Obj_Id
 from osbot_utils.helpers.Safe_Id                                         import Safe_Id
-from mgraph_ai.mgraph.utils.MGraph__Random_Graph                         import MGraph__Random_Graph
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node           import Schema__Mermaid__Node
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge           import Schema__Mermaid__Edge
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Data     import Schema__Mermaid__Node__Data
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge__Config   import Schema__Mermaid__Edge__Config
-from mgraph_ai.providers.mermaid.models.Model__Mermaid__Graph            import Model__Mermaid__Graph
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Graph          import Schema__Mermaid__Graph
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Types import Schema__Mermaid__Types
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Graph__Config  import Schema__Mermaid__Graph__Config
+from mgraph_db.mgraph.utils.MGraph__Random_Graph                         import MGraph__Random_Graph
+from mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Node           import Schema__Mermaid__Node
+from mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Edge           import Schema__Mermaid__Edge
+from mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Node__Data     import Schema__Mermaid__Node__Data
+from mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Edge__Config   import Schema__Mermaid__Edge__Config
+from mgraph_db.providers.mermaid.models.Model__Mermaid__Graph            import Model__Mermaid__Graph
+from mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Graph          import Schema__Mermaid__Graph
+from mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Types import Schema__Mermaid__Types
+from mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Graph__Config  import Schema__Mermaid__Graph__Config
 
 class Mermaid__Random_Graph(MGraph__Random_Graph):
 

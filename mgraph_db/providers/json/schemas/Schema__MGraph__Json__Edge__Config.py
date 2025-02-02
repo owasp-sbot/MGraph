@@ -1,4 +1,4 @@
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge__Config import Schema__MGraph__Edge__Config
+from mgraph_db.mgraph.schemas.Schema__MGraph__Edge__Config import Schema__MGraph__Edge__Config
 from osbot_utils.helpers.Obj_Id                            import Obj_Id
 
 class Schema__MGraph__Json__Edge__Config(Schema__MGraph__Edge__Config):

@@ -2,8 +2,8 @@ import pytest
 from unittest                                              import TestCase
 from osbot_utils.utils.Objects                             import __, obj
 from osbot_utils.context_managers.capture_duration         import capture_duration
-from mgraph_ai.providers.json.MGraph__Json                 import MGraph__Json
-from mgraph_ai.providers.json.actions.MGraph__Json__Query  import MGraph__Json__Query
+from mgraph_db.providers.json.MGraph__Json                 import MGraph__Json
+from mgraph_db.providers.json.actions.MGraph__Json__Query  import MGraph__Json__Query
 
 class test_MGraph__Json__Query(TestCase):
 

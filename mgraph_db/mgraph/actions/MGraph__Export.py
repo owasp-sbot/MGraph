@@ -3,8 +3,8 @@ from xml.dom                                        import minidom
 from xml.etree                                      import ElementTree
 from xml.etree.ElementTree                          import Element, SubElement
 from osbot_utils.utils.Files                        import temp_file, file_create
-from mgraph_ai.mgraph.actions.MGraph__Data          import MGraph__Data
-from mgraph_ai.mgraph.domain.Domain__MGraph__Graph  import Domain__MGraph__Graph
+from mgraph_db.mgraph.actions.MGraph__Data          import MGraph__Data
+from mgraph_db.mgraph.domain.Domain__MGraph__Graph  import Domain__MGraph__Graph
 from osbot_utils.type_safe.Type_Safe                import Type_Safe
 
 class MGraph__Export(Type_Safe):

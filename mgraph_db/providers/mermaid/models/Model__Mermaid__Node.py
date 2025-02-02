@@ -1,5 +1,5 @@
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node import Schema__Mermaid__Node
-from mgraph_ai.mgraph.models.Model__MGraph__Node               import Model__MGraph__Node
+from mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Node import Schema__Mermaid__Node
+from mgraph_db.mgraph.models.Model__MGraph__Node               import Model__MGraph__Node
 
 class Model__Mermaid__Node(Model__MGraph__Node):
     data  : Schema__Mermaid__Node

@@ -1,9 +1,9 @@
 from typing                                               import Type, Set, Any, Dict
 from osbot_utils.utils.Dev                                import pprint
-from mgraph_ai.mgraph.domain.Domain__MGraph__Graph        import Domain__MGraph__Graph
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node        import Schema__MGraph__Node
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge        import Schema__MGraph__Edge
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Index__Data import Schema__MGraph__Index__Data
+from mgraph_db.mgraph.domain.Domain__MGraph__Graph        import Domain__MGraph__Graph
+from mgraph_db.mgraph.schemas.Schema__MGraph__Node        import Schema__MGraph__Node
+from mgraph_db.mgraph.schemas.Schema__MGraph__Edge        import Schema__MGraph__Edge
+from mgraph_db.mgraph.schemas.Schema__MGraph__Index__Data import Schema__MGraph__Index__Data
 from osbot_utils.helpers.Obj_Id                           import Obj_Id
 from osbot_utils.type_safe.Type_Safe                      import Type_Safe
 from osbot_utils.utils.Json                               import json_file_create, json_load_file

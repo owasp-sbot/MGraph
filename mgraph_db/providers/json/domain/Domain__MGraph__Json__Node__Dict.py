@@ -1,13 +1,13 @@
 from typing                                                                      import Optional, Dict, Any
-from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node                  import Domain__MGraph__Json__Node
-from mgraph_ai.providers.json.models.Model__MGraph__Json__Node__Dict             import Model__MGraph__Json__Node__Dict
-from mgraph_ai.providers.json.models.Model__MGraph__Json__Node__List             import Model__MGraph__Json__Node__List
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Dict           import Schema__MGraph__Json__Node__Dict
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__List           import Schema__MGraph__Json__Node__List
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Property       import Schema__MGraph__Json__Node__Property
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Property__Data import Schema__MGraph__Json__Node__Property__Data
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Value          import Schema__MGraph__Json__Node__Value
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Value__Data    import Schema__MGraph__Json__Node__Value__Data
+from mgraph_db.providers.json.domain.Domain__MGraph__Json__Node                  import Domain__MGraph__Json__Node
+from mgraph_db.providers.json.models.Model__MGraph__Json__Node__Dict             import Model__MGraph__Json__Node__Dict
+from mgraph_db.providers.json.models.Model__MGraph__Json__Node__List             import Model__MGraph__Json__Node__List
+from mgraph_db.providers.json.schemas.Schema__MGraph__Json__Node__Dict           import Schema__MGraph__Json__Node__Dict
+from mgraph_db.providers.json.schemas.Schema__MGraph__Json__Node__List           import Schema__MGraph__Json__Node__List
+from mgraph_db.providers.json.schemas.Schema__MGraph__Json__Node__Property       import Schema__MGraph__Json__Node__Property
+from mgraph_db.providers.json.schemas.Schema__MGraph__Json__Node__Property__Data import Schema__MGraph__Json__Node__Property__Data
+from mgraph_db.providers.json.schemas.Schema__MGraph__Json__Node__Value          import Schema__MGraph__Json__Node__Value
+from mgraph_db.providers.json.schemas.Schema__MGraph__Json__Node__Value__Data    import Schema__MGraph__Json__Node__Value__Data
 
 
 class Domain__MGraph__Json__Node__Dict(Domain__MGraph__Json__Node):
@@ -26,7 +26,7 @@ class Domain__MGraph__Json__Node__Dict(Domain__MGraph__Json__Node):
                         result[property_name] = value_node.data.node_data.value                     # todo: solve issue of value not being recognized here
                         break
                     elif value_node.data.node_type == Schema__MGraph__Json__Node__List:
-                        from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node__List import Domain__MGraph__Json__Node__List
+                        from mgraph_db.providers.json.domain.Domain__MGraph__Json__Node__List import Domain__MGraph__Json__Node__List
                         list_domain_node = Domain__MGraph__Json__Node__List(node=value_node, graph=self.graph)
                         result[property_name] = list_domain_node.items()
                         break
@@ -74,7 +74,7 @@ class Domain__MGraph__Json__Node__Dict(Domain__MGraph__Json__Node):
             self.graph.new_edge(from_node_id=self.node_id, to_node_id=property_name__model__node.node_id)
             self.graph.new_edge(from_node_id=property_name__model__node.node_id,to_node_id=dict_schema_node.node_id)
         elif type(value) is list:
-            from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node__List import Domain__MGraph__Json__Node__List
+            from mgraph_db.providers.json.domain.Domain__MGraph__Json__Node__List import Domain__MGraph__Json__Node__List
 
             list_schema_node = Schema__MGraph__Json__Node__List()                                               # todo:: find way to use self.model method
             self.graph.data.nodes[list_schema_node.node_id]  = list_schema_node

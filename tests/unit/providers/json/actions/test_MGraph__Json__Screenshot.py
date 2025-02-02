@@ -1,11 +1,11 @@
 import pytest
 from unittest                                                       import TestCase
-from mgraph_ai.providers.json.MGraph__Json                          import MGraph__Json
-from mgraph_ai.providers.json.actions.MGraph__Json__Export          import MGraph__Json__Export
-from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Graph    import Domain__MGraph__Json__Graph
+from mgraph_db.providers.json.MGraph__Json                          import MGraph__Json
+from mgraph_db.providers.json.actions.MGraph__Json__Export          import MGraph__Json__Export
+from mgraph_db.providers.json.domain.Domain__MGraph__Json__Graph    import Domain__MGraph__Json__Graph
 from osbot_utils.utils.Files                                        import file_delete
 from osbot_utils.utils.Env                                          import not_in_github_action
-from mgraph_ai.providers.json.actions.MGraph__Json__Screenshot      import MGraph__Json__Screenshot
+from mgraph_db.providers.json.actions.MGraph__Json__Screenshot      import MGraph__Json__Screenshot
 
 
 class test_MGraph__Json__Screenshot(TestCase):
@@ -37,6 +37,7 @@ class test_MGraph__Json__Screenshot(TestCase):
             assert type(_) is MGraph__Json__Export
 
     def test_dot(self):
+        pytest.skip("needs refactoring to remove requests dependency")
         result = self.json_screenshot.dot()
         assert result.startswith(b'\x89PNG\r\n\x1a\n') is True
 

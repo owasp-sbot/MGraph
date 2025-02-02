@@ -1,6 +1,6 @@
 from unittest                                     import TestCase
-from mgraph_ai.mgraph.MGraph                      import MGraph
-from mgraph_ai.mgraph.utils.MGraph__Static__Graph import MGraph__Static__Graph
+from mgraph_db.mgraph.MGraph                      import MGraph
+from mgraph_db.mgraph.utils.MGraph__Static__Graph import MGraph__Static__Graph
 from osbot_utils.helpers.Obj_Id                   import is_obj_id
 
 

@@ -1,5 +1,5 @@
 from typing                                              import Optional, Dict, Any
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge__Data import Schema__MGraph__Edge__Data
+from mgraph_db.mgraph.schemas.Schema__MGraph__Edge__Data import Schema__MGraph__Edge__Data
 
 class Schema__Graph_RAG__Relation__Data(Schema__MGraph__Edge__Data):
     relation_type : str                                                             # Type of relationship

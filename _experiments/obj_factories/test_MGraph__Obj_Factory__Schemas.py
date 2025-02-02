@@ -1,15 +1,15 @@
 from unittest                                                      import TestCase
 from osbot_utils.utils.Objects                                     import __, type_full_name
 from osbot_utils.testing.performance.Performance_Measure__Session  import Performance_Measure__Session
-from mgraph_ai.mgraph.actions.MGraph__Obj_Factory__Schemas         import MGraph__Obj_Factory__Schemas
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge                 import Schema__MGraph__Edge
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge__Config         import Schema__MGraph__Edge__Config
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge__Data           import Schema__MGraph__Edge__Data
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph                import Schema__MGraph__Graph
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph__Data          import Schema__MGraph__Graph__Data
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node                 import Schema__MGraph__Node
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Data           import Schema__MGraph__Node__Data
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Types                import Schema__MGraph__Types
+from mgraph_db.mgraph.actions.MGraph__Obj_Factory__Schemas         import MGraph__Obj_Factory__Schemas
+from mgraph_db.mgraph.schemas.Schema__MGraph__Edge                 import Schema__MGraph__Edge
+from mgraph_db.mgraph.schemas.Schema__MGraph__Edge__Config         import Schema__MGraph__Edge__Config
+from mgraph_db.mgraph.schemas.Schema__MGraph__Edge__Data           import Schema__MGraph__Edge__Data
+from mgraph_db.mgraph.schemas.Schema__MGraph__Graph                import Schema__MGraph__Graph
+from mgraph_db.mgraph.schemas.Schema__MGraph__Graph__Data          import Schema__MGraph__Graph__Data
+from mgraph_db.mgraph.schemas.Schema__MGraph__Node                 import Schema__MGraph__Node
+from mgraph_db.mgraph.schemas.Schema__MGraph__Node__Data           import Schema__MGraph__Node__Data
+from mgraph_db.mgraph.schemas.Schema__MGraph__Types                import Schema__MGraph__Types
 from osbot_utils.helpers.Obj_Id                                    import Obj_Id
 
 

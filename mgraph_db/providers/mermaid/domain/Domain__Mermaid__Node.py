@@ -1,8 +1,8 @@
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Data   import Schema__Mermaid__Node__Data
-from mgraph_ai.mgraph.domain.Domain__MGraph__Node                      import Domain__MGraph__Node
-from mgraph_ai.providers.mermaid.models.Model__Mermaid__Graph          import Model__Mermaid__Graph
-from mgraph_ai.providers.mermaid.models.Model__Mermaid__Node           import Model__Mermaid__Node
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Shape  import Schema__Mermaid__Node__Shape
+from mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Node__Data   import Schema__Mermaid__Node__Data
+from mgraph_db.mgraph.domain.Domain__MGraph__Node                      import Domain__MGraph__Node
+from mgraph_db.providers.mermaid.models.Model__Mermaid__Graph          import Model__Mermaid__Graph
+from mgraph_db.providers.mermaid.models.Model__Mermaid__Node           import Model__Mermaid__Node
+from mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Node__Shape  import Schema__Mermaid__Node__Shape
 from osbot_utils.type_safe.methods.type_safe_property                  import set_as_property
 
 LINE_PADDING = '    '

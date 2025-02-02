@@ -1,8 +1,8 @@
 from typing                                                             import Dict, Any, Optional
-from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node__Dict   import Domain__MGraph__Json__Node__Dict
-from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node__List   import Domain__MGraph__Json__Node__List
-from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node__Value  import Domain__MGraph__Json__Node__Value
-from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Graph        import Domain__MGraph__Json__Graph
+from mgraph_db.providers.json.domain.Domain__MGraph__Json__Node__Dict   import Domain__MGraph__Json__Node__Dict
+from mgraph_db.providers.json.domain.Domain__MGraph__Json__Node__List   import Domain__MGraph__Json__Node__List
+from mgraph_db.providers.json.domain.Domain__MGraph__Json__Node__Value  import Domain__MGraph__Json__Node__Value
+from mgraph_db.providers.json.domain.Domain__MGraph__Json__Graph        import Domain__MGraph__Json__Graph
 from osbot_utils.utils.Files                                            import file_save
 
 class Export__Json__Node_Type:                                                      # Node types in the graph

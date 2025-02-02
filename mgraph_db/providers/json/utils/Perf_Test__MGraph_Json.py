@@ -3,7 +3,7 @@ from typing                                         import Union
 from osbot_utils.context_managers.print_duration import print_duration
 
 from osbot_utils.utils.Json                         import json_file_create, json_file_load
-from mgraph_ai.providers.json.MGraph__Json          import MGraph__Json
+from mgraph_db.providers.json.MGraph__Json          import MGraph__Json
 from osbot_utils.context_managers.capture_duration  import capture_duration
 from osbot_utils.utils.Http                         import GET_json
 from osbot_utils.type_safe.Type_Safe                import Type_Safe
@@ -63,10 +63,10 @@ class Perf_Test__MGraph_Json(Type_Safe):
             # #pprint(mgraph_2.export().to_dict())
             # print(mgraph_2.export().to_dot().to_string())
             # todo: review the load of json_mgraph data
-            # from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Graph import Schema__MGraph__Json__Graph
+            # from mgraph_db.providers.json.schemas.Schema__MGraph__Json__Graph import Schema__MGraph__Json__Graph
             # mgraph_schema = Schema__MGraph__Json__Graph.from_json(exported__mgraph_json)
-            # from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Graph import Domain__MGraph__Json__Graph
-            # from mgraph_ai.providers.json.models.Model__MGraph__Json__Graph import Model__MGraph__Json__Graph
+            # from mgraph_db.providers.json.domain.Domain__MGraph__Json__Graph import Domain__MGraph__Json__Graph
+            # from mgraph_db.providers.json.models.Model__MGraph__Json__Graph import Model__MGraph__Json__Graph
             # mgraph_model  = Model__MGraph__Json__Graph(data=mgraph_schema)
             # mgraph_domain = Domain__MGraph__Json__Graph(model=mgraph_model)
             # mgraph_json   = MGraph__Json(graph=mgraph_domain)
