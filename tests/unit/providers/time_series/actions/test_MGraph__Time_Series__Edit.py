@@ -14,7 +14,7 @@ class test_MGraph__Time_Series__Edit(TestCase):
         pytest.skip("Tests need fixing after Time_Series class is fixed")
         load_dotenv()
         cls.screenshot_file = './time-series.png'
-        cls.delete_on_exit  = False
+        cls.delete_on_exit  = True
 
     def setUp(self):
         self.graph       = MGraph__Time_Series()                                                          # Create fresh graph
@@ -23,7 +23,9 @@ class test_MGraph__Time_Series__Edit(TestCase):
 
     def tearDown(self):
         with self.graph.screenshot(target_file=self.screenshot_file) as _:
-            _.dot__just_types()
+            _.dot_config().show_value    = True
+            _.dot_config().show_edge_ids = False
+            _.dot()
             assert file_exists(self.screenshot_file)
             if self.delete_on_exit:
                 assert file_delete(self.screenshot_file) is True

@@ -2,20 +2,21 @@ from typing                                                 import Dict, Any, Op
 from xml.dom                                                import minidom
 from xml.etree                                              import ElementTree
 from xml.etree.ElementTree                                  import Element, SubElement
-from mgraph_db.mgraph.actions.exporters.MGraph__Export__Dot import MGraph__Export__Dot
+from mgraph_db.mgraph.actions.exporters.MGraph__Export__Dot import MGraph__Export__Dot, MGraph__Export__Dot__Config
 from osbot_utils.utils.Files                                import temp_file, file_create
 from mgraph_db.mgraph.actions.MGraph__Data                  import MGraph__Data
 from mgraph_db.mgraph.domain.Domain__MGraph__Graph          import Domain__MGraph__Graph
 from osbot_utils.type_safe.Type_Safe                        import Type_Safe
 
 class MGraph__Export(Type_Safe):
-    graph: Domain__MGraph__Graph
+    graph      : Domain__MGraph__Graph
+    dot_config : MGraph__Export__Dot__Config
 
     def data(self):                                                                             # Access to graph data
         return MGraph__Data(graph=self.graph)
 
     def export_dot(self):
-        return MGraph__Export__Dot(graph=self.graph)
+        return MGraph__Export__Dot(graph=self.graph, config=self.dot_config)
 
     def to__mgraph_json(self):                                                                  # Export full graph data
         return self.graph.model.data.json()
@@ -56,36 +57,13 @@ class MGraph__Export(Type_Safe):
                 to_elem.text    = str(edge.to_node_id())
         return self.format_xml(root, indent='  ')
 
-    def to__dot(self, show_value=False, show_edge_ids=True) -> str:                                                                   # Export as DOT graph
-        lines = ['digraph {']
-
-        with self.data() as _:
-            for node in _.nodes():                                                              # Output nodes with data
-                node_attrs = []
-                if node.node_data:
-                    node_items = node.node_data.__dict__.items()
-                    if node_items:
-                        for field_name, field_value in node_items:
-                            node_attrs.append(f'{field_name}="{field_value}"')
-                            if show_value and (field_name =='value' or field_name =='name'):
-                                node_attrs.append(f'label="{field_value}"')
-                    else:
-                        if show_value:
-                            label = type(node.node.data).__name__.split('__').pop().lower()
-                            node_attrs.append(f'label="{label}"')
-
-                attrs_str = f' [{", ".join(node_attrs)}]' if node_attrs else ''
-                lines.append(f'  "{node.node_id}"{attrs_str}')
-
-            for edge in _.edges():                                                          # Output edges with IDs
-                if show_edge_ids:
-                    edge_label = f"  {edge.edge_id}"
-                else:
-                    edge_label = ""
-                lines.append(f'  "{edge.from_node_id()}" -> "{edge.to_node_id()}" [label="{edge_label}"]')
-
-        lines.append('}')
-        return '\n'.join(lines)
+    def to__dot(self, show_value=False, show_edge_ids=True) -> str:                       # Export as DOT graph
+        # dot_exporter = MGraph__Export__Dot(graph  = self.graph                        ,
+        #                                   config = MGraph__Export__Dot__Config(
+        #                                             show_value    = show_value   ,
+        #                                             show_edge_ids = show_edge_ids))
+        return self.export_dot().process_graph()
+        #return dot_exporter.format_output()
 
     def to__dot_types(self):
         return self.export_dot().to_types_view()

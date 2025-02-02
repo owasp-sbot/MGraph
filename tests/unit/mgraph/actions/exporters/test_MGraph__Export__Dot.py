@@ -1,10 +1,12 @@
 from unittest                                               import TestCase
-from mgraph_db.mgraph.actions.MGraph__Export                import MGraph__Export
 from mgraph_db.mgraph.actions.exporters.MGraph__Export__Dot import MGraph__Export__Dot, MGraph__Export__Dot__Config
 from mgraph_db.mgraph.domain.Domain__MGraph__Graph          import Domain__MGraph__Graph
 from mgraph_db.mgraph.models.Model__MGraph__Graph           import Model__MGraph__Graph
 from mgraph_db.mgraph.schemas.Schema__MGraph__Graph         import Schema__MGraph__Graph
 from mgraph_db.providers.simple.MGraph__Simple__Test_Data   import MGraph__Simple__Test_Data
+from osbot_utils.utils.Env                                  import load_dotenv
+from osbot_utils.utils.Files                                import file_exists, file_delete
+
 
 class test_MGraph__Export__Dot(TestCase):
 
@@ -160,6 +162,21 @@ class test_MGraph__Export__Dot(TestCase):
         assert 'ranksep=1.2'        in styled_output
 
     def test__mgraph_export(self):
-        with MGraph__Export(graph=self.domain_graph) as _:
+        with self.simple_graph.export() as _:
             assert _.to__dot_types () == self.exporter.to_types_view ()
             assert _.to__dot_schema() == self.exporter.to_schema_view()
+            assert _.to__dot       () == self.exporter.process_graph()
+
+
+    def test__mgraph_screenshot(self):
+        load_dotenv()
+        target_file = './dot-file.png'
+
+        with self.simple_graph.screenshot(target_file=target_file) as _:
+            #_.dot__just_values()
+            #_.dot__just_types()
+            _.dot_config().show_value    = True
+            _.dot_config().show_edge_ids = False
+            _.dot()
+            assert file_exists(target_file)
+            assert file_delete(target_file)

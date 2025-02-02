@@ -1,6 +1,7 @@
 from typing                                        import Type
 from mgraph_db.mgraph.actions.MGraph__Export       import MGraph__Export
 from mgraph_db.mgraph.domain.Domain__MGraph__Graph import Domain__MGraph__Graph
+from osbot_utils.decorators.methods.cache_on_self  import cache_on_self
 from osbot_utils.type_safe.Type_Safe               import Type_Safe
 from osbot_utils.utils.Env                         import get_env, not_in_github_action
 from osbot_utils.utils.Files                       import file_create_from_bytes
@@ -21,6 +22,14 @@ class MGraph__Screenshot(Type_Safe):
 
     def dot_to_png(self, dot_code):
         return self.create_screenshot__from__dot_code(dot_code=dot_code)
+
+    def dot(self):
+        dot_code = self.export().to__dot()
+        png_bytes = self.dot_to_png(dot_code)
+        return png_bytes
+
+    def dot_config(self):
+        return self.export().dot_config
 
     def dot__just_ids(self):
         dot_code  = self.export().to__dot()
@@ -48,6 +57,7 @@ class MGraph__Screenshot(Type_Safe):
         method_params = {'dot_source': dot_code}
         return self.execute_request(method_path, method_params)
 
+    @cache_on_self
     def export(self):
         return self.export_class(graph=self.graph)
 

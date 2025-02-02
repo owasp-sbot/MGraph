@@ -1,6 +1,5 @@
 from typing                                                     import Dict, Any, List, Optional
 from mgraph_db.mgraph.actions.exporters.MGraph__Export__Base    import MGraph__Export__Base
-from mgraph_db.mgraph.domain.Domain__MGraph__Graph              import Domain__MGraph__Graph
 from osbot_utils.type_safe.Type_Safe                            import Type_Safe
 
 class MGraph__Export__Dot__Config(Type_Safe):
@@ -12,10 +11,6 @@ class MGraph__Export__Dot__Config(Type_Safe):
 
 class MGraph__Export__Dot(MGraph__Export__Base):
     config: MGraph__Export__Dot__Config
-
-    def __init__(self, graph: Domain__MGraph__Graph, config: Optional[MGraph__Export__Dot__Config] = None):
-        super().__init__(graph=graph)
-        self.config = config or MGraph__Export__Dot__Config()
 
     def create_node_data(self, node) -> Dict[str, Any]:                                # Override to create DOT-specific node data
         attrs = []
