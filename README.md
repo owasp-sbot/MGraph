@@ -28,50 +28,55 @@ MGraph-DB is a high-performance, type-safe graph database implementation in Pyth
   - Clean, Pythonic API
   - Rich integration capabilities
 
-## Key Features
+## Major Features
 
-### Architectural Design
+### Production-Ready Type System
+- Complete implementation of the three-layer architecture (Domain, Model, Schema)
+- Comprehensive runtime type checking across all layers
+- Type-safe property accessors and method decorators
+- Robust validation for nested data structures
+- Clean class hierarchies with explicit interfaces
 
-- **Three-Layer Architecture**
-  - Domain Layer: Business logic and high-level operations
-  - Model Layer: Core data structures and relationships
-  - Schema Layer: Type definitions and validation
+### Advanced Graph Operations
+- High-performance in-memory graph operations
+- Sophisticated query system with chainable operations
+- Rich traversal capabilities with type filtering
+- Flexible node and edge attribute management
+- Comprehensive CRUD operations for graph elements
 
-### Core Capabilities
+### Optimized Indexing System
+- O(1) lookups for all core operations
+- Multi-dimensional indexing (type, attribute, relationship)
+- Efficient graph traversal support
+- Advanced query optimization
+- Index persistence and restoration
 
-- **Powerful Runtime Type Checking**
-  - Comprehensive validation at all layers (Schema, Model, Domain)
-  - Clean class hierarchies with explicit interfaces
-  - Decorator-based type validation
-  - Runtime enforcement of type constraints
-  - Automatic type verification for all operations
-  - Deep validation of nested data structures
+### Query System Enhancements
+- View-based query results with navigation
+- Rich filtering and traversal operations
+- Chainable query interface
+- Query result caching
+- Query operation history tracking
 
-- **Advanced Indexing**
-  - O(1) lookups for nodes and edges
-  - Efficient traversal operations
-  - Type-based and attribute-based indexing
-  - Relationship indexing for quick navigation
+### Export Capabilities
+- Support for multiple export formats:
+  - GraphML
+  - DOT
+  - Mermaid
+  - RDF/Turtle
+  - N-Triples
+  - GEXF
+  - TGF
+  - Cypher
+  - CSV
+  - JSON
 
-- **Flexible Query System**
-  - Rich query API with chainable operations
-  - Support for complex graph traversals
-  - Advanced filtering capabilities
-  - View-based query results
-
-### Data Management
-
-- **Memory-First Design**
-  - Optimized for in-memory performance
-  - Efficient serialization to JSON
-  - Clean persistence interface
-  - Support for multiple storage backends
-
-- **Rich Data Modeling**
-  - Extensible node and edge types
-  - Comprehensive attribute system
-  - Support for complex relationships
-  - Custom data validation
+### Visualization Support
+- Integration with common visualization libraries
+- Custom layout algorithms
+- Interactive graph exploration
+- Support for large graph visualization
+- Multiple visualization format exports
 
 ## Quick Start
 
