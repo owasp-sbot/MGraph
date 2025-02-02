@@ -1,13 +1,13 @@
 from unittest import TestCase
 
-import requests
+#import requests
 
-from mgraph_ai.providers.mermaid.utils.Mermaid__Random_Graph import create_test_mermaid_graph
+from mgraph_db.providers.mermaid.utils.Mermaid__Random_Graph import create_test_mermaid_graph
 from osbot_utils.utils.Files import save_bytes_as_file
 
 from osbot_utils.utils.Dev import pprint
 
-from mgraph_ai.providers.mermaid.utils.Mermaid_Examples__FlowChart import Mermain_Examples__FlowChart
+from mgraph_db.providers.mermaid.utils.Mermaid_Examples__FlowChart import Mermain_Examples__FlowChart
 
 
 class test_Mermaid_Examples__Render(TestCase):

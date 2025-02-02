@@ -69,7 +69,7 @@ The specification includes these standard formats:
 Each format should have its own dedicated exporter class:
 
 ```
-mgraph_ai/
+mgraph_db/
   providers/
     json/
       exporters/

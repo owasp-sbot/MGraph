@@ -2,13 +2,13 @@ from unittest                                                               impo
 from osbot_utils.helpers.Safe_Id                                            import Safe_Id
 from osbot_utils.testing.Temp_File                                          import Temp_File
 from osbot_utils.utils.Files                                                import file_exists
-from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Edge               import Domain__Mermaid__Edge
-from mgraph_ai.providers.mermaid.domain.Domain__Mermaid__Node               import Domain__Mermaid__Node
+from mgraph_db.providers.mermaid.domain.Domain__Mermaid__Edge               import Domain__Mermaid__Edge
+from mgraph_db.providers.mermaid.domain.Domain__Mermaid__Node               import Domain__Mermaid__Node
 from osbot_utils.utils.Objects                                              import __
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Diagram_Direction import Schema__Mermaid__Diagram__Direction
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Diagram__Type     import Schema__Mermaid__Diagram__Type
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Shape       import Schema__Mermaid__Node__Shape
-from mgraph_ai.providers.mermaid.MGraph__Mermaid                            import MGraph__Mermaid
+from mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Diagram_Direction import Schema__Mermaid__Diagram__Direction
+from mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Diagram__Type     import Schema__Mermaid__Diagram__Type
+from mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Node__Shape       import Schema__Mermaid__Node__Shape
+from mgraph_db.providers.mermaid.MGraph__Mermaid                            import MGraph__Mermaid
 from osbot_utils.testing.Stdout                                             import Stdout
 from osbot_utils.utils.Str                                                  import str_dedent
 

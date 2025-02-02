@@ -8,7 +8,7 @@ on:
 env:
   GIT__BRANCH      : 'main'
   RELEASE_TYPE     : 'major'
-  PACKAGE_NAME     : 'mgraph_ai'
+  PACKAGE_NAME     : 'mgraph_db'
 
 jobs:
 

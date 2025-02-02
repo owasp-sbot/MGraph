@@ -1,16 +1,16 @@
 import pytest
 import re
 from unittest                                                       import TestCase
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge__Config          import Schema__MGraph__Edge__Config
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph__Data           import Schema__MGraph__Graph__Data
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Data            import Schema__MGraph__Node__Data
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Edge    import Schema__MGraph__Json__Edge
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node    import Schema__MGraph__Json__Node
+from mgraph_db.mgraph.schemas.Schema__MGraph__Edge__Config          import Schema__MGraph__Edge__Config
+from mgraph_db.mgraph.schemas.Schema__MGraph__Graph__Data           import Schema__MGraph__Graph__Data
+from mgraph_db.mgraph.schemas.Schema__MGraph__Node__Data            import Schema__MGraph__Node__Data
+from mgraph_db.providers.json.schemas.Schema__MGraph__Json__Edge    import Schema__MGraph__Json__Edge
+from mgraph_db.providers.json.schemas.Schema__MGraph__Json__Node    import Schema__MGraph__Json__Node
 from osbot_utils.utils.Objects                                      import __, type_full_name
 
 from osbot_utils.utils.Dev import pprint
 
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Graph import Schema__MGraph__Json__Graph
+from mgraph_db.providers.json.schemas.Schema__MGraph__Json__Graph import Schema__MGraph__Json__Graph
 
 
 class test_Schema__MGraph__Json__Graph(TestCase):

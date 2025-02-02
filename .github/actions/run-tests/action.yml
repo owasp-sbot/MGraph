@@ -21,4 +21,4 @@ runs:
     - name: Run Unit Tests (Unit)
       shell: bash
       run: |
-        coverage run --source=mgraph_ai -m pytest -v -s --durations=0 tests/unit
+        coverage run --source=mgraph_db -m pytest -v -s --durations=0 tests/unit

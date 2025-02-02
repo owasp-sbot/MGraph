@@ -8,7 +8,7 @@ on:
 env:
   GIT__BRANCH      : 'dev'
   RELEASE_TYPE     : 'minor'
-  PACKAGE_NAME     : 'mgraph_ai'
+  PACKAGE_NAME     : 'mgraph_db'
 
 jobs:
 
@@ -33,7 +33,7 @@ jobs:
       - run-tests
 
   publish-to-pypi:
-    if: False
+    #if: False
     name: "Publish to: PYPI"
     permissions:
       id-token: write

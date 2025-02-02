@@ -1,7 +1,7 @@
 from unittest                                              import TestCase
-from mgraph_ai.mgraph.models.Model__MGraph__Node           import Model__MGraph__Node
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node         import Schema__MGraph__Node
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Data   import Schema__MGraph__Node__Data
+from mgraph_db.mgraph.models.Model__MGraph__Node           import Model__MGraph__Node
+from mgraph_db.mgraph.schemas.Schema__MGraph__Node         import Schema__MGraph__Node
+from mgraph_db.mgraph.schemas.Schema__MGraph__Node__Data   import Schema__MGraph__Node__Data
 
 class test_Model__MGraph__Node(TestCase):
 

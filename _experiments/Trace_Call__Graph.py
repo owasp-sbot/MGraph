@@ -1,4 +1,4 @@
-from mgraph_ai.providers.mermaid.domain.Mermaid__Graph  import Mermaid__Graph
+from mgraph_db.providers.mermaid.domain.Mermaid__Graph  import Mermaid__Graph
 from osbot_utils.helpers.trace.Trace_Call               import Trace_Call
 
 # todo: reimplement this class when Mermaid__Graph has been updated to new version

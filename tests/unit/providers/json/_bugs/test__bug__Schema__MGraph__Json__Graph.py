@@ -1,15 +1,15 @@
 from unittest                                                           import TestCase
 
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Value__Data import \
+from mgraph_db.providers.json.schemas.Schema__MGraph__Json__Node__Value__Data import \
     Schema__MGraph__Json__Node__Value__Data
 from osbot_utils.utils.Objects import __, full_type_name
 
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Data import Schema__MGraph__Node__Data
+from mgraph_db.mgraph.schemas.Schema__MGraph__Node__Data import Schema__MGraph__Node__Data
 from osbot_utils.utils.Dev import pprint
 
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Graph       import Schema__MGraph__Json__Graph
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Value import Schema__MGraph__Json__Node__Value
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Types       import Schema__MGraph__Json__Types
+from mgraph_db.providers.json.schemas.Schema__MGraph__Json__Graph       import Schema__MGraph__Json__Graph
+from mgraph_db.providers.json.schemas.Schema__MGraph__Json__Node__Value import Schema__MGraph__Json__Node__Value
+from mgraph_db.providers.json.schemas.Schema__MGraph__Json__Types       import Schema__MGraph__Json__Types
 from osbot_utils.testing.Duration                                       import Duration
 from osbot_utils.utils.Json                                            import json_dump, json_load
 

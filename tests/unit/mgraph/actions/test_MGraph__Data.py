@@ -1,9 +1,9 @@
 from unittest                                       import TestCase
-from mgraph_ai.mgraph.actions.MGraph__Data          import MGraph__Data
-from mgraph_ai.mgraph.domain.Domain__MGraph__Graph  import Domain__MGraph__Graph
-from mgraph_ai.mgraph.models.Model__MGraph__Graph   import Model__MGraph__Graph
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph import Schema__MGraph__Graph
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node  import Schema__MGraph__Node
+from mgraph_db.mgraph.actions.MGraph__Data          import MGraph__Data
+from mgraph_db.mgraph.domain.Domain__MGraph__Graph  import Domain__MGraph__Graph
+from mgraph_db.mgraph.models.Model__MGraph__Graph   import Model__MGraph__Graph
+from mgraph_db.mgraph.schemas.Schema__MGraph__Graph import Schema__MGraph__Graph
+from mgraph_db.mgraph.schemas.Schema__MGraph__Node  import Schema__MGraph__Node
 from osbot_utils.helpers.Obj_Id import Obj_Id
 
 

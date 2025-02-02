@@ -1,12 +1,12 @@
-from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Edge            import Domain__MGraph__Json__Edge
-from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Graph           import Domain__MGraph__Json__Graph
-from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node            import Domain__MGraph__Json__Node
-from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node__Dict      import Domain__MGraph__Json__Node__Dict
-from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node__List      import Domain__MGraph__Json__Node__List
-from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node__Property  import Domain__MGraph__Json__Node__Property
-from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node__Value     import Domain__MGraph__Json__Node__Value
-from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Types           import Domain__MGraph__Json__Types
-from mgraph_ai.providers.json.actions.MGraph__Json__Obj_Factory__Models    import MGraph__Json__Obj_Factory__Models
+from mgraph_db.providers.json.domain.Domain__MGraph__Json__Edge            import Domain__MGraph__Json__Edge
+from mgraph_db.providers.json.domain.Domain__MGraph__Json__Graph           import Domain__MGraph__Json__Graph
+from mgraph_db.providers.json.domain.Domain__MGraph__Json__Node            import Domain__MGraph__Json__Node
+from mgraph_db.providers.json.domain.Domain__MGraph__Json__Node__Dict      import Domain__MGraph__Json__Node__Dict
+from mgraph_db.providers.json.domain.Domain__MGraph__Json__Node__List      import Domain__MGraph__Json__Node__List
+from mgraph_db.providers.json.domain.Domain__MGraph__Json__Node__Property  import Domain__MGraph__Json__Node__Property
+from mgraph_db.providers.json.domain.Domain__MGraph__Json__Node__Value     import Domain__MGraph__Json__Node__Value
+from mgraph_db.providers.json.domain.Domain__MGraph__Json__Types           import Domain__MGraph__Json__Types
+from mgraph_db.providers.json.actions.MGraph__Json__Obj_Factory__Models    import MGraph__Json__Obj_Factory__Models
 from osbot_utils.type_safe.Type_Safe                                       import Type_Safe
 
 class MGraph__Json__Obj_Factory__Domain(Type_Safe):

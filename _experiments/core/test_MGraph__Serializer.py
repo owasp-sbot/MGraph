@@ -1,13 +1,13 @@
 import pytest
 from unittest                           import TestCase
-from mgraph_ai.core.MGraph__Data        import MGraph__Data
-from mgraph_ai.mgraph.domain.MGraph     import MGraph
+from mgraph_db.core.MGraph__Data        import MGraph__Data
+from mgraph_db.mgraph.domain.MGraph     import MGraph
 from osbot_utils.utils.Files            import current_temp_folder
 from osbot_utils.helpers.Local_Cache    import Local_Cache
 from osbot_utils.utils.Misc             import list_set
 from osbot_utils.helpers.Random_Seed    import Random_Seed
-from mgraph_ai.core.MGraph__Serializer  import MGraph__Serializer, Serialization_Mode
-from mgraph_ai.core.MGraphs             import MGraphs
+from mgraph_db.core.MGraph__Serializer  import MGraph__Serializer, Serialization_Mode
+from mgraph_db.core.MGraphs             import MGraphs
 
 class test_MGraph__Serializer(TestCase):
 

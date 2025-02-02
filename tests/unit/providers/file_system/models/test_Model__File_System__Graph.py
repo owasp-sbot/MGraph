@@ -1,9 +1,9 @@
 from unittest                                                         import TestCase
-from mgraph_ai.mgraph.models.Model__MGraph__Edge                      import Model__MGraph__Edge
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge                    import Schema__MGraph__Edge
-from mgraph_ai.providers.file_system.models.Model__File_System__Graph import Model__File_System__Graph
-from mgraph_ai.providers.file_system.models.Model__Folder__Node       import Model__Folder__Node
-from mgraph_ai.providers.file_system.schemas.Schema__Folder__Node     import Schema__Folder__Node
+from mgraph_db.mgraph.models.Model__MGraph__Edge                      import Model__MGraph__Edge
+from mgraph_db.mgraph.schemas.Schema__MGraph__Edge                    import Schema__MGraph__Edge
+from mgraph_db.providers.file_system.models.Model__File_System__Graph import Model__File_System__Graph
+from mgraph_db.providers.file_system.models.Model__Folder__Node       import Model__Folder__Node
+from mgraph_db.providers.file_system.schemas.Schema__Folder__Node     import Schema__Folder__Node
 
 
 class test_Model__File_System__Graph(TestCase):

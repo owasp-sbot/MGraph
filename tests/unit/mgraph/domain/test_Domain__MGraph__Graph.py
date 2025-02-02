@@ -1,12 +1,12 @@
 from unittest                                        import TestCase
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Types  import Schema__MGraph__Types
-from mgraph_ai.mgraph.domain.Domain__MGraph__Edge    import Domain__MGraph__Edge
-from mgraph_ai.mgraph.domain.Domain__MGraph__Node    import Domain__MGraph__Node
-from mgraph_ai.mgraph.models.Model__MGraph__Node     import Model__MGraph__Node
-from mgraph_ai.mgraph.domain.Domain__MGraph__Graph   import Domain__MGraph__Graph
-from mgraph_ai.mgraph.models.Model__MGraph__Graph    import Model__MGraph__Graph
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph  import Schema__MGraph__Graph
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node   import Schema__MGraph__Node
+from mgraph_db.mgraph.schemas.Schema__MGraph__Types  import Schema__MGraph__Types
+from mgraph_db.mgraph.domain.Domain__MGraph__Edge    import Domain__MGraph__Edge
+from mgraph_db.mgraph.domain.Domain__MGraph__Node    import Domain__MGraph__Node
+from mgraph_db.mgraph.models.Model__MGraph__Node     import Model__MGraph__Node
+from mgraph_db.mgraph.domain.Domain__MGraph__Graph   import Domain__MGraph__Graph
+from mgraph_db.mgraph.models.Model__MGraph__Graph    import Model__MGraph__Graph
+from mgraph_db.mgraph.schemas.Schema__MGraph__Graph  import Schema__MGraph__Graph
+from mgraph_db.mgraph.schemas.Schema__MGraph__Node   import Schema__MGraph__Node
 
 class Simple_Node(Schema__MGraph__Node): pass                                                   # Helper class for testing
 

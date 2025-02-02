@@ -1,5 +1,5 @@
 from unittest                                                            import TestCase
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Shape   import Schema__Mermaid__Node__Shape
+from mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Node__Shape   import Schema__Mermaid__Node__Shape
 
 
 

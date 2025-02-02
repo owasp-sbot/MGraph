@@ -1,8 +1,8 @@
 from unittest                                                          import TestCase
-from mgraph_ai.providers.file_system.models.Model__File_System__Graph  import Model__File_System__Graph
-from mgraph_ai.providers.file_system.models.Model__File_System__Item   import Model__File_System__Item
-from mgraph_ai.providers.file_system.schemas.Schema__File_System__Item import Schema__File_System__Item
-from mgraph_ai.providers.file_system.domain.File_System__Item          import File_System__Item
+from mgraph_db.providers.file_system.models.Model__File_System__Graph  import Model__File_System__Graph
+from mgraph_db.providers.file_system.models.Model__File_System__Item   import Model__File_System__Item
+from mgraph_db.providers.file_system.schemas.Schema__File_System__Item import Schema__File_System__Item
+from mgraph_db.providers.file_system.domain.File_System__Item          import File_System__Item
 
 
 class test_File_System__Item(TestCase):

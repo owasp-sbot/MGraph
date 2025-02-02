@@ -1,7 +1,7 @@
 from unittest                                       import TestCase
 from xml.etree.ElementTree                          import fromstring
-from mgraph_ai.mgraph.MGraph                        import MGraph
-from mgraph_ai.mgraph.utils.MGraph__Static__Graph   import MGraph__Static__Graph
+from mgraph_db.mgraph.MGraph                        import MGraph
+from mgraph_db.mgraph.utils.MGraph__Static__Graph   import MGraph__Static__Graph
 from osbot_utils.utils.Objects                      import obj, __
 
 class test_MGraph__Export(TestCase):
@@ -20,13 +20,13 @@ class test_MGraph__Export(TestCase):
         assert obj(data) == __(edges        = __()                                           ,
                                graph_data   = __()                                           ,
                                graph_id     = empty_graph.data().graph_id()                  ,
-                               graph_type   = 'mgraph_ai.mgraph.schemas.Schema__MGraph__Graph.Schema__MGraph__Graph' ,
+                               graph_type   = 'mgraph_db.mgraph.schemas.Schema__MGraph__Graph.Schema__MGraph__Graph' ,
                                nodes        = __()                                           ,
-                               schema_types = __(edge_type        = 'mgraph_ai.mgraph.schemas.Schema__MGraph__Edge.Schema__MGraph__Edge',
-                                                edge_config_type = 'mgraph_ai.mgraph.schemas.Schema__MGraph__Edge__Config.Schema__MGraph__Edge__Config',
-                                                graph_data_type  = 'mgraph_ai.mgraph.schemas.Schema__MGraph__Graph__Data.Schema__MGraph__Graph__Data',
-                                                node_type        = 'mgraph_ai.mgraph.schemas.Schema__MGraph__Node.Schema__MGraph__Node',
-                                                node_data_type   = 'mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Data.Schema__MGraph__Node__Data'))
+                               schema_types = __(edge_type        = 'mgraph_db.mgraph.schemas.Schema__MGraph__Edge.Schema__MGraph__Edge',
+                                                edge_config_type = 'mgraph_db.mgraph.schemas.Schema__MGraph__Edge__Config.Schema__MGraph__Edge__Config',
+                                                graph_data_type  = 'mgraph_db.mgraph.schemas.Schema__MGraph__Graph__Data.Schema__MGraph__Graph__Data',
+                                                node_type        = 'mgraph_db.mgraph.schemas.Schema__MGraph__Node.Schema__MGraph__Node',
+                                                node_data_type   = 'mgraph_db.mgraph.schemas.Schema__MGraph__Node__Data.Schema__MGraph__Node__Data'))
 
     def test_to__json(self):                                                                  # Test minimal JSON export
         node_ids = self.linear_graph.node_ids

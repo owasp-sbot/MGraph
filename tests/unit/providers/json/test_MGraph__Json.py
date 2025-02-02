@@ -1,5 +1,5 @@
 from unittest                                                          import TestCase
-from mgraph_ai.providers.json.MGraph__Json                             import MGraph__Json
+from mgraph_db.providers.json.MGraph__Json                             import MGraph__Json
 
 class test_MGraph__Json(TestCase):
     def setUp(self):                                                                          # Initialize test data

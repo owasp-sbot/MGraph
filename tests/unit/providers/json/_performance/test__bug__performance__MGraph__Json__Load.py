@@ -2,13 +2,13 @@ import pytest
 from typing                                                                         import Any
 from unittest                                                                       import TestCase
 from osbot_utils.utils.Env                                                          import in_github_action
-from mgraph_ai.providers.json.MGraph__Json                                          import MGraph__Json
-from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Graph                    import Domain__MGraph__Json__Graph
-from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node__Dict               import Domain__MGraph__Json__Node__Dict
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Property          import Schema__MGraph__Json__Node__Property
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Property__Data    import Schema__MGraph__Json__Node__Property__Data
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Value             import Schema__MGraph__Json__Node__Value
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Value__Data       import Schema__MGraph__Json__Node__Value__Data
+from mgraph_db.providers.json.MGraph__Json                                          import MGraph__Json
+from mgraph_db.providers.json.domain.Domain__MGraph__Json__Graph                    import Domain__MGraph__Json__Graph
+from mgraph_db.providers.json.domain.Domain__MGraph__Json__Node__Dict               import Domain__MGraph__Json__Node__Dict
+from mgraph_db.providers.json.schemas.Schema__MGraph__Json__Node__Property          import Schema__MGraph__Json__Node__Property
+from mgraph_db.providers.json.schemas.Schema__MGraph__Json__Node__Property__Data    import Schema__MGraph__Json__Node__Property__Data
+from mgraph_db.providers.json.schemas.Schema__MGraph__Json__Node__Value             import Schema__MGraph__Json__Node__Value
+from mgraph_db.providers.json.schemas.Schema__MGraph__Json__Node__Value__Data       import Schema__MGraph__Json__Node__Value__Data
 from osbot_utils.context_managers.capture_duration                                  import capture_duration
 
 class test__regression__performance__MGraph__Json__Load(TestCase):
@@ -259,7 +259,7 @@ class test__regression__performance__MGraph__Json__Load(TestCase):
 
 
                     # @pytest.mark.skip("run only when needing a call trace")
-    # @trace_calls(include=['mgraph_ai'], show_duration=True, duration_padding=130, show_class=True)
+    # @trace_calls(include=['mgraph_db'], show_duration=True, duration_padding=130, show_class=True)
     # def test__trace__performance__mgraph_json__load__from_json(self):
     #     mgraph_json = MGraph__Json()
     #     simple_json = {'a':42}

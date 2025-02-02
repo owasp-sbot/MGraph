@@ -1,10 +1,10 @@
 from unittest                                                               import TestCase
-from mgraph_ai.mgraph.domain.Domain__MGraph__Node                           import Domain__MGraph__Node
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node__Property  import Schema__MGraph__Json__Node__Property
+from mgraph_db.mgraph.domain.Domain__MGraph__Node                           import Domain__MGraph__Node
+from mgraph_db.providers.json.schemas.Schema__MGraph__Json__Node__Property  import Schema__MGraph__Json__Node__Property
 from osbot_utils.type_safe.Type_Safe                                        import Type_Safe
 from osbot_utils.utils.Objects                                              import __, type_full_name, base_types
-from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node             import Domain__MGraph__Json__Node
-from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node__Property   import Domain__MGraph__Json__Node__Property
+from mgraph_db.providers.json.domain.Domain__MGraph__Json__Node             import Domain__MGraph__Json__Node
+from mgraph_db.providers.json.domain.Domain__MGraph__Json__Node__Property   import Domain__MGraph__Json__Node__Property
 
 
 class test_Domain__MGraph__Json__Node__Property(TestCase):

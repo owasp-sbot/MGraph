@@ -1,6 +1,6 @@
 import unittest
-from mgraph_ai.providers.json.models.Model__MGraph__Json__Node   import Model__MGraph__Json__Node
-from mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node import Schema__MGraph__Json__Node
+from mgraph_db.providers.json.models.Model__MGraph__Json__Node   import Model__MGraph__Json__Node
+from mgraph_db.providers.json.schemas.Schema__MGraph__Json__Node import Schema__MGraph__Json__Node
 from osbot_utils.utils.Objects                                   import __, type_full_name
 
 
@@ -12,5 +12,5 @@ class test_Model__MGraph__Json__Node(unittest.TestCase):
                                                         node_type  = type_full_name(Schema__MGraph__Json__Node)))
             assert _.data.node_type       == Schema__MGraph__Json__Node
             assert _.obj().data.node_type == type_full_name(Schema__MGraph__Json__Node)
-            assert _.obj().data.node_type == 'mgraph_ai.providers.json.schemas.Schema__MGraph__Json__Node.Schema__MGraph__Json__Node'
+            assert _.obj().data.node_type == 'mgraph_db.providers.json.schemas.Schema__MGraph__Json__Node.Schema__MGraph__Json__Node'
 

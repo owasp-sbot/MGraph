@@ -2,9 +2,9 @@ from unittest                                 import TestCase
 
 from osbot_utils.utils.Dev import pprint
 
-from mgraph_ai.providers.json.MGraph__Json    import MGraph__Json
-from mgraph_ai.providers.rss.MGraph__RSS_Feed import MGraph__RSS_Feed
-from mgraph_ai.providers.rss.MGraph__RSS_Item import MGraph__RSS_Item
+from mgraph_db.providers.json.MGraph__Json    import MGraph__Json
+from mgraph_db.providers.rss.MGraph__RSS_Feed import MGraph__RSS_Feed
+from mgraph_db.providers.rss.MGraph__RSS_Item import MGraph__RSS_Item
 
 class test_MGraph__RSS_Feed(TestCase):
     @classmethod

@@ -1,13 +1,13 @@
 from unittest                                                           import TestCase
-from mgraph_ai.mgraph.models.Model__MGraph__Edge                        import Model__MGraph__Edge
-from mgraph_ai.mgraph.models.Model__MGraph__Node                        import Model__MGraph__Node
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph                     import Schema__MGraph__Graph
-from mgraph_ai.providers.mermaid.models.Model__Mermaid__Graph           import Model__Mermaid__Graph
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Graph         import Schema__Mermaid__Graph
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Graph__Config import Schema__Mermaid__Graph__Config
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node          import Schema__Mermaid__Node
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge          import Schema__Mermaid__Edge
-from mgraph_ai.mgraph.models.Model__MGraph__Graph                       import Model__MGraph__Graph
+from mgraph_db.mgraph.models.Model__MGraph__Edge                        import Model__MGraph__Edge
+from mgraph_db.mgraph.models.Model__MGraph__Node                        import Model__MGraph__Node
+from mgraph_db.mgraph.schemas.Schema__MGraph__Graph                     import Schema__MGraph__Graph
+from mgraph_db.providers.mermaid.models.Model__Mermaid__Graph           import Model__Mermaid__Graph
+from mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Graph         import Schema__Mermaid__Graph
+from mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Graph__Config import Schema__Mermaid__Graph__Config
+from mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Node          import Schema__Mermaid__Node
+from mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Edge          import Schema__Mermaid__Edge
+from mgraph_db.mgraph.models.Model__MGraph__Graph                       import Model__MGraph__Graph
 
 class test_Model__Mermaid__Graph(TestCase):
 

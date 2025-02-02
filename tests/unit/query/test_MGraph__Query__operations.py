@@ -1,6 +1,6 @@
 from unittest                                                import TestCase
-from mgraph_ai.providers.simple.MGraph__Simple__Test_Data    import MGraph__Simple__Test_Data
-from mgraph_ai.providers.simple.schemas.Schema__Simple__Node import Schema__Simple__Node
+from mgraph_db.providers.simple.MGraph__Simple__Test_Data    import MGraph__Simple__Test_Data
+from mgraph_db.providers.simple.schemas.Schema__Simple__Node import Schema__Simple__Node
 
 
 class test_MGraph__Query__operations(TestCase):

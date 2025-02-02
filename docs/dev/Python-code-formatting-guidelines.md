@@ -121,8 +121,8 @@ Imports should be aligned with the longest import path, using spaces between maj
 
 ```python
 from unittest                                        import TestCase
-from mgraph_ai.schemas.Schema__MGraph__Node          import Schema__MGraph__Node
-from mgraph_ai.schemas.Schema__MGraph__Node__Config  import Schema__MGraph__Node__Config
+from mgraph_db.schemas.Schema__MGraph__Node          import Schema__MGraph__Node
+from mgraph_db.schemas.Schema__MGraph__Node__Config  import Schema__MGraph__Node__Config
 from osbot_utils.helpers.Random_Guid                 import Random_Guid
 from osbot_utils.helpers.Safe_Id                     import Safe_Id
 ```

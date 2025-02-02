@@ -1,6 +1,6 @@
 from unittest                                               import TestCase
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge__Config  import Schema__MGraph__Edge__Config
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node          import Schema__MGraph__Node
+from mgraph_db.mgraph.schemas.Schema__MGraph__Edge__Config  import Schema__MGraph__Edge__Config
+from mgraph_db.mgraph.schemas.Schema__MGraph__Node          import Schema__MGraph__Node
 from osbot_utils.helpers.Obj_Id                             import Obj_Id
 
 class Simple_Node(Schema__MGraph__Node): pass    # Helper class for testing

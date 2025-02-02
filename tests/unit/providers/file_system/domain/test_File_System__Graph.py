@@ -1,12 +1,12 @@
 from unittest                                                         import TestCase
-from mgraph_ai.mgraph.models.Model__MGraph__Node                      import Model__MGraph__Node
+from mgraph_db.mgraph.models.Model__MGraph__Node                      import Model__MGraph__Node
 from osbot_utils.type_safe.Type_Safe                                  import Type_Safe
 from osbot_utils.utils.Objects                                        import base_types
-from mgraph_ai.providers.file_system.models.Model__File_System__Graph import Model__File_System__Graph
-from mgraph_ai.providers.file_system.models.Model__File_System__Item  import Model__File_System__Item
-from mgraph_ai.providers.file_system.models.Model__Folder__Node       import Model__Folder__Node
-from mgraph_ai.providers.file_system.domain.File_System__Graph        import File_System__Graph
-from mgraph_ai.providers.file_system.domain.Folder__Node              import Folder__Node
+from mgraph_db.providers.file_system.models.Model__File_System__Graph import Model__File_System__Graph
+from mgraph_db.providers.file_system.models.Model__File_System__Item  import Model__File_System__Item
+from mgraph_db.providers.file_system.models.Model__Folder__Node       import Model__Folder__Node
+from mgraph_db.providers.file_system.domain.File_System__Graph        import File_System__Graph
+from mgraph_db.providers.file_system.domain.Folder__Node              import Folder__Node
 
 
 class test_File_System__Graph(TestCase):

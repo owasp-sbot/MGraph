@@ -1,10 +1,10 @@
 from unittest                                                           import TestCase
-from mgraph_ai.mgraph.models.Model__MGraph__Edge                        import Model__MGraph__Edge
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge                      import Schema__MGraph__Edge
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge__Config              import Schema__MGraph__Edge__Config
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge          import Schema__Mermaid__Edge
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Edge__Config  import Schema__Mermaid__Edge__Config
-from mgraph_ai.providers.mermaid.models.Model__Mermaid__Edge            import Model__Mermaid__Edge
+from mgraph_db.mgraph.models.Model__MGraph__Edge                        import Model__MGraph__Edge
+from mgraph_db.mgraph.schemas.Schema__MGraph__Edge                      import Schema__MGraph__Edge
+from mgraph_db.mgraph.schemas.Schema__MGraph__Edge__Config              import Schema__MGraph__Edge__Config
+from mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Edge          import Schema__Mermaid__Edge
+from mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Edge__Config  import Schema__Mermaid__Edge__Config
+from mgraph_db.providers.mermaid.models.Model__Mermaid__Edge            import Model__Mermaid__Edge
 from osbot_utils.helpers.Obj_Id                                         import Obj_Id
 
 

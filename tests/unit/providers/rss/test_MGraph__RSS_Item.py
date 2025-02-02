@@ -1,6 +1,6 @@
 from unittest                                 import TestCase
 from datetime                                 import datetime, timezone
-from mgraph_ai.providers.rss.MGraph__RSS_Item import MGraph__RSS_Item
+from mgraph_db.providers.rss.MGraph__RSS_Item import MGraph__RSS_Item
 
 class test_MGraph__RSS_Item(TestCase):
     @classmethod

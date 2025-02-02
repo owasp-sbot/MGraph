@@ -1,14 +1,15 @@
 from unittest                                               import TestCase
 from typing                                                 import Dict, Any
 from datetime                                               import datetime, timezone
-from mgraph_ai.providers.json.actions.MGraph__Json__Query   import MGraph__Json__Query
+from mgraph_db.providers.json.actions.MGraph__Json__Query   import MGraph__Json__Query
+from mgraph_db.providers.json.actions.MGraph__Json__Query__Export__View import MGraph__Json__Query__Export__View
 from osbot_utils.utils.Files                                import file_exists, file_delete
 from osbot_utils.utils.Env                                  import load_dotenv
 from osbot_utils.helpers.xml.rss.RSS__Feed                  import RSS__Feed
-from mgraph_ai.providers.rss.MGraph__RSS__Test_Data         import MGraph__RSS__Test_Data
+from mgraph_db.providers.rss.MGraph__RSS__Test_Data         import MGraph__RSS__Test_Data
 from osbot_utils.helpers.xml.rss.RSS__Feed__Parser          import RSS__Feed__Parser
-from mgraph_ai.providers.rss.MGraph__RSS                    import MGraph__RSS
-from mgraph_ai.providers.json.MGraph__Json                  import MGraph__Json
+from mgraph_db.providers.rss.MGraph__RSS                    import MGraph__RSS
+from mgraph_db.providers.json.MGraph__Json                  import MGraph__Json
 from osbot_utils.testing.Duration                           import Duration
 from osbot_utils.utils.Dev                                  import pprint
 
@@ -23,7 +24,7 @@ class test_MGraph_RSS(TestCase):
         self.test_data  = MGraph__RSS__Test_Data().test_rss_data()
         self.rss_feed   = RSS__Feed__Parser().from_dict(self.test_data)
         self.mgraph_json = MGraph__Json()
-        self.mgraph_rss  = MGraph__RSS()
+        self.mgraph_rss  = MGraph__RSS(graph=self.mgraph_json)
         self.mgraph_rss.load_rss(self.rss_feed)
 
     def test__setUp(self):
@@ -32,23 +33,30 @@ class test_MGraph_RSS(TestCase):
             assert type(_.graph) is MGraph__Json
             _.graph.query().print_stats()
 
+
+    def test__navigate_rss_feed(self):
+        with self.mgraph_rss.graph.query() as _:
+            assert type(_) is MGraph__Json__Query
+            _.field('items')
+            _.add_outgoing_edges__with_depth(2)
+            _.add_outgoing_edges__with_field ('title')
+
+
+            export_view = MGraph__Json__Query__Export__View(mgraph_query=_)
+            domain_graph_exported = export_view.export()
+            mgraph_json__exported = MGraph__Json(graph=domain_graph_exported)
+
+            mgraph_json__exported.screenshot().save().dot()
+            mgraph_json__exported.export().print__dict()
+        #self.mgraph_json.screenshot().save().dot()
+
     def test__render_as_dot(self):
-        load_dotenv()
         with self.mgraph_rss as _:
             target_file = './dot.png'
             _.graph.screenshot().save_to(target_file).dot()                 # this is working quite well
             #_.graph.screenshot().save_to(target_file).matplotlib()         # BUG, this is not working
             assert file_exists(target_file) is True
             assert file_delete(target_file) is True
-
-
-    def test__experiments(self):
-        with self.mgraph_rss.graph.query() as _:
-            assert type(_) is MGraph__Json__Query
-            _.field('description')
-            _.print_stats()
-
-
 
     def test_init(self):                                                  # Test initialization
         self.assertIsInstance(self.mgraph_rss         , MGraph__RSS  )

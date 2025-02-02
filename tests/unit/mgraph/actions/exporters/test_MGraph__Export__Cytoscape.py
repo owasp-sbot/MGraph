@@ -1,10 +1,10 @@
 from unittest                                                     import TestCase
-from mgraph_ai.providers.simple.schemas.Schema__Simple__Node      import Schema__Simple__Node
+from mgraph_db.providers.simple.schemas.Schema__Simple__Node      import Schema__Simple__Node
 from osbot_utils.type_safe.Type_Safe                              import Type_Safe
 from osbot_utils.utils.Objects                                    import __, base_types, obj, type_full_name
-from mgraph_ai.mgraph.actions.exporters.MGraph__Export__Cytoscape import MGraph__Export__Cytoscape
-from mgraph_ai.mgraph.actions.exporters.MGraph__Export__Base      import MGraph__Export__Base
-from mgraph_ai.providers.simple.MGraph__Simple                    import MGraph__Simple
+from mgraph_db.mgraph.actions.exporters.MGraph__Export__Cytoscape import MGraph__Export__Cytoscape
+from mgraph_db.mgraph.actions.exporters.MGraph__Export__Base      import MGraph__Export__Base
+from mgraph_db.providers.simple.MGraph__Simple                    import MGraph__Simple
 
 class test_MGraph__Export__Viz__Cytoscape(TestCase):
 

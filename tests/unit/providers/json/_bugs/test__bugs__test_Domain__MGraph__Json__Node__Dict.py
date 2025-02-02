@@ -1,6 +1,6 @@
 from unittest                                                           import TestCase
-from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node         import Domain__MGraph__Json__Node
-from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Node__Dict   import Domain__MGraph__Json__Node__Dict
+from mgraph_db.providers.json.domain.Domain__MGraph__Json__Node         import Domain__MGraph__Json__Node
+from mgraph_db.providers.json.domain.Domain__MGraph__Json__Node__Dict   import Domain__MGraph__Json__Node__Dict
 
 class test__bugs__Domain__MGraph__Json__Node__Dict(TestCase):                     # Test that captures the property visibility bug
 

@@ -1,7 +1,7 @@
 from unittest                                                               import TestCase
 from osbot_utils.utils.Files                                                import file_exists, file_delete
-from mgraph_ai.providers.json.MGraph__Json                                  import MGraph__Json
-from mgraph_ai.providers.json.actions.exporters.MGraph__Json__Export__Base  import MGraph__Export__Json__Base, Export__Json__Node_Type, Export__Json__Format_Error
+from mgraph_db.providers.json.MGraph__Json                                  import MGraph__Json
+from mgraph_db.providers.json.actions.exporters.MGraph__Json__Export__Base  import MGraph__Export__Json__Base, Export__Json__Node_Type, Export__Json__Format_Error
 
 
 class Mock_Exporter(MGraph__Export__Json__Base):                                         # Mock exporter for testing base functionality

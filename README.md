@@ -1,8 +1,8 @@
-# MGraph-AI - A Memory-based GraphDB for GenAI, Semantic Web and Serverless
+# MGraph-DB - A Memory-based GraphDB for GenAI, Semantic Web and Serverless
 
-![Current Release](https://img.shields.io/badge/release-v0.11.0-blue)
+![Current Release](https://img.shields.io/badge/release-v0.11.5-blue)
 
-MGraph-AI is a lightweight, memory-first graph database implementation in Python, designed specifically for AI, semantic web, 
+MGraph-DB is a lightweight, memory-first graph database implementation in Python, designed specifically for AI, semantic web, 
 and serverless applications. What sets it apart is its focus on in-memory performance while maintaining persistence through 
 serialized JSON data structures. This makes it particularly well-suited for:
 
@@ -12,7 +12,7 @@ serialized JSON data structures. This makes it particularly well-suited for:
 - Applications requiring both graph capabilities and JSON compatibility
 
 The library provides a robust, type-safe implementation with a clean, layered architecture that prioritizes maintainability 
-and scalability. By keeping the graph in memory and serializing to JSON, MGraph-AI achieves excellent performance from small to read-heavy 
+and scalability. By keeping the graph in memory and serializing to JSON, MGraph-DB achieves excellent performance from small to read-heavy 
 workloads while maintaining data persistence.
 
 ## Features
@@ -31,13 +31,13 @@ workloads while maintaining data persistence.
 ## Installation
 
 ```bash
-pip install mgraph-ai
+pip install mgraph-db
 ```
 
 ## Quick Start
 
 ```python
-from mgraph_ai.mgraph import MGraph
+from mgraph_db.mgraph import MGraph
 from osbot_utils.helpers.Safe_Id import Safe_Id
 
 # Create a new graph
@@ -74,7 +74,7 @@ with mgraph.data() as data:
 
 ## Architecture
 
-MGraph-AI implements a layered architecture:
+MGraph-DB implements a layered architecture:
 
 ```
 Actions Layer (Data, Edit, Filter, Storage)
@@ -95,7 +95,7 @@ Operations are organized into focused interfaces:
 
 ### Type Safety
 
-MGraph-AI enforces type safety at all layers:
+MGraph-DB enforces type safety at all layers:
 
 ```python
 # Type-safe node creation
@@ -113,7 +113,7 @@ node.add_attribute(name=Safe_Id("count"),
 ### Custom Node Types
 
 ```python
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node import Schema__MGraph__Node
+from mgraph_db.mgraph.schemas.Schema__MGraph__Node import Schema__MGraph__Node
 
 class Custom_Node(Schema__MGraph__Node):
     def custom_method(self):
@@ -166,8 +166,8 @@ attributes = node.attributes()
 
 ```bash
 # Clone the repository
-git clone https://github.com/owasp-sbot/MGraph-AI.git
-cd MGraph-AI
+git clone https://github.com/owasp-sbot/MGraph-DB.git
+cd MGraph-DB
 
 # Install dependencies with Poetry
 poetry install

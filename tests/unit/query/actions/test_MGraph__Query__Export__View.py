@@ -1,9 +1,9 @@
 from unittest                                                            import TestCase
 from osbot_utils.utils.Dev import pprint
-from mgraph_ai.providers.json.actions.MGraph__Json__Query__Export__View  import MGraph__Json__Query__Export__View
-from mgraph_ai.query.actions.MGraph__Query__Export__View                 import MGraph__Query__Export__View
-from mgraph_ai.providers.json.MGraph__Json                               import MGraph__Json
-from mgraph_ai.providers.json.domain.Domain__MGraph__Json__Graph         import Domain__MGraph__Json__Graph
+from mgraph_db.providers.json.actions.MGraph__Json__Query__Export__View  import MGraph__Json__Query__Export__View
+from mgraph_db.query.actions.MGraph__Query__Export__View                 import MGraph__Query__Export__View
+from mgraph_db.providers.json.MGraph__Json                               import MGraph__Json
+from mgraph_db.providers.json.domain.Domain__MGraph__Json__Graph         import Domain__MGraph__Json__Graph
 from osbot_utils.utils.Json                                              import json__equals__list_and_set
 
 

@@ -1,11 +1,11 @@
 from unittest                                                import TestCase
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Types          import Schema__MGraph__Types
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph          import Schema__MGraph__Graph
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Graph__Data    import Schema__MGraph__Graph__Data
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node           import Schema__MGraph__Node
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Node__Data     import Schema__MGraph__Node__Data
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge           import Schema__MGraph__Edge
-from mgraph_ai.mgraph.schemas.Schema__MGraph__Edge__Config   import Schema__MGraph__Edge__Config
+from mgraph_db.mgraph.schemas.Schema__MGraph__Types          import Schema__MGraph__Types
+from mgraph_db.mgraph.schemas.Schema__MGraph__Graph          import Schema__MGraph__Graph
+from mgraph_db.mgraph.schemas.Schema__MGraph__Graph__Data    import Schema__MGraph__Graph__Data
+from mgraph_db.mgraph.schemas.Schema__MGraph__Node           import Schema__MGraph__Node
+from mgraph_db.mgraph.schemas.Schema__MGraph__Node__Data     import Schema__MGraph__Node__Data
+from mgraph_db.mgraph.schemas.Schema__MGraph__Edge           import Schema__MGraph__Edge
+from mgraph_db.mgraph.schemas.Schema__MGraph__Edge__Config   import Schema__MGraph__Edge__Config
 from osbot_utils.helpers.Obj_Id import Obj_Id
 
 

@@ -1,6 +1,6 @@
 import pytest
 from unittest                                                                   import TestCase
-from mgraph_ai.providers.file_system.schemas.Schema__File_System__Graph__Config import Schema__File_System__Graph__Config
+from mgraph_db.providers.file_system.schemas.Schema__File_System__Graph__Config import Schema__File_System__Graph__Config
 from osbot_utils.helpers.Obj_Id                                                 import Obj_Id
 
 

@@ -2,7 +2,7 @@
 
 ## Executive Summary
 
-In a project with 100% code coverage requirements, investing in well-designed test helper methods is crucial for long-term success and maintainability. The MGraph test helpers, particularly the newly added `MGraph__Static__Graph` feature to the MGraph-AI project, demonstrate how thoughtfully crafted test utilities can dramatically enhance test coverage, readability, and maintenance while providing a foundation for comprehensive testing across the entire system. 
+In a project with 100% code coverage requirements, investing in well-designed test helper methods is crucial for long-term success and maintainability. The MGraph test helpers, particularly the newly added `MGraph__Static__Graph` feature to the MGraph-DB project, demonstrate how thoughtfully crafted test utilities can dramatically enhance test coverage, readability, and maintenance while providing a foundation for comprehensive testing across the entire system. 
 
 This investment in test infrastructure pays significant dividends throughout the project lifecycle, as evidenced by the `test_MGraph__Export` implementation where complex graph serialization tests are expressed clearly and concisely using these helpers. Without such helpers, achieving thorough test coverage would require substantially more code, be more prone to errors, and be significantly harder to maintain.
 

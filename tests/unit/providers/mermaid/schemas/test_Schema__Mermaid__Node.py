@@ -1,7 +1,7 @@
 from unittest                                                        import TestCase
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node__Data import Schema__Mermaid__Node__Data
+from mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Node__Data import Schema__Mermaid__Node__Data
 from osbot_utils.helpers.Safe_Id                                     import Safe_Id
-from mgraph_ai.providers.mermaid.schemas.Schema__Mermaid__Node       import Schema__Mermaid__Node
+from mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Node       import Schema__Mermaid__Node
 
 class test_Schema__Mermaid__Node(TestCase):
 

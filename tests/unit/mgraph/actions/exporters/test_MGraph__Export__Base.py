@@ -1,7 +1,7 @@
 from unittest                                                import TestCase
 from osbot_utils.utils.Objects                               import __
-from mgraph_ai.mgraph.actions.exporters.MGraph__Export__Base import MGraph__Export__Base, Model__MGraph__Export__Context, Model__MGraph__Export__Context__Counters
-from mgraph_ai.providers.simple.MGraph__Simple               import MGraph__Simple
+from mgraph_db.mgraph.actions.exporters.MGraph__Export__Base import MGraph__Export__Base, Model__MGraph__Export__Context, Model__MGraph__Export__Context__Counters
+from mgraph_db.providers.simple.MGraph__Simple               import MGraph__Simple
 
 class test_MGraph__Export__Base(TestCase):
 
