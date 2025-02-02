@@ -1,12 +1,12 @@
 [tool.poetry]
-name        = "mgraph_ai"
+name        = "mgraph_db"
 version     = "v0.11.4"
-description = "MGraph-AI"
+description = "MGraph-DB"
 authors     = ["Dinis Cruz <dinis.cruz@owasp.org>"]
 license     = "Apache 2.0"
 readme      = "README.md"
-homepage    = "https://github.com/owasp-sbot/MGraph-AI"
-repository  = "https://github.com/owasp-sbot/MGraph-AI"
+homepage    = "https://github.com/owasp-sbot/MGraph-DB"
+repository  = "https://github.com/owasp-sbot/MGraph-DB"
 
 [tool.poetry.dependencies]
 python          = "^3.11"
