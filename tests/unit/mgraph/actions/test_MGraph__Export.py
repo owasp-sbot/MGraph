@@ -1,6 +1,7 @@
 from unittest                                       import TestCase
 from xml.etree.ElementTree                          import fromstring
 from mgraph_db.mgraph.MGraph                        import MGraph
+from mgraph_db.mgraph.actions.MGraph__Export        import MGraph__Export
 from mgraph_db.mgraph.utils.MGraph__Static__Graph   import MGraph__Static__Graph
 from osbot_utils.utils.Objects                      import obj, __
 
@@ -12,6 +13,17 @@ class test_MGraph__Export(TestCase):
         cls.circular_graph = MGraph__Static__Graph.create_circular()                           # Circular graph with 3 nodes
         cls.star_graph     = MGraph__Static__Graph.create_star()                               # Star graph with 3 spokes
         cls.complete_graph = MGraph__Static__Graph.create_complete()                           # Complete graph with 3 nodes
+
+    def test__init__(self):
+        mgraph = MGraph()
+        with mgraph.export() as _:
+            assert type(_) is MGraph__Export
+            assert _.obj() == __( graph       = mgraph.graph.obj()         ,
+                                  dot_config  = __(show_value = False     ,
+                                                   show_edge_ids = True   ,
+                                                   font_name     = 'Arial',
+                                                   font_size     = 10     ,
+                                                   rank_sep      = 0.8    ))
 
     def test_to__mgraph_json(self):                                                           # Test full graph export
         empty_graph = MGraph()

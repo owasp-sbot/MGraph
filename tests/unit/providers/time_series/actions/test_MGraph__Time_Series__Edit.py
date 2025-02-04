@@ -1,10 +1,18 @@
 import pytest
-from unittest                                                     import TestCase
-from mgraph_db.providers.time_series.MGraph__Time_Series          import MGraph__Time_Series
-from osbot_utils.utils.Env                                        import load_dotenv
-from osbot_utils.utils.Files                                      import file_exists, file_delete
-from osbot_utils.utils.Objects                                    import __
-from osbot_utils.helpers.Obj_Id                                   import is_obj_id
+from unittest                                                                       import TestCase
+from mgraph_db.mgraph.domain.Domain__MGraph__Node                                   import Domain__MGraph__Node
+from mgraph_db.mgraph.models.Model__MGraph__Graph                                   import Model__MGraph__Graph
+from mgraph_db.mgraph.models.Model__MGraph__Node                                    import Model__MGraph__Node
+from mgraph_db.mgraph.schemas.Schema__MGraph__Graph                                 import Schema__MGraph__Graph
+from mgraph_db.providers.time_series.MGraph__Time_Series                            import MGraph__Time_Series
+from mgraph_db.providers.time_series.actions.MGraph__Time_Series__Edit              import MGraph__Time_Series__Edit
+from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Value__Int       import Schema__MGraph__Node__Value__Int
+from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Value__Int__Data import Schema__MGraph__Node__Value__Int__Data
+from osbot_utils.utils.Dev import pprint
+from osbot_utils.utils.Env                                                          import load_dotenv
+from osbot_utils.utils.Files                                                        import file_exists, file_delete
+from osbot_utils.utils.Objects                                                      import __, type_full_name
+from osbot_utils.helpers.Obj_Id                                                     import is_obj_id, Obj_Id
 
 
 class test_MGraph__Time_Series__Edit(TestCase):
@@ -13,8 +21,9 @@ class test_MGraph__Time_Series__Edit(TestCase):
     def setUpClass(cls):
         pytest.skip("Tests need fixing after Time_Series class is fixed")
         load_dotenv()
-        cls.screenshot_file = './time-series.png'
-        cls.delete_on_exit  = True
+        cls.screenshot_create = True
+        cls.screenshot_file   = './time-series.png'
+        cls.screenshot_delete = False
 
     def setUp(self):
         self.graph       = MGraph__Time_Series()                                                          # Create fresh graph
@@ -22,18 +31,103 @@ class test_MGraph__Time_Series__Edit(TestCase):
 
 
     def tearDown(self):
-        with self.graph.screenshot(target_file=self.screenshot_file) as _:
-            _.dot_config().show_value    = True
-            _.dot_config().show_edge_ids = False
-            _.dot()
-            assert file_exists(self.screenshot_file)
-            if self.delete_on_exit:
-                assert file_delete(self.screenshot_file) is True
+        # with self.graph.data() as _:
+        #     _.print()
+        if self.screenshot_create:
+            with self.graph.screenshot(target_file=self.screenshot_file) as _:
+                #_.dot__just_types()
+                #_.dot__just_values()
+                _.dot__just_ids()
+                assert file_exists(self.screenshot_file) is True
+                if self.screenshot_delete:
+                    assert file_delete(self.screenshot_file) is True
+
+    def test__setUp(self):
+        with self.graph_edit as _:
+            assert type(_) is MGraph__Time_Series__Edit
+
+    def test_find_int_value(self):
+        with self.graph_edit as _:
+            assert _.find_int_value(42) is None                                                                         # Test when no values exist, should return None for non-existent value
+
+            test_value = 42                                                                                             # Create a value node
+            value_node = _.new_node(node_type = Schema__MGraph__Node__Value__Int,                                       # Create value node
+                                    value     = test_value                      )                                       # with test_value set
+            value_node_id = value_node.node_id
+            assert type(value_node          ) is Domain__MGraph__Node
+            assert type(value_node.node     ) is Model__MGraph__Node
+            assert type(value_node.node.data) is Schema__MGraph__Node__Value__Int                                       # confirm the node is *_Value__Int
+            assert type(value_node.node_data) is Schema__MGraph__Node__Value__Int__Data                                 # confirm the node's data is *_Value__Int__Data
+            assert value_node.node.obj()      == __(data      =  __(node_data=__(value=42)  ,                           # confirm value has been correctly set
+                                                    node_id   = value_node_id               ,
+                                                    node_type = type_full_name(Schema__MGraph__Node__Value__Int)))      # and it is of the correct type
+
+            assert _.index().index_data.nodes_by_field == {}                                                            # at this stage the index will be empty (note that .index() is uses @cache_on_self to prevent the index from being created everytime we call this method)
+            _.index().add_node(value_node.node.data)                                                                    # the new node needs to be added to the index
+            assert _.index().index_data.nodes_by_field == {'value': {42: { value_node_id }}}                            # confirm that the new node is now on the index
+
+            found_id = _.find_int_value(test_value)                                                                     # now we can check if finding existing value
+            assert found_id == value_node.node_id                                                                       # returns the correct value (which it does)
+
+            other_values = [10, 20, 30]                                                                                 # Create multiple values and test finding specific one
+            for value in other_values:
+                new_node = _.new_node(node_type = Schema__MGraph__Node__Value__Int,
+                                      value     = value)                                                                # Create additional nodes
+                _.index().add_node(new_node.node.data)                                                                  # and add them to the index
+
+            found_id = _.find_int_value(test_value)                                                                     # Should still find original value
+            assert found_id == value_node.node_id
+
+            found_id = _.find_int_value(20)                                                                             # Test finding one of the other values
+            assert type(found_id) is Obj_Id
+            assert _.find_int_value(20) is not None                                                                     # Should find the value
+            assert _.find_int_value(21) is     None                                                                     # and not find this one
+            node_with_20 = _.data().node(found_id)                                                                      # get the node from the current graph
+            assert type(node_with_20          ) is Domain__MGraph__Node                                                 # check its types and values
+            assert type(node_with_20.node     ) is Model__MGraph__Node
+            assert type(node_with_20.node.data) is Schema__MGraph__Node__Value__Int
+            assert type(node_with_20.node_data) is Schema__MGraph__Node__Value__Int__Data                               # Should be correct type
+            assert node_with_20.node_data.value == 20                                                                   # Should have correct value
+
+            assert _.find_int_value(999) is None                                                                        # Test non-existent value again
+            assert _.data().node(_.find_int_value(10)).node_data.value == 10                                            # check all 3 values previous created
+            assert _.data().node(_.find_int_value(20)).node_data.value == 20
+            assert _.data().node(_.find_int_value(30)).node_data.value == 30
+
+    def test__get_or_create_int_value(self):
+        with self.graph_edit as _:
+            value = 42
+            assert _.find_int_value(value) is None                                              # confirm that we can't find {value} (before {value} is added)
+            node_id = _.get_or_create_int_value(value)                                          # this will create the node (because it doesn't exist)
+            node    = _.data().node(node_id)                                                    # get the node from the data object
+            assert node.node_id                       == node_id                                # confirm is the one we added before
+            assert type(node_id                     ) is Obj_Id                                 # and that it contain the expected objects
+            assert type(node                        ) is Domain__MGraph__Node
+            assert type(node.graph                  ) is Model__MGraph__Graph
+            assert type(node.graph.data             ) is Schema__MGraph__Graph
+            assert type(node.node                   ) is Model__MGraph__Node
+            assert type(node.node.data              ) is Schema__MGraph__Node__Value__Int
+            assert type(node.node.data.node_data    ) is Schema__MGraph__Node__Value__Int__Data
+
+            assert len(_.data().nodes_ids())          == 1                                      # confirm that we only have one node
+            assert _.find_int_value(value)            == node_id                                # confirm that calling find_int_value returns the same node_id
+            assert _.get_or_create_int_value(value)   == node_id                                # and that get_or_create_int_value is still working as before
+            assert len(_.data().nodes_ids())          == 1                                      # confirm the node's size hasn't changed
+
+
+
+
+
+
+
+
+
 
 
     def test_create_time_point(self):                                                                    # Test creating time point
         time_point = self.graph_edit.create_time_point(year=2024, month=2, day=14, hour=15, minute=30)
-        #pprint(time_point.json())
+
+        pprint(time_point.json())
         return
         assert type(time_point.node.data)  is Schema__MGraph__Node__Time_Point                           # Check time point creation
         assert is_obj_id(time_point.node_id)
