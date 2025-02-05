@@ -35,11 +35,12 @@ class test_MGraph__Simple__Test_Data(TestCase):
             nodes_ids = _.nodes_ids()
             edges_ids = _.edges_ids()
         with self.test_data.export() as _:
+            _.export_dot().show_node__value().show_edge__ids()
 
             expected_dot = f"""digraph {{
-  "{nodes_ids[0]}" [value="A", name="Node 1"]
-  "{nodes_ids[1]}" [value="B", name="Node 2"]
-  "{nodes_ids[2]}" [value="C", name="Node 3"]
+  "{nodes_ids[0]}" [label="A"]
+  "{nodes_ids[1]}" [label="B"]
+  "{nodes_ids[2]}" [label="C"]
   "{nodes_ids[0]}" -> "{nodes_ids[1]}" [label="  {edges_ids[0]}"]
   "{nodes_ids[0]}" -> "{nodes_ids[2]}" [label="  {edges_ids[1]}"]
 }}"""

@@ -3,6 +3,7 @@ from xml.dom                                                import minidom
 from xml.etree                                              import ElementTree
 from xml.etree.ElementTree                                  import Element, SubElement
 from mgraph_db.mgraph.actions.exporters.MGraph__Export__Dot import MGraph__Export__Dot, MGraph__Export__Dot__Config
+from osbot_utils.decorators.methods.cache_on_self           import cache_on_self
 from osbot_utils.utils.Files                                import temp_file, file_create
 from mgraph_db.mgraph.actions.MGraph__Data                  import MGraph__Data
 from mgraph_db.mgraph.domain.Domain__MGraph__Graph          import Domain__MGraph__Graph
@@ -15,6 +16,7 @@ class MGraph__Export(Type_Safe):
     def data(self):                                                                             # Access to graph data
         return MGraph__Data(graph=self.graph)
 
+    @cache_on_self
     def export_dot(self):
         return MGraph__Export__Dot(graph=self.graph)
 

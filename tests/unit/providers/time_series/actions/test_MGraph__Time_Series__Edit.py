@@ -40,14 +40,45 @@ class test_MGraph__Time_Series__Edit(TestCase):
             with self.graph.screenshot(target_file=self.screenshot_file) as _:
                 assert type(_)                       is MGraph__Time_Series__Screenshot
                 assert type(_.export().export_dot()) is MGraph__Export__Dot
-                assert _.export_class is MGraph__Export
+                assert _.export_class               is MGraph__Export
+
+                (_.export().export_dot()#.show_node__type        ()
+                                        .show_node__value        ()
+                                        #.hide_edge__ids          ()
+                                        #.set_node__shape__box    ()
+                                        #.set_node__shape__underline()
+                                        .set_node__style__filled ()
+                                        #.set_node__style__rounded()
+                                        .set_node__color         ('#0000ff80').set_node__font__size(10)
+                                        #.set_font__color         ('white'   ).set_node__font__bold()
+                                        .set_node__type_color    ('Schema__MGraph__Node__Time_Point', 'azure')
+                                        .set_node__type_shape    ('Schema__MGraph__Node__Time_Point', 'box'    )
+                                        .set_node__type_style    ('Schema__MGraph__Node__Time_Point', 'filled,rounded' )
+                )
+
 
                 #_.dot__just_types()
                 #_.dot__just_values()
-                _.dot__just_ids()
+
+                print()
+                print(_.export().to__dot())
+                _.dot()
                 assert file_exists(self.screenshot_file) is True
                 if self.screenshot_delete:
                     assert file_delete(self.screenshot_file) is True
+
+    def test_create_time_point(self):                                                                    # Test creating time point
+        time_point = self.graph_edit.create_time_point(year=2024, month=2, day=14, hour=15, minute=30)
+
+        #pprint(time_point.json())
+        return
+        assert type(time_point.node.data)  is Schema__MGraph__Node__Time_Point                           # Check time point creation
+        assert is_obj_id(time_point.node_id)
+
+        with self.graph.data() as data:                                                                 # Check components
+            components = data.get_time_components(time_point.node_id)
+            assert components == {'year': 2024, 'month': 2, 'day': 14, 'hour': 15, 'minute': 30}
+
 
     def test__setUp(self):
         with self.graph_edit as _:
@@ -131,17 +162,6 @@ class test_MGraph__Time_Series__Edit(TestCase):
 
 
 
-    def test_create_time_point(self):                                                                    # Test creating time point
-        time_point = self.graph_edit.create_time_point(year=2024, month=2, day=14, hour=15, minute=30)
-
-        #pprint(time_point.json())
-        return
-        assert type(time_point.node.data)  is Schema__MGraph__Node__Time_Point                           # Check time point creation
-        assert is_obj_id(time_point.node_id)
-
-        with self.graph.data() as data:                                                                 # Check components
-            components = data.get_time_components(time_point.node_id)
-            assert components == {'year': 2024, 'month': 2, 'day': 14, 'hour': 15, 'minute': 30}
 
     def test_create_partial_time_point(self):                                                           # Test partial time point
         time_point = self.graph_edit.create_time_point(year=2024, month=2)

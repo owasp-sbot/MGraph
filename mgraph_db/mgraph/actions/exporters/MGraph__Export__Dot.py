@@ -7,11 +7,20 @@ from osbot_utils.type_safe.Type_Safe                            import Type_Safe
 SCHEMA_NAME__PREFIX__TO_REMOVE = 'Schema__MGraph__'
 
 class MGraph__Export__Dot__Config(Type_Safe):
-    show_value    : bool  = False                                                  # Whether to show value labels
-    show_edge_ids : bool  = True                                                   # Whether to show edge IDs
-    font_name     : str   = "Arial"                                                # Font to use for nodes and edges
-    font_size     : int   = 10                                                     # Font size for edge labels
-    rank_sep      : float = 0.8                                                    # Vertical separation between ranks
+
+    font_name         : str   = ''                                                 # Font to use for nodes and edges
+    font_color        : str   = ''
+    font_size         : int   = None                                                      # Font size for edge labels
+    node_color        : str   = ''
+    node_shape        : str   = ''                                                          # Use to configure node shape
+    node_style        : str   = ''
+    rank_sep          : float = 0.8                         # todo: see if we actually use this                                        # Vertical separation between ranks
+    show_edge_ids     : bool  = False                                                    # Whether to show edge IDs
+    show_value        : bool  = False
+    show_type         : bool  = False
+    type_colors       : Dict[str, str]
+    type_shape        : Dict[str, str]
+    type_style        : Dict[str, str]
 
 class MGraph__Export__Dot(MGraph__Export__Base):
     config     : MGraph__Export__Dot__Config
@@ -24,23 +33,44 @@ class MGraph__Export__Dot(MGraph__Export__Base):
 
     def create_node_attrs(self, node, include_type_label: bool = False) -> List[str]:                                   # Create list of node attributes for DOT format
         attrs = []
+        label = "" #node.node_id
+        if self.config.font_color : attrs.append(f'fontcolor="{self.config.font_color}"' )
+        if self.config.font_size  : attrs.append(f'fontsize="{self.config.font_size}"' )
+        if self.config.font_name  : attrs.append(f'fontname={self.config.font_name  }' )
 
-        if include_type_label:
-            node_type = self.fix_schema_name(node.node.data.node_type.__name__)
-            attrs.extend(['shape=box'              ,
-                          'style="rounded,filled"' ,
-                          'fillcolor=lightblue'    ,
-                          f'label="{node_type}"'   ])
+        node_type = node.node.data.node_type.__name__
 
-        if node.node_data:
-            for field_name, field_value in node.node_data.__dict__.items():
-                attrs.append(f'{field_name}="{field_value}"')
-                if self.config.show_value and (field_name in ['value', 'name']):
-                    attrs.append(f'label="{field_value}"')
-        elif self.config.show_value and not include_type_label:
-            label = type(node.node.data).__name__.split('__').pop().lower()
+        if node_type in self.config.type_colors: attrs.append(f'fillcolor="{self.config.type_colors[node_type]}"')
+        elif self.config.node_color            : attrs.append(f'fillcolor="{self.config.node_color}"'            )
+
+        if node_type in self.config.type_shape : attrs.append(f'shape={self.config.type_shape[node_type]}' )
+        elif self.config.node_shape            : attrs.append(f'shape={self.config.node_shape}'            )
+
+        if node_type in self.config.type_style : attrs.append(f'style="{self.config.type_style[node_type]}"' )
+        elif self.config.node_style            : attrs.append(f'style="{self.config.node_style}"'            )
+
+        if self.config.show_value:
+            if hasattr(node.node_data, 'value'):
+                label = node.node_data.value
+        elif self.config.show_type:
+            label = self.fix_schema_name(node.node.data.node_type.__name__)
+
+        # if include_type_label:
+        #     node_type = self.fix_schema_name(node.node.data.node_type.__name__)
+        #     attrs.extend([f'style="rounded,filled"' ,
+        #                   f'fillcolor=lightblue'    ,
+        #                   f'label="{node_type}"'   ])
+
+        # if node.node_data:
+        #     for field_name, field_value in node.node_data.__dict__.items():
+        #         #attrs.append(f'{field_name}="{field_value}"')
+        #         if self.config.show_value and (field_name in ['value', 'name']):
+        #             attrs.append(f'label="{field_value}"')
+        # elif self.config.show_value and not include_type_label:
+        #     label = type(node.node.data).__name__.split('__').pop().lower()
+        #     attrs.append(f'label="{label}"')
+        if label:
             attrs.append(f'label="{label}"')
-
         return attrs
 
     def create_node_data(self, node) -> Dict[str, Any]:                             # Override to create DOT-specific node data
@@ -91,7 +121,8 @@ class MGraph__Export__Dot(MGraph__Export__Base):
 
     def to_types_view(self) -> str:                                                 # Export showing node structure
         lines = self.get_styled_header()
-        self.config.show_edge_ids = False           # need to make sure this is False or we will also get an ID for the edge_id value
+        self.config.show_edge_ids = False                                           # need to make sure this is False or we will also get an ID for the edge_id value
+        self.config.node_shape    = 'box'
 
         with self.graph as _:                                                       # Output nodes with their types
             for node in _.nodes():
@@ -131,8 +162,10 @@ class MGraph__Export__Dot(MGraph__Export__Base):
         return unique_nodes, unique_edges
 
     def to_schema_view(self) -> str:                                                # Export showing type relationships
-        lines = self.get_styled_header()
+        lines                      = self.get_styled_header()
         unique_nodes, unique_edges = self.collect_unique_elements()
+
+        self.config.node_shape = 'box'
 
         for node_type, node in unique_nodes.items():                                # Add unique nodes
             node_attrs = self.create_node_attrs(node, include_type_label=True)
@@ -159,3 +192,32 @@ class MGraph__Export__Dot(MGraph__Export__Base):
 
     def fix_schema_name(self, value: str) -> str:                                           # Clean up schema names for display
         return value.replace(SCHEMA_NAME__PREFIX__TO_REMOVE, '').replace('_', ' ')
+
+
+
+    def set_font__color           (self, color    : str): self.config.font_color     = color       ; return self
+    def set_node__color           (self, color    : str): self.config.node_color     = color       ; return self
+    def set_node__font            (self, name     : str): self.config.font_name      = name        ; return self
+    def set_node__font__size      (self, size     : int): self.config.font_size      = size        ; return self
+    def set_node__font__arial     (self,               ): self.config.font_name      = 'Arial'     ; return self
+    def set_node__font__bold      (self,               ): self.config.font_name      = 'bold'      ; return self
+    def set_node__shape           (self, shape    : str): self.config.node_shape     = shape       ; return self
+    def set_node__shape__box      (self,               ): self.config.node_shape     = 'box'       ; return self
+    def set_node__shape__circle   (self,               ): self.config.node_shape     = 'circle'    ; return self
+    def set_node__shape__plaintext(self,               ): self.config.node_shape     = 'plaintext' ; return self
+    def set_node__shape__point    (self,               ): self.config.node_shape     = 'point'     ; return self
+    def set_node__shape__note     (self,               ): self.config.node_shape     = 'note'     ; return self
+    def set_node__shape__square   (self,               ): self.config.node_shape     = 'square'     ; return self
+    def set_node__shape__underline(self,               ): self.config.node_shape     = 'underline' ; return self
+    def set_node__style__filled   (self                ): self.config.node_style    += 'filled,'   ; return self
+    def set_node__style__rounded  (self                ): self.config.node_style    += 'rounded,'  ; return self
+    def set_node__type_color      (self, node_type: str,
+                                         color    : str): self.config.type_colors[node_type]= color; return self
+    def set_node__type_shape      (self, node_type: str,
+                                         shape    : str): self.config.type_shape [node_type]= shape; return self
+    def set_node__type_style      (self, node_type: str,
+                                         style    : str): self.config.type_style [node_type]= style; return self
+    def show_edge__ids            (self                ): self.config.show_edge_ids  = True       ; return self
+    def show_node__value          (self                ): self.config.show_value     = True         ; return self
+    def show_node__type           (self                ): self.config.show_type      = True         ; return self
+

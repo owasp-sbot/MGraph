@@ -192,6 +192,7 @@ class test_MGraph__Export(TestCase):
 
     def test_to__dot(self):                                                                  # Test DOT graph export
         with self.linear_graph.graph.export() as _:
+            _.export_dot().show_edge__ids()
             dot = _.to__dot()
             assert dot.startswith('digraph {')
             assert dot.endswith('}')
