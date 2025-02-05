@@ -18,12 +18,7 @@ class test_MGraph__Export(TestCase):
         mgraph = MGraph()
         with mgraph.export() as _:
             assert type(_) is MGraph__Export
-            assert _.obj() == __( graph       = mgraph.graph.obj()         ,
-                                  dot_config  = __(show_value = False     ,
-                                                   show_edge_ids = True   ,
-                                                   font_name     = 'Arial',
-                                                   font_size     = 10     ,
-                                                   rank_sep      = 0.8    ))
+            assert _.obj() == __( graph       = mgraph.graph.obj())
 
     def test_to__mgraph_json(self):                                                           # Test full graph export
         empty_graph = MGraph()

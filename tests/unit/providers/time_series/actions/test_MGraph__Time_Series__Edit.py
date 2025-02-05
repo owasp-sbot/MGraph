@@ -1,14 +1,17 @@
 import pytest
 from unittest                                                                       import TestCase
+from mgraph_db.mgraph.actions.MGraph__Export                                        import MGraph__Export
+from mgraph_db.mgraph.actions.exporters.MGraph__Export__Dot                         import MGraph__Export__Dot
 from mgraph_db.mgraph.domain.Domain__MGraph__Node                                   import Domain__MGraph__Node
 from mgraph_db.mgraph.models.Model__MGraph__Graph                                   import Model__MGraph__Graph
 from mgraph_db.mgraph.models.Model__MGraph__Node                                    import Model__MGraph__Node
 from mgraph_db.mgraph.schemas.Schema__MGraph__Graph                                 import Schema__MGraph__Graph
 from mgraph_db.providers.time_series.MGraph__Time_Series                            import MGraph__Time_Series
 from mgraph_db.providers.time_series.actions.MGraph__Time_Series__Edit              import MGraph__Time_Series__Edit
+from mgraph_db.providers.time_series.actions.MGraph__Time_Series__Screenshot        import MGraph__Time_Series__Screenshot
 from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Value__Int       import Schema__MGraph__Node__Value__Int
 from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Value__Int__Data import Schema__MGraph__Node__Value__Int__Data
-from osbot_utils.utils.Dev import pprint
+from osbot_utils.utils.Dev                                                          import pprint
 from osbot_utils.utils.Env                                                          import load_dotenv
 from osbot_utils.utils.Files                                                        import file_exists, file_delete
 from osbot_utils.utils.Objects                                                      import __, type_full_name
@@ -35,6 +38,10 @@ class test_MGraph__Time_Series__Edit(TestCase):
         #     _.print()
         if self.screenshot_create:
             with self.graph.screenshot(target_file=self.screenshot_file) as _:
+                assert type(_)                       is MGraph__Time_Series__Screenshot
+                assert type(_.export().export_dot()) is MGraph__Export__Dot
+                assert _.export_class is MGraph__Export
+
                 #_.dot__just_types()
                 #_.dot__just_values()
                 _.dot__just_ids()
@@ -127,7 +134,7 @@ class test_MGraph__Time_Series__Edit(TestCase):
     def test_create_time_point(self):                                                                    # Test creating time point
         time_point = self.graph_edit.create_time_point(year=2024, month=2, day=14, hour=15, minute=30)
 
-        pprint(time_point.json())
+        #pprint(time_point.json())
         return
         assert type(time_point.node.data)  is Schema__MGraph__Node__Time_Point                           # Check time point creation
         assert is_obj_id(time_point.node_id)

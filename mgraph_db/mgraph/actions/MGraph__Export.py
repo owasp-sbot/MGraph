@@ -11,13 +11,12 @@ from osbot_utils.type_safe.Type_Safe                        import Type_Safe
 
 class MGraph__Export(Type_Safe):
     graph      : Domain__MGraph__Graph
-    dot_config : MGraph__Export__Dot__Config
 
     def data(self):                                                                             # Access to graph data
         return MGraph__Data(graph=self.graph)
 
     def export_dot(self):
-        return MGraph__Export__Dot(graph=self.graph, config=self.dot_config)
+        return MGraph__Export__Dot(graph=self.graph)
 
     def to__mgraph_json(self):                                                                  # Export full graph data
         return self.graph.model.data.json()

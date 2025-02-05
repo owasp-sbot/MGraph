@@ -176,9 +176,9 @@ class test_MGraph__Export__Dot(TestCase):
 
     def test__mgraph_export(self):
         with self.simple_graph.export() as _:
-            assert _.to__dot_types () == self.exporter.to_types_view ()
             assert _.to__dot_schema() == self.exporter.to_schema_view()
-            assert _.to__dot       () == self.exporter.process_graph()
+            assert _.to__dot       () == self.exporter.process_graph ()
+            assert _.to__dot_types () == self.exporter.to_types_view () # this has to go last, because this test does: self.config.show_edge_ids = False
 
     def test_node_attribute_formatting(self):                                                       # Test the new node attribute formatting methods
         node_id = self.nodes_ids[0]

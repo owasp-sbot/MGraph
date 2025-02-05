@@ -28,9 +28,6 @@ class MGraph__Screenshot(Type_Safe):
         png_bytes = self.dot_to_png(dot_code)
         return png_bytes
 
-    def dot_config(self):
-        return self.export().dot_config
-
     def dot__just_ids(self):
         dot_code  = self.export().to__dot()
         png_bytes = self.dot_to_png(dot_code)
