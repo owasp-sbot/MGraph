@@ -1,20 +1,20 @@
 from typing                                                                     import Optional
 from mgraph_db.mgraph.actions.MGraph__Edit                                      import MGraph__Edit
-from mgraph_db.mgraph.actions.MGraph__Index import MGraph__Index
+from mgraph_db.mgraph.actions.MGraph__Index                                     import MGraph__Index
 from mgraph_db.mgraph.domain.Domain__MGraph__Node                               import Domain__MGraph__Node
 from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Time_Point   import Schema__MGraph__Node__Time_Point
 from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Value__Int   import Schema__MGraph__Node__Value__Int
 from mgraph_db.providers.time_series.schemas.Schema__MGraph__TimeSeries__Edges  import Schema__MGraph__Time_Series__Edge__Year, Schema__MGraph__Time_Series__Edge__Month, Schema__MGraph__Time_Series__Edge__Day, Schema__MGraph__Time_Series__Edge__Hour, Schema__MGraph__Time_Series__Edge__Minute
-from osbot_utils.decorators.methods.cache_on_self import cache_on_self
+from osbot_utils.decorators.methods.cache_on_self                               import cache_on_self
 from osbot_utils.helpers.Obj_Id                                                 import Obj_Id
 
 
 class MGraph__Time_Series__Edit(MGraph__Edit):
 
-    def create_time_point(self, year   : int            ,                                   # Create a complete time point
-                                month  : Optional[int]  ,
-                                day    : Optional[int]  ,
-                                hour   : Optional[int]  ,
+    def create_time_point(self, year   : Optional[int]  = None,                                   # Create a complete time point
+                                month  : Optional[int]  = None,
+                                day    : Optional[int]  = None,
+                                hour   : Optional[int]  = None,
                                 minute : Optional[int]  = None
                          )   -> Domain__MGraph__Node:
         time_point = self.new_node(node_type = Schema__MGraph__Node__Time_Point)            # Create a new time point with specified components
