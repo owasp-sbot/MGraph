@@ -1,7 +1,6 @@
-from enum import Enum
+from enum                                                                       import Enum
 from typing                                                                     import Dict, Optional
-
-from mgraph_db.mgraph.actions.exporters.dot.MGraph__Export__Dot import MGraph__Export__Dot
+from mgraph_db.mgraph.actions.exporters.dot.MGraph__Export__Dot                 import MGraph__Export__Dot
 from mgraph_db.providers.time_series.schemas.Schema__MGraph__TimeSeries__Edges  import Schema__MGraph__Time_Series__Edge__Year, Schema__MGraph__Time_Series__Edge__Month, Schema__MGraph__Time_Series__Edge__Day, Schema__MGraph__Time_Series__Edge__Hour, Schema__MGraph__Time_Series__Edge__Minute, Schema__MGraph__Time_Series__Edge__Second
 from osbot_utils.type_safe.Type_Safe                                            import Type_Safe
 

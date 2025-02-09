@@ -21,6 +21,7 @@ from mgraph_db.providers.time_series.schemas.Schema__MGraph__TimeSeries__Edges  
     Schema__MGraph__Time_Series__Edge__Hour  ,
     Schema__MGraph__Time_Series__Edge__Minute,
     Schema__MGraph__Time_Series__Edge__Second)
+from osbot_utils.utils.Dev import pprint
 
 from osbot_utils.utils.Env                                                                 import load_dotenv
 from osbot_utils.utils.Files                                                               import file_exists, file_delete
@@ -38,8 +39,13 @@ class test_MGraph__Time_Series__Edit(TestCase):
         cls.screenshot_delete = False
 
     def setUp(self):
-        self.graph       = MGraph__Time_Series()                                                    # Create fresh graph
+        self.screenshot_create = False
+        self.graph      = MGraph__Time_Series()                                                    # Create fresh graph
         self.graph_edit = self.graph.edit()                                                        # Get edit interface
+
+    def test_1(self):
+        #self.screenshot_create = True
+        self.test_create_time_point__from_datetime()
 
     def tearDown(self):
         if self.screenshot_create:
@@ -52,6 +58,7 @@ class test_MGraph__Time_Series__Edit(TestCase):
                 scheme_name = MGraph__Export__Dot__Time_Series__Colors__Scheme.FOREST
                 MGraph__Export__Dot__Time_Series__Colors(dot_export=dot_export).apply_color_scheme(scheme_name=scheme_name)
                 (dot_export
+                    .set_edge_to_node__type_fill_color(Schema__MGraph__Time_Series__Edge__Second, 'azure')      # make it easy to find
                     # Basic node and edge display configuration
                     .show_node__value()
                     #.show_node__type_full_name()
@@ -61,11 +68,12 @@ class test_MGraph__Time_Series__Edit(TestCase):
                     .set_graph__rank_dir__tb()  # Top to bottom layout
                     #.set_graph__rank_sep(0.75)  # Increased vertical spacing
                     #.set_graph__node_sep(0.5)  # Increased horizontal spacing
-                    #.set_graph__splines__polyline()
+                    .set_graph__splines__polyline()
                     #.set_graph__layout_engine__circo()
                     #.set_graph__layout_engine__osage()
-                    .set_graph__layout_engine__sfdp()
-                    #.set_graph__layout_engine__dot()
+                    .set_graph__layout_engine__dot()
+                    #.set_graph__layout_engine__fdp()
+
                     #.set_graph__epsilon(0.5)
 
                     #.show_edge__ids()
@@ -103,7 +111,7 @@ class test_MGraph__Time_Series__Edit(TestCase):
                     .set_edge__type_style(Schema__MGraph__Time_Series__Edge__Year, 'solid')  # Ensure all edges are solid
                 )
 
-                _.dot(print_dot_code=True)
+                _.dot(print_dot_code=False)
 
                 assert file_exists(self.screenshot_file) is True
                 if self.screenshot_delete:
@@ -130,7 +138,10 @@ class test_MGraph__Time_Series__Edit(TestCase):
                                 'minute': test_datetime.minute ,
                                 'second': test_datetime.second }
         time_point   = self.graph_edit.create_time_point__from_datetime(test_datetime)          # Create time point from datetime
-        time_point_2 = self.graph_edit.create_time_point__from_datetime(test_datetime)
+
+        for i in range(0,2):
+            self.graph_edit.create_time_point__from_datetime(test_datetime)
+
         assert type(time_point.node.data) is Schema__MGraph__Node__Time_Point               # Verify node type
         assert is_obj_id(time_point.node_id)
 
@@ -144,7 +155,7 @@ class test_MGraph__Time_Series__Edit(TestCase):
 
     def test_find_int_value(self):
         with self.graph_edit as _:
-            assert _.find_int_value(42) is None
+            assert _.node_find().with_value(42) is None
 
             test_value = 42
             value_node = _.new_node(node_type = Schema__MGraph__Node__Value__Int,
@@ -161,7 +172,7 @@ class test_MGraph__Time_Series__Edit(TestCase):
             _.index().add_node(value_node.node.data)
             assert _.index().index_data.nodes_by_field == {'value': {42: {value_node_id}}}
 
-            found_id = _.find_int_value(test_value)
+            found_id = _.node_find().with_value(test_value)
             assert found_id == value_node.node_id
 
     def test_create_partial_time_point(self):
@@ -242,21 +253,21 @@ class test_MGraph__Time_Series__Edit(TestCase):
 
     def test_get_or_create_utc_offset(self):
         with self.graph_edit as _:
-            offset_node_1 = _.get_or_create__utc_offset(-300)                                       # Test first creation (-5 hours)
+            offset_node_1 = _.node_create().get_or_create__utc_offset(-300)                                       # Test first creation (-5 hours)
             assert isinstance(offset_node_1.node.data, Schema__MGraph__Node__Value__UTC_Offset)
             assert offset_node_1.node_data.value == -300
 
-            offset_node_2 = _.get_or_create__utc_offset(-300)                                       # Test reuse of same offset
+            offset_node_2 = _.node_create().get_or_create__utc_offset(-300)                                       # Test reuse of same offset
             assert offset_node_2.node_id == offset_node_1.node_id                                   # Should get same node
 
-            offset_node_3 = _.get_or_create__utc_offset(60)                                         # Test different offset (+1 hour)
+            offset_node_3 = _.node_create().get_or_create__utc_offset(60)                                         # Test different offset (+1 hour)
             assert offset_node_3.node_id != offset_node_1.node_id                                   # Should be different node
             assert offset_node_3.node_data.value == 60
 
-            offset_nodes = _.index().get_nodes_by_type(Schema__MGraph__Node__Value__UTC_Offset)     # Verify using index
+            offset_nodes = _.node_create().mgraph_index.get_nodes_by_type(Schema__MGraph__Node__Value__UTC_Offset)     # Verify using index
             assert len(offset_nodes) == 2                                                           # Should have two distinct offset nodes
 
-            matching_nodes = _.index().get_nodes_by_field('value', -300)
+            matching_nodes = _.node_create().mgraph_index.get_nodes_by_field('value', -300)
             assert offset_node_1.node_id in matching_nodes                                          # Should find original node
 
 
