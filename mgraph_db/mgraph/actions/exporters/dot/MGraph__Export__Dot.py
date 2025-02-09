@@ -3,6 +3,7 @@ from mgraph_db.mgraph.actions.exporters.MGraph__Export__Base                    
 from mgraph_db.mgraph.actions.exporters.dot.config.MGraph__Export__Dot__Config              import MGraph__Export__Dot__Config
 from mgraph_db.mgraph.actions.exporters.dot.config.MGraph__Export__Dot__Config__Font        import MGraph__Export__Dot__Config__Font
 from mgraph_db.mgraph.actions.exporters.dot.config.MGraph__Export__Dot__Config__Shape       import MGraph__Export__Dot__Config__Shape
+from mgraph_db.mgraph.actions.exporters.dot.config.MGraph__Export__Dot__Config__Type__Node  import MGraph__Export__Dot__Config__Type__Node
 from mgraph_db.mgraph.actions.exporters.dot.render.MGraph__Export__Dot__Edge__Renderer      import MGraph__Export__Dot__Edge__Renderer
 from mgraph_db.mgraph.actions.exporters.dot.render.MGraph__Export__Dot__Format__Generator   import MGraph__Export__Dot__Format__Generator
 from mgraph_db.mgraph.actions.exporters.dot.render.MGraph__Export__Dot__Node__Renderer      import MGraph__Export__Dot__Node__Renderer
@@ -18,6 +19,7 @@ class MGraph__Export__Dot(MGraph__Export__Base):
     edge_renderer   : MGraph__Export__Dot__Edge__Renderer       = None
     style_manager   : MGraph__Export__Dot__Style__Manager       = None
     format_generator: MGraph__Export__Dot__Format__Generator    = None
+    dot_code        : str                                        = None
 
 
     def __init__(self, graph, config: Optional[MGraph__Export__Dot__Config] = None):
@@ -64,52 +66,63 @@ class MGraph__Export__Dot(MGraph__Export__Base):
                 edge_data["source"], edge_data["target"], edge_data["attrs"]))
 
         lines.append('}')
-        return '\n'.join(lines)
+        self.dot_code =  '\n'.join(lines)
+        return self.dot_code
 
-    # Configuration setter methods - maintaining backward compatibility
-    def set_edge__color         (self, color    : str  ): self.config.edge.color      = color       ; return self
-    def set_edge__font__size    (self, size     : int  ): self.config.edge.font.size  = size        ; return self
-    def set_edge__font__color   (self, color    : str  ): self.config.edge.font.color = color       ; return self
-    def set_edge__font__name    (self, name     : str  ): self.config.edge.font.name  = name        ; return self
-    def set_edge__style         (self, style    : str  ): self.config.edge.style      = style       ; return self
 
-    def set_node__fill_color    (self, color    : str  ): self.config.node.shape.fill_color = color ; return self
-    def set_node__font__color   (self, color    : str  ): self.config.node.font.color       = color ; return self
-    def set_node__font__name    (self, name     : str  ): self.config.node.font.name        = name  ; return self
-    def set_node__font__size    (self, size     : int  ): self.config.node.font.size        = size  ; return self
-    def set_node__shape__type   (self, shape    : str  ): self.config.node.shape.type       = shape ; return self
-    def set_node__shape__rounded(self                  ): self.config.node.shape.rounded    = True  ; return self
-    def set_node__style         (self, style    : str  ): self.config.node.shape.style      = style ; return self
+    # Configuration setter methods
 
-    def set_graph__node_sep     (self, value    : float): self.config.graph.node_sep  = value       ; return self
-    def set_graph__rank_sep     (self, value    : float): self.config.graph.rank_sep  = value       ; return self
-    def set_graph__rank_dir     (self, direction: str  ): self.config.graph.rank_dir  = direction   ; return self
-    def set_graph__rank_dir__tb (self                  ): return self.set_graph__rank_dir('TB')
-    def set_graph__rank_dir__lr (self                  ): return self.set_graph__rank_dir('LR')
-    def set_graph__rank_dir__bt (self                  ): return self.set_graph__rank_dir('BT')
-    def set_graph__rank_dir__rl (self                  ): return self.set_graph__rank_dir('RL')
-
-    def show_edge__ids          (self                  ): self.config.display.edge_ids   = True      ; return self
-    def show_edge__type         (self                  ): self.config.display.edge_type  = True      ; return self
-    def show_node__value        (self                  ): self.config.display.node_value = True      ; return self
-    def show_node__type         (self                  ): self.config.display.node_type  = True      ; return self
-
-    def _ensure_type_shape(self, node_type: type):                                                   # Helper methods
+    def ensure_type_shape(self, node_type: type):                                                   # Helper methods
         if node_type not in self.config.type.shapes:
             self.config.type.shapes[node_type] = MGraph__Export__Dot__Config__Shape()
         return self.config.type.shapes[node_type]
 
-    def _ensure_type_font(self, node_type: type):
+    def ensure_type_font(self, node_type: type):
         if node_type not in self.config.type.fonts:
             self.config.type.fonts[node_type] = MGraph__Export__Dot__Config__Font()
         return self.config.type.fonts[node_type]
 
-    def set_node__type_fill_color(self, node_type: type, color: str): self._ensure_type_shape(node_type).fill_color = color; return self
-    def set_node__type_font_color(self, node_type: type, color: str): self._ensure_type_font (node_type).color      = color; return self
-    def set_node__type_font_size (self, node_type: type, size : int): self._ensure_type_font (node_type).size       = size ; return self
-    def set_node__type_font_name (self, node_type: type, name : str): self._ensure_type_font (node_type).name       = name ; return self
-    def set_node__type_shape     (self, node_type: type, shape: str): self._ensure_type_shape(node_type).type       = shape; return self
-    def set_node__type_style     (self, node_type: type, style: str): self._ensure_type_shape(node_type).style      = style; return self
+    def ensure_edge_node_config(self, edge_type: type, config_dict: Dict[type, MGraph__Export__Dot__Config__Type__Node]) -> MGraph__Export__Dot__Config__Type__Node:
+        if edge_type not in config_dict:
+            config_dict[edge_type] = MGraph__Export__Dot__Config__Type__Node()
+            config_dict[edge_type].fonts  = MGraph__Export__Dot__Config__Font()
+            config_dict[edge_type].shapes = MGraph__Export__Dot__Config__Shape()
+        return config_dict[edge_type]
+
+    def set_edge__color          (self, color    : str  ): self.config.edge.color      = color       ; return self
+    def set_edge__font__size     (self, size     : int  ): self.config.edge.font.size  = size        ; return self
+    def set_edge__font__color    (self, color    : str  ): self.config.edge.font.color = color       ; return self
+    def set_edge__font__name     (self, name     : str  ): self.config.edge.font.name  = name        ; return self
+    def set_edge__style          (self, style    : str  ): self.config.edge.style      = style       ; return self
+
+    def set_node__fill_color     (self, color    : str  ): self.config.node.shape.fill_color = color ; return self
+    def set_node__font__color    (self, color    : str  ): self.config.node.font.color       = color ; return self
+    def set_node__font__name     (self, name     : str  ): self.config.node.font.name        = name  ; return self
+    def set_node__font__size     (self, size     : int  ): self.config.node.font.size        = size  ; return self
+    def set_node__shape__type    (self, shape    : str  ): self.config.node.shape.type       = shape ; return self
+    def set_node__shape__rounded (self                  ): self.config.node.shape.rounded    = True  ; return self
+    def set_node__style          (self, style    : str  ): self.config.node.shape.style      = style ; return self
+
+    def set_graph__node_sep      (self, value    : float): self.config.graph.node_sep  = value       ; return self
+    def set_graph__rank_sep      (self, value    : float): self.config.graph.rank_sep  = value       ; return self
+    def set_graph__rank_dir      (self, direction: str  ): self.config.graph.rank_dir  = direction   ; return self
+    def set_graph__rank_dir__tb  (self                  ): return self.set_graph__rank_dir('TB')
+    def set_graph__rank_dir__lr  (self                  ): return self.set_graph__rank_dir('LR')
+    def set_graph__rank_dir__bt  (self                  ): return self.set_graph__rank_dir('BT')
+    def set_graph__rank_dir__rl  (self                  ): return self.set_graph__rank_dir('RL')
+
+    def show_edge__ids           (self                  ): self.config.display.edge_ids            = True      ; return self
+    def show_edge__type          (self                  ): self.config.display.edge_type           = True      ; return self
+    def show_node__value         (self                  ): self.config.display.node_value          = True      ; return self
+    def show_node__type          (self                  ): self.config.display.node_type           = True      ; return self
+    def show_node__type_full_name(self                  ): self.config.display.node_type_full_name = True      ; return self
+
+    def set_node__type_fill_color(self, node_type: type, color: str): self.ensure_type_shape(node_type).fill_color = color; return self
+    def set_node__type_font_color(self, node_type: type, color: str): self.ensure_type_font (node_type).color      = color; return self
+    def set_node__type_font_size (self, node_type: type, size : int): self.ensure_type_font (node_type).size       = size ; return self
+    def set_node__type_font_name (self, node_type: type, name : str): self.ensure_type_font (node_type).name       = name ; return self
+    def set_node__type_shape     (self, node_type: type, shape: str): self.ensure_type_shape(node_type).type       = shape; return self
+    def set_node__type_style     (self, node_type: type, style: str): self.ensure_type_shape(node_type).style      = style; return self
 
     def set_edge__type_color(self, edge_type: type, color: str):
         if not self.config.type.edge_color: self.config.type.edge_color = {}
@@ -120,3 +133,20 @@ class MGraph__Export__Dot(MGraph__Export__Base):
         if not self.config.type.edge_style: self.config.type.edge_style = {}
         self.config.type.edge_style[edge_type] = style
         return self
+
+
+    # Methods for source nodes (edge starts from)
+    def set_edge_from_node__type_fill_color (self, edge_type: type, color: str): self.ensure_edge_node_config(edge_type, self.config.type.edge_from).shapes.fill_color = color; return self
+    def set_edge_from_node__type_font_color (self, edge_type: type, color: str): self.ensure_edge_node_config(edge_type, self.config.type.edge_from).fonts.color       = color; return self
+    def set_edge_from_node__type_font_size  (self, edge_type: type, size : int): self.ensure_edge_node_config(edge_type, self.config.type.edge_from).fonts.size        = size ; return self
+    def set_edge_from_node__type_font_name  (self, edge_type: type, name : str): self.ensure_edge_node_config(edge_type, self.config.type.edge_from).fonts.name        = name ; return self
+    def set_edge_from_node__type_shape      (self, edge_type: type, shape: str): self.ensure_edge_node_config(edge_type, self.config.type.edge_from).shapes.type       = shape; return self
+    def set_edge_from_node__type_style      (self, edge_type: type, style: str): self.ensure_edge_node_config(edge_type, self.config.type.edge_from).shapes.style      = style; return self
+
+    # Methods for target nodes (edge points to)
+    def set_edge_to_node__type_fill_color   (self, edge_type: type, color: str): self.ensure_edge_node_config(edge_type, self.config.type.edge_to).shapes.fill_color = color; return self
+    def set_edge_to_node__type_font_color   (self, edge_type: type, color: str): self.ensure_edge_node_config(edge_type, self.config.type.edge_to).fonts.color       = color; return self
+    def set_edge_to_node__type_font_size    (self, edge_type: type, size : int): self.ensure_edge_node_config(edge_type, self.config.type.edge_to).fonts.size        = size ; return self
+    def set_edge_to_node__type_font_name    (self, edge_type: type, name : str): self.ensure_edge_node_config(edge_type, self.config.type.edge_to).fonts.name        = name ; return self
+    def set_edge_to_node__type_shape        (self, edge_type: type, shape: str): self.ensure_edge_node_config(edge_type, self.config.type.edge_to).shapes.type       = shape; return self
+    def set_edge_to_node__type_style        (self, edge_type: type, style: str): self.ensure_edge_node_config(edge_type, self.config.type.edge_to).shapes.style      = style; return self

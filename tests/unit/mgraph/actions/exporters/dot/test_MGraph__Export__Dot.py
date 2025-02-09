@@ -1,14 +1,23 @@
 from unittest                                                                   import TestCase
+from mgraph_db.mgraph.schemas.Schema__MGraph__Edge                              import Schema__MGraph__Edge
+from mgraph_db.providers.simple.schemas.Schema__Simple__Node                    import Schema__Simple__Node
+from osbot_utils.utils.Env                                                      import load_dotenv
+from osbot_utils.utils.Objects                                                  import __
 from mgraph_db.mgraph.actions.exporters.dot.MGraph__Export__Dot                 import MGraph__Export__Dot
 from mgraph_db.mgraph.actions.exporters.dot.config.MGraph__Export__Dot__Config  import MGraph__Export__Dot__Config
 from mgraph_db.mgraph.domain.Domain__MGraph__Graph                              import Domain__MGraph__Graph
 from mgraph_db.mgraph.models.Model__MGraph__Graph                               import Model__MGraph__Graph
 from mgraph_db.mgraph.schemas.Schema__MGraph__Graph                             import Schema__MGraph__Graph
 from mgraph_db.providers.simple.MGraph__Simple__Test_Data                       import MGraph__Simple__Test_Data
-from osbot_utils.utils.Objects                                                  import __
+
 
 
 class test_MGraph__Export__Dot(TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        cls.create_screenshot = False
+        cls.screenshot_file   = './export-dot.png'
 
     def setUp(self):                                                                    # Initialize test environment
         self.simple_graph = MGraph__Simple__Test_Data().create()
@@ -16,6 +25,12 @@ class test_MGraph__Export__Dot(TestCase):
         self.edges_ids    = self.simple_graph.edges_ids()
         self.domain_graph = self.simple_graph.graph
         self.exporter     = MGraph__Export__Dot(graph=self.domain_graph)               # Create DOT exporter
+
+    def tearDown(self):
+        if self.create_screenshot:
+            load_dotenv()
+            with self.simple_graph.screenshot() as _:
+                _.save_to(self.screenshot_file).dot_to_png(self.exporter.dot_code)
 
     def test_init(self):                                                               # Test initialization
         config = MGraph__Export__Dot__Config()
@@ -34,15 +49,16 @@ class test_MGraph__Export__Dot(TestCase):
 
         assert exporter.obj() == __(graph            = self.domain_graph.obj()   ,
                                     context          = __( nodes         = __()                        ,
-                                                         edges         = __()                        ,
-                                                         counters      = __(node=0, edge=0, other=0)),
+                                                         edges         = __()                          ,
+                                                         counters      = __(node=0, edge=0, other=0))  ,
                                     config           = exporter.config.obj()                           ,
-                                    on_add_node      = None ,
-                                    on_add_edge      = None ,
-                                    node_renderer    = exporter.node_renderer   .obj(),
-                                    edge_renderer    = exporter.edge_renderer   .obj(),
-                                    style_manager    = exporter.style_manager   .obj(),
-                                    format_generator = exporter.format_generator.obj())
+                                    dot_code         = None                                              ,
+                                    on_add_node      = None                                            ,
+                                    on_add_edge      = None                                            ,
+                                    node_renderer    = exporter.node_renderer   .obj()                 ,
+                                    edge_renderer    = exporter.edge_renderer   .obj()                 ,
+                                    style_manager    = exporter.style_manager   .obj()                 ,
+                                    format_generator = exporter.format_generator.obj()                 )
 
     def test_create_node_data(self):                                                   # Test node data creation
         node_id = self.nodes_ids[0]                                                    # Get first node (Node 1)
@@ -203,3 +219,102 @@ class test_MGraph__Export__Dot(TestCase):
         assert 'label="B"'         in dot_output
         assert 'shape=circle'      in dot_output
         assert 'label="A -> B"'    in dot_output                                         # Check edge customization
+
+    def test_edge_source_node_styling(self):                                                 # Test styling of source nodes
+        from mgraph_db.mgraph.schemas.Schema__MGraph__Edge import Schema__MGraph__Edge
+
+        self.exporter.set_edge_from_node__type_fill_color(Schema__MGraph__Edge, 'red')
+        self.exporter.set_edge_from_node__type_font_color(Schema__MGraph__Edge, 'blue')
+        self.exporter.set_edge_from_node__type_font_size(Schema__MGraph__Edge, 14)
+        self.exporter.set_edge_from_node__type_shape    (Schema__MGraph__Edge, 'circle')
+
+        dot_output = self.exporter.process_graph()
+        assert dot_output == self.exporter.dot_code
+
+        assert dot_output == ('digraph {\n'
+                              f'  "{self.nodes_ids[0]}" [shape="circle", fillcolor="red", style="filled", fontsize="14", fontcolor="blue"]\n'
+                              f'  "{self.nodes_ids[1]}"\n'
+                              f'  "{self.nodes_ids[2]}"\n'
+                              f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[1]}"\n'
+                              f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[2]}"\n'
+                              '}')
+
+    def test_edge_target_node_styling(self):                                                 # Test styling of target nodes
+        from mgraph_db.mgraph.schemas.Schema__MGraph__Edge import Schema__MGraph__Edge
+
+        self.exporter.set_edge_to_node__type_fill_color(Schema__MGraph__Edge, 'blue')
+        self.exporter.set_edge_to_node__type_font_color(Schema__MGraph__Edge, 'yellow')
+        self.exporter.set_edge_to_node__type_font_size (Schema__MGraph__Edge, 14)
+        self.exporter.set_edge_to_node__type_shape     (Schema__MGraph__Edge, 'diamond')
+
+        dot_output = self.exporter.process_graph()
+        assert dot_output == self.exporter.dot_code
+
+        assert dot_output == ('digraph {\n'
+                             f'  "{self.nodes_ids[0]}"\n'
+                             f'  "{self.nodes_ids[1]}" [shape="diamond", fillcolor="blue", style="filled", fontsize="14", fontcolor="yellow"]\n'
+                             f'  "{self.nodes_ids[2]}" [shape="diamond", fillcolor="blue", style="filled", fontsize="14", fontcolor="yellow"]\n'
+                             f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[1]}"\n'
+                             f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[2]}"\n'
+                             '}')
+
+    def test_edge_mixed_styling(self):                                                       # Test both source and target styling
+        from mgraph_db.mgraph.schemas.Schema__MGraph__Edge import Schema__MGraph__Edge
+
+        self.exporter.set_edge_from_node__type_fill_color(Schema__MGraph__Edge, 'red')
+        self.exporter.set_edge_from_node__type_shape     (Schema__MGraph__Edge, 'box')
+        self.exporter.set_edge_from_node__type_font_size (Schema__MGraph__Edge, 14)
+        self.exporter.set_edge_to_node__type_fill_color  (Schema__MGraph__Edge, 'blue')
+        self.exporter.set_edge_to_node__type_shape       (Schema__MGraph__Edge, 'diamond')
+        self.exporter.set_edge_to_node__type_font_size   (Schema__MGraph__Edge, 16)
+
+        dot_output = self.exporter.process_graph()
+        assert dot_output == self.exporter.dot_code
+
+        assert dot_output == ('digraph {\n'
+                             f'  "{self.nodes_ids[0]}" [shape="box", fillcolor="red", style="filled", fontsize="14"]\n'
+                             f'  "{self.nodes_ids[1]}" [shape="diamond", fillcolor="blue", style="filled", fontsize="16"]\n'
+                             f'  "{self.nodes_ids[2]}" [shape="diamond", fillcolor="blue", style="filled", fontsize="16"]\n'
+                             f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[1]}"\n'
+                             f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[2]}"\n'
+                             '}')
+
+    def test_edge_type_style_override(self):                                                # Test style override behavior
+        with self.exporter as _:
+            _.set_node__type_fill_color          (Schema__Simple__Node, 'green')
+            _.set_node__type_shape               (Schema__Simple__Node, 'circle')
+
+            self.exporter.set_edge_from_node__type_fill_color(Schema__MGraph__Edge, 'red')
+            self.exporter.set_edge_from_node__type_shape     (Schema__MGraph__Edge, 'box')
+
+            dot_output = _.process_graph()
+            assert dot_output == _.dot_code
+
+            assert dot_output == ('digraph {\n'
+                                 f'  "{self.nodes_ids[0]}" [shape="box", fillcolor="red", style="filled"]\n'
+                                 f'  "{self.nodes_ids[1]}" [shape="circle", fillcolor="green", style="filled"]\n'
+                                 f'  "{self.nodes_ids[2]}" [shape="circle", fillcolor="green", style="filled"]\n'
+                                 f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[1]}"\n'
+                                 f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[2]}"\n'
+                                 '}')
+
+    def test_edge_multiple_type_styles(self):                                               # Test styling with multiple edge types
+        from mgraph_db.mgraph.schemas.Schema__MGraph__Edge import Schema__MGraph__Edge
+
+        class Custom_Edge_Type(Schema__MGraph__Edge): pass
+
+        self.exporter.set_edge_from_node__type_fill_color(Schema__MGraph__Edge, 'red')
+        self.exporter.set_edge_from_node__type_font_size (Schema__MGraph__Edge, 14)
+        self.exporter.set_edge_from_node__type_fill_color(Custom_Edge_Type    , 'blue')
+        self.exporter.set_edge_from_node__type_font_size (Custom_Edge_Type    , 16)
+
+        dot_output = self.exporter.process_graph()
+        assert dot_output == self.exporter.dot_code
+
+        assert dot_output == ('digraph {\n'
+                             f'  "{self.nodes_ids[0]}" [fillcolor="red", style="filled", fontsize="14"]\n'
+                             f'  "{self.nodes_ids[1]}"\n'
+                             f'  "{self.nodes_ids[2]}"\n'
+                             f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[1]}"\n'
+                             f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[2]}"\n'
+                             '}')
