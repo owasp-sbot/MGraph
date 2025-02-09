@@ -7,9 +7,9 @@ class MGraph__Export__Dot__Node__Renderer(MGraph__Export__Dot__Base):
 
     def create_node_attributes(self, node: Domain__MGraph__Node) -> List[str]:
         return (self.create_node_base_attributes   (node) +
-                self.create_node_shape_attributes  (node) +
+                self.create_node_shape_attributes  (node) +                         # todo: change how this works since this is not a good way to return the attributes
                 self.create_node_font_attributes   (node) +
-                self.create_node_style_attributes  (node) +
+                self.create_node_style_attributes  (node) +                         # todo:        since for example both create_node_shape_attributes can create an style attribute
                 self.create_node_label_attributes  (node))
 
     def create_node_base_attributes(self, node: Domain__MGraph__Node) -> List[str]:
@@ -92,7 +92,7 @@ class MGraph__Export__Dot__Node__Renderer(MGraph__Export__Dot__Base):
 
         if node_type in self.config.type.shapes:
             shape_config = self.config.type.shapes[node_type]
-            #if shape_config.fill_color: styles.add('filled')
+            if shape_config.fill_color: styles.add('filled')
             if shape_config.rounded:    styles.add('rounded')
             if shape_config.style:      styles.update(shape_config.style.split(','))
 

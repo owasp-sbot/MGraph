@@ -50,9 +50,9 @@ class test_MGraph__Time_Series__Edit(TestCase):
                 (_.export().export_dot()
                     # Basic node and edge display configuration
                     .show_node__value()
-                    #.show_node__type()
-                    .show_edge__type()
-                    .show_edge__ids()
+                    #.show_node__type_full_name()
+                    #.show_edge__type()
+                    #.show_edge__ids()
                     .set_node__font__size(12)                    # Slightly larger font for better readability
                     .set_node__font__name('Arial')
                     .set_edge__font__name('Arial')
@@ -62,7 +62,7 @@ class test_MGraph__Time_Series__Edit(TestCase):
                     .set_node__type_fill_color(Schema__MGraph__Node__Time_Point, '#1a365d')
                     .set_node__type_font_color(Schema__MGraph__Node__Time_Point, 'white')
                     .set_node__type_shape     (Schema__MGraph__Node__Time_Point, 'box')
-                    .set_node__type_style     (Schema__MGraph__Node__Time_Point, 'rounded')
+                    .set_node__type_rounded   (Schema__MGraph__Node__Time_Point)
 
                     # Time component styling
                     .set_node__type_fill_color(Schema__MGraph__Node__Value__Int, '#D8E6F3')  # Soft blue for time values

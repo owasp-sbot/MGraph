@@ -1,4 +1,5 @@
 from typing                                                                                 import Dict, Any, Optional, Callable
+from osbot_utils.utils.Lists                                                                import unique
 from mgraph_db.mgraph.actions.exporters.MGraph__Export__Base                                import MGraph__Export__Base
 from mgraph_db.mgraph.actions.exporters.dot.config.MGraph__Export__Dot__Config              import MGraph__Export__Dot__Config
 from mgraph_db.mgraph.actions.exporters.dot.config.MGraph__Export__Dot__Config__Font        import MGraph__Export__Dot__Config__Font
@@ -32,6 +33,7 @@ class MGraph__Export__Dot(MGraph__Export__Base):
 
     def create_node_data(self, node) -> Dict[str, Any]:                                        # Create node data for DOT export
         attrs = self.node_renderer.create_node_attributes(node)
+        attrs = unique(attrs)                           # todo: fix bug in create_node_attributes where multiple style statements can be created
         node_data = {'id'   : str(node.node_id),
                      'attrs': attrs }
 
@@ -121,8 +123,10 @@ class MGraph__Export__Dot(MGraph__Export__Base):
     def set_node__type_font_color(self, node_type: type, color: str): self.ensure_type_font (node_type).color      = color; return self
     def set_node__type_font_size (self, node_type: type, size : int): self.ensure_type_font (node_type).size       = size ; return self
     def set_node__type_font_name (self, node_type: type, name : str): self.ensure_type_font (node_type).name       = name ; return self
+    def set_node__type_rounded   (self, node_type: type             ):self.ensure_type_shape(node_type).rounded    = True ; return self
     def set_node__type_shape     (self, node_type: type, shape: str): self.ensure_type_shape(node_type).type       = shape; return self
     def set_node__type_style     (self, node_type: type, style: str): self.ensure_type_shape(node_type).style      = style; return self
+
 
     def set_edge__type_color(self, edge_type: type, color: str):
         if not self.config.type.edge_color: self.config.type.edge_color = {}

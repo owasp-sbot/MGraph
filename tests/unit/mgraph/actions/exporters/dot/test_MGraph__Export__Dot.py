@@ -232,7 +232,7 @@ class test_MGraph__Export__Dot(TestCase):
         assert dot_output == self.exporter.dot_code
 
         assert dot_output == ('digraph {\n'
-                              f'  "{self.nodes_ids[0]}" [shape="circle", fillcolor="red", style="filled", fontsize="14", fontcolor="blue"]\n'
+                              f'  "{self.nodes_ids[0]}" [fillcolor="red", fontcolor="blue", fontsize="14", shape="circle", style="filled"]\n'
                               f'  "{self.nodes_ids[1]}"\n'
                               f'  "{self.nodes_ids[2]}"\n'
                               f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[1]}"\n'
@@ -252,8 +252,8 @@ class test_MGraph__Export__Dot(TestCase):
 
         assert dot_output == ('digraph {\n'
                              f'  "{self.nodes_ids[0]}"\n'
-                             f'  "{self.nodes_ids[1]}" [shape="diamond", fillcolor="blue", style="filled", fontsize="14", fontcolor="yellow"]\n'
-                             f'  "{self.nodes_ids[2]}" [shape="diamond", fillcolor="blue", style="filled", fontsize="14", fontcolor="yellow"]\n'
+                             f'  "{self.nodes_ids[1]}" [fillcolor="blue", fontcolor="yellow", fontsize="14", shape="diamond", style="filled"]\n'
+                             f'  "{self.nodes_ids[2]}" [fillcolor="blue", fontcolor="yellow", fontsize="14", shape="diamond", style="filled"]\n'
                              f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[1]}"\n'
                              f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[2]}"\n'
                              '}')
@@ -272,9 +272,9 @@ class test_MGraph__Export__Dot(TestCase):
         assert dot_output == self.exporter.dot_code
 
         assert dot_output == ('digraph {\n'
-                             f'  "{self.nodes_ids[0]}" [shape="box", fillcolor="red", style="filled", fontsize="14"]\n'
-                             f'  "{self.nodes_ids[1]}" [shape="diamond", fillcolor="blue", style="filled", fontsize="16"]\n'
-                             f'  "{self.nodes_ids[2]}" [shape="diamond", fillcolor="blue", style="filled", fontsize="16"]\n'
+                             f'  "{self.nodes_ids[0]}" [fillcolor="red", fontsize="14", shape="box", style="filled"]\n'
+                             f'  "{self.nodes_ids[1]}" [fillcolor="blue", fontsize="16", shape="diamond", style="filled"]\n'
+                             f'  "{self.nodes_ids[2]}" [fillcolor="blue", fontsize="16", shape="diamond", style="filled"]\n'
                              f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[1]}"\n'
                              f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[2]}"\n'
                              '}')
@@ -291,9 +291,9 @@ class test_MGraph__Export__Dot(TestCase):
             assert dot_output == _.dot_code
 
             assert dot_output == ('digraph {\n'
-                                 f'  "{self.nodes_ids[0]}" [shape="box", fillcolor="red", style="filled"]\n'
-                                 f'  "{self.nodes_ids[1]}" [shape="circle", fillcolor="green", style="filled"]\n'
-                                 f'  "{self.nodes_ids[2]}" [shape="circle", fillcolor="green", style="filled"]\n'
+                                 f'  "{self.nodes_ids[0]}" [fillcolor="red", shape="box", style="filled"]\n'
+                                 f'  "{self.nodes_ids[1]}" [fillcolor="green", shape="circle", style="filled"]\n'
+                                 f'  "{self.nodes_ids[2]}" [fillcolor="green", shape="circle", style="filled"]\n'
                                  f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[1]}"\n'
                                  f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[2]}"\n'
                                  '}')
@@ -312,7 +312,7 @@ class test_MGraph__Export__Dot(TestCase):
         assert dot_output == self.exporter.dot_code
 
         assert dot_output == ('digraph {\n'
-                             f'  "{self.nodes_ids[0]}" [fillcolor="red", style="filled", fontsize="14"]\n'
+                             f'  "{self.nodes_ids[0]}" [fillcolor="red", fontsize="14", style="filled"]\n'
                              f'  "{self.nodes_ids[1]}"\n'
                              f'  "{self.nodes_ids[2]}"\n'
                              f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[1]}"\n'
