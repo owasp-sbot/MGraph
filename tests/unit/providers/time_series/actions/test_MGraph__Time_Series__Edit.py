@@ -1,29 +1,31 @@
-from datetime                                                                            import datetime
-from unittest                                                                            import TestCase
-from mgraph_db.mgraph.actions.MGraph__Export                                             import MGraph__Export
-from mgraph_db.mgraph.actions.MGraph__Index                                              import MGraph__Index
-from mgraph_db.mgraph.actions.exporters.dot.MGraph__Export__Dot                          import MGraph__Export__Dot
-from mgraph_db.mgraph.domain.Domain__MGraph__Node                                        import Domain__MGraph__Node
-from mgraph_db.mgraph.models.Model__MGraph__Node                                         import Model__MGraph__Node
-from mgraph_db.providers.time_series.MGraph__Time_Series                                 import MGraph__Time_Series
-from mgraph_db.providers.time_series.actions.MGraph__Time_Series__Edit                   import MGraph__Time_Series__Edit
-from mgraph_db.providers.time_series.actions.MGraph__Time_Series__Screenshot             import MGraph__Time_Series__Screenshot
-from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Time_Point            import Schema__MGraph__Node__Time_Point
-from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Value__Int            import Schema__MGraph__Node__Value__Int
-from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Value__Int__Data      import Schema__MGraph__Node__Value__Int__Data
-from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Value__Timezone__Name import Schema__MGraph__Node__Value__Timezone__Name
-from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Value__UTC_Offset     import Schema__MGraph__Node__Value__UTC_Offset
-from mgraph_db.providers.time_series.schemas.Schema__MGraph__TimeSeries__Edges           import (
+from datetime                                                                              import datetime
+from unittest                                                                              import TestCase
+from mgraph_db.mgraph.actions.MGraph__Export                                               import MGraph__Export
+from mgraph_db.mgraph.actions.MGraph__Index                                                import MGraph__Index
+from mgraph_db.mgraph.actions.exporters.dot.MGraph__Export__Dot                            import MGraph__Export__Dot
+from mgraph_db.mgraph.actions.exporters.dot.utils.MGraph__Export__Dot__Time_Series__Colors import MGraph__Export__Dot__Time_Series__Colors, MGraph__Export__Dot__Time_Series__Colors__Scheme
+from mgraph_db.mgraph.domain.Domain__MGraph__Node                                          import Domain__MGraph__Node
+from mgraph_db.mgraph.models.Model__MGraph__Node                                           import Model__MGraph__Node
+from mgraph_db.providers.time_series.MGraph__Time_Series                                   import MGraph__Time_Series
+from mgraph_db.providers.time_series.actions.MGraph__Time_Series__Edit                     import MGraph__Time_Series__Edit
+from mgraph_db.providers.time_series.actions.MGraph__Time_Series__Screenshot               import MGraph__Time_Series__Screenshot
+from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Time_Point              import Schema__MGraph__Node__Time_Point
+from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Value__Int              import Schema__MGraph__Node__Value__Int
+from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Value__Int__Data        import Schema__MGraph__Node__Value__Int__Data
+from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Value__Timezone__Name   import Schema__MGraph__Node__Value__Timezone__Name
+from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Value__UTC_Offset       import Schema__MGraph__Node__Value__UTC_Offset
+from mgraph_db.providers.time_series.schemas.Schema__MGraph__TimeSeries__Edges             import (
     Schema__MGraph__Time_Series__Edge__Year  ,
     Schema__MGraph__Time_Series__Edge__Month ,
     Schema__MGraph__Time_Series__Edge__Day   ,
     Schema__MGraph__Time_Series__Edge__Hour  ,
     Schema__MGraph__Time_Series__Edge__Minute,
     Schema__MGraph__Time_Series__Edge__Second)
-from osbot_utils.utils.Env                                                               import load_dotenv
-from osbot_utils.utils.Files                                                             import file_exists, file_delete
-from osbot_utils.utils.Objects                                                           import __, type_full_name
-from osbot_utils.helpers.Obj_Id                                                          import is_obj_id
+
+from osbot_utils.utils.Env                                                                 import load_dotenv
+from osbot_utils.utils.Files                                                               import file_exists, file_delete
+from osbot_utils.utils.Objects                                                             import __, type_full_name
+from osbot_utils.helpers.Obj_Id                                                            import is_obj_id
 
 
 class test_MGraph__Time_Series__Edit(TestCase):
@@ -46,12 +48,26 @@ class test_MGraph__Time_Series__Edit(TestCase):
                 assert type(_.export().export_dot()) is MGraph__Export__Dot
                 assert _.export_class                is MGraph__Export
 
-
-                (_.export().export_dot()
+                dot_export  = _.export().export_dot()
+                scheme_name = MGraph__Export__Dot__Time_Series__Colors__Scheme.FOREST
+                MGraph__Export__Dot__Time_Series__Colors(dot_export=dot_export).apply_color_scheme(scheme_name=scheme_name)
+                (dot_export
                     # Basic node and edge display configuration
                     .show_node__value()
                     #.show_node__type_full_name()
-                    #.show_edge__type()
+                    .show_edge__type()
+
+                    # Graph-level settings
+                    .set_graph__rank_dir__tb()  # Top to bottom layout
+                    #.set_graph__rank_sep(0.75)  # Increased vertical spacing
+                    #.set_graph__node_sep(0.5)  # Increased horizontal spacing
+                    #.set_graph__splines__polyline()
+                    #.set_graph__layout_engine__circo()
+                    #.set_graph__layout_engine__osage()
+                    .set_graph__layout_engine__sfdp()
+                    #.set_graph__layout_engine__dot()
+                    #.set_graph__epsilon(0.5)
+
                     #.show_edge__ids()
                     .set_node__font__size(12)                    # Slightly larger font for better readability
                     .set_node__font__name('Arial')
@@ -85,11 +101,6 @@ class test_MGraph__Time_Series__Edit(TestCase):
                     .set_edge__color('#6666FF')                   # Darker gray for edges
                     .set_edge__font__color('#6666FF')
                     .set_edge__type_style(Schema__MGraph__Time_Series__Edge__Year, 'solid')  # Ensure all edges are solid
-
-                    # Graph-level settings
-                    .set_graph__rank_dir__tb()                    # Top to bottom layout
-                    .set_graph__rank_sep(0.75)                    # Increased vertical spacing
-                    .set_graph__node_sep(0.5)                      # Increased horizontal spacing
                 )
 
                 _.dot(print_dot_code=True)
@@ -118,8 +129,8 @@ class test_MGraph__Time_Series__Edit(TestCase):
                                 'hour'  : test_datetime.hour   ,
                                 'minute': test_datetime.minute ,
                                 'second': test_datetime.second }
-        time_point = self.graph_edit.create_time_point__from_datetime(test_datetime)          # Create time point from datetime
-
+        time_point   = self.graph_edit.create_time_point__from_datetime(test_datetime)          # Create time point from datetime
+        time_point_2 = self.graph_edit.create_time_point__from_datetime(test_datetime)
         assert type(time_point.node.data) is Schema__MGraph__Node__Time_Point               # Verify node type
         assert is_obj_id(time_point.node_id)
 

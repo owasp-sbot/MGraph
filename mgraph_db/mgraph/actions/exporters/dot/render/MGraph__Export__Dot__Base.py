@@ -1,4 +1,4 @@
-from mgraph_db.mgraph.actions.exporters.dot.config.MGraph__Export__Dot__Config  import MGraph__Export__Dot__Config
+from mgraph_db.mgraph.actions.exporters.dot.models.MGraph__Export__Dot__Config  import MGraph__Export__Dot__Config
 from mgraph_db.mgraph.domain.Domain__MGraph__Graph                              import Domain__MGraph__Graph
 from osbot_utils.type_safe.Type_Safe                                            import Type_Safe
 

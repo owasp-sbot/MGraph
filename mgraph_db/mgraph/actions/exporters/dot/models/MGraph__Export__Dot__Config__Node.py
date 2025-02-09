@@ -1,0 +1,6 @@
+from mgraph_db.mgraph.actions.exporters.dot.models.MGraph__Export__Dot__Config__Shape import MGraph__Export__Dot__Config__Shape
+from mgraph_db.mgraph.actions.exporters.dot.models.MGraph__Export__Dot__Config__Style import MGraph__Export__Dot__Config__Style
+
+
+class MGraph__Export__Dot__Config__Node(MGraph__Export__Dot__Config__Style):
+    shape    : MGraph__Export__Dot__Config__Shape

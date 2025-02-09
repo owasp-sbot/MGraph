@@ -4,7 +4,7 @@ from mgraph_db.providers.simple.schemas.Schema__Simple__Node                    
 from osbot_utils.utils.Env                                                      import load_dotenv
 from osbot_utils.utils.Objects                                                  import __
 from mgraph_db.mgraph.actions.exporters.dot.MGraph__Export__Dot                 import MGraph__Export__Dot
-from mgraph_db.mgraph.actions.exporters.dot.config.MGraph__Export__Dot__Config  import MGraph__Export__Dot__Config
+from mgraph_db.mgraph.actions.exporters.dot.models.MGraph__Export__Dot__Config  import MGraph__Export__Dot__Config
 from mgraph_db.mgraph.domain.Domain__MGraph__Graph                              import Domain__MGraph__Graph
 from mgraph_db.mgraph.models.Model__MGraph__Graph                               import Model__MGraph__Graph
 from mgraph_db.mgraph.schemas.Schema__MGraph__Graph                             import Schema__MGraph__Graph

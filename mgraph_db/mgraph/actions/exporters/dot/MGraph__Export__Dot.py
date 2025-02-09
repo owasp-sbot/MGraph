@@ -1,10 +1,11 @@
 from typing                                                                                 import Dict, Any, Optional, Callable
+from mgraph_db.mgraph.actions.exporters.dot.models.MGraph__Export__Dot__Layout__Engine      import MGraph__Export__Dot__Layout__Engine
 from osbot_utils.utils.Lists                                                                import unique
 from mgraph_db.mgraph.actions.exporters.MGraph__Export__Base                                import MGraph__Export__Base
-from mgraph_db.mgraph.actions.exporters.dot.config.MGraph__Export__Dot__Config              import MGraph__Export__Dot__Config
-from mgraph_db.mgraph.actions.exporters.dot.config.MGraph__Export__Dot__Config__Font        import MGraph__Export__Dot__Config__Font
-from mgraph_db.mgraph.actions.exporters.dot.config.MGraph__Export__Dot__Config__Shape       import MGraph__Export__Dot__Config__Shape
-from mgraph_db.mgraph.actions.exporters.dot.config.MGraph__Export__Dot__Config__Type__Node  import MGraph__Export__Dot__Config__Type__Node
+from mgraph_db.mgraph.actions.exporters.dot.models.MGraph__Export__Dot__Config              import MGraph__Export__Dot__Config
+from mgraph_db.mgraph.actions.exporters.dot.models.MGraph__Export__Dot__Config__Font        import MGraph__Export__Dot__Config__Font
+from mgraph_db.mgraph.actions.exporters.dot.models.MGraph__Export__Dot__Config__Shape       import MGraph__Export__Dot__Config__Shape
+from mgraph_db.mgraph.actions.exporters.dot.models.MGraph__Export__Dot__Config__Type__Node  import MGraph__Export__Dot__Config__Type__Node
 from mgraph_db.mgraph.actions.exporters.dot.render.MGraph__Export__Dot__Edge__Renderer      import MGraph__Export__Dot__Edge__Renderer
 from mgraph_db.mgraph.actions.exporters.dot.render.MGraph__Export__Dot__Format__Generator   import MGraph__Export__Dot__Format__Generator
 from mgraph_db.mgraph.actions.exporters.dot.render.MGraph__Export__Dot__Node__Renderer      import MGraph__Export__Dot__Node__Renderer
@@ -97,27 +98,43 @@ class MGraph__Export__Dot(MGraph__Export__Base):
     def set_edge__font__name     (self, name     : str  ): self.config.edge.font.name  = name        ; return self
     def set_edge__style          (self, style    : str  ): self.config.edge.style      = style       ; return self
 
-    def set_node__fill_color     (self, color    : str  ): self.config.node.shape.fill_color = color ; return self
-    def set_node__font__color    (self, color    : str  ): self.config.node.font.color       = color ; return self
-    def set_node__font__name     (self, name     : str  ): self.config.node.font.name        = name  ; return self
-    def set_node__font__size     (self, size     : int  ): self.config.node.font.size        = size  ; return self
-    def set_node__shape__type    (self, shape    : str  ): self.config.node.shape.type       = shape ; return self
-    def set_node__shape__rounded (self                  ): self.config.node.shape.rounded    = True  ; return self
-    def set_node__style          (self, style    : str  ): self.config.node.shape.style      = style ; return self
+    def set_node__fill_color     (self, color    : str  ): self.config.node.shape.fill_color = color    ; return self
+    def set_node__font__color    (self, color    : str  ): self.config.node.font.color       = color    ; return self
+    def set_node__font__name     (self, name     : str  ): self.config.node.font.name        = name     ; return self
+    def set_node__font__size     (self, size     : int  ): self.config.node.font.size        = size     ; return self
+    def set_node__shape__type    (self, shape    : str  ): self.config.node.shape.type       = shape    ; return self
+    def set_node__shape__rounded (self                  ): self.config.node.shape.rounded    = True     ; return self
+    def set_node__style          (self, style    : str  ): self.config.node.shape.style      = style    ; return self
 
-    def set_graph__node_sep      (self, value    : float): self.config.graph.node_sep  = value       ; return self
-    def set_graph__rank_sep      (self, value    : float): self.config.graph.rank_sep  = value       ; return self
-    def set_graph__rank_dir      (self, direction: str  ): self.config.graph.rank_dir  = direction   ; return self
-    def set_graph__rank_dir__tb  (self                  ): return self.set_graph__rank_dir('TB')
-    def set_graph__rank_dir__lr  (self                  ): return self.set_graph__rank_dir('LR')
-    def set_graph__rank_dir__bt  (self                  ): return self.set_graph__rank_dir('BT')
-    def set_graph__rank_dir__rl  (self                  ): return self.set_graph__rank_dir('RL')
+    def set_graph__layout_engine (self, engine   : str  ): self.config.graph.layout_engine   = engine   ; return self
+    def set_graph__node_sep      (self, value    : float): self.config.graph.node_sep        = value    ; return self
+    def set_graph__rank_sep      (self, value    : float): self.config.graph.rank_sep        = value    ; return self
+    def set_graph__rank_dir      (self, direction: str  ): self.config.graph.rank_dir        = direction; return self
+    def set_graph__splines       (self, value    : float): self.config.graph.splines         = value    ; return self
+    def set_graph__epsilon       (self, value    : float): self.config.graph.epsilon         = value    ; return self
 
-    def show_edge__ids           (self                  ): self.config.display.edge_ids            = True      ; return self
-    def show_edge__type          (self                  ): self.config.display.edge_type           = True      ; return self
-    def show_node__value         (self                  ): self.config.display.node_value          = True      ; return self
-    def show_node__type          (self                  ): self.config.display.node_type           = True      ; return self
-    def show_node__type_full_name(self                  ): self.config.display.node_type_full_name = True      ; return self
+    def set_graph__layout_engine__dot   (self): return self.set_graph__layout_engine(MGraph__Export__Dot__Layout__Engine.DOT   .value)
+    def set_graph__layout_engine__neato (self): return self.set_graph__layout_engine(MGraph__Export__Dot__Layout__Engine.NEATO .value)
+    def set_graph__layout_engine__twopi (self): return self.set_graph__layout_engine(MGraph__Export__Dot__Layout__Engine.TWOPI .value)
+    def set_graph__layout_engine__circo (self): return self.set_graph__layout_engine(MGraph__Export__Dot__Layout__Engine.CIRCO .value)
+    def set_graph__layout_engine__fdp   (self): return self.set_graph__layout_engine(MGraph__Export__Dot__Layout__Engine.FDP   .value)
+    def set_graph__layout_engine__sfdp  (self): return self.set_graph__layout_engine(MGraph__Export__Dot__Layout__Engine.SFDP  .value)
+    def set_graph__layout_engine__osage (self): return self.set_graph__layout_engine(MGraph__Export__Dot__Layout__Engine.OSAGE .value)
+
+    def set_graph__splines__line        (self): return self.set_graph__splines ('line'    )
+    def set_graph__splines__polyline    (self): return self.set_graph__splines ('polyline')
+    def set_graph__splines__ortho       (self): return self.set_graph__splines ('ortho'   )
+    def set_graph__splines__curved      (self): return self.set_graph__splines ('curved'  )
+    def set_graph__rank_dir__tb         (self): return self.set_graph__rank_dir('TB'      )
+    def set_graph__rank_dir__lr         (self): return self.set_graph__rank_dir('LR'      )
+    def set_graph__rank_dir__bt         (self): return self.set_graph__rank_dir('BT'      )
+    def set_graph__rank_dir__rl         (self): return self.set_graph__rank_dir('RL'      )
+
+    def show_edge__ids               (self): self.config.display.edge_ids            = True      ; return self
+    def show_edge__type              (self): self.config.display.edge_type           = True      ; return self
+    def show_node__value             (self): self.config.display.node_value          = True      ; return self
+    def show_node__type              (self): self.config.display.node_type           = True      ; return self
+    def show_node__type_full_name    (self): self.config.display.node_type_full_name = True      ; return self
 
     def set_node__type_fill_color(self, node_type: type, color: str): self.ensure_type_shape(node_type).fill_color = color; return self
     def set_node__type_font_color(self, node_type: type, color: str): self.ensure_type_font (node_type).color      = color; return self

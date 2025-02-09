@@ -9,9 +9,12 @@ class MGraph__Export__Dot__Format__Generator(MGraph__Export__Dot__Base):
 
         # Graph attributes
         graph_attrs = []
-        if self.config.graph.rank_dir: graph_attrs.append(f'rankdir="{self.config.graph.rank_dir}"')
-        if self.config.graph.rank_sep: graph_attrs.append(f'ranksep={self.config.graph.rank_sep}'  )
-        if self.config.graph.node_sep: graph_attrs.append(f'nodesep={self.config.graph.node_sep}'  )
+        if self.config.graph.layout_engine: graph_attrs.append(f'layout="{self.config.graph.layout_engine}"')
+        if self.config.graph.rank_dir     : graph_attrs.append(f'rankdir="{self.config.graph.rank_dir}"'    )
+        if self.config.graph.rank_sep     : graph_attrs.append(f'ranksep={self.config.graph.rank_sep}'      )
+        if self.config.graph.node_sep     : graph_attrs.append(f'nodesep={self.config.graph.node_sep}'      )
+        if self.config.graph.splines      : graph_attrs.append(f'splines="{self.config.graph.splines}"'     )
+        if self.config.graph.epsilon      : graph_attrs.append(f'epsilon="{self.config.graph.epsilon}"'     )
 
         if graph_attrs:
             lines.append(f'  graph [{", ".join(graph_attrs)}]')
