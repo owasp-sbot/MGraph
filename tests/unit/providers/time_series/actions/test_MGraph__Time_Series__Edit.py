@@ -1,28 +1,32 @@
 import pytest
-from unittest                                                                       import TestCase
-from mgraph_db.mgraph.actions.MGraph__Export                                        import MGraph__Export
-from mgraph_db.mgraph.actions.MGraph__Index import MGraph__Index
-from mgraph_db.mgraph.actions.exporters.MGraph__Export__Dot                         import MGraph__Export__Dot
-from mgraph_db.mgraph.domain.Domain__MGraph__Node                                   import Domain__MGraph__Node
-from mgraph_db.mgraph.models.Model__MGraph__Graph                                   import Model__MGraph__Graph
-from mgraph_db.mgraph.models.Model__MGraph__Node                                    import Model__MGraph__Node
-from mgraph_db.mgraph.schemas.Schema__MGraph__Graph                                 import Schema__MGraph__Graph
-from mgraph_db.providers.time_series.MGraph__Time_Series                            import MGraph__Time_Series
-from mgraph_db.providers.time_series.actions.MGraph__Time_Series__Edit              import MGraph__Time_Series__Edit
-from mgraph_db.providers.time_series.actions.MGraph__Time_Series__Screenshot        import MGraph__Time_Series__Screenshot
-from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Time_Point       import Schema__MGraph__Node__Time_Point
-from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Value__Int       import Schema__MGraph__Node__Value__Int
-from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Value__Int__Data import Schema__MGraph__Node__Value__Int__Data
-from mgraph_db.providers.time_series.schemas.Schema__MGraph__TimeSeries__Edges      import (Schema__MGraph__Time_Series__Edge__Year,
-                                                                                           Schema__MGraph__Time_Series__Edge__Month,
-                                                                                           Schema__MGraph__Time_Series__Edge__Day,
-                                                                                           Schema__MGraph__Time_Series__Edge__Hour,
-                                                                                           Schema__MGraph__Time_Series__Edge__Minute)
-from osbot_utils.utils.Dev                                                          import pprint
-from osbot_utils.utils.Env                                                          import load_dotenv
-from osbot_utils.utils.Files                                                        import file_exists, file_delete
-from osbot_utils.utils.Objects                                                      import __, type_full_name
-from osbot_utils.helpers.Obj_Id                                                     import is_obj_id, Obj_Id
+from datetime                                                                            import datetime
+from zoneinfo                                                                            import ZoneInfo
+from unittest                                                                            import TestCase
+from mgraph_db.mgraph.actions.MGraph__Export                                             import MGraph__Export
+from mgraph_db.mgraph.actions.MGraph__Index                                              import MGraph__Index
+from mgraph_db.mgraph.actions.exporters.dot.MGraph__Export__Dot                          import MGraph__Export__Dot
+from mgraph_db.mgraph.domain.Domain__MGraph__Node                                        import Domain__MGraph__Node
+from mgraph_db.mgraph.models.Model__MGraph__Node                                         import Model__MGraph__Node
+from mgraph_db.providers.time_series.MGraph__Time_Series                                 import MGraph__Time_Series
+from mgraph_db.providers.time_series.actions.MGraph__Time_Series__Edit                   import MGraph__Time_Series__Edit
+from mgraph_db.providers.time_series.actions.MGraph__Time_Series__Screenshot             import MGraph__Time_Series__Screenshot
+from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Time_Point            import Schema__MGraph__Node__Time_Point
+from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Value__Int            import Schema__MGraph__Node__Value__Int
+from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Value__Int__Data      import Schema__MGraph__Node__Value__Int__Data
+from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Value__Timezone__Name import Schema__MGraph__Node__Value__Timezone__Name
+from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Value__UTC_Offset     import Schema__MGraph__Node__Value__UTC_Offset
+from mgraph_db.providers.time_series.schemas.Schema__MGraph__TimeSeries__Edges           import (
+    Schema__MGraph__Time_Series__Edge__Year,
+    Schema__MGraph__Time_Series__Edge__Month,
+    Schema__MGraph__Time_Series__Edge__Day,
+    Schema__MGraph__Time_Series__Edge__Hour,
+    Schema__MGraph__Time_Series__Edge__Minute, Schema__MGraph__Time_Series__Edge__Timezone,
+    Schema__MGraph__Time_Series__Edge__UTC_Offset, Schema__MGraph__Time_Series__Edge__Second)
+from osbot_utils.utils.Dev                                                               import pprint
+from osbot_utils.utils.Env                                                               import load_dotenv
+from osbot_utils.utils.Files                                                             import file_exists, file_delete
+from osbot_utils.utils.Objects                                                           import __, type_full_name
+from osbot_utils.helpers.Obj_Id                                                          import is_obj_id, Obj_Id
 
 
 class test_MGraph__Time_Series__Edit(TestCase):
@@ -31,7 +35,7 @@ class test_MGraph__Time_Series__Edit(TestCase):
     def setUpClass(cls):
         load_dotenv()
         cls.screenshot_create = False
-        cls.screenshot_file  = './time-series.png'
+        cls.screenshot_file   = './time-series.png'
         cls.screenshot_delete = False
 
     def setUp(self):
@@ -43,18 +47,56 @@ class test_MGraph__Time_Series__Edit(TestCase):
             with self.graph.screenshot(target_file=self.screenshot_file) as _:
                 assert type(_)                       is MGraph__Time_Series__Screenshot
                 assert type(_.export().export_dot()) is MGraph__Export__Dot
-                assert _.export_class               is MGraph__Export
+                assert _.export_class                is MGraph__Export
+
 
                 (_.export().export_dot()
-                          .show_node__value        ()
-                          .set_node__style__filled ()
-                          .set_node__color         ('#0000ff80')
-                          .set_node__font__size(10)
-                          .set_node__type_color    ('Schema__MGraph__Node__Time_Point', 'azure')
-                          .set_node__type_shape    ('Schema__MGraph__Node__Time_Point', 'box'    )
-                          .set_node__type_style    ('Schema__MGraph__Node__Time_Point', 'filled,rounded' ))
+                    # Basic node and edge display configuration
+                    .show_node__value()
+                    #.show_node__type()
+                    .show_edge__type()
+                    .show_edge__ids()
+                    .set_node__font__size(12)                    # Slightly larger font for better readability
+                    .set_node__font__name('Arial')
+                    .set_edge__font__name('Arial')
+                    .set_edge__font__size(11)                    # Slightly larger font for edge labels
 
-                _.dot()
+                    # Global node styling
+                    .set_node__type_fill_color(Schema__MGraph__Node__Time_Point, '#1a365d')
+                    .set_node__type_font_color(Schema__MGraph__Node__Time_Point, 'white')
+                    .set_node__type_shape     (Schema__MGraph__Node__Time_Point, 'box')
+                    .set_node__type_style     (Schema__MGraph__Node__Time_Point, 'rounded')
+
+                    # Time component styling
+                    .set_node__type_fill_color(Schema__MGraph__Node__Value__Int, '#D8E6F3')  # Soft blue for time values
+                    .set_node__type_shape     (Schema__MGraph__Node__Value__Int, 'ellipse')
+                    .set_node__type_font_color(Schema__MGraph__Node__Value__Int, 'darkblue')
+                    .set_node__type_font_size (Schema__MGraph__Node__Value__Int, 18)
+
+                    # Timezone styling
+                    .set_node__type_fill_color(Schema__MGraph__Node__Value__Timezone__Name, '#B8D0E6')  # Darker blue for timezone
+                    .set_node__type_shape     (Schema__MGraph__Node__Value__Timezone__Name, 'box')
+                    .set_node__type_style     (Schema__MGraph__Node__Value__Timezone__Name, 'rounded')
+                    .set_node__type_font_size (Schema__MGraph__Node__Value__Timezone__Name, 12)
+
+                    # UTC offset styling
+                    .set_node__type_fill_color(Schema__MGraph__Node__Value__UTC_Offset, '#E6E6FA')      # Light purple/lavender for offset
+                    .set_node__type_shape     (Schema__MGraph__Node__Value__UTC_Offset, 'octagon')
+                    .set_node__type_font_size (Schema__MGraph__Node__Value__UTC_Offset, 12)
+
+                    # Edge styling
+                    .set_edge__color('#6666FF')                   # Darker gray for edges
+                    .set_edge__font__color('#6666FF')
+                    .set_edge__type_style(Schema__MGraph__Time_Series__Edge__Year, 'solid')  # Ensure all edges are solid
+
+                    # Graph-level settings
+                    .set_graph__rank_dir__tb()                    # Top to bottom layout
+                    .set_graph__rank_sep(0.75)                    # Increased vertical spacing
+                    .set_graph__node_sep(0.5)                      # Increased horizontal spacing
+                )
+
+                _.dot(print_dot_code=True)
+
                 assert file_exists(self.screenshot_file) is True
                 if self.screenshot_delete:
                     assert file_delete(self.screenshot_file) is True
@@ -69,6 +111,24 @@ class test_MGraph__Time_Series__Edit(TestCase):
         with self.graph.data() as data:
             components = self.get_time_components(time_point.node_id, data)
             assert components == {'year': 2024, 'month': 2, 'day': 14, 'hour': 15, 'minute': 30}
+
+    def test_create_time_point__from_datetime(self):
+        #test_datetime = datetime(2024, 2, 8, 15, 30)                                         # Create test datetime
+        test_datetime       = datetime.now()
+        expected_components = { 'year'  : test_datetime.year   ,
+                                'month' : test_datetime.month  ,
+                                'day'   : test_datetime.day    ,
+                                'hour'  : test_datetime.hour   ,
+                                'minute': test_datetime.minute ,
+                                'second': test_datetime.second }
+        time_point = self.graph_edit.create_time_point__from_datetime(test_datetime)          # Create time point from datetime
+
+        assert type(time_point.node.data) is Schema__MGraph__Node__Time_Point               # Verify node type
+        assert is_obj_id(time_point.node_id)
+
+        with self.graph.data() as data:                                                     # Verify components match datetime
+            components = self.get_time_components(time_point.node_id, data)
+            assert components == expected_components
 
     def test__setUp(self):
         with self.graph_edit as _:
@@ -154,7 +214,8 @@ class test_MGraph__Time_Series__Edit(TestCase):
                                     Schema__MGraph__Time_Series__Edge__Month : 'month' ,
                                     Schema__MGraph__Time_Series__Edge__Day   : 'day'   ,
                                     Schema__MGraph__Time_Series__Edge__Hour  : 'hour'  ,
-                                    Schema__MGraph__Time_Series__Edge__Minute: 'minute'}
+                                    Schema__MGraph__Time_Series__Edge__Minute: 'minute',
+                                    Schema__MGraph__Time_Series__Edge__Second: 'second'}
 
         index = MGraph__Index.from_graph(data.graph)                                                # Create/get index for graph
 
@@ -170,3 +231,44 @@ class test_MGraph__Time_Series__Edit(TestCase):
                 components[component_name] = value_node.node_data.value                             # Store component value
 
         return components
+
+    def test_get_or_create_utc_offset(self):
+        with self.graph_edit as _:
+            offset_node_1 = _.get_or_create__utc_offset(-300)                                       # Test first creation (-5 hours)
+            assert isinstance(offset_node_1.node.data, Schema__MGraph__Node__Value__UTC_Offset)
+            assert offset_node_1.node_data.value == -300
+
+            offset_node_2 = _.get_or_create__utc_offset(-300)                                       # Test reuse of same offset
+            assert offset_node_2.node_id == offset_node_1.node_id                                   # Should get same node
+
+            offset_node_3 = _.get_or_create__utc_offset(60)                                         # Test different offset (+1 hour)
+            assert offset_node_3.node_id != offset_node_1.node_id                                   # Should be different node
+            assert offset_node_3.node_data.value == 60
+
+            offset_nodes = _.index().get_nodes_by_type(Schema__MGraph__Node__Value__UTC_Offset)     # Verify using index
+            assert len(offset_nodes) == 2                                                           # Should have two distinct offset nodes
+
+            matching_nodes = _.index().get_nodes_by_field('value', -300)
+            assert offset_node_1.node_id in matching_nodes                                          # Should find original node
+
+
+    def test_utc_offset_reuse(self):
+        # Create two time points with the same UTC offset using valid timezone strings
+        point_1 = self.graph_edit.create_time_point__with_tz(year=2024, month=2, day=8, hour=15, minute=30, timezone='Etc/GMT+5')
+        point_2 = self.graph_edit.create_time_point__with_tz(year=2024, month=2, day=8, hour=15, minute=30, timezone='America/New_York')
+
+        def get_utc_offset_from_point(point__node_id):
+            with self.graph.data() as data:
+                with data.index() as _:
+                    time_zone__node_id  = _.get_node_connected_to_node__outgoing(point__node_id    , 'Schema__MGraph__Time_Series__Edge__Timezone'  )
+                    utc_offset__node_id = _.get_node_connected_to_node__outgoing(time_zone__node_id, 'Schema__MGraph__Time_Series__Edge__UTC_Offset')
+                return data.node(utc_offset__node_id)
+
+        point_1__node_id = point_1.node_id
+        point_2__node_id = point_2.node_id
+
+        utc_offset_1__node = get_utc_offset_from_point(point_1__node_id)
+        utc_offset_2__node = get_utc_offset_from_point(point_2__node_id)
+
+        assert utc_offset_1__node.node_id == utc_offset_2__node.node_id                   # these should be the same :)
+        assert utc_offset_1__node.node_data.value == -300                                 # offset should be -300 (i.e 5h = 5 * 60)

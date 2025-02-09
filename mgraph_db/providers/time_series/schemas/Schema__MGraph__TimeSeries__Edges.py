@@ -13,3 +13,7 @@ class Schema__MGraph__Time_Series__Edge__Second     (Schema__MGraph__Edge): pass
 class Schema__MGraph__Time_Series__Edge__Millisecond(Schema__MGraph__Edge): pass
 class Schema__MGraph__Time_Series__Edge__Microsecond(Schema__MGraph__Edge): pass
 class Schema__MGraph__Time_Series__Edge__Nanosecond (Schema__MGraph__Edge): pass
+
+class Schema__MGraph__Time_Series__Edge__Timezone   (Schema__MGraph__Edge): pass
+class Schema__MGraph__Time_Series__Edge__UTC_Offset (Schema__MGraph__Edge): pass
+

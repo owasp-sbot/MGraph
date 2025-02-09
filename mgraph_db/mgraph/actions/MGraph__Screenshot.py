@@ -23,8 +23,11 @@ class MGraph__Screenshot(Type_Safe):
     def dot_to_png(self, dot_code):
         return self.create_screenshot__from__dot_code(dot_code=dot_code)
 
-    def dot(self):
+    def dot(self, print_dot_code=False):
         dot_code = self.export().to__dot()
+        if print_dot_code:
+            print()
+            print(dot_code)
         png_bytes = self.dot_to_png(dot_code)
         return png_bytes
 

@@ -1,4 +1,4 @@
-from typing                                               import Type, Set, Any, Dict
+from typing                                               import Type, Set, Any, Dict, Optional
 from osbot_utils.utils.Dev                                import pprint
 from mgraph_db.mgraph.domain.Domain__MGraph__Graph        import Domain__MGraph__Graph
 from mgraph_db.mgraph.schemas.Schema__MGraph__Node        import Schema__MGraph__Node
@@ -16,6 +16,8 @@ class MGraph__Index(Type_Safe):
     def add_node(self, node: Schema__MGraph__Node) -> None:                         # Add a node to the index
         node_id   = node.node_id
         node_type = node.node_type.__name__
+
+        self.index_data.nodes_types[node_id] = node_type
 
         if node_id not in self.index_data.nodes_to_outgoing_edges:                  # Initialize sets if needed
             self.index_data.nodes_to_outgoing_edges[node_id] = set()
@@ -35,7 +37,7 @@ class MGraph__Index(Type_Safe):
         to_node_id   = edge.to_node_id
         edge_type    = edge.edge_type.__name__
 
-
+        self.index_data.edges_types[edge_id] = edge_type
         self.index_data.nodes_to_outgoing_edges[from_node_id].add(edge_id)      # Add to node relationship indexes
         self.index_data.nodes_to_incoming_edges[to_node_id].add(edge_id)
         self.index_data.edge_to_nodes[edge_id] = (from_node_id, to_node_id)
@@ -46,6 +48,21 @@ class MGraph__Index(Type_Safe):
         self.index_data.edges_by_type[edge_type].add(edge_id)
 
         self.index_edge_data(edge)                                        # Index edge attributes
+
+        # Update the new nodes_to_incoming_edges_by_type
+        if to_node_id not in self.index_data.nodes_to_incoming_edges_by_type:
+            self.index_data.nodes_to_incoming_edges_by_type[to_node_id] = {}
+        if edge_type not in self.index_data.nodes_to_incoming_edges_by_type[to_node_id]:
+            self.index_data.nodes_to_incoming_edges_by_type[to_node_id][edge_type] = set()
+        self.index_data.nodes_to_incoming_edges_by_type[to_node_id][edge_type].add(edge_id)
+
+        # Update the nodes_to_outgoing_edges_by_type index
+        if from_node_id not in self.index_data.nodes_to_outgoing_edges_by_type:
+            self.index_data.nodes_to_outgoing_edges_by_type[from_node_id] = {}
+        if edge_type not in self.index_data.nodes_to_outgoing_edges_by_type[from_node_id]:
+            self.index_data.nodes_to_outgoing_edges_by_type[from_node_id][edge_type] = set()
+        self.index_data.nodes_to_outgoing_edges_by_type[from_node_id][edge_type].add(edge_id)
+
 
     def remove_node(self, node: Schema__MGraph__Node) -> None:  # Remove a node and all its references from the index"""
         node_id = node.node_id
@@ -71,6 +88,15 @@ class MGraph__Index(Type_Safe):
             self.index_data.nodes_to_outgoing_edges[from_node_id].discard(edge_id)
             self.index_data.nodes_to_incoming_edges[to_node_id].discard(edge_id)
 
+            if to_node_id in self.index_data.nodes_to_incoming_edges_by_type:
+                edge_type = edge.edge_type.__name__
+                if edge_type in self.index_data.nodes_to_incoming_edges_by_type[to_node_id]:
+                    self.index_data.nodes_to_incoming_edges_by_type[to_node_id][edge_type].discard(edge_id)
+                    if not self.index_data.nodes_to_incoming_edges_by_type[to_node_id][edge_type]:
+                        del self.index_data.nodes_to_incoming_edges_by_type[to_node_id][edge_type]
+                if not self.index_data.nodes_to_incoming_edges_by_type[to_node_id]:
+                    del self.index_data.nodes_to_incoming_edges_by_type[to_node_id]
+
         # Remove from type index
         edge_type = edge.edge_type.__name__
         if edge_type in self.index_data.edges_by_type:
@@ -79,6 +105,7 @@ class MGraph__Index(Type_Safe):
                 del self.index_data.edges_by_type[edge_type]
 
         self.remove_edge_data(edge)
+
 
     def index_node_data(self, node: Schema__MGraph__Node) -> None:
         """Index all fields from node_data"""
@@ -131,7 +158,12 @@ class MGraph__Index(Type_Safe):
         for edge_id, edge in graph.model.data.edges.items():                                           # Add all edges to index
             self.add_edge(edge)
 
-    def print_stats(self):
+    def print__index_data(self):
+        index_data = self.index_data.json()
+        pprint(index_data)
+        return index_data
+
+    def print__stats(self):
         stats = self.stats()
         pprint(stats)
         return stats
@@ -180,6 +212,20 @@ class MGraph__Index(Type_Safe):
 
     ##### getters for data
     # todo refactor this to names like edges__from__node , nodes_from_node
+
+    def get_node_connected_to_node__outgoing(self, node_id: Obj_Id, edge_type: str) -> Optional[Obj_Id]:
+        connected_edges = self.index_data.nodes_to_outgoing_edges_by_type.get(node_id, {}).get(edge_type, set())
+
+
+        #elif direction == 'incoming':
+        #    connected_edges = self.index_data.nodes_to_incoming_edges_by_type.get(node_id, {}).get(edge_type, set())
+
+        if connected_edges:
+            edge_id = next(iter(connected_edges))                                                   # Get the first edge ID from the set
+            from_node_id, to_node_id = self.index_data.edge_to_nodes.get(edge_id, (None, None))     # Retrieve the connected node IDs from the edge_to_nodes mapping
+            return to_node_id
+
+        return None
 
     def get_node_outgoing_edges(self, node: Schema__MGraph__Node) -> Set[Obj_Id]:           # Get all outgoing edges for a node
         return self.index_data.nodes_to_outgoing_edges.get(node.node_id, set())

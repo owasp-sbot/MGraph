@@ -237,7 +237,7 @@ class test__regression__performance__MGraph__Json__Load(TestCase):
                         _.add_property__update_existing  ('a', 42)
                     total_duration__duration__with__node_and_edge__update_existing += duration__duration__with__node_and_edge__update_existing.seconds
                     if previous__duration__duration__with__node_and_edge__update_existing:
-                        assert duration__duration__with__node_and_edge__update_existing.seconds + 0.010 > previous__duration__duration__with__node_and_edge__update_existing
+                        assert duration__duration__with__node_and_edge__update_existing.seconds + 0.005 > previous__duration__duration__with__node_and_edge__update_existing
 
                     previous__duration__duration__with__node_and_edge__update_existing = duration__duration__with__node_and_edge__update_existing.seconds
 
