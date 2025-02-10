@@ -44,7 +44,7 @@ class test_MGraph__Time_Series__Edit(TestCase):
         self.graph_edit = self.graph.edit()                                                        # Get edit interface
 
     def test_1(self):
-        #self.screenshot_create = True
+        self.screenshot_create = True
         self.test_create_time_point__from_datetime()
 
     def tearDown(self):
@@ -253,14 +253,14 @@ class test_MGraph__Time_Series__Edit(TestCase):
 
     def test_get_or_create_utc_offset(self):
         with self.graph_edit as _:
-            offset_node_1 = _.node_create().get_or_create__utc_offset(-300)                                       # Test first creation (-5 hours)
+            offset_node_1 = _.node_create().node_find_or_create().get_or_create__utc_offset(-300)                                       # Test first creation (-5 hours)
             assert isinstance(offset_node_1.node.data, Schema__MGraph__Node__Value__UTC_Offset)
             assert offset_node_1.node_data.value == -300
 
-            offset_node_2 = _.node_create().get_or_create__utc_offset(-300)                                       # Test reuse of same offset
+            offset_node_2 = _.node_create().node_find_or_create().get_or_create__utc_offset(-300)                                       # Test reuse of same offset
             assert offset_node_2.node_id == offset_node_1.node_id                                   # Should get same node
 
-            offset_node_3 = _.node_create().get_or_create__utc_offset(60)                                         # Test different offset (+1 hour)
+            offset_node_3 = _.node_create().node_find_or_create().get_or_create__utc_offset(60)                                         # Test different offset (+1 hour)
             assert offset_node_3.node_id != offset_node_1.node_id                                   # Should be different node
             assert offset_node_3.node_data.value == 60
 
