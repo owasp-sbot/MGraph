@@ -14,7 +14,7 @@ from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Value__Int   
 from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Value__Int__Data        import Schema__MGraph__Node__Value__Int__Data
 from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Value__Timezone__Name   import Schema__MGraph__Node__Value__Timezone__Name
 from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Value__UTC_Offset       import Schema__MGraph__Node__Value__UTC_Offset
-from mgraph_db.providers.time_series.schemas.Schema__MGraph__TimeSeries__Edges             import (
+from mgraph_db.providers.time_series.schemas.Schema__MGraph__Time_Series__Edges            import (
     Schema__MGraph__Time_Series__Edge__Year  ,
     Schema__MGraph__Time_Series__Edge__Month ,
     Schema__MGraph__Time_Series__Edge__Day   ,
@@ -44,8 +44,9 @@ class test_MGraph__Time_Series__Edit(TestCase):
         self.graph_edit = self.graph.edit()                                                        # Get edit interface
 
     def test_1(self):
-        self.screenshot_create = True
+        #self.screenshot_create = True
         self.test_create_time_point__from_datetime()
+
 
     def tearDown(self):
         if self.screenshot_create:

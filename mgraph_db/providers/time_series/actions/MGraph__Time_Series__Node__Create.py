@@ -9,7 +9,7 @@ from mgraph_db.providers.time_series.actions.MGraph__Time_Series__Node__Find    
 from mgraph_db.providers.time_series.actions.MGraph__Time_Series__Node__Find_Or_Create      import MGraph__Time_Series__Node__Find_Or_Create
 from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Time_Point               import Schema__MGraph__Node__Time_Point
 from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Value__Timezone__Name    import Schema__MGraph__Node__Value__Timezone__Name
-from mgraph_db.providers.time_series.schemas.Schema__MGraph__TimeSeries__Edges              import Schema__MGraph__Time_Series__Edge__Year, Schema__MGraph__Time_Series__Edge__Month, Schema__MGraph__Time_Series__Edge__Day, Schema__MGraph__Time_Series__Edge__Hour, Schema__MGraph__Time_Series__Edge__Minute, Schema__MGraph__Time_Series__Edge__Second, Schema__MGraph__Time_Series__Edge__UTC_Offset, Schema__MGraph__Time_Series__Edge__Timezone
+from mgraph_db.providers.time_series.schemas.Schema__MGraph__Time_Series__Edges             import Schema__MGraph__Time_Series__Edge__Year, Schema__MGraph__Time_Series__Edge__Month, Schema__MGraph__Time_Series__Edge__Day, Schema__MGraph__Time_Series__Edge__Hour, Schema__MGraph__Time_Series__Edge__Minute, Schema__MGraph__Time_Series__Edge__Second, Schema__MGraph__Time_Series__Edge__UTC_Offset, Schema__MGraph__Time_Series__Edge__Timezone
 from osbot_utils.decorators.methods.cache_on_self                                           import cache_on_self
 from osbot_utils.helpers.Obj_Id                                                             import Obj_Id
 from osbot_utils.type_safe.Type_Safe                                                        import Type_Safe
