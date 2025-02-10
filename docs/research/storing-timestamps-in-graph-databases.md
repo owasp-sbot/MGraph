@@ -1,6 +1,6 @@
 # Storing Timestamps in Graph Databases: A Scalable and Semantic Approach
 
-*by Dinis Cruz and Chat GPT Pro Deep Research
+*by Chat GPT Pro Deep Research
 | v0.8 
 | 09/Feb/2025*
 
