@@ -1,4 +1,6 @@
 from datetime                                                                           import datetime, UTC
+
+from mgraph_db.mgraph.domain.Domain__MGraph__Node import Domain__MGraph__Node
 from mgraph_db.providers.time_series.MGraph__Time_Series                                import MGraph__Time_Series
 from mgraph_db.providers.time_series.actions.MGraph__Time_Point__Builder                import MGraph__Time_Point__Builder
 from mgraph_db.providers.time_series.schemas.Schema__MGraph__Time_Point__Create__Data   import Schema__MGraph__Time_Point__Create__Data
@@ -13,6 +15,8 @@ class Flow__Create__MGraph__Time_Point(Flow):
     source_id         : Obj_Id                                   = None
     create_data       : Schema__MGraph__Time_Point__Create__Data = None
     mgraph_time_series: MGraph__Time_Series                      = None
+    time_point        : Domain__MGraph__Node                     = None
+    png_create        : bool                                     = False
     png_file_name     : str                                      = './flow-time-point.png'
 
     @task()
@@ -31,18 +35,20 @@ class Flow__Create__MGraph__Time_Point(Flow):
     @task()
     def create_points(self):
         with self.mgraph_time_series.edit() as _:
-            _.create_time_point__from_datetime(self.date_time)
+            #_.create_time_point__from_datetime(self.date_time)
+            self.time_point  = _.create_time_point__from_datetime_2(self.date_time)
 
         # with self.mgraph_time_series.index() as _:
         #     _.print__stats()
 
     @task()
     def create_png(self):
-        with self.mgraph_time_series.screenshot() as _:
-            (_.export().export_dot().show_node__value()
-                                    .set_edge_to_node__type_fill_color(Schema__MGraph__Time_Series__Edge__Second, 'azure'))
-            _.save_to(self.png_file_name)
-            _.dot()
+        if self.png_create:
+            with self.mgraph_time_series.screenshot() as _:
+                (_.export().export_dot().show_node__value()
+                                        .set_edge_to_node__type_fill_color(Schema__MGraph__Time_Series__Edge__Second, 'azure'))
+                _.save_to(self.png_file_name)
+                _.dot()
 
 
     def main(self, date_time: datetime=None, source_id: Obj_Id=None):
@@ -51,6 +57,6 @@ class Flow__Create__MGraph__Time_Point(Flow):
 
         self.setup__point__create_data()
         self.create_points()
-        #self.create_png()
+        self.create_png()
 
 

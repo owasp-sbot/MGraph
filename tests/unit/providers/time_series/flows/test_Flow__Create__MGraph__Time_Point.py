@@ -15,8 +15,9 @@ class test_Flow__Create__MGraph__Time_Point(TestCase):
     def test__start_flow(self):
         load_dotenv()
         with self.flow_create_time_point as _:
+            _.png_create = True
             _.setup()
-            _.flow_config.raise_flow_error = False
+            #_.flow_config.raise_flow_error = False
             #_.flow_config.
             _.execute()
-            #_.print_log_messages()
+            _.print_log_messages()
