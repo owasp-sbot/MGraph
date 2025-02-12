@@ -74,7 +74,6 @@ graph TD
     def test__index__stats(self):
         with self.test_data.index() as _:
             assert _.stats() == {'index_data': { 'edge_to_nodes'        : 2                                          ,
-                                                 'edges_by_field'       : {}                                         ,
                                                  'edges_by_type'        : { 'Schema__MGraph__Edge'  : 2              },
                                                  'node_edge_connections': { 'avg_incoming_edges'    : 1              ,
                                                                             'avg_outgoing_edges'    : 1              ,

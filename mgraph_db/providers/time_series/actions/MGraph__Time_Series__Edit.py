@@ -23,13 +23,9 @@ class MGraph__Time_Series__Edit(MGraph__Edit):
     def create_time_point__from_datetime_2(self, dt: datetime) -> Domain__MGraph__Node:
         time_point_builder = MGraph__Time_Point__Builder()
         create_data        = time_point_builder.from_datetime(dt)
-        time_point_create  = MGraph__Time_Point__Create(mgraph_edit=self,mgraph_index=self.index())
+        time_point_create  = MGraph__Time_Point__Create(mgraph_edit=self)
         created_objects    = time_point_create.execute(create_data)
         return self.data().node(created_objects.time_point_id)
-
-    @cache_on_self
-    def index(self):
-        return MGraph__Index.from_graph(self.graph)
 
     @cache_on_self
     def node_create(self):

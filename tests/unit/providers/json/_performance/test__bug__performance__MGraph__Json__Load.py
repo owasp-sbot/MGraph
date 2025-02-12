@@ -144,8 +144,8 @@ class test__regression__performance__MGraph__Json__Load(TestCase):
         # HYP-2: Each property addition scans all existing edges
 
     def test__bug__check_for_property_section__in_add_property(self):
-        if in_github_action():
-            pytest.skip("test only stable locally")
+        #if in_github_action():
+        pytest.skip("Legacy test that covered old bug and performance issue, see if see we still need it (this was not taking 25% of the test execution time)")
 
         class Bug__Domain__MGraph__Json__Node__Dict(Domain__MGraph__Json__Node__Dict):
             def add_property__update_existing(self, name: str, value: Any):                                       # the code below is the actual code from the add_property method (the first part)

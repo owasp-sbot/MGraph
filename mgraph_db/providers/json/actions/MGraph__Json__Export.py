@@ -25,7 +25,7 @@ class MGraph__Json__Export(MGraph__Export):
     def process_dict_node(self, node_id: Obj_Id, index: MGraph__Index) -> Dict[str, Any]:
         result = {}
         for edge_id in index.edges_ids__from__node_id(node_id):
-            property_id = index.edge_to_nodes()[edge_id][1]
+            property_id = index.edges_to_nodes()[edge_id][1]
             property_node = self.graph.node(property_id)
 
             if property_node:
@@ -33,7 +33,7 @@ class MGraph__Json__Export(MGraph__Export):
                     property_name = property_node.node_data.name
                     value_edges  = index.edges_ids__from__node_id(property_id)
                     if value_edges:
-                        value_node_id = index.edge_to_nodes()[value_edges[0]][1]
+                        value_node_id = index.edges_to_nodes()[value_edges[0]][1]
                         result[property_name] = self.process_node(value_node_id, index)
                     else:
                         result[property_name] = None
@@ -42,7 +42,7 @@ class MGraph__Json__Export(MGraph__Export):
     def process_list_node(self, node_id: Obj_Id, index: MGraph__Index) -> List[Any]:
         result = []
         for edge_id in index.edges_ids__from__node_id(node_id):
-            item_id = index.edge_to_nodes()[edge_id][1]
+            item_id = index.edges_to_nodes()[edge_id][1]
             item_value = self.process_node(item_id, index)
             result.append(item_value)
         return result

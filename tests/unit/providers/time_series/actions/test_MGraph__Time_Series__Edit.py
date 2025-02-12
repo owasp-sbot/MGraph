@@ -170,7 +170,6 @@ class test_MGraph__Time_Series__Edit(TestCase):
                                                                    node_id   = value_node_id,
                                                                    node_type = type_full_name(Schema__MGraph__Node__Value__Int)))
 
-            _.index().add_node(value_node.node.data)
             assert _.index().index_data.nodes_by_field == {'value': {42: {value_node_id}}}
 
             found_id = _.node_find().with_value(test_value)

@@ -45,7 +45,7 @@ class MGraph__Time_Series__Node__Find(Type_Safe):
 
         if incoming_edges:
             edge_id = next(iter(incoming_edges))
-            from_node_id, _ = self.mgraph_index.index_data.edge_to_nodes[edge_id]
+            from_node_id, _ = self.mgraph_index.index_data.edges_to_nodes[edge_id]
             return self.mgraph_data.node(from_node_id)
 
         return None
