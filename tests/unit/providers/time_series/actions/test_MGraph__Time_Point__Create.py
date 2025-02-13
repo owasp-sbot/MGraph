@@ -6,14 +6,11 @@ from mgraph_db.providers.time_series.MGraph__Time_Series                        
 from mgraph_db.providers.time_series.actions.MGraph__Time_Point__Builder                    import MGraph__Time_Point__Builder
 from mgraph_db.providers.time_series.actions.MGraph__Time_Point__Create                     import MGraph__Time_Point__Create
 from mgraph_db.providers.time_series.schemas.Schema__MGraph__Time_Point__Created__Objects   import Schema__MGraph__Time_Point__Created__Objects
-from mgraph_db.providers.time_series.schemas.Schema__MGraph__Time_Series__Edges import \
-    Schema__MGraph__Time_Series__Edge__Year, Schema__MGraph__Time_Series__Edge__Second, \
-    Schema__MGraph__Time_Series__Edge__Month, Schema__MGraph__Time_Series__Edge__Day, \
-    Schema__MGraph__Time_Series__Edge__Hour, Schema__MGraph__Time_Series__Edge__Minute
+from mgraph_db.providers.time_series.schemas.Schema__MGraph__Time_Series__Edges             import Schema__MGraph__Time_Series__Edge__Year, Schema__MGraph__Time_Series__Edge__Second, Schema__MGraph__Time_Series__Edge__Month, Schema__MGraph__Time_Series__Edge__Day
 from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Value__UTC_Offset        import Schema__MGraph__Node__Value__UTC_Offset
+from osbot_utils.utils.Env                                                                  import load_dotenv
+
 from osbot_utils.utils.Dev import pprint
-from osbot_utils.utils.Env import load_dotenv
-from osbot_utils.utils.Files import file_create
 
 
 class test_MGraph__Time_Point__Create(TestCase):
@@ -21,7 +18,7 @@ class test_MGraph__Time_Point__Create(TestCase):
     @classmethod
     def setUpClass(cls):
         load_dotenv()
-        cls.screenshot_create = True            # set to true to create a screenshot per test
+        cls.screenshot_create = False            # set to true to create a screenshot per test
         cls.screenshot_file   = './time-point-create.png'
         cls.screenshot_delete = False
 
@@ -34,16 +31,16 @@ class test_MGraph__Time_Point__Create(TestCase):
         if self.screenshot_create:
             with self.mgraph.screenshot(target_file=self.screenshot_file) as screenshot:
                 with screenshot.export().export_dot() as _:
-                    #_.show_node__value()
-                    _.show_edge__ids()
+                    _.show_node__value()
+                    #_.show_edge__ids()
                     _.set_edge_to_node__type_fill_color(Schema__MGraph__Time_Series__Edge__Second, 'azure')
                 with screenshot as _:
                     _.save_to(self.screenshot_file)
                     _.dot()
 
     def test_create_simple_time_point(self):                                                  # Test basic creation
-        date_time     = datetime(2025, 2, 10, 12, 30, tzinfo=UTC)
-        date_time_str = "Mon, 10 Feb 2025 12:30:00 +0000"
+        date_time     = datetime(2025, 2, 10, 12, 31, tzinfo=UTC)
+        date_time_str = "Mon, 10 Feb 2025 12:31:00 +0000"
         create_data  = self.builder.from_datetime(date_time)
         time_objects = self.time_point_create.execute(create_data)
 
@@ -112,8 +109,6 @@ class test_MGraph__Time_Point__Create(TestCase):
         self.time_point_create.execute(create_data)                                           # Create time point
 
         index = self.time_point_create.mgraph_edit.index()
-        index.print__index_data()
-        return
         assert len(index.nodes_by_type()) > 0                                                 # Verify index has been updated
         assert len(index.nodes_by_field()) > 0
         assert len(index.edges_by_type()) > 0

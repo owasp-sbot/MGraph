@@ -2,7 +2,7 @@ from typing                                                                     
 from mgraph_db.mgraph.actions.MGraph__Data                                          import MGraph__Data
 from mgraph_db.mgraph.actions.MGraph__Index                                         import MGraph__Index
 from mgraph_db.mgraph.domain.Domain__MGraph__Node                                   import Domain__MGraph__Node
-from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Value__Int       import Schema__MGraph__Node__Value__Int
+from mgraph_db.mgraph.schemas.values.Schema__MGraph__Node__Value__Int import Schema__MGraph__Node__Value__Int
 from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Value__Timestamp import Schema__MGraph__Node__Value__Timestamp
 from mgraph_db.providers.time_series.schemas.Schema__MGraph__Time_Series__Edges     import Schema__MGraph__Time_Series__Edge__Timestamp
 from osbot_utils.helpers.Obj_Id                                                     import Obj_Id

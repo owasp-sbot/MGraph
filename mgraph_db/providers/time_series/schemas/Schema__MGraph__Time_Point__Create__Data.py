@@ -1,7 +1,9 @@
 from datetime                                                                             import datetime
 from typing                                                                               import Type
+
+from mgraph_db.mgraph.schemas.values.Schema__MGraph__Node__Value__Int import Schema__MGraph__Node__Value__Int
 from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Time_Point             import Schema__MGraph__Node__Time_Point
-from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Value__Int             import Schema__MGraph__Node__Value__Int
+
 from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Value__Timestamp       import Schema__MGraph__Node__Value__Timestamp
 from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Value__Timezone__Name  import Schema__MGraph__Node__Value__Timezone__Name
 from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Value__UTC_Offset      import Schema__MGraph__Node__Value__UTC_Offset

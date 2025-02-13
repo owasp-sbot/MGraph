@@ -1,9 +1,11 @@
 from typing                                                                               import Type, Tuple
 from mgraph_db.mgraph.actions.MGraph__Edit                                                import MGraph__Edit
+from mgraph_db.mgraph.actions.MGraph__Value__Node import MGraph__Value__Node
 from mgraph_db.mgraph.domain.Domain__MGraph__Node                                         import Domain__MGraph__Node
 from mgraph_db.mgraph.schemas.Schema__MGraph__Edge                                        import Schema__MGraph__Edge
 from mgraph_db.providers.time_series.schemas.Schema__MGraph__Time_Point__Create__Data     import Schema__MGraph__Time_Point__Create__Data
 from mgraph_db.providers.time_series.schemas.Schema__MGraph__Time_Point__Created__Objects import Schema__MGraph__Time_Point__Created__Objects
+from osbot_utils.decorators.methods.cache_on_self import cache_on_self
 from osbot_utils.helpers.Obj_Id                                                           import Obj_Id
 from osbot_utils.type_safe.Type_Safe                                                      import Type_Safe
 
@@ -30,7 +32,6 @@ class MGraph__Time_Point__Create(Type_Safe):
         for value, edge_type in time_components:                                 # Process each time component
             if value is not None:
                 node_id, edge_id           = self.add_value_component(value      = value                       ,
-                                                                      node_type  = create_data.node_type__value,
                                                                       edge_type  = edge_type                   ,
                                                                       from_node  = time_point                  )
                 value_nodes    [edge_type] = node_id
@@ -75,28 +76,19 @@ class MGraph__Time_Point__Create(Type_Safe):
 
         return tz_node.node_id, tz_edge.edge_id     # todo: this should be a dict with data (not a tuple)
 
-    def add_value_component(self, value    : int                        ,
-                                  node_type : Type[Domain__MGraph__Node] ,
+    def add_value_component(self, value     : int                        ,                    # Add a value component to time point
                                   edge_type : Type[Schema__MGraph__Edge] ,
                                   from_node : Domain__MGraph__Node
-                             ) -> Tuple[Obj_Id, Obj_Id]:                                        # Returns (value_node_id, edge_id)
-        value_node = self.get_or_create_value_node(value, node_type)                            # Get or create value node
+                           ) -> Tuple[Obj_Id, Obj_Id]:                                       # Returns value_node_id, edge_id
 
-        edge = self.mgraph_edit.new_edge(edge_type    = edge_type          ,                    # Create edge to value node
+        value_node = self.value_node().get_or_create(value)                                  # Get or create value node
+
+        edge = self.mgraph_edit.new_edge(edge_type    = edge_type          ,                 # Create edge to value
                                          from_node_id = from_node.node_id  ,
                                          to_node_id   = value_node.node_id )
 
-        return value_node.node_id, edge.edge_id
+        return value_node.node_id, edge.edge_id                                              # Return both IDs
 
-    def get_or_create_value_node(self, value: int, node_type: Type[Domain__MGraph__Node]) -> Domain__MGraph__Node:  # todo: refactor this to the core of MGraph (edit, create or index)
-        matching_nodes = self.mgraph_edit.index().get_nodes_by_field('value', value)        # Check if value node exists
-        type_nodes     = self.mgraph_edit.index().get_nodes_by_type(node_type)
-        result_nodes   = matching_nodes & type_nodes                                        # Find intersection
-
-        if result_nodes:                                                                    # Return existing node if found
-            return self.mgraph_edit.data().node(next(iter(result_nodes)))
-
-        value_node = self.mgraph_edit.new_node(node_type = node_type,                       # Create new value node if needed
-                                               value     = value)
-
-        return value_node
+    @cache_on_self
+    def value_node(self) -> MGraph__Value__Node:                                             # Value node factory accessor
+        return MGraph__Value__Node(mgraph_edit=self.mgraph_edit)

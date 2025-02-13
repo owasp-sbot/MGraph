@@ -1,6 +1,5 @@
 from typing                                                                     import Dict, Type
 from mgraph_db.mgraph.schemas.Schema__MGraph__Edge                              import Schema__MGraph__Edge
-from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Value__Int   import Schema__MGraph__Node__Value__Int
 from osbot_utils.helpers.Obj_Id                                                 import Obj_Id
 from osbot_utils.type_safe.Type_Safe                                            import Type_Safe
 
