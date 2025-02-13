@@ -6,12 +6,12 @@ from mgraph_db.mgraph.actions.exporters.dot.MGraph__Export__Dot                 
 from mgraph_db.mgraph.actions.exporters.dot.utils.MGraph__Export__Dot__Time_Series__Colors import MGraph__Export__Dot__Time_Series__Colors, MGraph__Export__Dot__Time_Series__Colors__Scheme
 from mgraph_db.mgraph.domain.Domain__MGraph__Node                                          import Domain__MGraph__Node
 from mgraph_db.mgraph.models.Model__MGraph__Node                                           import Model__MGraph__Node
+from mgraph_db.mgraph.schemas.values.Schema__MGraph__Node__Value__Int                      import Schema__MGraph__Node__Value__Int
+from mgraph_db.mgraph.schemas.values.Schema__MGraph__Node__Value__Int__Data                import Schema__MGraph__Node__Value__Int__Data
 from mgraph_db.providers.time_series.MGraph__Time_Series                                   import MGraph__Time_Series
 from mgraph_db.providers.time_series.actions.MGraph__Time_Series__Edit                     import MGraph__Time_Series__Edit
 from mgraph_db.providers.time_series.actions.MGraph__Time_Series__Screenshot               import MGraph__Time_Series__Screenshot
 from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Time_Point              import Schema__MGraph__Node__Time_Point
-from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Value__Int              import Schema__MGraph__Node__Value__Int
-from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Value__Int__Data        import Schema__MGraph__Node__Value__Int__Data
 from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Value__Timezone__Name   import Schema__MGraph__Node__Value__Timezone__Name
 from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Value__UTC_Offset       import Schema__MGraph__Node__Value__UTC_Offset
 from mgraph_db.providers.time_series.schemas.Schema__MGraph__Time_Series__Edges            import (
