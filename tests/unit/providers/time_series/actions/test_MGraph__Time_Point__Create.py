@@ -6,7 +6,10 @@ from mgraph_db.providers.time_series.MGraph__Time_Series                        
 from mgraph_db.providers.time_series.actions.MGraph__Time_Point__Builder                    import MGraph__Time_Point__Builder
 from mgraph_db.providers.time_series.actions.MGraph__Time_Point__Create                     import MGraph__Time_Point__Create
 from mgraph_db.providers.time_series.schemas.Schema__MGraph__Time_Point__Created__Objects   import Schema__MGraph__Time_Point__Created__Objects
-from mgraph_db.providers.time_series.schemas.Schema__MGraph__Time_Series__Edges             import Schema__MGraph__Time_Series__Edge__Year, Schema__MGraph__Time_Series__Edge__Second, Schema__MGraph__Time_Series__Edge__Month, Schema__MGraph__Time_Series__Edge__Day
+from mgraph_db.providers.time_series.schemas.Schema__MGraph__Time_Series__Edges import \
+    Schema__MGraph__Time_Series__Edge__Year, Schema__MGraph__Time_Series__Edge__Second, \
+    Schema__MGraph__Time_Series__Edge__Month, Schema__MGraph__Time_Series__Edge__Day, \
+    Schema__MGraph__Time_Series__Edge__Hour, Schema__MGraph__Time_Series__Edge__Minute
 from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Value__UTC_Offset        import Schema__MGraph__Node__Value__UTC_Offset
 from osbot_utils.utils.Env                                                                  import load_dotenv
 
@@ -18,7 +21,7 @@ class test_MGraph__Time_Point__Create(TestCase):
     @classmethod
     def setUpClass(cls):
         load_dotenv()
-        cls.screenshot_create = False            # set to true to create a screenshot per test
+        cls.screenshot_create = True            # set to true to create a screenshot per test
         cls.screenshot_file   = './time-point-create.png'
         cls.screenshot_delete = False
 
@@ -65,7 +68,16 @@ class test_MGraph__Time_Point__Create(TestCase):
 
         year_edge_type = Schema__MGraph__Time_Series__Edge__Year  # Check year value reuse
 
-
+        self.mgraph.index().print__index_data()
+        assert len(created_objects_1.value_nodes    ) == 6
+        assert len(created_objects_1.component_edges) == 6
+        assert list(created_objects_1.value_nodes) == [Schema__MGraph__Time_Series__Edge__Year    ,
+                                                       Schema__MGraph__Time_Series__Edge__Month   ,
+                                                       Schema__MGraph__Time_Series__Edge__Day     ,
+                                                       Schema__MGraph__Time_Series__Edge__Hour    ,
+                                                       Schema__MGraph__Time_Series__Edge__Minute  ,
+                                                       Schema__MGraph__Time_Series__Edge__Second  ]
+        assert list(created_objects_1.value_nodes) == list(created_objects_1.component_edges)
         assert created_objects_1.value_nodes[year_edge_type] == created_objects_2.value_nodes[year_edge_type]
 
     def test_timezone_handling(self):                                                         # Test timezone components
