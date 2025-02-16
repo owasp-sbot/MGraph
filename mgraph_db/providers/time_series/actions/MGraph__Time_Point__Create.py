@@ -19,8 +19,8 @@ class MGraph__Time_Point__Create(Type_Safe):
         if create_data.datetime_str:                                             # Set the display value if available
             time_point.node_data.value = create_data.datetime_str
 
-        value_nodes     = {}                                                     # Initialize tracking dictionaries
-        component_edges = {}
+        value_nodes__by_type = {}                                                     # Initialize tracking dictionaries
+        value_edges__by_type = {}
 
         time_components = [(create_data.year  , create_data.edge_type__year  ),                # Define time components to process
                            (create_data.month , create_data.edge_type__month ),
@@ -34,47 +34,46 @@ class MGraph__Time_Point__Create(Type_Safe):
                 node_id, edge_id           = self.add_value_component(value      = value                       ,
                                                                       edge_type  = edge_type                   ,
                                                                       from_node  = time_point                  )
-                value_nodes    [edge_type] = node_id
-                component_edges[edge_type] = edge_id
+                value_nodes__by_type[edge_type] = node_id
+                value_edges__by_type[edge_type] = edge_id
 
-        tz_id, tz_edge = None, None
-        if create_data.timezone:                                                 # Handle timezone if present
-            tz_id, tz_edge = self.add_timezone_component(timezone     = create_data.timezone  ,
-                                                         utc_offset   = create_data.utc_offset ,
-                                                         create_data  = create_data            ,
-                                                         time_point   = time_point             )
+        created_objects = Schema__MGraph__Time_Point__Created__Objects(time_point__node_id  = time_point.node_id  ,
+                                                                       value_nodes__by_type = value_nodes__by_type,
+                                                                       value_edges__by_type = value_edges__by_type )
+
+        if create_data.timezone:                                                    # Handle timezone if present
+            self.add_timezone_component(created_objects = created_objects        ,
+                                        timezone        = create_data.timezone   ,
+                                        utc_offset      = create_data.utc_offset ,
+                                        create_data     = create_data            ,
+                                        time_point      = time_point             )
 
 
-        return Schema__MGraph__Time_Point__Created__Objects(time_point_id   = time_point.node_id ,
-                                                            value_nodes     = value_nodes        ,
-                                                            component_edges = component_edges     ,
-                                                            timezone_id     = tz_id              ,
-                                                            timezone_edge   = tz_edge            ,
-                                                            utc_offset_id   = None               ,                               # todo: add support for this
-                                                            offset_edge     = None               )
+        return created_objects
 
-    def add_timezone_component(self, timezone    : str                                      ,
-                                     utc_offset  : int                                      ,
-                                     create_data : Schema__MGraph__Time_Point__Create__Data ,
-                                     time_point  : Domain__MGraph__Node
-                                ) -> Tuple[Obj_Id, Obj_Id]:                                     # Returns (timezone_node_id, timezone_edge_id)
-        tz_node = self.mgraph_edit.new_node(node_type = create_data.node_type__timezone,            # Create timezone node
-                                            value     = timezone)
+    def add_timezone_component(self, created_objects: Schema__MGraph__Time_Point__Created__Objects,
+                                     timezone       : str                                         ,
+                                     utc_offset     : int                                         ,
+                                     create_data    : Schema__MGraph__Time_Point__Create__Data    ,
+                                     time_point     : Domain__MGraph__Node
+                                ) -> Tuple[Obj_Id, Obj_Id]:
 
-        tz_edge = self.mgraph_edit.new_edge(edge_type    = create_data.edge_type__tz,               # Create edge to timezone
-                                            from_node_id = time_point.node_id      ,
-                                            to_node_id   = tz_node.node_id)
+        # Get or create timezone node using values system
+        timezone__node, timezone__edge = self.values().get_or_create_value(value     = timezone                 ,
+                                                                           edge_type = create_data.edge_type__tz,
+                                                                           from_node = time_point               )
+        created_objects.timezone__node_id = timezone__node.node_id
+        created_objects.timezone__edge_id = timezone__edge.edge_id
+        if utc_offset is not None:                                                                                  # Get or create UTC offset node using values system
 
-        if utc_offset is not None:                                                                  # Add UTC offset if available
-            offset_node  = self.mgraph_edit.new_node(node_type = create_data.node_type__utc_offset,
-                                                     value     = utc_offset)
-            offset_edge = self.mgraph_edit.new_edge (edge_type    = create_data.edge_type__offset,                 # Link timezone to offset
-                                                     from_node_id = tz_node.node_id            ,
-                                                     to_node_id   = offset_node.node_id)
+            utc_offset__node, utc_offset__edge = self.values().get_or_create_value(value     = utc_offset                       ,
+                                                                                   edge_type = create_data.edge_type__utc_offset,
+                                                                                   from_node = timezone__node                   )
+            created_objects.utc_offset__node_id = utc_offset__node.node_id
+            created_objects.utc_offset__edge_id = utc_offset__edge.edge_id
 
-            # todo: we need to also capture the offset_edge
 
-        return tz_node.node_id, tz_edge.edge_id     # todo: this should be a dict with data (not a tuple)
+
 
     def add_value_component(self, value     : int                        ,                    # Add a value component to time point
                                   edge_type : Type[Schema__MGraph__Edge] ,

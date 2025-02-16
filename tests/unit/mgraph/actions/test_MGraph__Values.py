@@ -31,8 +31,8 @@ class test_MGraph__Values(TestCase):
                     _.dot()
 
     def test_get_or_create(self):                                                                       # Test direct node creation
-        value_node_1 = self.values.get_or_create(42, Schema__MGraph__Node__Value)                      # Create int node
-        value_node_2 = self.values.get_or_create(42, Schema__MGraph__Node__Value)                      # Get same node
+        value_node_1 = self.values.get_or_create(42)                                                    # Create int node
+        value_node_2 = self.values.get_or_create(42)                                                    # Get same node
         node_id      = value_node_1.node_id
         assert self.mgraph.index().values_index.index_data.json() == { 'hash_to_node'  : {'d77fb78183': node_id},
                                                                        'node_to_hash'  : {node_id   : 'd77fb78183'},
@@ -52,8 +52,8 @@ class test_MGraph__Values(TestCase):
         assert value_node_1.node_data.value == "42"                                                     # Note: value stored as string
         assert value_node_1.node_data.value_type is int                                                 # But type maintained
 
-        str_node_1 = self.values.get_or_create("test", Schema__MGraph__Node__Value)                     # Test with string values
-        str_node_2 = self.values.get_or_create("test", Schema__MGraph__Node__Value)
+        str_node_1 = self.values.get_or_create("test")                                                   # Test with string values
+        str_node_2 = self.values.get_or_create("test")
 
         assert str_node_1.node_id           == str_node_2.node_id
         assert str_node_1.node_data.value   == "test"
@@ -109,7 +109,7 @@ class test_MGraph__Values(TestCase):
             assert value_1_linked.node_data.value == "42"
 
     def test_get_by_hash(self):
-        value_node = self.values.get_or_create(42, Schema__MGraph__Node__Value)
+        value_node = self.values.get_or_create(42)
         value_hash = self.mgraph.index().values_index.calculate_hash(int, "42")
 
         retrieved_node = self.values.get_by_hash(value_hash)
@@ -118,7 +118,7 @@ class test_MGraph__Values(TestCase):
         assert retrieved_node.node_data.value_type is int
 
     def test_get_by_value(self):
-        value_node     = self.values.get_or_create(42, Schema__MGraph__Node__Value)
+        value_node     = self.values.get_or_create(42)
         retrieved_node = self.values.get_by_value(int, "42")
         assert retrieved_node.node_id              == value_node.node_id
         assert retrieved_node.node_data.value      == "42"

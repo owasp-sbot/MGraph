@@ -1,5 +1,6 @@
 from typing                                                           import Union, Type, Tuple, Optional
 from mgraph_db.mgraph.actions.MGraph__Edit                            import MGraph__Edit
+from mgraph_db.mgraph.domain.Domain__MGraph__Edge                     import Domain__MGraph__Edge
 from mgraph_db.mgraph.domain.Domain__MGraph__Node                     import Domain__MGraph__Node
 from mgraph_db.mgraph.schemas.Schema__MGraph__Edge                    import Schema__MGraph__Edge
 from mgraph_db.mgraph.schemas.Schema__MGraph__Node__Value             import Schema__MGraph__Node__Value
@@ -22,27 +23,22 @@ class MGraph__Values(Type_Safe):
             return self.mgraph_edit.data().node(node_id)
         return None
 
-    def get_or_create(self, value: Union[int, str],
-                      node_type: Type[Domain__MGraph__Node]) -> Optional[Domain__MGraph__Node]:
-        # First try to find existing value node
-        node_id = self.mgraph_edit.index().values_index.get_node_id_by_value(
-            type(value), str(value))
+    def get_or_create(self, value: Union[int, str]) -> Optional[Domain__MGraph__Node]:
+
+        node_id = self.mgraph_edit.index().values_index.get_node_id_by_value(type(value), str(value))                   # First try to find existing value node
         if node_id:
             return self.mgraph_edit.data().node(node_id)
 
-        # Create new if not found
-        node_value_data = Schema__MGraph__Node__Value__Data(value=str(value),value_type=type(value))
-        node_value      = Schema__MGraph__Node__Value(node_data=node_value_data)
-        new_node  = self.mgraph_edit.add_node        (node_value)
-        #new_node  = self.mgraph_edit.new_node        (node_type=Schema__MGraph__Node__Value,node_data=node_data)
-
+        node_value_data = Schema__MGraph__Node__Value__Data(value     = str(value),value_type=type(value))              # Create new if not found
+        node_value      = Schema__MGraph__Node__Value      (node_data = node_value_data                  )
+        new_node        = self.mgraph_edit.add_node        (node_value                                   )
         return new_node
 
     def get_or_create_value(self, value    : Union[int, str            ],
                                   edge_type: Type [Schema__MGraph__Edge],
                                   from_node: Domain__MGraph__Node
-                            ) -> Tuple[Domain__MGraph__Node, Domain__MGraph__Node]:
-        value_node = self.get_or_create(value, Schema__MGraph__Node__Value)
+                            ) -> Tuple[Domain__MGraph__Node, Domain__MGraph__Edge]:
+        value_node = self.get_or_create(value)
         if value_node is None:
             raise ValueError(f"Unsupported value type: {type(value)}")
 

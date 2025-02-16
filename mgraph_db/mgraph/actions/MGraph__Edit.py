@@ -1,5 +1,4 @@
-from typing import Type
-
+from typing                                         import Type
 from mgraph_db.mgraph.actions.MGraph__Data          import MGraph__Data
 from mgraph_db.mgraph.actions.MGraph__Index         import MGraph__Index
 from mgraph_db.mgraph.domain.Domain__MGraph__Edge   import Domain__MGraph__Edge

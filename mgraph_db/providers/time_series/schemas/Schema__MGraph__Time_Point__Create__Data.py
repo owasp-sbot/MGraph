@@ -1,9 +1,6 @@
 from datetime                                                                             import datetime
 from typing                                                                               import Type
-
-from mgraph_db.mgraph.schemas.values.Schema__MGraph__Node__Value__Int import Schema__MGraph__Node__Value__Int
 from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Time_Point             import Schema__MGraph__Node__Time_Point
-
 from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Value__Timestamp       import Schema__MGraph__Node__Value__Timestamp
 from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Value__Timezone__Name  import Schema__MGraph__Node__Value__Timezone__Name
 from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Value__UTC_Offset      import Schema__MGraph__Node__Value__UTC_Offset
@@ -29,7 +26,6 @@ class Schema__MGraph__Time_Point__Create__Data(Type_Safe):          # The data n
     timestamp             : int         = None
 
     node_type__time_point : Type[Schema__MGraph__Node__Time_Point            ]                 # Node types
-    node_type__value      : Type[Schema__MGraph__Node__Value__Int            ]
     node_type__timezone   : Type[Schema__MGraph__Node__Value__Timezone__Name ]
     node_type__utc_offset : Type[Schema__MGraph__Node__Value__UTC_Offset     ]
     node_type__timestamp  : Type[Schema__MGraph__Node__Value__Timestamp      ]
@@ -41,6 +37,6 @@ class Schema__MGraph__Time_Point__Create__Data(Type_Safe):          # The data n
     edge_type__minute     : Type[Schema__MGraph__Time_Series__Edge__Minute      ]
     edge_type__second     : Type[Schema__MGraph__Time_Series__Edge__Second      ]
     edge_type__tz         : Type[Schema__MGraph__Time_Series__Edge__Timezone    ]
-    edge_type__offset     : Type[Schema__MGraph__Time_Series__Edge__UTC_Offset  ]
+    edge_type__utc_offset : Type[Schema__MGraph__Time_Series__Edge__UTC_Offset]
     edge_type__timestamp  : Type[Schema__MGraph__Time_Series__Edge__Timestamp   ]
 

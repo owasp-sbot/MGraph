@@ -3,10 +3,9 @@ from typing                                                                     
 from zoneinfo                                                                               import ZoneInfo
 from mgraph_db.mgraph.actions.MGraph__Edit                                                  import MGraph__Edit
 from mgraph_db.mgraph.actions.MGraph__Index                                                 import MGraph__Index
+from mgraph_db.mgraph.actions.MGraph__Values                                                import MGraph__Values
 from mgraph_db.mgraph.domain.Domain__MGraph__Node                                           import Domain__MGraph__Node
 from mgraph_db.mgraph.schemas.Schema__MGraph__Edge                                          import Schema__MGraph__Edge
-from mgraph_db.providers.time_series.actions.MGraph__Time_Series__Node__Find                import MGraph__Time_Series__Node__Find
-from mgraph_db.providers.time_series.actions.MGraph__Time_Series__Node__Find_Or_Create      import MGraph__Time_Series__Node__Find_Or_Create
 from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Time_Point               import Schema__MGraph__Node__Time_Point
 from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Value__Timezone__Name    import Schema__MGraph__Node__Value__Timezone__Name
 from mgraph_db.providers.time_series.schemas.Schema__MGraph__Time_Series__Edges             import Schema__MGraph__Time_Series__Edge__Year, Schema__MGraph__Time_Series__Edge__Month, Schema__MGraph__Time_Series__Edge__Day, Schema__MGraph__Time_Series__Edge__Hour, Schema__MGraph__Time_Series__Edge__Minute, Schema__MGraph__Time_Series__Edge__Second, Schema__MGraph__Time_Series__Edge__UTC_Offset, Schema__MGraph__Time_Series__Edge__Timezone
@@ -23,10 +22,10 @@ class MGraph__Time_Series__Node__Create(Type_Safe):
                                  value        : int,
                                  edge_type    : Type[Schema__MGraph__Edge]
                             ) -> None:
-        value_node_id = self.node_find_or_create().get_or_create__int_value(value)
-        self.mgraph_edit.new_edge(edge_type    = edge_type,
-                                  from_node_id = time_point_id,
-                                  to_node_id   = value_node_id)
+        value_node_id = self.values().get_or_create(value)
+        self.mgraph_edit.new_edge(edge_type    = edge_type           ,
+                                  from_node_id = time_point_id       ,
+                                  to_node_id   = value_node_id.node_id)
 
     def create_time_point(self, year   : Optional[int] = None,
                                 month  : Optional[int] = None,
@@ -71,7 +70,7 @@ class MGraph__Time_Series__Node__Create(Type_Safe):
         tz              = ZoneInfo(timezone)                                                                                 # Calculate UTC offset
         dt              = datetime(year, month, day, hour, minute, tzinfo=tz)
         utc_offset      = int(dt.utcoffset().total_seconds() / 60)
-        utc_offset_node = self.node_find_or_create().get_or_create__utc_offset(utc_offset)                                                         # Create or reuse UTC offset node
+        utc_offset_node = self.values().get_or_create(utc_offset)                                                         # Create or reuse UTC offset node
 
         formatted_time             = self.format_datetime_string(year, month, day, hour, minute, timezone)
         time_point.node_data.value = formatted_time
@@ -92,10 +91,10 @@ class MGraph__Time_Series__Node__Create(Type_Safe):
         dt = datetime(year, month, day, hour, minute, tzinfo=ZoneInfo(tz))
         return dt.strftime("%a, %d %b %Y %H:%M:%S %z")
 
-    @cache_on_self
-    def node_find(self):
-        return MGraph__Time_Series__Node__Find          (mgraph_data=self.mgraph_edit.data(), mgraph_index=self.mgraph_index)
+    # @cache_on_self
+    # def node_find(self):
+    #     return MGraph__Time_Series__Node__Find          (mgraph_data=self.mgraph_edit.data(), mgraph_index=self.mgraph_index)
 
     @cache_on_self
-    def node_find_or_create(self):
-        return MGraph__Time_Series__Node__Find_Or_Create(mgraph_edit=self.mgraph_edit, mgraph_index=self.mgraph_index)
+    def values(self):
+        return MGraph__Values(mgraph_edit=self.mgraph_edit)

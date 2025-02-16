@@ -240,6 +240,10 @@ class MGraph__Index(Type_Safe):
         with self.index_data as _:
             return list(_.nodes_to_outgoing_edges.get(node_id, {}))         # convert set to list
 
+    def edges_ids__to__node_id(self, node_id) -> list:
+        with self.index_data as _:
+            return list(_.nodes_to_incoming_edges.get(node_id, {}))         # convert set to list
+
     def nodes_ids__from__node_id(self, node_id) -> list:
         with self.index_data as _:
             nodes_ids = []

@@ -80,12 +80,12 @@ graph TD
                                                                             'max_incoming_edges'    : 1              ,
                                                                             'max_outgoing_edges'    : 2              ,
                                                                             'total_nodes'           : 3              },
-                                                 'nodes_by_field'        : { 'name'                 : { 'Node 1': 1  ,
-                                                                                                        'Node 2': 1  ,
-                                                                                                        'Node 3': 1  },
-                                                                             'value'                : { 'A'     : 1  ,
-                                                                                                        'B'     : 1  ,
-                                                                                                        'C'     : 1  }},
+                                                 # 'nodes_by_field'        : { 'name'                 : { 'Node 1': 1  ,
+                                                 #                                                        'Node 2': 1  ,
+                                                 #                                                        'Node 3': 1  },
+                                                 #                             'value'                : { 'A'     : 1  ,
+                                                 #                                                        'B'     : 1  ,
+                                                 #                                                        'C'     : 1  }},
                                                  'nodes_by_type'         : { 'Schema__Simple__Node': 3               }}}
 
 

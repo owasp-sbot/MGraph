@@ -5,9 +5,7 @@ from mgraph_db.mgraph.actions.MGraph__Index                                     
 from mgraph_db.mgraph.actions.exporters.dot.MGraph__Export__Dot                            import MGraph__Export__Dot
 from mgraph_db.mgraph.actions.exporters.dot.utils.MGraph__Export__Dot__Time_Series__Colors import MGraph__Export__Dot__Time_Series__Colors, MGraph__Export__Dot__Time_Series__Colors__Scheme
 from mgraph_db.mgraph.domain.Domain__MGraph__Node                                          import Domain__MGraph__Node
-from mgraph_db.mgraph.models.Model__MGraph__Node                                           import Model__MGraph__Node
-from mgraph_db.mgraph.schemas.values.Schema__MGraph__Node__Value__Int                      import Schema__MGraph__Node__Value__Int
-from mgraph_db.mgraph.schemas.values.Schema__MGraph__Node__Value__Int__Data                import Schema__MGraph__Node__Value__Int__Data
+from mgraph_db.mgraph.schemas.Schema__MGraph__Node__Value__Data                            import Schema__MGraph__Node__Value__Data
 from mgraph_db.providers.time_series.MGraph__Time_Series                                   import MGraph__Time_Series
 from mgraph_db.providers.time_series.actions.MGraph__Time_Series__Edit                     import MGraph__Time_Series__Edit
 from mgraph_db.providers.time_series.actions.MGraph__Time_Series__Screenshot               import MGraph__Time_Series__Screenshot
@@ -21,11 +19,8 @@ from mgraph_db.providers.time_series.schemas.Schema__MGraph__Time_Series__Edges 
     Schema__MGraph__Time_Series__Edge__Hour  ,
     Schema__MGraph__Time_Series__Edge__Minute,
     Schema__MGraph__Time_Series__Edge__Second)
-from osbot_utils.utils.Dev import pprint
-
 from osbot_utils.utils.Env                                                                 import load_dotenv
 from osbot_utils.utils.Files                                                               import file_exists, file_delete
-from osbot_utils.utils.Objects                                                             import __, type_full_name
 from osbot_utils.helpers.Obj_Id                                                            import is_obj_id
 
 
@@ -34,7 +29,7 @@ class test_MGraph__Time_Series__Edit(TestCase):
     @classmethod
     def setUpClass(cls):
         load_dotenv()
-        cls.screenshot_create = False
+        #cls.screenshot_create = False
         cls.screenshot_file   = './time-series.png'
         cls.screenshot_delete = False
 
@@ -90,10 +85,10 @@ class test_MGraph__Time_Series__Edit(TestCase):
                     .set_node__type_rounded   (Schema__MGraph__Node__Time_Point)
 
                     # Time component styling
-                    .set_node__type_fill_color(Schema__MGraph__Node__Value__Int, '#D8E6F3')  # Soft blue for time values
-                    .set_node__type_shape     (Schema__MGraph__Node__Value__Int, 'ellipse')
-                    .set_node__type_font_color(Schema__MGraph__Node__Value__Int, 'darkblue')
-                    .set_node__type_font_size (Schema__MGraph__Node__Value__Int, 18)
+                    .set_node__type_fill_color(Schema__MGraph__Node__Value__Data, '#D8E6F3')  # Soft blue for time values
+                    .set_node__type_shape     (Schema__MGraph__Node__Value__Data, 'ellipse')
+                    .set_node__type_font_color(Schema__MGraph__Node__Value__Data, 'darkblue')
+                    .set_node__type_font_size (Schema__MGraph__Node__Value__Data, 18)
 
                     # Timezone styling
                     .set_node__type_fill_color(Schema__MGraph__Node__Value__Timezone__Name, '#B8D0E6')  # Darker blue for timezone
@@ -154,27 +149,6 @@ class test_MGraph__Time_Series__Edit(TestCase):
         with self.graph_edit as _:
             assert type(_) is MGraph__Time_Series__Edit
 
-    def test_find_int_value(self):
-        with self.graph_edit as _:
-            assert _.node_find().with_value(42) is None
-
-            test_value = 42
-            value_node = _.new_node(node_type = Schema__MGraph__Node__Value__Int,
-                                    value     = test_value)
-            value_node_id = value_node.node_id
-            assert type(value_node)           is Domain__MGraph__Node
-            assert type(value_node.node)      is Model__MGraph__Node
-            assert type(value_node.node.data) is Schema__MGraph__Node__Value__Int
-            assert type(value_node.node_data) is Schema__MGraph__Node__Value__Int__Data
-            assert value_node.node.obj()      == __(data      = __(node_data = __(value=42),
-                                                                   node_id   = value_node_id,
-                                                                   node_type = type_full_name(Schema__MGraph__Node__Value__Int)))
-
-            assert _.index().index_data.nodes_by_field == {'value': {42: {value_node_id}}}
-
-            found_id = _.node_find().with_value(test_value)
-            assert found_id == value_node.node_id
-
     def test_create_partial_time_point(self):
         time_point = self.graph_edit.create_time_point(year=2024, month=2)
 
@@ -197,7 +171,7 @@ class test_MGraph__Time_Series__Edit(TestCase):
             assert len(year_values) == 1, "Year value should be reused"
 
             year_node = data.node(next(iter(year_values)))
-            assert year_node.node_data.value == 2024
+            assert year_node.node_data.value == '2024'
 
     def test_edge_types(self):
         self.graph_edit.create_time_point(year=2024, month=2, day=14)
@@ -211,7 +185,7 @@ class test_MGraph__Time_Series__Edit(TestCase):
                 edge_type = type(edge.edge.data)
                 if edge_type in edge_type_map:
                     target_node = data.node(edge.to_node_id())
-                    assert isinstance(target_node.node.data, Schema__MGraph__Node__Value__Int)
+                    assert isinstance(target_node.node.data, Schema__MGraph__Node__Value__Data)
                     assert target_node.node_data.value == edge_type_map[edge_type]
 
     def test_cleanup(self):
@@ -246,35 +220,16 @@ class test_MGraph__Time_Series__Edit(TestCase):
 
             if edge_type in edge_type_to_component:                                                # If it's a time component edge
                 value_node = data.node(edge.to_node_id())                                          # Get the value node
-                component_name = edge_type_to_component[edge_type]                                  # Get component name
-                components[component_name] = value_node.node_data.value                             # Store component value
+                component_name             = edge_type_to_component[edge_type]                     # Get component name
+                components[component_name] = int(value_node.node_data.value)                       # Store component value
 
         return components
-
-    def test_get_or_create_utc_offset(self):
-        with self.graph_edit as _:
-            offset_node_1 = _.node_create().node_find_or_create().get_or_create__utc_offset(-300)                                       # Test first creation (-5 hours)
-            assert isinstance(offset_node_1.node.data, Schema__MGraph__Node__Value__UTC_Offset)
-            assert offset_node_1.node_data.value == -300
-
-            offset_node_2 = _.node_create().node_find_or_create().get_or_create__utc_offset(-300)                                       # Test reuse of same offset
-            assert offset_node_2.node_id == offset_node_1.node_id                                   # Should get same node
-
-            offset_node_3 = _.node_create().node_find_or_create().get_or_create__utc_offset(60)                                         # Test different offset (+1 hour)
-            assert offset_node_3.node_id != offset_node_1.node_id                                   # Should be different node
-            assert offset_node_3.node_data.value == 60
-
-            offset_nodes = _.node_create().mgraph_index.get_nodes_by_type(Schema__MGraph__Node__Value__UTC_Offset)     # Verify using index
-            assert len(offset_nodes) == 2                                                           # Should have two distinct offset nodes
-
-            matching_nodes = _.node_create().mgraph_index.get_nodes_by_field('value', -300)
-            assert offset_node_1.node_id in matching_nodes                                          # Should find original node
-
 
     def test_utc_offset_reuse(self):
         # Create two time points with the same UTC offset using valid timezone strings
         point_1 = self.graph_edit.create_time_point__with_tz(year=2024, month=2, day=8, hour=15, minute=30, timezone='Etc/GMT+5')
         point_2 = self.graph_edit.create_time_point__with_tz(year=2024, month=2, day=8, hour=15, minute=30, timezone='America/New_York')
+
 
         def get_utc_offset_from_point(point__node_id):
             with self.graph.data() as data:
@@ -290,4 +245,4 @@ class test_MGraph__Time_Series__Edit(TestCase):
         utc_offset_2__node = get_utc_offset_from_point(point_2__node_id)
 
         assert utc_offset_1__node.node_id == utc_offset_2__node.node_id                   # these should be the same :)
-        assert utc_offset_1__node.node_data.value == -300                                 # offset should be -300 (i.e 5h = 5 * 60)
+        assert utc_offset_1__node.node_data.value == '-300'                               # offset should be -300 (i.e 5h = 5 * 60)
