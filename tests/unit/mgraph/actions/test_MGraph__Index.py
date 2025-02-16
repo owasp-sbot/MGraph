@@ -20,16 +20,19 @@ class test_MGraph_Index(TestCase):
         with self.mgraph_index as _:
             assert type(_           ) is MGraph__Index
             assert type(_.index_data) is Schema__MGraph__Index__Data
-            assert _.json()           == { 'index_data' : { 'edges_to_nodes'                 : {} ,
-                                                            'edges_by_type'                  : {} ,
-                                                            'edges_types'                    : {} ,
-                                                            'nodes_by_field'                 : {},
-                                                            'nodes_by_type'                  : {} ,
-                                                            'nodes_to_incoming_edges_by_type': {} ,
-                                                            'nodes_to_incoming_edges'        : {} ,
-                                                            'nodes_to_outgoing_edges'        : {} ,
-                                                            'nodes_to_outgoing_edges_by_type': {} ,
-                                                            'nodes_types'                    : {}}}
+            assert _.json()           == { 'index_data'  : { 'edges_to_nodes'                 : {} ,
+                                                             'edges_by_type'                  : {} ,
+                                                             'edges_types'                    : {} ,
+                                                             'nodes_by_type'                  : {} ,
+                                                             'nodes_to_incoming_edges_by_type': {} ,
+                                                             'nodes_to_incoming_edges'        : {} ,
+                                                             'nodes_to_outgoing_edges'        : {} ,
+                                                             'nodes_to_outgoing_edges_by_type': {} ,
+                                                             'nodes_types'                    : {}},
+                                           'values_index': { 'index_data': { 'hash_to_node'   : {},
+                                                                             'node_to_hash'   : {},
+                                                                             'type_by_value'  : {},
+                                                                             'values_by_type' : {}}}}
 
     def test_add_node(self):    # Test adding a node to the index
         node_to_add = Schema__MGraph__Node()
@@ -116,8 +119,7 @@ class test_MGraph_Index(TestCase):
                                              nodes_to_outgoing_edges_by_type = __(),
                                              edges_to_nodes                  = __(),
                                              nodes_by_type                   = __(),
-                                             edges_by_type                   = __(),
-                                             nodes_by_field                  = __())
+                                             edges_by_type                   = __())
             _.add_node(node_1)
             _.add_node(node_2)
             _.add_edge(edge_1)
@@ -127,7 +129,6 @@ class test_MGraph_Index(TestCase):
             assert _.index_data.json() == { 'edges_to_nodes'                 : { edge_1_id: [node_1_id, node_2_id]},
                                             'edges_by_type'                  : {'Schema__MGraph__Edge': [edge_1_id]},
                                             'edges_types'                    : { edge_1_id: 'Schema__MGraph__Edge'},
-                                            'nodes_by_field'                 : {},
                                             'nodes_by_type'                  : {'Schema__MGraph__Node': nodes_by_type },
                                             'nodes_to_incoming_edges'        : { node_2_id: [edge_1_id],
                                                                                  node_1_id: []},
@@ -144,7 +145,6 @@ class test_MGraph_Index(TestCase):
         with simple_graph.index() as _:
             assert len(_.edges_to_nodes         ()) == 2
             assert len(_.edges_by_type          ()) == 1
-            assert len(_.nodes_by_field         ()) == 2              # BUG
             assert len(_.nodes_by_type          ()) == 1
             assert len(_.nodes_to_incoming_edges()) == 3
             assert len(_.nodes_to_outgoing_edges()) == 3
@@ -174,8 +174,7 @@ class test_MGraph_Index(TestCase):
         assert node_2_id               in nodes_by_type
         assert index.index_data.json() ==  {  'edges_to_nodes'                 : { edge_1_id: [node_1_id, node_2_id] },
                                               'edges_by_type'                  : { edge_1_type: [edge_1_id]          },
-                                              'edges_types'                    : { edge_1_id: 'Schema__MGraph__Edge'},
-                                              'nodes_by_field'                 :  {}                                   ,
+                                              'edges_types'                    : { edge_1_id: 'Schema__MGraph__Edge' },
                                               'nodes_by_type'                  : { node_1_type: nodes_by_type        },
                                               'nodes_to_incoming_edges'        : { node_1_id: []                     ,
                                                                                    node_2_id: [edge_1_id]            },

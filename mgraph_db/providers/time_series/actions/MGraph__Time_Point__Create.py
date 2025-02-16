@@ -1,11 +1,11 @@
 from typing                                                                               import Type, Tuple
 from mgraph_db.mgraph.actions.MGraph__Edit                                                import MGraph__Edit
-from mgraph_db.mgraph.actions.MGraph__Value__Node import MGraph__Value__Node
+from mgraph_db.mgraph.actions.MGraph__Values                                              import MGraph__Values
 from mgraph_db.mgraph.domain.Domain__MGraph__Node                                         import Domain__MGraph__Node
 from mgraph_db.mgraph.schemas.Schema__MGraph__Edge                                        import Schema__MGraph__Edge
 from mgraph_db.providers.time_series.schemas.Schema__MGraph__Time_Point__Create__Data     import Schema__MGraph__Time_Point__Create__Data
 from mgraph_db.providers.time_series.schemas.Schema__MGraph__Time_Point__Created__Objects import Schema__MGraph__Time_Point__Created__Objects
-from osbot_utils.decorators.methods.cache_on_self import cache_on_self
+from osbot_utils.decorators.methods.cache_on_self                                         import cache_on_self
 from osbot_utils.helpers.Obj_Id                                                           import Obj_Id
 from osbot_utils.type_safe.Type_Safe                                                      import Type_Safe
 
@@ -81,7 +81,7 @@ class MGraph__Time_Point__Create(Type_Safe):
                                   from_node : Domain__MGraph__Node
                            ) -> Tuple[Obj_Id, Obj_Id]:                                       # Returns value_node_id, edge_id
 
-        value_node = self.value_node().get_or_create(value)                                  # Get or create value node
+        value_node = self.values().get_or_create(value)                                  # Get or create value node
 
         edge = self.mgraph_edit.new_edge(edge_type    = edge_type          ,                 # Create edge to value
                                          from_node_id = from_node.node_id  ,
@@ -90,5 +90,5 @@ class MGraph__Time_Point__Create(Type_Safe):
         return value_node.node_id, edge.edge_id                                              # Return both IDs
 
     @cache_on_self
-    def value_node(self) -> MGraph__Value__Node:                                             # Value node factory accessor
-        return MGraph__Value__Node(mgraph_edit=self.mgraph_edit)
+    def values(self) -> MGraph__Values:                                             # Value node factory accessor
+        return MGraph__Values(mgraph_edit=self.mgraph_edit)

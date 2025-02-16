@@ -9,11 +9,12 @@ class Domain__MGraph__Node(Type_Safe):                                          
     node : Model__MGraph__Node                                                              # Reference to node model
     graph: Model__MGraph__Graph                                                             # Reference to graph model
 
-    node_data = set_as_property('node.data' , 'node_data')                                 # Node configuration property
-    node_id   = set_as_property('node.data' , 'node_id'  )                                 # Node ID property
-    graph_id  = set_as_property('graph.data', 'graph_id' )                                 # Graph ID property
+    node_data = set_as_property('node.data' , 'node_data')                                  # Node configuration property
+    node_id   = set_as_property('node.data' , 'node_id'  )                                  # Node ID property
+    node_type = set_as_property('node.data' , 'node_type')                                  # Note Type property
+    graph_id  = set_as_property('graph.data', 'graph_id' )                                  # Graph ID property
 
-    def add_node(self, node: Model__MGraph__Node) -> None:                                 # Add a node to the graph
+    def add_node(self, node: Model__MGraph__Node) -> None:                                  # Add a node to the graph
         self.graph.add_node(node.data)
 
     # todo: refactor to not use self.graph.edges()

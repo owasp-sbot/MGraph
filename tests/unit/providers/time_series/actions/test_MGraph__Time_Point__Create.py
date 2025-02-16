@@ -21,7 +21,7 @@ class test_MGraph__Time_Point__Create(TestCase):
     @classmethod
     def setUpClass(cls):
         load_dotenv()
-        cls.screenshot_create = True            # set to true to create a screenshot per test
+        cls.screenshot_create = False            # set to true to create a screenshot per test
         cls.screenshot_file   = './time-point-create.png'
         cls.screenshot_delete = False
 

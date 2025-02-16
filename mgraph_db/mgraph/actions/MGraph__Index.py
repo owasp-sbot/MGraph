@@ -1,4 +1,6 @@
 from typing                                               import Type, Set, Any, Dict, Optional
+from mgraph_db.mgraph.actions.MGraph__Index__Values       import MGraph__Index__Values
+from mgraph_db.mgraph.schemas.Schema__MGraph__Node__Value import Schema__MGraph__Node__Value
 from osbot_utils.utils.Dev                                import pprint
 from mgraph_db.mgraph.domain.Domain__MGraph__Graph        import Domain__MGraph__Graph
 from mgraph_db.mgraph.schemas.Schema__MGraph__Node        import Schema__MGraph__Node
@@ -9,11 +11,12 @@ from osbot_utils.type_safe.Type_Safe                      import Type_Safe
 from osbot_utils.utils.Json                               import json_file_create, json_load_file
 
 class MGraph__Index(Type_Safe):
-    index_data : Schema__MGraph__Index__Data
+    index_data  : Schema__MGraph__Index__Data
+    values_index: MGraph__Index__Values
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-    # todo: refactor all these add_* methods to an MGraph__Index__Create class (which will hold all the login to create the index)
+    # todo: refactor all these add_* methods to an MGraph__Index__Create class (which will hold all the logic to create the index)
     #       the main methods in this class should be focused on easy access to the MGraph index data
     def add_node(self, node: Schema__MGraph__Node) -> None:                         # Add a node to the index
         node_id   = node.node_id
@@ -26,12 +29,14 @@ class MGraph__Index(Type_Safe):
         if node_id not in self.index_data.nodes_to_incoming_edges:
             self.index_data.nodes_to_incoming_edges[node_id] = set()
 
-
         if node_type not in self.index_data.nodes_by_type:                          # Add to type index
             self.index_data.nodes_by_type[node_type] = set()
         self.index_data.nodes_by_type[node_type].add(node_id)
 
-        self.index_node_data(node)                                            # Index attributes
+        if node.node_type is Schema__MGraph__Node__Value:                           # if the data is a value
+            self.values_index.add_value_node(node)                        # add it to the index
+
+
 
     def add_edge(self, edge: Schema__MGraph__Edge) -> None:                     # Add an edge to the index
         edge_id      = edge.edge_config.edge_id
@@ -82,7 +87,10 @@ class MGraph__Index(Type_Safe):
             if not self.index_data.nodes_by_type[node_type]:
                 del self.index_data.nodes_by_type[node_type]
 
-        self.remove_node_data(node)                                   # Remove from attribute indexes
+        if node.node_data is Schema__MGraph__Node__Value:                               # if the data is a value
+            self.values_index.remove_value_node(node.node_data)                         # remove it from the index
+
+
 
     def remove_edge(self, edge: Schema__MGraph__Edge) -> None:          # Remove an edge and all its references from the index
         edge_id = edge.edge_config.edge_id
@@ -108,28 +116,6 @@ class MGraph__Index(Type_Safe):
             if not self.index_data.edges_by_type[edge_type]:
                 del self.index_data.edges_by_type[edge_type]
 
-
-    def index_node_data(self, node: Schema__MGraph__Node) -> None:
-        """Index all fields from node_data"""
-        if node.node_data:
-            for field_name, field_value in node.node_data.__dict__.items():
-                if field_name.startswith('_'):
-                    continue
-                if field_name not in self.index_data.nodes_by_field:
-                    self.index_data.nodes_by_field[field_name] = {}
-                if field_value not in self.index_data.nodes_by_field[field_name]:
-                    self.index_data.nodes_by_field[field_name][field_value] = set()
-                self.index_data.nodes_by_field[field_name][field_value].add(node.node_id)
-
-    def remove_node_data(self, node: Schema__MGraph__Node) -> None:
-        """Remove indexed node_data fields"""
-        if node.node_data:
-            for field_name, field_value in node.node_data.__dict__.items():
-                if field_name.startswith('_'):
-                    continue
-                if field_name in self.index_data.nodes_by_field:
-                    if field_value in self.index_data.nodes_by_field[field_name]:
-                        self.index_data.nodes_by_field[field_name][field_value].discard(node.node_id)
 
     # todo: see if we need this capability (which is to store in the index the data from the edge's data).
     #       I removed it becasue there was no use that needed this
@@ -192,10 +178,6 @@ class MGraph__Index(Type_Safe):
                 'edge_to_nodes'          : len(self.index_data.edges_to_nodes)          ,                # Count of edge to node mappings
                 'edges_by_type'          : {k: len(v) for k,v in                                        # Count of edges per type
                                           self.index_data.edges_by_type.items()}        ,
-                'nodes_by_field'         : {                                                            # Counts for field values
-                    field_name: { value: len(nodes) for value, nodes in field_values.items()}
-                    for field_name, field_values in self.index_data.nodes_by_field.items()
-                },
                 'nodes_by_type'          : {k: len(v) for k,v in                                        # Count of nodes per type
                                           self.index_data.nodes_by_type.items()}        ,
                 'node_edge_connections'   : {                                                           # Consolidated edge counts
@@ -242,17 +224,15 @@ class MGraph__Index(Type_Safe):
     def get_edges_by_type(self, edge_type: Type[Schema__MGraph__Edge]) -> Set[Obj_Id]:      # Get all edges of a specific type
         return self.index_data.edges_by_type.get(edge_type.__name__, set())
 
-    def get_nodes_by_field(self, field_name: str, field_value: Any) -> Set[Obj_Id]:         # Get all nodes with a specific field value
-        return self.index_data.nodes_by_field.get(field_name, {}).get(field_value, set())
-
     # todo: refactor this to something like raw__edges_to_nodes , ...
     #       in fact once we add the main helper methods (like edges_ids__from__node_id) see if these methods are still needed
-    def edges_to_nodes          (self): return self.index_data.edges_to_nodes
-    def edges_by_type           (self): return self.index_data.edges_by_type
-    def nodes_by_field          (self): return self.index_data.nodes_by_field
-    def nodes_by_type           (self): return self.index_data.nodes_by_type
-    def nodes_to_incoming_edges (self): return self.index_data.nodes_to_incoming_edges
-    def nodes_to_outgoing_edges (self): return self.index_data.nodes_to_outgoing_edges
+    def edges_to_nodes                 (self): return self.index_data.edges_to_nodes
+    def edges_by_type                  (self): return self.index_data.edges_by_type
+    def nodes_by_type                  (self): return self.index_data.nodes_by_type
+    def nodes_to_incoming_edges        (self): return self.index_data.nodes_to_incoming_edges
+    def nodes_to_incoming_edges_by_type(self): return self.index_data.nodes_to_incoming_edges_by_type
+    def nodes_to_outgoing_edges        (self): return self.index_data.nodes_to_outgoing_edges
+    def nodes_to_outgoing_edges_by_type(self): return  self.index_data.nodes_to_outgoing_edges_by_type
 
     # todo: create this @as_list decorator which converts the return value set to a list (see if that is the better name)
     # @set_to_list
@@ -267,8 +247,6 @@ class MGraph__Index(Type_Safe):
                 (from_node_id, to_node_id) = _.edges_to_nodes[edge_id]
                 nodes_ids.append(to_node_id)
             return nodes_ids
-
-
 
     # todo: see there is a better place to put these static methods (or if we need them to be static)
     @classmethod
