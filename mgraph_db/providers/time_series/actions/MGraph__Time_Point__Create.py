@@ -22,12 +22,14 @@ class MGraph__Time_Point__Create(Type_Safe):
         value_nodes__by_type = {}                                                     # Initialize tracking dictionaries
         value_edges__by_type = {}
 
-        time_components = [(create_data.year  , create_data.edge_type__year  ),                # Define time components to process
-                           (create_data.month , create_data.edge_type__month ),
-                           (create_data.day   , create_data.edge_type__day   ),
-                           (create_data.hour  , create_data.edge_type__hour  ),
-                           (create_data.minute, create_data.edge_type__minute),
-                           (create_data.second, create_data.edge_type__second)]
+        time_components = [(create_data.year     , create_data.edge_type__year     ),                # Define time components to process
+                           (create_data.month    , create_data.edge_type__month    ),
+                           (create_data.day      , create_data.edge_type__day      ),
+                           (create_data.hour     , create_data.edge_type__hour     ),
+                           (create_data.minute   , create_data.edge_type__minute   ),
+                           (create_data.second   , create_data.edge_type__second   ),
+                           (create_data.source_id, create_data.edge_type__source_id),
+                           (create_data.timestamp, create_data.edge_type__timestamp)]
 
         for value, edge_type in time_components:                                 # Process each time component
             if value is not None:

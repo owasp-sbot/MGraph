@@ -7,11 +7,13 @@ from mgraph_db.providers.time_series.MGraph__Time_Series                        
 from mgraph_db.providers.time_series.actions.MGraph__Time_Point__Builder                    import MGraph__Time_Point__Builder
 from mgraph_db.providers.time_series.actions.MGraph__Time_Point__Create                     import MGraph__Time_Point__Create
 from mgraph_db.providers.time_series.schemas.Schema__MGraph__Time_Point__Created__Objects   import Schema__MGraph__Time_Point__Created__Objects
-from mgraph_db.providers.time_series.schemas.Schema__MGraph__Time_Series__Edges             import \
+from mgraph_db.providers.time_series.schemas.Schema__MGraph__Time_Series__Edges import \
     Schema__MGraph__Time_Series__Edge__Year, Schema__MGraph__Time_Series__Edge__Second, \
     Schema__MGraph__Time_Series__Edge__Month, Schema__MGraph__Time_Series__Edge__Day, \
     Schema__MGraph__Time_Series__Edge__Hour, Schema__MGraph__Time_Series__Edge__Minute, \
-    Schema__MGraph__Time_Series__Edge__UTC_Offset
+    Schema__MGraph__Time_Series__Edge__UTC_Offset, Schema__MGraph__Time_Series__Edge__Source_Id, \
+    Schema__MGraph__Time_Series__Edge__Timestamp
+from osbot_utils.helpers.Obj_Id                                                             import Obj_Id
 from osbot_utils.utils.Env                                                                  import load_dotenv
 
 
@@ -27,7 +29,7 @@ class test_MGraph__Time_Point__Create(TestCase):
     def setUp(self):
         self.mgraph            = MGraph__Time_Series()                                         # Setup fresh graph for each test
         self.time_point_create = MGraph__Time_Point__Create(mgraph_edit  = self.mgraph.edit())
-        self.builder          = MGraph__Time_Point__Builder()
+        self.builder           = MGraph__Time_Point__Builder()
 
     def tearDown(self):
         if self.screenshot_create:
@@ -36,6 +38,7 @@ class test_MGraph__Time_Point__Create(TestCase):
                     #_.set_graph__layout_engine__fdp()
                     _.show_node__value()
                     #_.show_node__type()
+                    #_.show_edge__type()
                     #_.show_edge__ids()
                     _.set_edge_to_node__type_fill_color(Schema__MGraph__Time_Series__Edge__Second, 'azure')
                 with screenshot as _:
@@ -61,23 +64,26 @@ class test_MGraph__Time_Point__Create(TestCase):
                 assert data.node(node_id) is not None
 
     def test_value_reuse(self):                                                               # Test value node reuse
-        test_time         = datetime(2025, 2, 10, 12, 30, tzinfo=UTC)
-        create_data_1     = self.builder.from_datetime(test_time)                                # Create first time point
-        created_objects_1 = self.time_point_create.execute(create_data_1)
-        create_data_2     = self.builder.from_datetime(test_time)                                # Create second time point
-        created_objects_2 = self.time_point_create.execute(create_data_2)
+        test_time               = datetime(2025, 2, 10, 12, 30, tzinfo=UTC)
+        create_data_1           = self.builder.from_datetime(test_time)                                # Create first time point
+        create_data_1.source_id = Obj_Id()                                                              # todo: find a better way to assign this ID
+        created_objects_1       = self.time_point_create.execute(create_data_1)
+        create_data_2           = self.builder.from_datetime(test_time)                                # Create second time point
+        created_objects_2       = self.time_point_create.execute(create_data_2)
 
-        year_edge_type = Schema__MGraph__Time_Series__Edge__Year  # Check year value reuse
+        year_edge_type          = Schema__MGraph__Time_Series__Edge__Year  # Check year value reuse
 
-        self.mgraph.index().print__index_data()
-        assert len(created_objects_1.value_nodes__by_type) == 6
-        assert len(created_objects_1.value_edges__by_type) == 6
-        assert list(created_objects_1.value_nodes__by_type) == [Schema__MGraph__Time_Series__Edge__Year    ,
-                                                                Schema__MGraph__Time_Series__Edge__Month   ,
-                                                                Schema__MGraph__Time_Series__Edge__Day     ,
-                                                                Schema__MGraph__Time_Series__Edge__Hour    ,
-                                                                Schema__MGraph__Time_Series__Edge__Minute  ,
-                                                                Schema__MGraph__Time_Series__Edge__Second]
+        #self.mgraph.index().print__index_data()
+        assert len(created_objects_1.value_nodes__by_type) == 8
+        assert len(created_objects_1.value_edges__by_type) == 8
+        assert list(created_objects_1.value_nodes__by_type) == [Schema__MGraph__Time_Series__Edge__Year     ,
+                                                                Schema__MGraph__Time_Series__Edge__Month    ,
+                                                                Schema__MGraph__Time_Series__Edge__Day      ,
+                                                                Schema__MGraph__Time_Series__Edge__Hour     ,
+                                                                Schema__MGraph__Time_Series__Edge__Minute   ,
+                                                                Schema__MGraph__Time_Series__Edge__Second   ,
+                                                                Schema__MGraph__Time_Series__Edge__Source_Id,
+                                                                Schema__MGraph__Time_Series__Edge__Timestamp]
         assert list(created_objects_1.value_nodes__by_type) == list(created_objects_1.value_edges__by_type)
         assert created_objects_1.value_nodes__by_type[year_edge_type] == created_objects_2.value_nodes__by_type[year_edge_type]
 
@@ -136,8 +142,8 @@ class test_MGraph__Time_Point__Create(TestCase):
             self.time_point_create.execute(None)
 
         create_data = self.builder.from_components()                                          # Empty create data
-        time_objects = self.time_point_create.execute(create_data)
-        assert len(time_objects.value_edges__by_type) == 0                                         # Should create time point but no components
+        create_objects = self.time_point_create.execute(create_data)
+        assert len(create_objects.value_edges__by_type) == 0                                    # Should create time point but no components
 
     def test_execution_idempotency(self):                                                     # Test idempotent behavior
         test_time = datetime(2025, 2, 10, 12, 30, tzinfo=UTC)
