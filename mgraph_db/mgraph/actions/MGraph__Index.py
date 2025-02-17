@@ -240,6 +240,12 @@ class MGraph__Index(Type_Safe):
     def get_node_outgoing_edges(self, node: Schema__MGraph__Node) -> Set[Obj_Id]:           # Get all outgoing edges for a node
         return self.index_data.nodes_to_outgoing_edges.get(node.node_id, set())
 
+    def get_node_id_outgoing_edges(self, node_id: Obj_Id) -> Set[Obj_Id]:           # Get all outgoing edges for a node
+        return self.index_data.nodes_to_outgoing_edges.get(node_id, set())
+
+    def get_node_id_incoming_edges(self, node_id: Obj_Id) -> Set[Obj_Id]:           # Get all incoming edges for a node
+        return self.index_data.nodes_to_incoming_edges.get(node_id, set())
+
     def get_node_incoming_edges(self, node: Schema__MGraph__Node) -> Set[Obj_Id]:           # Get all incoming edges for a node
         return self.index_data.nodes_to_incoming_edges.get(node.node_id, set())
 

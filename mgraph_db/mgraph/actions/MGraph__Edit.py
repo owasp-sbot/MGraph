@@ -25,6 +25,13 @@ class MGraph__Edit(Type_Safe):
         self.index().add_edge(edge)                                      # Add to index
         return result
 
+    def connect_nodes(self, from_node: Schema__MGraph__Node, to_node:Schema__MGraph__Node):
+        edge_domain = self.graph.connect_nodes(from_node, to_node)
+        edge_model  = edge_domain.edge
+        edge_schema = edge_model.data
+        self.index().add_edge(edge_schema)
+        return edge_domain
+
     def new_node(self, **kwargs):
         with self.index() as index:
             node = self.graph.new_node(**kwargs)                             # Create new node
