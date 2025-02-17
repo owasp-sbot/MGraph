@@ -8,13 +8,16 @@ from osbot_utils.type_safe.Type_Safe                     import Type_Safe
 
 
 class Domain__MGraph__Query(Type_Safe):
-    graph       : Domain__MGraph__Graph                                              # Source graph reference
-    mgraph_data : MGraph__Data                                                       # Access to graph data
-    mgraph_index: MGraph__Index                                                      # Access to graph index
+    mgraph_index: MGraph__Index                 = None                               # Access to graph index
+    mgraph_data : MGraph__Data                  = None
     query_views : Model__MGraph__Query__Views                                        # Query view management
     query_type  : Type['Domain__MGraph__Query']                                      # Self type reference
 
     def setup(self):
+        if self.mgraph_data is None:
+            raise ValueError("in Domain__MGraph__Query, the self.mgraph_data was not set")
+        if self.mgraph_index is None:
+            raise ValueError("in Domain__MGraph__Query, the self.mgraph_index was not set")
         self.query_views = Model__MGraph__Query__Views()                             # Initialize views
         return self.create_initial_view()
 

@@ -17,9 +17,9 @@ class MGraph__Query__Add(Type_Safe):
         new_edges = current_edges                                                  # Keep current edges
 
         self.query.create_view(nodes_ids = new_nodes,
-                              edges_ids = new_edges,
-                              operation = 'add_node_id',
-                              params    = {'node_id': str(node_id)})              # Create new view with added node
+                               edges_ids = new_edges,
+                               operation = 'add_node_id',
+                               params    = {'node_id': str(node_id)})              # Create new view with added node
         return self
 
     def add_nodes_ids(self, nodes_ids: Set[Obj_Id]) -> 'MGraph__Query__Add':     # Add multiple nodes to view
@@ -42,27 +42,25 @@ class MGraph__Query__Add(Type_Safe):
         return self
 
     def add_node_with_value(self, value: any) -> 'MGraph__Query__Add':          # Add node with specific value
-        matching_id = self.query.mgraph_index.get_node_id_by_value(type(value),
-                                                                  str(value))
+        matching_id = self.query.mgraph_index.values_index.get_node_id_by_value(type(value), str(value))
         if matching_id:
-            filtered_nodes = {matching_id}                                        # Start with matching node
+            filtered_nodes = {matching_id}                                          # Start with matching node
             filtered_edges = set()
 
-            # Get all incoming edges to build path
-            current_node_id = matching_id
+
+            current_node_id = matching_id                                           # Get all incoming edges to build path
             while True:
                 incoming_edges = self.query.mgraph_index.edges_ids__to__node_id(current_node_id)
                 if not incoming_edges:
                     break
 
-                edge_id = incoming_edges[0]                                      # Take first incoming edge
-                edge = self.query.mgraph_data.edge(edge_id)
-                filtered_edges.add(edge_id)
-
+                edge_id        = incoming_edges[0]                                      # Take first incoming edge
+                edge           = self.query.mgraph_data.edge(edge_id)
                 parent_node_id = edge.from_node_id()
+                filtered_edges.add(edge_id)
                 filtered_nodes.add(parent_node_id)
 
-                # Add sibling nodes
+                # Add sibling nodes # todo: check this logic
                 outgoing_edges = self.query.mgraph_index.edges_ids__from__node_id(parent_node_id)
                 for sibling_edge_id in outgoing_edges:
                     sibling_edge = self.query.mgraph_data.edge(sibling_edge_id)
@@ -78,6 +76,7 @@ class MGraph__Query__Add(Type_Safe):
                                               'value'     : str(value)})
         return self
 
+    # todo: review the name of this since this more like the expand_graph logic
     def add_outgoing_edges(self, depth: Optional[int] = None) -> 'MGraph__Query__Add':    # Add outgoing edges
         if depth is not None and depth <= 0:
             return self
@@ -97,15 +96,16 @@ class MGraph__Query__Add(Type_Safe):
                     if edge:
                         new_nodes.add(edge.to_node_id())
 
-        combined_nodes = current_nodes | new_nodes                             # Combine sets
-        combined_edges = current_edges | new_edges
+        if new_nodes or new_edges:      # stop when there are no more new edges of nodes
+            combined_nodes = current_nodes | new_nodes                             # Combine sets
+            combined_edges = current_edges | new_edges
 
-        self.query.create_view(nodes_ids = combined_nodes,
-                              edges_ids = combined_edges,
-                              operation = 'add_outgoing_edges',
-                              params    = {'depth': depth})
+            self.query.create_view(nodes_ids = combined_nodes,
+                                  edges_ids = combined_edges,
+                                  operation = 'add_outgoing_edges',
+                                  params    = {'depth': depth})
 
-        if depth is not None:                                                 # Recursive case for depth
-            return self.add_outgoing_edges(depth - 1)
+            if depth is not None:                                                 # Recursive case for depth
+                return self.add_outgoing_edges(depth - 1)
 
         return self

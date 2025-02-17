@@ -70,6 +70,7 @@ class MGraph__Query__Screenshot(Type_Safe):
             _.set_graph__background__color (self.graph__background_color)
         bytes__source_graph = screenshot.dot()
         return bytes__source_graph
+
     def save_to(self, path):
 
         self.configure_dot()
