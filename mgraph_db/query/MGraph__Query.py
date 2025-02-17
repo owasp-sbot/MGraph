@@ -26,6 +26,18 @@ class MGraph__Query(Type_Safe):
                          params    = {}          )
         return self
 
+    def save_to_png(self, path, show_node__value:bool=True, show_source_graph=False):
+        from mgraph_db.query.actions.MGraph__Query__Screenshot import MGraph__Query__Screenshot
+        kwargs = dict(mgraph_query      = self             ,
+                      show_node__value  = show_node__value ,
+                      show_source_graph = show_source_graph)
+        with MGraph__Query__Screenshot(**kwargs) as _:
+            _.save_to(path)
+            return _
+    # def export(self):
+    #     from mgraph_db.query.actions.MGraph__Query__Export__View import MGraph__Query__Export__View
+    #     return MGraph__Query__Export__View(mgraph_query=self).export()
+
     def reset(self):
         self.query_views = Model__MGraph__Query__Views()
         self.setup()
@@ -104,25 +116,41 @@ class MGraph__Query(Type_Safe):
 
         return self.query_views.set_current_view(next(iter(next_ids)))
 
-    def with_field(self, name: str, value: Any) -> 'MGraph__Query':
-        matching_ids = self.mgraph_index.get_nodes_by_field(name, value)               # Get matching nodes from index
+    def with_node_value(self, value: Any,
+                              edge_type: Optional[Type[Schema__MGraph__Edge]] = None) -> 'MGraph__Query':           # Find nodes with specific value and optional edge type
+        matching_ids = self.mgraph_index.get_nodes_connected_to_value(value=value, edge_type=edge_type)
 
-        current_nodes, current_edges = self.get_current_ids()                          # Get current state
+        current_nodes, current_edges = self.get_current_ids()
 
-        new_nodes = matching_ids | current_nodes                                       # Merge with current nodes
+        filtered_nodes = matching_ids & current_nodes if current_nodes else matching_ids
+        filtered_edges = self.get_connecting_edges(filtered_nodes)
 
-        self.create_view(nodes_ids = new_nodes,
-                         edges_ids = current_edges,                                     # Keep current edges
-                         operation = 'with_field',
-                         params    = {'name': name, 'value': value})
+        self.create_view(nodes_ids = filtered_nodes,
+                         edges_ids = filtered_edges,
+                         operation = 'with_value',
+                         params    = { 'value_type': type(value).__name__,
+                                      'value': str(value)})
         return self
+
+    # def with_field(self, name: str, value: Any) -> 'MGraph__Query':
+    #     matching_ids = self.mgraph_index.get_nodes_by_field(name, value)               # Get matching nodes from index
+    #
+    #     current_nodes, current_edges = self.get_current_ids()                          # Get current state
+    #
+    #     new_nodes = matching_ids | current_nodes                                       # Merge with current nodes
+    #
+    #     self.create_view(nodes_ids = new_nodes,
+    #                      edges_ids = current_edges,                                     # Keep current edges
+    #                      operation = 'with_field',
+    #                      params    = {'name': name, 'value': value})
+    #     return self
 
 
     def index(self):
         return self.mgraph_index
 
     def re_index(self):
-        self.mgraph_index = MGraph__Index.from_graph(self.mgraph_data.graph)
+        self.mgraph_index = MGraph__Index.from_graph(self.mgraph_data.graph)                            # todo: check how this works with the new values_index
 
     def collect(self) -> List[Domain__MGraph__Node]:                                                    #  Returns list of all matching nodes in current view"""
         nodes_ids    = self.get_current_ids()[0]
@@ -285,6 +313,7 @@ class MGraph__Query(Type_Safe):
                         operation = 'add_outgoing_edges_with_field',
                         params    = {'field_name': field_name})
         return self
+
     def add_node_id(self, node_id: Obj_Id) -> 'MGraph__Query':                                      # Add specific node to view
 
         current_nodes, current_edges = self.get_current_ids()                                       # Get current nodes and edges

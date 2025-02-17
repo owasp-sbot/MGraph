@@ -107,11 +107,19 @@ class MGraph__Export__Dot(MGraph__Export__Base):
     def set_node__style          (self, style    : str  ): self.config.node.shape.style      = style    ; return self
 
     def set_graph__layout_engine (self, engine   : str  ): self.config.graph.layout_engine   = engine   ; return self
+    def set_graph__margin        (self, value    : float): self.config.graph.margin          = value    ; return self
     def set_graph__node_sep      (self, value    : float): self.config.graph.node_sep        = value    ; return self
     def set_graph__rank_sep      (self, value    : float): self.config.graph.rank_sep        = value    ; return self
     def set_graph__rank_dir      (self, direction: str  ): self.config.graph.rank_dir        = direction; return self
     def set_graph__splines       (self, value    : float): self.config.graph.splines         = value    ; return self
     def set_graph__epsilon       (self, value    : float): self.config.graph.epsilon         = value    ; return self
+
+    def set_graph__title             (self, value    : str  ): self.config.graph.title             = value    ; return self
+    def set_graph__title__font__size (self, value    : float): self.config.graph.title__font.size  = value    ; return self
+    def set_graph__title__font__color(self, value    : str  ): self.config.graph.title__font.color = value    ; return self
+    def set_graph__title__font__name (self, value    : str  ): self.config.graph.title__font.name  = value    ; return self
+    def set_graph__background__color (self, value    : str  ): self.config.graph.background_color  = value    ; return self
+
 
     def set_graph__layout_engine__dot   (self): return self.set_graph__layout_engine(MGraph__Export__Dot__Layout__Engine.DOT   .value)
     def set_graph__layout_engine__neato (self): return self.set_graph__layout_engine(MGraph__Export__Dot__Layout__Engine.NEATO .value)

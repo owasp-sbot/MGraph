@@ -8,9 +8,9 @@ from mgraph_db.providers.simple.schemas.Schema__Simple__Node import Schema__Simp
 
 class test_MGraph__Query__operations(TestCase):
 
-    @classmethod
-    def setUpClass(cls):
-        pytest.skip("Needs fixing after refactoring of MGraph__Index") # todo: for example get_nodes_by_field() doesn't exist any more
+    # @classmethod
+    # def setUpClass(cls):
+    #     pytest.skip("Needs fixing after refactoring of MGraph__Index") # todo: for example get_nodes_by_field() doesn't exist any more
 
 
     def setUp(self):
@@ -43,7 +43,7 @@ class test_MGraph__Query__operations(TestCase):
     def test_view_cleanup(self):                                                # Test view cleanup
         view1 = self.query.by_type(Schema__Simple__Node)
         view2 = view1.with_field('value', 'A')
-        view3 = view2.with_field('name', 'Node 1')
+        #view3 = view2.with_field('name', 'Node 1')
 
         # Remove middle view
         self.query.query_views.remove_view(view2.query_views.current_view().view_id())

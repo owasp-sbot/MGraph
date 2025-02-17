@@ -1,14 +1,15 @@
-from unittest                                               import TestCase
-from mgraph_db.providers.simple.MGraph__Simple__Test_Data   import MGraph__Simple__Test_Data
-from osbot_utils.utils.Objects                              import __
-from osbot_utils.testing.Temp_File                          import Temp_File
-from mgraph_db.mgraph.MGraph                                import MGraph
-from osbot_utils.utils.Files                                import file_not_exists, file_exists
-from mgraph_db.mgraph.actions.MGraph__Index                 import MGraph__Index
-from mgraph_db.mgraph.schemas.Schema__MGraph__Index__Data   import Schema__MGraph__Index__Data
-from mgraph_db.mgraph.schemas.Schema__MGraph__Node          import Schema__MGraph__Node
-from mgraph_db.mgraph.schemas.Schema__MGraph__Edge          import Schema__MGraph__Edge
-
+from unittest                                                   import TestCase
+from mgraph_db.mgraph.schemas.Schema__MGraph__Node__Value       import Schema__MGraph__Node__Value
+from mgraph_db.mgraph.schemas.Schema__MGraph__Node__Value__Data import Schema__MGraph__Node__Value__Data
+from mgraph_db.providers.simple.MGraph__Simple__Test_Data       import MGraph__Simple__Test_Data
+from osbot_utils.utils.Objects                                  import __
+from osbot_utils.testing.Temp_File                              import Temp_File
+from mgraph_db.mgraph.MGraph                                    import MGraph
+from osbot_utils.utils.Files                                    import file_not_exists, file_exists
+from mgraph_db.mgraph.actions.MGraph__Index                     import MGraph__Index
+from mgraph_db.mgraph.schemas.Schema__MGraph__Index__Data       import Schema__MGraph__Index__Data
+from mgraph_db.mgraph.schemas.Schema__MGraph__Node              import Schema__MGraph__Node
+from mgraph_db.mgraph.schemas.Schema__MGraph__Edge              import Schema__MGraph__Edge
 
 class test_MGraph_Index(TestCase):
 
@@ -210,3 +211,50 @@ class test_MGraph_Index(TestCase):
 
                 #assert loaded_index.json() == self.mgraph_index.json()                                  # confirm object as the save (original and loaded from disk)
                 #assert loaded_index.obj () == self.mgraph_index.obj ()
+
+    def test_get_nodes_connected_to_value(self):
+        class Value_Node(Schema__MGraph__Node__Value): pass                                             # Test value node type
+        class Test_Edge (Schema__MGraph__Edge       ): pass                                             # Test edge type
+
+        value_data = Schema__MGraph__Node__Value__Data(value="test_value", value_type=str)              # Create value node
+        value_node = Value_Node(node_data=value_data)
+
+        node_1     = Schema__MGraph__Node()                                                                 # Create connecting nodes
+        node_2     = Schema__MGraph__Node()
+        node_3     = Schema__MGraph__Node()
+
+        edge_1     = Test_Edge           (from_node_id=node_1.node_id, to_node_id=value_node.node_id)       # Create edges
+        edge_2     = Test_Edge           (from_node_id=node_2.node_id, to_node_id=value_node.node_id)
+        edge_3     = Schema__MGraph__Edge(from_node_id=node_3.node_id, to_node_id=value_node.node_id)
+
+        with self.mgraph_index as _:
+            _.values_index.add_value_node(value_node)
+            _.add_node(value_node)                                                                      # Add all nodes and edges
+            _.add_node(node_1)
+            _.add_node(node_2)
+            _.add_node(node_3)
+            _.add_edge(edge_1)
+            _.add_edge(edge_2)
+            _.add_edge(edge_3)
+
+            # _.print__index_data()
+            # _.values_index.print__values_index_data()
+
+
+            connected_nodes = _.get_nodes_connected_to_value(str, "test_value")                     # Test without edge type filter
+            assert len(connected_nodes) == 3
+            assert node_1.node_id       in connected_nodes
+            assert node_2.node_id       in connected_nodes
+            assert node_3.node_id       in connected_nodes
+
+            connected_nodes = _.get_nodes_connected_to_value(str, "test_value", Test_Edge)          # Test with edge type filter
+            assert len(connected_nodes) == 2
+            assert node_1.node_id       in connected_nodes
+            assert node_2.node_id       in connected_nodes
+            assert node_3.node_id       not in connected_nodes
+
+            connected_nodes = _.get_nodes_connected_to_value(str, "non_existent")                   # Test with non-existent value
+            assert len(connected_nodes) == 0
+
+            connected_nodes = _.get_nodes_connected_to_value(int, "test_value")                     # Test with wrong value type
+            assert len(connected_nodes) == 0

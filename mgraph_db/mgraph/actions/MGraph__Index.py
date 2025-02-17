@@ -198,6 +198,31 @@ class MGraph__Index(Type_Safe):
     ##### getters for data
     # todo refactor this to names like edges__from__node , nodes_from_node
 
+    def get_nodes_connected_to_value(self, value     : Any ,
+                                           edge_type : Optional[Type[Schema__MGraph__Edge]] = None
+                                      ) -> Set[Obj_Id]:                                             # Get nodes connected to a value node through optional edge type
+        value_type = type(value)
+        node_id    = self.values_index.get_node_id_by_value(value_type=value_type, value=value)     # Find value node
+        if not node_id:                                                                             # No matching value found
+            return set()
+
+        connected_nodes = set()                                                                     # Find nodes connected to this value node through edges
+        incoming_edges =  self.index_data.nodes_to_incoming_edges.get(node_id, set())
+
+        if edge_type:                                                                               # If edge type specified
+            edge_type_name = edge_type.__name__
+            filtered_edges = set()
+            for edge_id in incoming_edges:
+                if self.index_data.edges_types[edge_id] == edge_type_name:                          # Filter edges by type
+                    filtered_edges.add(edge_id)
+            incoming_edges = filtered_edges
+
+        for edge_id in incoming_edges:                                                              # Get nodes pointing to this value
+            from_node_id, _ = self.edges_to_nodes()[edge_id]
+            connected_nodes.add(from_node_id)
+
+        return connected_nodes
+
     def get_node_connected_to_node__outgoing(self, node_id: Obj_Id, edge_type: str) -> Optional[Obj_Id]:
         connected_edges = self.index_data.nodes_to_outgoing_edges_by_type.get(node_id, {}).get(edge_type, set())
 

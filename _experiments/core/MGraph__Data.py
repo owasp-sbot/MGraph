@@ -85,7 +85,7 @@ class MGraph__Data(Type_Safe):
 
     def print(self):
         with Print_Table() as _:
-            _.set_title(self.graph.config.graph_title)
+            _.set_title(self.graph.config.graph__title)
             for node_key, edges_keys in self.nodes_edges().items():
                 row = {'key': node_key,  'edges': edges_keys}
                 _.add_data(row)

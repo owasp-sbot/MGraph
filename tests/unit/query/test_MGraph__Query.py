@@ -2,16 +2,24 @@ from unittest                                                import TestCase
 
 import pytest
 
+from mgraph_db.mgraph.MGraph import MGraph
 from mgraph_db.mgraph.domain.Domain__MGraph__Edge            import Domain__MGraph__Edge
 from mgraph_db.mgraph.domain.Domain__MGraph__Node            import Domain__MGraph__Node
+from mgraph_db.mgraph.schemas.Schema__MGraph__Edge import Schema__MGraph__Edge
+from mgraph_db.mgraph.schemas.Schema__MGraph__Node__Value import Schema__MGraph__Node__Value
+from mgraph_db.mgraph.schemas.Schema__MGraph__Node__Value__Data import Schema__MGraph__Node__Value__Data
 from mgraph_db.providers.simple.schemas.Schema__Simple__Node import Schema__Simple__Node
 from mgraph_db.mgraph.actions.MGraph__Index                  import MGraph__Index
 from mgraph_db.mgraph.actions.MGraph__Data                   import MGraph__Data
 from mgraph_db.providers.simple.MGraph__Simple__Test_Data    import MGraph__Simple__Test_Data
 from mgraph_db.query.MGraph__Query                           import MGraph__Query
+from osbot_utils.utils.Dev import pprint
+from osbot_utils.utils.Env import load_dotenv
 from osbot_utils.utils.Objects                               import base_types, __
 from osbot_utils.type_safe.Type_Safe                         import Type_Safe
 from osbot_utils.helpers.Obj_Id                              import Obj_Id
+
+class Test_Edge(Schema__MGraph__Edge): pass                                                 # Create test edge type
 
 class test_MGraph__Query__Methods(TestCase):
 
@@ -291,3 +299,54 @@ class test_MGraph__Query__Methods(TestCase):
         assert result.count() == 2
         values = [node.node_data.value for node in result.collect()]
         assert sorted(values) == ['A', 'B']
+
+    def test_with_node_value(self):
+        mgraph = MGraph()
+        with mgraph.edit() as _:                                                              # Create test data
+            #pprint(_.new_node(node_type=Schema__MGraph__Node__Value, value="test1", value_type=str))
+            node_1 = _.new_node(node_type=Schema__MGraph__Node__Value, value="test1", value_type=str)
+            node_2 = _.new_node(node_type=Schema__MGraph__Node__Value, value="test2", value_type=str)
+            node_3 = _.new_node(node_type=Schema__MGraph__Node__Value, value="42"   , value_type=int)
+            node_4 = _.new_node(node_type=Schema__MGraph__Node__Value, value="12"   , value_type=int)
+
+            # Create connections using different edge types
+            edge_1 = _.new_edge(from_node_id = node_1.node_id, to_node_id = node_2.node_id, edge_type = Test_Edge            )
+            edge_2 = _.new_edge(from_node_id = node_2.node_id,to_node_id  = node_3.node_id, edge_type = Schema__MGraph__Edge)
+            edge_3 = _.new_edge(from_node_id = node_2.node_id,to_node_id  = node_4.node_id, edge_type = Schema__MGraph__Edge)
+
+        load_dotenv()
+
+        with mgraph.query() as _:
+            #_.re_index()                                                                            # Rebuild index with new data
+
+            # Test without edge type filter
+            result = _.with_node_value(42)
+            #pprint(type(result))
+            result.save_to_png('./test_MGraph__Query.exported.png', show_source_graph=True, show_node__value=True)
+
+            return
+            assert result.count() == 1
+            first_node = result.first()
+            assert first_node.node_data.value == "test1"
+
+            # Test with edge type filter
+            result = _.with_node_value("test2", Test_Edge)
+            assert result.count() == 1
+            first_node = result.first()
+            assert first_node.node_data.value == "test2"
+
+            # Test with different value type (int)
+            result = _.with_node_value(42)
+            assert result.count() == 1
+            first_node = result.first()
+            assert first_node.node_data.value == "42"                                              # Note: stored as string
+
+            # Test non-existent value
+            result = _.with_node_value("non_existent")
+            assert result.count() == 0
+
+            # Test query operation and params
+            current_view = result.current_view()
+            assert current_view.query_operation() == 'with_value'
+            assert current_view.query_params()['value_type'] == str.__name__
+            assert current_view.query_params()['value'] == "non_existent"
