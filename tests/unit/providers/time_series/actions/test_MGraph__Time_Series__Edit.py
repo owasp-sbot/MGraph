@@ -122,7 +122,7 @@ class test_MGraph__Time_Series__Edit(TestCase):
 
         with self.graph.data() as data:
             components = self.get_time_components(time_point.node_id, data)
-            assert components == {'year': 2024, 'month': 2, 'day': 14, 'hour': 15, 'minute': 30}
+            assert components == {'year': 2024, 'month': 2, 'day': 14, 'hour': 15, 'minute': 30, 'second':0 }
 
     def test_create_time_point__from_datetime(self):
         #test_datetime = datetime(2024, 2, 8, 15, 30)                                         # Create test datetime
@@ -133,10 +133,10 @@ class test_MGraph__Time_Series__Edit(TestCase):
                                 'hour'  : test_datetime.hour   ,
                                 'minute': test_datetime.minute ,
                                 'second': test_datetime.second }
-        time_point   = self.graph_edit.create_time_point__from_datetime(test_datetime)          # Create time point from datetime
+        time_point   = self.graph_edit.create_time_point__from__datetime(test_datetime)          # Create time point from datetime
 
         for i in range(0,2):
-            self.graph_edit.create_time_point__from_datetime(test_datetime)
+            self.graph_edit.create_time_point__from__datetime(test_datetime)
 
         assert type(time_point.node.data) is Schema__MGraph__Node__Time_Point               # Verify node type
         assert is_obj_id(time_point.node_id)
@@ -227,8 +227,8 @@ class test_MGraph__Time_Series__Edit(TestCase):
 
     def test_utc_offset_reuse(self):
         # Create two time points with the same UTC offset using valid timezone strings
-        point_1 = self.graph_edit.create_time_point__with_tz(year=2024, month=2, day=8, hour=15, minute=30, timezone='Etc/GMT+5')
-        point_2 = self.graph_edit.create_time_point__with_tz(year=2024, month=2, day=8, hour=15, minute=30, timezone='America/New_York')
+        point_1 = self.graph_edit.create_time_point(year=2024, month=2, day=8, hour=15, minute=30, timezone='Etc/GMT+5')
+        point_2 = self.graph_edit.create_time_point(year=2024, month=2, day=8, hour=15, minute=30, timezone='America/New_York')
 
 
         def get_utc_offset_from_point(point__node_id):

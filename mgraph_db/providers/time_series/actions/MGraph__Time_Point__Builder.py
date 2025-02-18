@@ -34,22 +34,21 @@ class MGraph__Time_Point__Builder(Type_Safe):
                                                         timestamp       = int(dt.timestamp()))
 
     def from_components(self, year   : Optional[int] = None,                                        # Creates time point data from individual components
-                             month  : Optional[int] = None,
-                             day    : Optional[int] = None,
-                             hour   : Optional[int] = None,
-                             minute : Optional[int] = None,
-                             second : Optional[int] = None,
-                             timezone: str = 'UTC') -> Schema__MGraph__Time_Point__Create__Data:
+                              month  : Optional[int] = None,
+                              day    : Optional[int] = None,
+                              hour   : Optional[int] = None,
+                              minute : Optional[int] = None,
+                              second : Optional[int] = None,
+                              timezone: str = 'UTC') -> Schema__MGraph__Time_Point__Create__Data:
 
         if all(x is not None for x in [year, month, day, hour, minute]):                           # If we have complete date/time info
             dt = datetime(year, month, day, hour, minute, second or 0, tzinfo=ZoneInfo(timezone))
             return self.from_datetime(dt)
 
-        return Schema__MGraph__Time_Point__Create__Data(                                           # Return partial data if missing components
-            year=year,
-            month=month,
-            day=day,
-            hour=hour,
-            minute=minute,
-            second=second,
-            timezone=timezone)
+        return Schema__MGraph__Time_Point__Create__Data(year     = year   ,
+                                                        month    = month  ,
+                                                        day      = day    ,
+                                                        hour     = hour   ,
+                                                        minute   = minute ,
+                                                        second   = second ,
+                                                        timezone =timezone)# Return partial data if missing components

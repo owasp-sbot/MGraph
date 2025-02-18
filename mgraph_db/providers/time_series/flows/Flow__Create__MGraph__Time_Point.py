@@ -36,7 +36,7 @@ class Flow__Create__MGraph__Time_Point(Flow):
     def create_points(self):
         with self.mgraph_time_series.edit() as _:
             #_.create_time_point__from_datetime(self.date_time)
-            self.time_point  = _.create_time_point__from_datetime_2(self.date_time)
+            self.time_point  = _.create_time_point__from__datetime(self.date_time)
 
         # with self.mgraph_time_series.index() as _:
         #     _.print__stats()
@@ -46,6 +46,7 @@ class Flow__Create__MGraph__Time_Point(Flow):
         if self.png_create:
             with self.mgraph_time_series.screenshot() as _:
                 (_.export().export_dot().show_node__value()
+                                        .show_edge__type()
                                         .set_edge_to_node__type_fill_color(Schema__MGraph__Time_Series__Edge__Second, 'azure'))
                 _.save_to(self.png_file_name)
                 _.dot()
