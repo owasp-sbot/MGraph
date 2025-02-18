@@ -133,10 +133,10 @@ class test_MGraph__Time_Series__Edit(TestCase):
                                 'hour'  : test_datetime.hour   ,
                                 'minute': test_datetime.minute ,
                                 'second': test_datetime.second }
-        time_point   = self.graph_edit.create_time_point__from__datetime(test_datetime)          # Create time point from datetime
+        time_point   = self.graph_edit.create_from__datetime(test_datetime)          # Create time point from datetime
 
         for i in range(0,2):
-            self.graph_edit.create_time_point__from__datetime(test_datetime)
+            self.graph_edit.create_from__datetime(test_datetime)
 
         assert type(time_point.node.data) is Schema__MGraph__Node__Time_Point               # Verify node type
         assert is_obj_id(time_point.node_id)

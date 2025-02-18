@@ -12,16 +12,16 @@ class MGraph__Time_Series__Edit(MGraph__Edit):
     def create_time_point(self, **kwargs) -> Domain__MGraph__Node:
         time_point_builder = MGraph__Time_Point__Builder()
         create_data        = time_point_builder.from_components(**kwargs)
-        time_point_node    = self.create_time_point__from__create_data(create_data)
+        time_point_node    = self.create_from__create_data(create_data)
         return time_point_node
 
-    def create_time_point__from__datetime(self, dt: datetime) -> Domain__MGraph__Node:
+    def create_from__datetime(self, dt: datetime) -> Domain__MGraph__Node:
         time_point_builder = MGraph__Time_Point__Builder()
         create_data        = time_point_builder.from_datetime(dt)
-        time_point_node    = self.create_time_point__from__create_data(create_data)
+        time_point_node    = self.create_from__create_data(create_data)
         return time_point_node
 
-    def create_time_point__from__create_data(self,create_data: Schema__MGraph__Time_Point__Create__Data):
+    def create_from__create_data(self, create_data: Schema__MGraph__Time_Point__Create__Data):
         time_point_create  = MGraph__Time_Point__Create(mgraph_edit=self)
         created_objects    = time_point_create.execute(create_data)
         return self.data().node(created_objects.time_point__node_id)

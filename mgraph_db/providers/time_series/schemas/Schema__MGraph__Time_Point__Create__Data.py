@@ -4,14 +4,15 @@ from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Time_Point   
 from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Value__Timestamp       import Schema__MGraph__Node__Value__Timestamp
 from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Value__Timezone__Name  import Schema__MGraph__Node__Value__Timezone__Name
 from mgraph_db.providers.time_series.schemas.Schema__MGraph__Node__Value__UTC_Offset      import Schema__MGraph__Node__Value__UTC_Offset
-from mgraph_db.providers.time_series.schemas.Schema__MGraph__Time_Series__Edges import \
+from osbot_utils.helpers.Obj_Id                                                           import Obj_Id
+from osbot_utils.type_safe.Type_Safe                                                      import Type_Safe
+from mgraph_db.providers.time_series.schemas.Schema__MGraph__Time_Series__Edges           import \
     Schema__MGraph__Time_Series__Edge__Year, Schema__MGraph__Time_Series__Edge__Month, \
     Schema__MGraph__Time_Series__Edge__Day, Schema__MGraph__Time_Series__Edge__Hour, \
     Schema__MGraph__Time_Series__Edge__Minute, Schema__MGraph__Time_Series__Edge__Second, \
     Schema__MGraph__Time_Series__Edge__Timezone, Schema__MGraph__Time_Series__Edge__UTC_Offset, \
     Schema__MGraph__Time_Series__Edge__Timestamp, Schema__MGraph__Time_Series__Edge__Source_Id
-from osbot_utils.helpers.Obj_Id                                                           import Obj_Id
-from osbot_utils.type_safe.Type_Safe                                                      import Type_Safe
+
 
 
 class Schema__MGraph__Time_Point__Create__Data(Type_Safe):          # The data needed for creation

@@ -140,6 +140,7 @@ class MGraph__Export__Dot(MGraph__Export__Base):
 
     def show_edge__ids               (self): self.config.display.edge_ids            = True      ; return self
     def show_edge__type              (self): self.config.display.edge_type           = True      ; return self
+    def show_edge__type_full_name    (self): self.config.display.edge_type_full_name = True      ; return self
     def show_node__value             (self): self.config.display.node_value          = True      ; return self
     def show_node__type              (self): self.config.display.node_type           = True      ; return self
     def show_node__type_full_name    (self): self.config.display.node_type_full_name = True      ; return self

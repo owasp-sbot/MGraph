@@ -1,4 +1,4 @@
-from typing                                                           import Union, Type, Tuple, Optional
+from typing import Union, Type, Tuple, Optional, Any
 from mgraph_db.mgraph.actions.MGraph__Edit                            import MGraph__Edit
 from mgraph_db.mgraph.domain.Domain__MGraph__Edge                     import Domain__MGraph__Edge
 from mgraph_db.mgraph.domain.Domain__MGraph__Node                     import Domain__MGraph__Node
@@ -23,18 +23,18 @@ class MGraph__Values(Type_Safe):
             return self.mgraph_edit.data().node(node_id)
         return None
 
-    def get_or_create(self, value: Union[int, str]) -> Optional[Domain__MGraph__Node]:
+    def get_or_create(self, value: Any, key:str='') -> Optional[Domain__MGraph__Node]:
 
-        node_id = self.mgraph_edit.index().values_index.get_node_id_by_value(type(value), str(value))                   # First try to find existing value node
+        node_id = self.mgraph_edit.index().values_index.get_node_id_by_value(value_type=type(value), value=str(value), key=key)                   # First try to find existing value node
         if node_id:
             return self.mgraph_edit.data().node(node_id)
 
-        node_value_data = Schema__MGraph__Node__Value__Data(value     = str(value),value_type=type(value))              # Create new if not found
-        node_value      = Schema__MGraph__Node__Value      (node_data = node_value_data                  )
-        new_node        = self.mgraph_edit.add_node        (node_value                                   )
+        node_value_data = Schema__MGraph__Node__Value__Data(value= str(value),value_type=type(value), key=key)              # Create new if not found
+        node_value      = Schema__MGraph__Node__Value      (node_data = node_value_data                      )
+        new_node        = self.mgraph_edit.add_node        (node_value                                       )
         return new_node
 
-    def get_or_create_value(self, value    : Union[int, str            ],
+    def get_or_create_value(self, value    : Any                        ,
                                   edge_type: Type [Schema__MGraph__Edge],
                                   from_node: Domain__MGraph__Node
                             ) -> Tuple[Domain__MGraph__Node, Domain__MGraph__Edge]:

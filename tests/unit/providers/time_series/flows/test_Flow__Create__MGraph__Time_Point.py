@@ -17,7 +17,7 @@ class test_Flow__Create__MGraph__Time_Point(TestCase):
         with self.flow_create_time_point as _:
             _.png_create = False
             _.setup()
-            _.flow_config.raise_flow_error = False
+            _.flow_config.raise_flow_error = True
             #_.flow_config.
             _.execute()
             _.print_log_messages()

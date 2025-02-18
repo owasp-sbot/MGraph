@@ -15,8 +15,9 @@ class MGraph__Index__Values(Type_Safe):
         if not node.node_data:
             raise ValueError("Node data is required for value nodes")
 
-        value_hash = self.calculate_hash(node.node_data.value_type,
-                                         node.node_data.value     )
+        value_hash = self.calculate_hash(value_type = node.node_data.value_type,
+                                         value      = node.node_data.value     ,
+                                         key        = node.node_data.key       )
 
         if value_hash in self.index_data.hash_to_node:                                  # Check uniqueness
             raise ValueError(f"Value with hash {value_hash} already exists")
@@ -32,8 +33,8 @@ class MGraph__Index__Values(Type_Safe):
     def get_node_id_by_hash(self, value_hash: str) -> Optional[Obj_Id]:                         # returns node_id that matches value's hash
         return self.index_data.hash_to_node.get(value_hash)
 
-    def get_node_id_by_value(self, value_type: Type, value: str) -> Optional[Obj_Id]:           # returns node_id that matches value
-        value_hash = self.calculate_hash(value_type, value)
+    def get_node_id_by_value(self, value_type: Type, value: str, key:str='') -> Optional[Obj_Id]:           # returns node_id that matches value
+        value_hash = self.calculate_hash(value_type=value_type, value=value, key=key)
         return self.get_node_id_by_hash(value_hash)
 
     def remove_value_node(self, node: Schema__MGraph__Node__Value) -> None:             # Remove from all indexes
@@ -52,11 +53,14 @@ class MGraph__Index__Values(Type_Safe):
             if value_hash in self.index_data.type_by_value:
                 del self.index_data.type_by_value[value_hash]
 
-    def calculate_hash(self, value_type: Type, value: str) -> str:                      # Calculate value hash
+    def calculate_hash(self, value_type: Type, value: str, key:str='') -> str:                      # Calculate value hash
         if value_type is None:
             raise ValueError("In MGraph__Index__Values.calculate_hash , value_type was None")
-        type_name = f"{value_type.__module__}.{value_type.__name__}"     # Get full type path
-        hash_data = f"{type_name}::{value}"                              # Combine with value
+        type_name = f"{value_type.__module__}.{value_type.__name__}"         # Get full type path
+        if key:
+            hash_data = f"{type_name}::{key}::{value}"                       # Combine with key and value
+        else:
+            hash_data = f"{type_name}::{value}"                              # Combine with value
         return str_md5(hash_data)[:SIZE__VALUE_HASH]
 
 

@@ -36,7 +36,7 @@ class Flow__Create__MGraph__Time_Point(Flow):
     def create_points(self):
         with self.mgraph_time_series.edit() as _:
             #_.create_time_point__from_datetime(self.date_time)
-            self.time_point  = _.create_time_point__from__datetime(self.date_time)
+            self.time_point  = _.create_from__datetime(self.date_time)
 
         # with self.mgraph_time_series.index() as _:
         #     _.print__stats()

@@ -1,7 +1,5 @@
 import pytest
 from unittest                                                       import TestCase
-
-from osbot_utils.utils.Dev import pprint
 from osbot_utils.utils.Misc                                         import str_md5
 from mgraph_db.mgraph.MGraph                                        import MGraph
 from mgraph_db.mgraph.actions.MGraph__Index__Values                 import MGraph__Index__Values, SIZE__VALUE_HASH
@@ -122,11 +120,11 @@ class test_MGraph__Index__Values(TestCase):
         value_node_2 = Schema__MGraph__Node__Value()
         value_node_2.node_data = Schema__MGraph__Node__Value__Data(value= "test_value", value_type = str)
 
-        assert value_node_1.node_data.json() == {'value': 'test_value', 'value_type': 'builtins.str'}
+        assert value_node_1.node_data.json() == {'key':'', 'value': 'test_value', 'value_type': 'builtins.str'}
 
         with self.value_index as _:
             _.add_value_node(value_node_1)
-            assert value_node_1.node_data.json() == {'value': 'test_value', 'value_type': 'builtins.str'}
+            assert value_node_1.node_data.json() == {'key':'', 'value': 'test_value', 'value_type': 'builtins.str'}
             with pytest.raises(ValueError, match=f"Value with hash c056cc97b9 already exists"):
                 _.add_value_node(value_node_2)
 

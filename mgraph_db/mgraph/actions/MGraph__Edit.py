@@ -40,6 +40,22 @@ class MGraph__Edit(Type_Safe):
         self.index().add_edge(edge_schema)
         return edge_domain
 
+    def get_or_create_edge(self, edge_type    : Type[Schema__MGraph__Edge],                         # Get existing edge or create new one
+                                 from_node_id : Obj_Id                    ,
+                                 to_node_id   : Obj_Id
+                            ) -> Domain__MGraph__Edge:
+
+        with self.index() as index:
+            existing_edges = index.nodes_to_outgoing_edges_by_type().get(from_node_id, {}).get(edge_type.__name__, set())
+
+            for edge_id in existing_edges:                                                          # Check if edge already exists
+                if index.edges_to_nodes().get(edge_id)[1] == to_node_id:
+                    return self.data().edge(edge_id)
+
+            return self.new_edge(edge_type    = edge_type    ,                                     # Create new edge if none exists
+                                from_node_id = from_node_id,
+                                to_node_id   = to_node_id  )
+
     def new_node(self, **kwargs):
         with self.index() as index:
             node = self.graph.new_node(**kwargs)                             # Create new node
