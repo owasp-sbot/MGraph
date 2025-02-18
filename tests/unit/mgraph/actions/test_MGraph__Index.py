@@ -17,7 +17,6 @@ class test_MGraph_Index(TestCase):
         self.mgraph_index = MGraph__Index()
 
     def test__setUp(self):
-
         with self.mgraph_index as _:
             assert type(_           ) is MGraph__Index
             assert type(_.index_data) is Schema__MGraph__Index__Data
@@ -216,7 +215,8 @@ class test_MGraph_Index(TestCase):
         class Value_Node(Schema__MGraph__Node__Value): pass                                             # Test value node type
         class Test_Edge (Schema__MGraph__Edge       ): pass                                             # Test edge type
 
-        value_data = Schema__MGraph__Node__Value__Data(value="test_value", value_type=str)              # Create value node
+        value      = "test_value"
+        value_data = Schema__MGraph__Node__Value__Data(value=value, value_type=str)              # Create value node
         value_node = Value_Node(node_data=value_data)
 
         node_1     = Schema__MGraph__Node()                                                                 # Create connecting nodes
@@ -237,24 +237,18 @@ class test_MGraph_Index(TestCase):
             _.add_edge(edge_2)
             _.add_edge(edge_3)
 
-            # _.print__index_data()
-            # _.values_index.print__values_index_data()
+            connected_nodes = _.get_nodes_connected_to_value(value)                     # Test without edge type filter
 
-
-            connected_nodes = _.get_nodes_connected_to_value(str, "test_value")                     # Test without edge type filter
             assert len(connected_nodes) == 3
             assert node_1.node_id       in connected_nodes
             assert node_2.node_id       in connected_nodes
             assert node_3.node_id       in connected_nodes
 
-            connected_nodes = _.get_nodes_connected_to_value(str, "test_value", Test_Edge)          # Test with edge type filter
+            connected_nodes = _.get_nodes_connected_to_value("test_value", Test_Edge)          # Test with edge type filter
             assert len(connected_nodes) == 2
             assert node_1.node_id       in connected_nodes
             assert node_2.node_id       in connected_nodes
             assert node_3.node_id       not in connected_nodes
 
-            connected_nodes = _.get_nodes_connected_to_value(str, "non_existent")                   # Test with non-existent value
-            assert len(connected_nodes) == 0
-
-            connected_nodes = _.get_nodes_connected_to_value(int, "test_value")                     # Test with wrong value type
+            connected_nodes = _.get_nodes_connected_to_value("non_existent")                   # Test with non-existent value
             assert len(connected_nodes) == 0

@@ -17,7 +17,7 @@ class test_Domain__MGraph__Query(TestCase):
         self.model_graph  = Model__MGraph__Graph        (data=self.schema_graph)
         self.graph        = Domain__MGraph__Graph       (model=self.model_graph)
         self.mgraph       = MGraph(graph=self.graph)
-        self.query        = Domain__MGraph__Query(graph=self.graph, mgraph_index=self.mgraph.index())
+        self.query        = Domain__MGraph__Query(mgraph_data=self.mgraph.data(), mgraph_index=self.mgraph.index())
         self.query.setup()
 
     # def tearDown(self):

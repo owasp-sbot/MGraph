@@ -53,6 +53,8 @@ class MGraph__Index__Values(Type_Safe):
                 del self.index_data.type_by_value[value_hash]
 
     def calculate_hash(self, value_type: Type, value: str) -> str:                      # Calculate value hash
+        if value_type is None:
+            raise ValueError("In MGraph__Index__Values.calculate_hash , value_type was None")
         type_name = f"{value_type.__module__}.{value_type.__name__}"     # Get full type path
         hash_data = f"{type_name}::{value}"                              # Combine with value
         return str_md5(hash_data)[:SIZE__VALUE_HASH]

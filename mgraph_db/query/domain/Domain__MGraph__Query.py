@@ -50,17 +50,17 @@ class Domain__MGraph__Query(Type_Safe):
         return edges
 
     def create_view(self, nodes_ids: set[Obj_Id],                                   # Create new query view
-                         edges_ids : set[Obj_Id],
-                         operation : str,
-                         params    : dict) -> None:
+                          edges_ids : set[Obj_Id],
+                          operation : str,
+                          params    : dict) -> None:
         current_view = self.current_view()
         previous_id  = current_view.view_id() if current_view else None
 
         self.query_views.add_view(nodes_ids   = nodes_ids ,
-                                 edges_ids    = edges_ids ,
-                                 operation    = operation ,
-                                 params       = params    ,
-                                 previous_id  = previous_id)
+                                  edges_ids    = edges_ids ,
+                                  operation    = operation ,
+                                  params       = params    ,
+                                  previous_id  = previous_id)
         return self
 
     def in_initial_view(self) -> bool:                                             # Check if in initial view

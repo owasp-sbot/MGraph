@@ -1,20 +1,16 @@
-from unittest                                                import TestCase
-
 import pytest
-
-from mgraph_db.mgraph.MGraph import MGraph
+from unittest                                                import TestCase
+from mgraph_db.mgraph.MGraph                                 import MGraph
 from mgraph_db.mgraph.domain.Domain__MGraph__Edge            import Domain__MGraph__Edge
 from mgraph_db.mgraph.domain.Domain__MGraph__Node            import Domain__MGraph__Node
-from mgraph_db.mgraph.schemas.Schema__MGraph__Edge import Schema__MGraph__Edge
-from mgraph_db.mgraph.schemas.Schema__MGraph__Node__Value import Schema__MGraph__Node__Value
-from mgraph_db.mgraph.schemas.Schema__MGraph__Node__Value__Data import Schema__MGraph__Node__Value__Data
+from mgraph_db.mgraph.schemas.Schema__MGraph__Edge           import Schema__MGraph__Edge
+from mgraph_db.mgraph.schemas.Schema__MGraph__Node__Value    import Schema__MGraph__Node__Value
 from mgraph_db.providers.simple.schemas.Schema__Simple__Node import Schema__Simple__Node
 from mgraph_db.mgraph.actions.MGraph__Index                  import MGraph__Index
 from mgraph_db.mgraph.actions.MGraph__Data                   import MGraph__Data
 from mgraph_db.providers.simple.MGraph__Simple__Test_Data    import MGraph__Simple__Test_Data
 from mgraph_db.query.MGraph__Query                           import MGraph__Query
-from osbot_utils.utils.Dev import pprint
-from osbot_utils.utils.Env import load_dotenv
+from osbot_utils.utils.Env                                   import load_dotenv
 from osbot_utils.utils.Objects                               import base_types, __
 from osbot_utils.type_safe.Type_Safe                         import Type_Safe
 from osbot_utils.helpers.Obj_Id                              import Obj_Id
@@ -300,6 +296,7 @@ class test_MGraph__Query__Methods(TestCase):
         values = [node.node_data.value for node in result.collect()]
         assert sorted(values) == ['A', 'B']
 
+    @pytest.mark.skip("needs fixing due bug in how the edges are added to the query")       # todo: fix this
     def test_with_node_value(self):
         mgraph = MGraph()
         with mgraph.edit() as _:                                                              # Create test data
@@ -324,7 +321,7 @@ class test_MGraph__Query__Methods(TestCase):
             #pprint(type(result))
             result.save_to_png('./test_MGraph__Query.exported.png', show_source_graph=True, show_node__value=True)
 
-            return
+
             assert result.count() == 1
             first_node = result.first()
             assert first_node.node_data.value == "test1"

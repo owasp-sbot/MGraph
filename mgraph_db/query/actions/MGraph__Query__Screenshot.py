@@ -1,14 +1,11 @@
 import io
-
-from PIL import Image
-
-from mgraph_db.mgraph.MGraph import MGraph
-from mgraph_db.query.MGraph__Query      import MGraph__Query
+from PIL                                                 import Image
+from mgraph_db.mgraph.MGraph                             import MGraph
+from mgraph_db.query.MGraph__Query                       import MGraph__Query
 from mgraph_db.query.actions.MGraph__Query__Export__View import MGraph__Query__Export__View
-from osbot_utils.decorators.methods.cache_on_self import cache_on_self
-from osbot_utils.type_safe.Type_Safe    import Type_Safe
-from osbot_utils.utils.Dev              import pprint
-from osbot_utils.utils.Files import file_create_from_bytes
+from osbot_utils.decorators.methods.cache_on_self        import cache_on_self
+from osbot_utils.type_safe.Type_Safe                     import Type_Safe
+from osbot_utils.utils.Files                             import file_create_from_bytes
 
 DEFAULT__GRAPH__MARGIN                    = 0.05
 DEFAULT__GRAPH__TITLE                     = 'MGraph Query'
@@ -19,8 +16,10 @@ DEFAULT__GRAPH__BACKGROUND_COLOR         = 'azure'
 DEFAULT__SOURCE_GRAPH__BACKGROUND_COLOR  = '#0000FF10'
 
 class MGraph__Query__Screenshot(Type_Safe):
+    show_node__type        : bool          = False
     show_node__value       : bool          = False
-    show_source_graph      : bool          = False
+    show_edge__type        : bool          = False
+    show_source_graph      : bool          = True
     graph__margin          : float         = DEFAULT__GRAPH__MARGIN
     graph__title           : str           = DEFAULT__GRAPH__TITLE
     graph__title__color    : str           = DEFAULT__GRAPH__TITLE__COLOR
@@ -50,8 +49,9 @@ class MGraph__Query__Screenshot(Type_Safe):
             _.set_graph__title__font__name (self.graph__title__font     )
             _.set_graph__title__font__color(self.graph__title__color    )
             _.set_graph__background__color (DEFAULT__SOURCE_GRAPH__BACKGROUND_COLOR)
-            if self.show_node__value:
-                _.show_node__value()
+            if self.show_node__value: _.show_node__value()
+            if self.show_node__type : _.show_node__type()
+            if self.show_edge__type : _.show_edge__type()
         return self
 
     # exported_mgraph_graph =
@@ -61,8 +61,9 @@ class MGraph__Query__Screenshot(Type_Safe):
     def create_source_graph_bytes(self):
         screenshot = MGraph(graph=self.mgraph_query.mgraph_data.graph).screenshot()
         with screenshot.export().export_dot() as _:
-            if self.show_node__value:
-                _.show_node__value()
+            if self.show_node__value: _.show_node__value()
+            if self.show_node__type : _.show_node__type()
+            if self.show_edge__type: _.show_edge__type()
             _.set_graph__margin(self.graph__margin)
             _.set_graph__title("Source Graph")
             _.set_graph__title__font__name (self.graph__title__font     )
