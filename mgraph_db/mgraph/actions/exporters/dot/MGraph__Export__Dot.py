@@ -92,18 +92,45 @@ class MGraph__Export__Dot(MGraph__Export__Base):
             config_dict[edge_type].shapes = MGraph__Export__Dot__Config__Shape()
         return config_dict[edge_type]
 
+    def ensure_value_type_shape(self, value_type: type):
+        if value_type not in self.config.type.value_shapes:
+            self.config.type.value_shapes[value_type] = MGraph__Export__Dot__Config__Shape()
+        return self.config.type.value_shapes[value_type]
+
+    def ensure_value_type_font(self, value_type: type):
+        if value_type not in self.config.type.value_fonts:
+            self.config.type.value_fonts[value_type] = MGraph__Export__Dot__Config__Font()
+        return self.config.type.value_fonts[value_type]
+
     def set_edge__color          (self, color    : str  ): self.config.edge.color      = color       ; return self
     def set_edge__font__size     (self, size     : int  ): self.config.edge.font.size  = size        ; return self
     def set_edge__font__color    (self, color    : str  ): self.config.edge.font.color = color       ; return self
     def set_edge__font__name     (self, name     : str  ): self.config.edge.font.name  = name        ; return self
     def set_edge__style          (self, style    : str  ): self.config.edge.style      = style       ; return self
+    def set_edge__arrow_size     (self, size     : float): self.config.edge.arrow_size = size        ; return self
+
+    def set_edge__arrow_head         (self, head  : str  ): self.config.edge.arrow_head = head       ; return self
+    def set_edge__arrow_head__dot    (self               ): self.config.edge.arrow_head = 'dot'      ; return self
+    def set_edge__arrow_head__vee    (self               ): self.config.edge.arrow_head = 'vee'      ; return self
+    def set_edge__arrow_head__tee    (self               ): self.config.edge.arrow_head = 'tee'      ; return self
+    def set_edge__arrow_head__none   (self               ): self.config.edge.arrow_head = 'none'     ; return self
+    def set_edge__arrow_head__normal (self               ): self.config.edge.arrow_head = 'normal'     ; return self
+    def set_edge__arrow_head__diamond(self               ): self.config.edge.arrow_head = 'diamond'  ; return self
+    def set_edge__arrow_head__crow   (self               ): self.config.edge.arrow_head = 'crow'     ; return self
+
 
     def set_node__fill_color     (self, color    : str  ): self.config.node.shape.fill_color = color    ; return self
     def set_node__font__color    (self, color    : str  ): self.config.node.font.color       = color    ; return self
     def set_node__font__name     (self, name     : str  ): self.config.node.font.name        = name     ; return self
     def set_node__font__size     (self, size     : int  ): self.config.node.font.size        = size     ; return self
-    def set_node__shape__type    (self, shape    : str  ): self.config.node.shape.type       = shape    ; return self
     def set_node__shape__rounded (self                  ): self.config.node.shape.rounded    = True     ; return self
+    def set_node__shape__width   (self, width    : float): self.config.node.shape.width      = width    ; return self
+    def set_node__shape__height  (self, height   : float): self.config.node.shape.height     = height   ; return self
+    def set_node__shape__fixed   (self                  ): self.config.node.shape.fixed_size = True     ; return self
+
+    def set_node__shape__type     (self, shape    : str  ): self.config.node.shape.type      = shape    ; return self
+    def set_node__shape__type__box(self,                 ): self.config.node.shape.type      = 'box'    ; return self
+
     def set_node__style          (self, style    : str  ): self.config.node.shape.style      = style    ; return self
 
     def set_graph__layout_engine (self, engine   : str  ): self.config.graph.layout_engine   = engine   ; return self
@@ -142,6 +169,8 @@ class MGraph__Export__Dot(MGraph__Export__Base):
     def show_edge__type              (self): self.config.display.edge_type           = True      ; return self
     def show_edge__type_full_name    (self): self.config.display.edge_type_full_name = True      ; return self
     def show_node__value             (self): self.config.display.node_value          = True      ; return self
+    def show_node__value__key        (self): self.config.display.node_value_key      = True      ; return self
+    def show_node__value__type       (self): self.config.display.node_value_type     = True      ; return self
     def show_node__type              (self): self.config.display.node_type           = True      ; return self
     def show_node__type_full_name    (self): self.config.display.node_type_full_name = True      ; return self
 
@@ -180,3 +209,17 @@ class MGraph__Export__Dot(MGraph__Export__Base):
     def set_edge_to_node__type_font_name    (self, edge_type: type, name : str): self.ensure_edge_node_config(edge_type, self.config.type.edge_to).fonts.name        = name ; return self
     def set_edge_to_node__type_shape        (self, edge_type: type, shape: str): self.ensure_edge_node_config(edge_type, self.config.type.edge_to).shapes.type       = shape; return self
     def set_edge_to_node__type_style        (self, edge_type: type, style: str): self.ensure_edge_node_config(edge_type, self.config.type.edge_to).shapes.style      = style; return self
+
+    # methods for value_type styling
+    def set_value_type_shape                (self, value_type: type, shape: str): self.ensure_value_type_shape(value_type).type       = shape; return self
+    def set_value_type_fill_color           (self, value_type: type, color: str): self.ensure_value_type_shape(value_type).fill_color = color; return self
+    def set_value_type_style                (self, value_type: type, style: str): self.ensure_value_type_shape(value_type).style      = style; return self
+    def set_value_type_rounded              (self, value_type: type            ): self.ensure_value_type_shape(value_type).rounded    = True ; return self
+
+    def set_value_type_font_name            (self, value_type: type, name  : str  ): self.ensure_value_type_font(value_type).name        = name ; return self
+    def set_value_type_font_size            (self, value_type: type, size  : int  ): self.ensure_value_type_font(value_type).size        = size ; return self
+    def set_value_type_font_color           (self, value_type: type, color : str  ): self.ensure_value_type_font(value_type).color       = color; return self
+    def set_value_type_width                (self, value_type: type, width : float): self.ensure_value_type_shape(value_type).width      = width ; return self
+    def set_value_type_height               (self, value_type: type, height: float): self.ensure_value_type_shape(value_type).height     = height; return self
+    def set_value_type_size                 (self, value_type: type, value : float): self.ensure_value_type_shape(value_type).height     = value; self.ensure_value_type_shape(value_type).width = value; return self
+    def set_value_type_fixed                (self, value_type: type               ) : self.ensure_value_type_shape(value_type).fixed_size  = True  ; return self

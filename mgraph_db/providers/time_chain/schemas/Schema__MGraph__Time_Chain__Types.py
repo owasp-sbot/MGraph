@@ -1,7 +1,7 @@
-class Year                                    (str): pass      # Type markers for time components# Represents a year value in the time chain
-class Year_Month                              (str): pass      # Represents a month value in the context of a year
-class Year_Month_Day                          (str): pass      # Represents a day value in the context of a year and month
-class Year_Month_Day_Hour                     (str): pass      # Represents an hour value in the context of a full date
-class Year_Month_Day_Hour_Minute              (str): pass      # Represents a minute value in the context of date and hour
-class Year_Month_Day_Hour_Minute_Second       (str): pass      # Represents a second value in the full datetime context
-class Year_Month_Day_Hour_Minute_Second_Source(str): pass
+class Time_Chain__Year   (str): pass      # year value in the time chain
+class Time_Chain__Month  (str): pass      # month value in the context of a year
+class Time_Chain__Day    (str): pass      # day value in the context of a year and month
+class Time_Chain__Hour   (str): pass      # hour value in the context of a full date
+class Time_Chain__Minute (str): pass      # minute value in the context of date and hour
+class Time_Chain__Second (str): pass      # second value in the full datetime context
+class Time_Chain__Source (str): pass      # source Obj_id

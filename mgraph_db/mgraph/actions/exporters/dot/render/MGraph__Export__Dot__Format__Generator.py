@@ -51,6 +51,8 @@ class MGraph__Export__Dot__Format__Generator(MGraph__Export__Dot__Base):
 
         # Global edge settings
         edge_attrs = []
+        if self.config.edge.arrow_head: edge_attrs.append(f'arrowhead="{self.config.edge.arrow_head}"')
+        if self.config.edge.arrow_size: edge_attrs.append(f'arrowsize="{self.config.edge.arrow_size}"')
         if self.config.edge.color     : edge_attrs.append(f'color="{self.config.edge.color}"'         )
         if self.config.edge.font.name : edge_attrs.append(f'fontname="{self.config.edge.font.name}"'  )
         if self.config.edge.font.size : edge_attrs.append(f'fontsize="{self.config.edge.font.size}"'  )

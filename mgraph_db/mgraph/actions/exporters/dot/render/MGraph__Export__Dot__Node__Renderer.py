@@ -16,17 +16,45 @@ class MGraph__Export__Dot__Node__Renderer(MGraph__Export__Dot__Base):
         return []                                                                # Base implementation
 
     def create_node_shape_attributes(self, node: Domain__MGraph__Node) -> List[str]:
-        attrs = {}                                                                          # Use dict to prevent duplicates
+        attrs = {}
         styles = set()
         node_type = node.node.data.node_type
 
-        # Apply type-specific shape configuration first (base styling)
+        # Start with base node configuration
+        if self.config.node.shape.type:       attrs['shape'] = f'shape="{self.config.node.shape.type}"'
+        if self.config.node.shape.width:      attrs['width'] = f'width={self.config.node.shape.width}'
+        if self.config.node.shape.height:     attrs['height'] = f'height={self.config.node.shape.height}'
+        if self.config.node.shape.fixed_size: attrs['fixedsize'] = 'true'
+        if self.config.node.shape.fill_color:
+            styles.add('filled')
+            attrs['fillcolor'] = f'fillcolor="{self.config.node.shape.fill_color}"'
+
+        # Apply type-specific shape configuration
         if node_type in self.config.type.shapes:
             shape_config = self.config.type.shapes[node_type]
             if shape_config.type:       attrs['shape'] = f'shape="{shape_config.type}"'
+            if shape_config.width:      attrs['width'] = f'width={shape_config.width}'
+            if shape_config.height:     attrs['height'] = f'height={shape_config.height}'
+            if shape_config.fixed_size: attrs['fixedsize'] = 'true'
             if shape_config.fill_color:
                 styles.add('filled')
                 attrs['fillcolor'] = f'fillcolor="{shape_config.fill_color}"'
+
+        # Then apply value_type specific configuration if this is a value node
+        if hasattr(node.node_data, 'value_type'):
+            value_type = node.node_data.value_type
+            if value_type in self.config.type.value_shapes:
+                shape_config = self.config.type.value_shapes[value_type]
+                if shape_config.type:       attrs['shape'] = f'shape="{shape_config.type}"'
+                if shape_config.width:      attrs['width'] = f'width={shape_config.width}'
+                if shape_config.height:     attrs['height'] = f'height={shape_config.height}'
+                if shape_config.fixed_size: attrs['fixedsize'] = 'true'
+                if shape_config.fill_color:
+                    styles.add('filled')
+                    attrs['fillcolor'] = f'fillcolor="{shape_config.fill_color}"'
+                if shape_config.rounded:    styles.add('rounded')
+                if shape_config.style:      styles.update(shape_config.style.split(','))
+
 
         # Check edges where this node is the source
         for edge in self.graph.model.node__from_edges(node.node_id):
@@ -66,6 +94,15 @@ class MGraph__Export__Dot__Node__Renderer(MGraph__Export__Dot__Base):
             if font_config.size:  attrs['fontsize'] = f'fontsize="{font_config.size}"'
             if font_config.color: attrs['fontcolor'] = f'fontcolor="{font_config.color}"'
 
+        # Then apply value_type specific configuration if this is a value node
+        if hasattr(node.node_data, 'value_type'):
+            value_type = node.node_data.value_type
+            if value_type in self.config.type.value_fonts:
+                font_config = self.config.type.value_fonts[value_type]
+                if font_config.name:  attrs['fontname'] = f'fontname="{font_config.name}"'
+                if font_config.size:  attrs['fontsize'] = f'fontsize="{font_config.size}"'
+                if font_config.color: attrs['fontcolor'] = f'fontcolor="{font_config.color}"'
+
         # Check edges where this node is the source
         for edge in self.graph.model.node__from_edges(node.node_id):
             edge_type = edge.data.edge_type
@@ -96,12 +133,35 @@ class MGraph__Export__Dot__Node__Renderer(MGraph__Export__Dot__Base):
             if shape_config.rounded:    styles.add('rounded')
             if shape_config.style:      styles.update(shape_config.style.split(','))
 
+        # Add value_type styles if applicable
+        if hasattr(node.node_data, 'value_type'):
+            value_type = node.node_data.value_type
+            if value_type in self.config.type.value_shapes:
+                shape_config = self.config.type.value_shapes[value_type]
+                if shape_config.fill_color: styles.add('filled')
+                if shape_config.rounded:    styles.add('rounded')
+                if shape_config.style:      styles.update(shape_config.style.split(','))
+
         return [f'style="{",".join(sorted(styles))}"'] if styles else []
 
     def create_node_label_attributes(self, node: Domain__MGraph__Node) -> List[str]:
-        if self.config.display.node_value and hasattr(node.node_data, 'value'):
-            return [f'label="{node.node_data.value}"']
-        elif self.config.display.node_type_full_name:
+        if hasattr(node.node_data, 'value'):                                                  # Only proceed for nodes with value data
+            label_parts = []
+
+            if self.config.display.node_value:                                                # Add value if requested
+                label_parts.append(str(node.node_data.value))
+
+            if self.config.display.node_value_type:                                           # Add value_type if requested
+                type_name = self.type_name__from__type(node.node_data.value_type)
+                label_parts.append(f"{type_name}")
+
+            if self.config.display.node_value_key:                                            # Add key if requested
+                label_parts.append(f"{node.node_data.key}")
+
+            if label_parts:                                                                   # Combine all parts
+                return [f'label="{" ".join(label_parts)}"']
+
+        elif self.config.display.node_type_full_name:                                        # Fall back to type display if no value
             type_full_name = node.node.data.node_type.__name__
             return [f'label="{type_full_name}"']
         elif self.config.display.node_type:

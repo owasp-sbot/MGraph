@@ -3,7 +3,7 @@ from datetime                                                                   
 from unittest                                                                    import TestCase
 from mgraph_db.mgraph.domain.Domain__MGraph__Node                                import Domain__MGraph__Node
 from mgraph_db.providers.time_chain.actions.MGraph__Time_Chain__Create           import MGraph__Time_Chain__Create
-from mgraph_db.providers.time_chain.schemas.Schema__MGraph__Time_Chain__Types    import Year, Year_Month
+from mgraph_db.providers.time_chain.schemas.Schema__MGraph__Time_Chain__Types    import Time_Chain__Year, Time_Chain__Month
 from mgraph_db.providers.time_chain.schemas.Schema__MGraph__Time_Chain__Edge     import Schema__MGraph__Time_Chain__Edge__Month
 from mgraph_db.mgraph.MGraph                                                     import MGraph
 from osbot_utils.helpers.Obj_Id                                                  import Obj_Id
@@ -60,7 +60,7 @@ class test_MGraph__Time_Chain__Create(TestCase):
 
         with self.mgraph.data() as data:
             assert root_node.node_data.value == "2025"                                      # Check root value
-            assert root_node.node_data.value_type is Year                                   # Check root type
+            assert root_node.node_data.value_type is Time_Chain__Year                                   # Check root type
 
             index = data.index()
             nodes = index.nodes_ids__from__node_id(root_node.node_id)
@@ -96,7 +96,7 @@ class test_MGraph__Time_Chain__Create(TestCase):
 
             month_node = data.node(nodes[0])
             assert month_node.node_data.value == "2"                                      # Verify month value
-            assert month_node.node_data.value_type is Year_Month                         # Verify month type
+            assert month_node.node_data.value_type is Time_Chain__Month                         # Verify month type
 
     def test_chain_connections(self):                                                     # Test edge creation
         date_time = datetime(2025, 2, 10, 12, 31, tzinfo=UTC)
