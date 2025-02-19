@@ -52,7 +52,7 @@ Relationship indexes provide instant access to the outgoing and incoming edges o
 # O(1) edge lookup
 outgoing = index.data.nodes_to_outgoing_edges[node_id]
 incoming = index.data.nodes_to_incoming_edges[node_id]
-from_node, to_node = index.data.edge_to_nodes[edge_id]
+from_node, to_node = index.data.edges_to_nodes[edge_id]
 ```
 
 #### Type Indexes

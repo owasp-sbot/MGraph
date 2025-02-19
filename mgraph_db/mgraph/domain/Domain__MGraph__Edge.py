@@ -13,6 +13,7 @@ class Domain__MGraph__Edge(Type_Safe):                                          
 
     edge_config = set_as_property('edge.data'            , 'edge_config', Schema__MGraph__Edge__Config) # Edge configuration
     edge_id     = set_as_property('edge.data.edge_config', 'edge_id'    , Obj_Id                      ) # Edge ID
+    edge_type   = set_as_property('edge.data'            , 'edge_type'  , type                        )
 
     def from_node(self, domain_node_type = Domain__MGraph__Node) -> Domain__MGraph__Node:                                                        # Get source node
         node = self.graph.node(self.edge.from_node_id())

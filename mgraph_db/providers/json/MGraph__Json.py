@@ -10,11 +10,11 @@ from mgraph_db.providers.json.domain.Domain__MGraph__Json__Graph import Domain__
 
 
 class MGraph__Json(MGraph):                                                                                          # Main JSON graph manager
-    graph       : Domain__MGraph__Json__Graph
-    query_class : Type[MGraph__Json__Query]
+    graph           : Domain__MGraph__Json__Graph
+    query_class     : Type[MGraph__Json__Query     ]
+    screenshot_class: Type[MGraph__Json__Screenshot]
 
     def data      (self) -> MGraph__Json__Data      : return MGraph__Json__Data      (graph=self.graph)
     def edit      (self) -> MGraph__Json__Edit      : return MGraph__Json__Edit      (graph=self.graph)
     def export    (self) -> MGraph__Json__Export    : return MGraph__Json__Export    (graph=self.graph)                 # Access export operations
     def load      (self) -> MGraph__Json__Load      : return MGraph__Json__Load      (graph=self.graph)                 # Access import operations
-    def screenshot(self) -> MGraph__Json__Screenshot: return MGraph__Json__Screenshot(graph=self.graph)                 # Access screenshot operations

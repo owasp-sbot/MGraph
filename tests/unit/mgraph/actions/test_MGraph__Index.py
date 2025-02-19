@@ -1,14 +1,15 @@
-from unittest                                               import TestCase
-from mgraph_db.providers.simple.MGraph__Simple__Test_Data   import MGraph__Simple__Test_Data
-from osbot_utils.utils.Objects                              import __
-from osbot_utils.testing.Temp_File                          import Temp_File
-from mgraph_db.mgraph.MGraph                                import MGraph
-from osbot_utils.utils.Files                                import file_not_exists, file_exists
-from mgraph_db.mgraph.actions.MGraph__Index                 import MGraph__Index
-from mgraph_db.mgraph.schemas.Schema__MGraph__Index__Data   import Schema__MGraph__Index__Data
-from mgraph_db.mgraph.schemas.Schema__MGraph__Node          import Schema__MGraph__Node
-from mgraph_db.mgraph.schemas.Schema__MGraph__Edge          import Schema__MGraph__Edge
-
+from unittest                                                   import TestCase
+from mgraph_db.mgraph.schemas.Schema__MGraph__Node__Value       import Schema__MGraph__Node__Value
+from mgraph_db.mgraph.schemas.Schema__MGraph__Node__Value__Data import Schema__MGraph__Node__Value__Data
+from mgraph_db.providers.simple.MGraph__Simple__Test_Data       import MGraph__Simple__Test_Data
+from osbot_utils.utils.Objects                                  import __
+from osbot_utils.testing.Temp_File                              import Temp_File
+from mgraph_db.mgraph.MGraph                                    import MGraph
+from osbot_utils.utils.Files                                    import file_not_exists, file_exists
+from mgraph_db.mgraph.actions.MGraph__Index                     import MGraph__Index
+from mgraph_db.mgraph.schemas.Schema__MGraph__Index__Data       import Schema__MGraph__Index__Data
+from mgraph_db.mgraph.schemas.Schema__MGraph__Node              import Schema__MGraph__Node
+from mgraph_db.mgraph.schemas.Schema__MGraph__Edge              import Schema__MGraph__Edge
 
 class test_MGraph_Index(TestCase):
 
@@ -16,17 +17,22 @@ class test_MGraph_Index(TestCase):
         self.mgraph_index = MGraph__Index()
 
     def test__setUp(self):
-
         with self.mgraph_index as _:
             assert type(_           ) is MGraph__Index
             assert type(_.index_data) is Schema__MGraph__Index__Data
-            assert _.json()           == { 'index_data' : { 'edge_to_nodes'              : {}                                          ,
-                                                            'edges_by_field'             : {}                                          ,
-                                                            'edges_by_type'              : {}                                          ,
-                                                            'nodes_by_field'             : {}                                          ,
-                                                            'nodes_by_type'              : {}                                          ,
-                                                            'nodes_to_incoming_edges'    : {}                                          ,
-                                                            'nodes_to_outgoing_edges'    : {}}}
+            assert _.json()           == { 'index_data'  : { 'edges_to_nodes'                 : {} ,
+                                                             'edges_by_type'                  : {} ,
+                                                             'edges_types'                    : {} ,
+                                                             'nodes_by_type'                  : {} ,
+                                                             'nodes_to_incoming_edges_by_type': {} ,
+                                                             'nodes_to_incoming_edges'        : {} ,
+                                                             'nodes_to_outgoing_edges'        : {} ,
+                                                             'nodes_to_outgoing_edges_by_type': {} ,
+                                                             'nodes_types'                    : {}},
+                                           'values_index': { 'index_data': { 'hash_to_node'   : {},
+                                                                             'node_to_hash'   : {},
+                                                                             'type_by_value'  : {},
+                                                                             'values_by_type' : {}}}}
 
     def test_add_node(self):    # Test adding a node to the index
         node_to_add = Schema__MGraph__Node()
@@ -105,36 +111,40 @@ class test_MGraph_Index(TestCase):
         edge_1_id = edge_1.edge_config.edge_id
 
         with self.mgraph_index as _:
-            assert _.index_data.obj()  == __(nodes_to_outgoing_edges = __(),
-                                             nodes_to_incoming_edges = __(),
-                                             edge_to_nodes           = __(),
-                                             nodes_by_type           = __(),
-                                             edges_by_type           = __(),
-                                             nodes_by_field          = __(),
-                                             edges_by_field          = __())
+            assert _.index_data.obj()  == __(nodes_types                     = __(),
+                                             edges_types                     = __(),
+                                             nodes_to_outgoing_edges         = __(),
+                                             nodes_to_incoming_edges         = __(),
+                                             nodes_to_incoming_edges_by_type = __(),
+                                             nodes_to_outgoing_edges_by_type = __(),
+                                             edges_to_nodes                  = __(),
+                                             nodes_by_type                   = __(),
+                                             edges_by_type                   = __())
             _.add_node(node_1)
             _.add_node(node_2)
             _.add_edge(edge_1)
             nodes_by_type = list(_.index_data.nodes_by_type['Schema__MGraph__Node'])            # we need to get this value since nodes_by_type is a list and the order can change
             assert node_1_id           in nodes_by_type
             assert node_2_id           in nodes_by_type
-            assert _.index_data.json() == { 'edge_to_nodes'          : { edge_1_id: [node_1_id, node_2_id]},
-                                            'edges_by_field'         : {},
-                                            'edges_by_type'          : {'Schema__MGraph__Edge': [edge_1_id]},
-                                            'nodes_by_field'         : {},
-                                            'nodes_by_type'          : {'Schema__MGraph__Node': nodes_by_type },
-                                            'nodes_to_incoming_edges': { node_2_id: [edge_1_id],
-                                                                         node_1_id: []},
-                                            'nodes_to_outgoing_edges': { node_2_id: [],
-                                                                         node_1_id: [edge_1_id]}}
+            assert _.index_data.json() == { 'edges_to_nodes'                 : { edge_1_id: [node_1_id, node_2_id]},
+                                            'edges_by_type'                  : {'Schema__MGraph__Edge': [edge_1_id]},
+                                            'edges_types'                    : { edge_1_id: 'Schema__MGraph__Edge'},
+                                            'nodes_by_type'                  : {'Schema__MGraph__Node': nodes_by_type },
+                                            'nodes_to_incoming_edges'        : { node_2_id: [edge_1_id],
+                                                                                 node_1_id: []},
+                                            'nodes_to_incoming_edges_by_type': { node_2_id: {'Schema__MGraph__Edge': [edge_1_id]}},
+                                            'nodes_to_outgoing_edges'        : { node_2_id: [],
+                                                                                 node_1_id: [edge_1_id]},
+                                            'nodes_to_outgoing_edges_by_type': { node_1_id: {'Schema__MGraph__Edge': [edge_1_id]}},
+                                            'nodes_types'                    : { node_1_id: 'Schema__MGraph__Node',
+                                                                                 node_2_id: 'Schema__MGraph__Node'}}
+
 
     def test__index_data__from_simple_graph(self):
         simple_graph  = MGraph__Simple__Test_Data().create()
         with simple_graph.index() as _:
-            assert len(_.edge_to_nodes          ()) == 2
-            assert len(_.edges_by_field         ()) == 0
+            assert len(_.edges_to_nodes         ()) == 2
             assert len(_.edges_by_type          ()) == 1
-            assert len(_.nodes_by_field         ()) == 2              # BUG
             assert len(_.nodes_by_type          ()) == 1
             assert len(_.nodes_to_incoming_edges()) == 3
             assert len(_.nodes_to_outgoing_edges()) == 3
@@ -162,15 +172,20 @@ class test_MGraph_Index(TestCase):
         nodes_by_type = list(index.index_data.nodes_by_type['Schema__MGraph__Node'])
         assert node_1_id               in nodes_by_type
         assert node_2_id               in nodes_by_type
-        assert index.index_data.json() ==  { 'edge_to_nodes'          : { edge_1_id: [node_1_id, node_2_id] },
-                                              'edges_by_field'     : {}                                   ,
-                                              'edges_by_type'          : { edge_1_type: [edge_1_id]          },
-                                              'nodes_by_field'     : {}                                   ,
-                                              'nodes_by_type'          : { node_1_type: nodes_by_type        },
-                                              'nodes_to_incoming_edges': { node_1_id: []                     ,
-                                                                           node_2_id: [edge_1_id]            },
-                                              'nodes_to_outgoing_edges': { node_1_id: [edge_1_id]            ,
-                                                                      node_2_id: []                     }}
+        assert index.index_data.json() ==  {  'edges_to_nodes'                 : { edge_1_id: [node_1_id, node_2_id] },
+                                              'edges_by_type'                  : { edge_1_type: [edge_1_id]          },
+                                              'edges_types'                    : { edge_1_id: 'Schema__MGraph__Edge' },
+                                              'nodes_by_type'                  : { node_1_type: nodes_by_type        },
+                                              'nodes_to_incoming_edges'        : { node_1_id: []                     ,
+                                                                                   node_2_id: [edge_1_id]            },
+                                              'nodes_to_incoming_edges_by_type': {node_2_id: {'Schema__MGraph__Edge': [edge_1_id]}},
+                                              'nodes_to_outgoing_edges'        : { node_1_id: [edge_1_id]            ,
+                                                                                   node_2_id: []                     },
+                                             'nodes_to_outgoing_edges_by_type' : { node_1_id: {'Schema__MGraph__Edge': [edge_1_id]}},
+                                             'nodes_types'                     : { node_1_id: 'Schema__MGraph__Node',
+                                                                                   node_2_id: 'Schema__MGraph__Node'}}
+
+
 
     def test_save_to_file__and__from_file(self):                                                             # Test save and load functionality
         node_1 = Schema__MGraph__Node()
@@ -195,3 +210,45 @@ class test_MGraph_Index(TestCase):
 
                 #assert loaded_index.json() == self.mgraph_index.json()                                  # confirm object as the save (original and loaded from disk)
                 #assert loaded_index.obj () == self.mgraph_index.obj ()
+
+    def test_get_nodes_connected_to_value(self):
+        class Value_Node(Schema__MGraph__Node__Value): pass                                             # Test value node type
+        class Test_Edge (Schema__MGraph__Edge       ): pass                                             # Test edge type
+
+        value      = "test_value"
+        value_data = Schema__MGraph__Node__Value__Data(value=value, value_type=str)              # Create value node
+        value_node = Value_Node(node_data=value_data)
+
+        node_1     = Schema__MGraph__Node()                                                                 # Create connecting nodes
+        node_2     = Schema__MGraph__Node()
+        node_3     = Schema__MGraph__Node()
+
+        edge_1     = Test_Edge           (from_node_id=node_1.node_id, to_node_id=value_node.node_id)       # Create edges
+        edge_2     = Test_Edge           (from_node_id=node_2.node_id, to_node_id=value_node.node_id)
+        edge_3     = Schema__MGraph__Edge(from_node_id=node_3.node_id, to_node_id=value_node.node_id)
+
+        with self.mgraph_index as _:
+            _.values_index.add_value_node(value_node)
+            _.add_node(value_node)                                                                      # Add all nodes and edges
+            _.add_node(node_1)
+            _.add_node(node_2)
+            _.add_node(node_3)
+            _.add_edge(edge_1)
+            _.add_edge(edge_2)
+            _.add_edge(edge_3)
+
+            connected_nodes = _.get_nodes_connected_to_value(value)                     # Test without edge type filter
+
+            assert len(connected_nodes) == 3
+            assert node_1.node_id       in connected_nodes
+            assert node_2.node_id       in connected_nodes
+            assert node_3.node_id       in connected_nodes
+
+            connected_nodes = _.get_nodes_connected_to_value("test_value", Test_Edge)          # Test with edge type filter
+            assert len(connected_nodes) == 2
+            assert node_1.node_id       in connected_nodes
+            assert node_2.node_id       in connected_nodes
+            assert node_3.node_id       not in connected_nodes
+
+            connected_nodes = _.get_nodes_connected_to_value("non_existent")                   # Test with non-existent value
+            assert len(connected_nodes) == 0

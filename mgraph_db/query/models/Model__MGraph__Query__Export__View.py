@@ -23,12 +23,14 @@ class Model__MGraph__Query__Export__View(Type_Safe):
 
     def clone_nodes(self, new_graph: Schema__MGraph__Graph) -> None:                                                    # Clones specified nodes to new graph using Type_Safe serialization
         for node_id in self.data.nodes_ids:
-            source_node                  = self.data.source_graph.nodes[node_id]
-            new_node                     = source_node.node_type.from_json(source_node.json())
-            new_graph.nodes[node_id] = new_node
+            source_node                  = self.data.source_graph.nodes.get(node_id)
+            if source_node:
+                new_node                     = source_node.node_type.from_json(source_node.json())
+                new_graph.nodes[node_id] = new_node
 
     def clone_edges(self, new_graph: Schema__MGraph__Graph) -> None:                                                    # Clones specified edges to new graph using Type_Safe serialization
         for edge_id in self.data.edges_ids:
-            source_edge                  = self.data.source_graph.edges[edge_id]
-            new_edge                     = source_edge.edge_type.from_json(source_edge.json())
-            new_graph.edges[edge_id] = new_edge
+            source_edge                  = self.data.source_graph.edges.get(edge_id)
+            if source_edge:
+                new_edge                     = source_edge.edge_type.from_json(source_edge.json())
+                new_graph.edges[edge_id] = new_edge

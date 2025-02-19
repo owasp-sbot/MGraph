@@ -35,11 +35,12 @@ class test_MGraph__Simple__Test_Data(TestCase):
             nodes_ids = _.nodes_ids()
             edges_ids = _.edges_ids()
         with self.test_data.export() as _:
+            _.export_dot().show_node__value().show_edge__ids()
 
             expected_dot = f"""digraph {{
-  "{nodes_ids[0]}" [value="A", name="Node 1"]
-  "{nodes_ids[1]}" [value="B", name="Node 2"]
-  "{nodes_ids[2]}" [value="C", name="Node 3"]
+  "{nodes_ids[0]}" [label="A"]
+  "{nodes_ids[1]}" [label="B"]
+  "{nodes_ids[2]}" [label="C"]
   "{nodes_ids[0]}" -> "{nodes_ids[1]}" [label="  {edges_ids[0]}"]
   "{nodes_ids[0]}" -> "{nodes_ids[2]}" [label="  {edges_ids[1]}"]
 }}"""
@@ -73,19 +74,18 @@ graph TD
     def test__index__stats(self):
         with self.test_data.index() as _:
             assert _.stats() == {'index_data': { 'edge_to_nodes'        : 2                                          ,
-                                                 'edges_by_field'       : {}                                         ,
                                                  'edges_by_type'        : { 'Schema__MGraph__Edge'  : 2              },
                                                  'node_edge_connections': { 'avg_incoming_edges'    : 1              ,
                                                                             'avg_outgoing_edges'    : 1              ,
                                                                             'max_incoming_edges'    : 1              ,
                                                                             'max_outgoing_edges'    : 2              ,
                                                                             'total_nodes'           : 3              },
-                                                 'nodes_by_field'        : { 'name'                 : { 'Node 1': 1  ,
-                                                                                                        'Node 2': 1  ,
-                                                                                                        'Node 3': 1  },
-                                                                             'value'                : { 'A'     : 1  ,
-                                                                                                        'B'     : 1  ,
-                                                                                                        'C'     : 1  }},
+                                                 # 'nodes_by_field'        : { 'name'                 : { 'Node 1': 1  ,
+                                                 #                                                        'Node 2': 1  ,
+                                                 #                                                        'Node 3': 1  },
+                                                 #                             'value'                : { 'A'     : 1  ,
+                                                 #                                                        'B'     : 1  ,
+                                                 #                                                        'C'     : 1  }},
                                                  'nodes_by_type'         : { 'Schema__Simple__Node': 3               }}}
 
 

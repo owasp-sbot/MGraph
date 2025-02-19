@@ -39,13 +39,19 @@ class Model__MGraph__Graph(Type_Safe):
         return self.add_edge(edge)
 
     def new_node(self, **kwargs):
-        node_type      = self.data.schema_types.node_type               # Get the node type from the schema
-        node_data_type = self.data.schema_types.node_data_type          # Get the node data type from the schema
+        if 'node_type' in kwargs:
+            node_type              = kwargs.get('node_type')                                    # if we have the node_type here
+            node_type__annotations = dict(type_safe_cache.get_class_annotations(node_type))     # get its annotations
+            node_data_type         = node_type__annotations.get('node_data')                    # so that we can resolve the node_data object
+
+        else:
+            node_type              = self.data.schema_types.node_type               # Get the node type from the schema
+            node_data_type         = self.data.schema_types.node_data_type          # Get the node data type from the schema
+            node_type__annotations = dict(type_safe_cache.get_class_annotations(node_type))
 
 
         node_type__kwargs           = {}                                # Separate kwargs for node_type and node_data_type
         node_data__type_kwargs      = {}
-        node_type__annotations      = dict(type_safe_cache.get_class_annotations(node_type     ))
         node_data_type__annotations = dict(type_safe_cache.get_class_annotations(node_data_type))
 
         for key, value in kwargs.items():                               # todo: review this 'feature' to split the kwargs based on the node and the data class

@@ -1,5 +1,6 @@
 import pytest
 from unittest                                               import TestCase
+from osbot_utils.utils.Env                                  import not_in_github_action
 from osbot_utils.utils.Json                                 import json_file_load, json__equals__list_and_set
 from osbot_utils.context_managers.print_duration            import print_duration
 from osbot_utils.utils.Http                                 import current_host_offline
@@ -15,6 +16,11 @@ URL__MY_FEEDS__HACKER_NEWS = "https://dev.myfeeds.ai/hacker-news/data-feed-curre
 URL__MY_FEEDS__OPENAPI     = "https://dev.myfeeds.ai/openapi.json"
 
 class test_Perf_Test__MGraph_Json(TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        if not_in_github_action():
+            pytest.skip("Only run tests in GitHub Actions")
 
     def setUp(self):
         self.perf_test = Perf_Test__MGraph_Json()

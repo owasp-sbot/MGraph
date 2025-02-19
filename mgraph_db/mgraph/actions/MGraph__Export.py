@@ -1,17 +1,24 @@
-from typing                                         import Dict, Any, Optional
-from xml.dom                                        import minidom
-from xml.etree                                      import ElementTree
-from xml.etree.ElementTree                          import Element, SubElement
-from osbot_utils.utils.Files                        import temp_file, file_create
-from mgraph_db.mgraph.actions.MGraph__Data          import MGraph__Data
-from mgraph_db.mgraph.domain.Domain__MGraph__Graph  import Domain__MGraph__Graph
-from osbot_utils.type_safe.Type_Safe                import Type_Safe
+from typing                                                     import Dict, Any, Optional, Callable
+from xml.dom                                                    import minidom
+from xml.etree                                                  import ElementTree
+from xml.etree.ElementTree                                      import Element, SubElement
+from mgraph_db.mgraph.actions.exporters.dot.MGraph__Export__Dot import MGraph__Export__Dot
+from osbot_utils.decorators.methods.cache_on_self               import cache_on_self
+from osbot_utils.utils.Files                                    import temp_file, file_create
+from mgraph_db.mgraph.actions.MGraph__Data                      import MGraph__Data
+from mgraph_db.mgraph.domain.Domain__MGraph__Graph              import Domain__MGraph__Graph
+from osbot_utils.type_safe.Type_Safe                            import Type_Safe
+
 
 class MGraph__Export(Type_Safe):
-    graph: Domain__MGraph__Graph
+    graph      : Domain__MGraph__Graph
 
     def data(self):                                                                             # Access to graph data
         return MGraph__Data(graph=self.graph)
+
+    @cache_on_self
+    def export_dot(self):
+        return MGraph__Export__Dot(graph=self.graph)
 
     def to__mgraph_json(self):                                                                  # Export full graph data
         return self.graph.model.data.json()
@@ -52,122 +59,19 @@ class MGraph__Export(Type_Safe):
                 to_elem.text    = str(edge.to_node_id())
         return self.format_xml(root, indent='  ')
 
-    def to__dot(self, show_value=False, show_edge_ids=True) -> str:                                                                   # Export as DOT graph
-        lines = ['digraph {']
+    def to__dot(self, show_value=False, show_edge_ids=True) -> str:                       # Export as DOT graph
+        # dot_exporter = MGraph__Export__Dot(graph  = self.graph                        ,
+        #                                   config = MGraph__Export__Dot__Config(
+        #                                             show_value    = show_value   ,
+        #                                             show_edge_ids = show_edge_ids))
+        return self.export_dot().process_graph()
+        #return dot_exporter.format_output()
 
-        with self.data() as _:
-            for node in _.nodes():                                                              # Output nodes with data
-                node_attrs = []
-                if node.node_data:
-                    node_items = node.node_data.__dict__.items()
-                    if node_items:
-                        for field_name, field_value in node_items:
-                            node_attrs.append(f'{field_name}="{field_value}"')
-                            if show_value and (field_name =='value' or field_name =='name'):
-                                node_attrs.append(f'label="{field_value}"')
-                    else:
-                        if show_value:
-                            label = type(node.node.data).__name__.split('__').pop().lower()
-                            node_attrs.append(f'label="{label}"')
+    def to__dot_types(self):
+        return self.export_dot().to_types_view()
 
-                attrs_str = f' [{", ".join(node_attrs)}]' if node_attrs else ''
-                lines.append(f'  "{node.node_id}"{attrs_str}')
-
-            for edge in _.edges():                                                          # Output edges with IDs
-                if show_edge_ids:
-                    edge_label = f"  {edge.edge_id}"
-                else:
-                    edge_label = ""
-                lines.append(f'  "{edge.from_node_id()}" -> "{edge.to_node_id()}" [label="{edge_label}"]')
-
-        lines.append('}')
-        return '\n'.join(lines)
-
-    def to__dot_types(self) -> str:  # Export as DOT graph showing node structure
-        lines = ['digraph {',
-                 '  graph [fontname="Arial", ranksep=0.8]',  # Basic graph styling
-                 '  node  [fontname="Arial"]',  # Default node font
-                 '  edge  [fontname="Arial", fontsize=10]'  # Edge styling
-                 ]
-
-        def fix_value(value: str) -> str:
-            return value.replace('Schema__MGraph__', '').replace('_', ' ')
-
-        with self.data() as _:
-            # Output nodes with their IDs and type labels
-            for node in _.nodes():
-                node_id = node.node_id
-                node_type = fix_value(node.node.data.node_type.__name__)
-
-                node_attrs = ['shape=box'               ,                                   # Visual styling
-                              'style="rounded,filled"'  ,                                   # Enable both rounded corners and fill
-                              'fillcolor=lightblue'     ,                                   # Node color
-                              f'label="{node_type}"'    ]                                   # Show both type and ID
-
-                if node.node_data:                                                          # Add node data if present
-                    for field_name, field_value in node.node_data.__dict__.items():
-                        node_attrs.append(f'{field_name}="{field_value}"')
-
-                attrs_str = f' [{", ".join(node_attrs)}]'
-                lines.append(f'  "{node_id}"{attrs_str}')
-
-            for edge in _.edges():                                                          # Output edges using node IDs
-                edge_id   = edge.edge_id
-                edge_type = fix_value(edge.edge.data.edge_type.__name__)
-                from_id   = edge.from_node_id()
-                to_id     = edge.to_node_id()
-
-                lines.append(f'  "{from_id}" -> "{to_id}" [label="  {edge_type}"]')
-
-        lines.append('}')
-        return '\n'.join(lines)
-
-    def to__dot_schema(self) -> str:  # Export as DOT graph showing types
-        lines = ['digraph {',
-                 '  graph [fontname="Arial", ranksep=0.8]',  # Basic graph styling
-                 '  node  [fontname="Arial"]',  # Default node font
-                 '  edge  [fontname="Arial", fontsize=10]'  # Edge styling
-                 ]
-
-        def fix_value(value: str) -> str:
-            return value.replace('Schema__MGraph__', '').replace('_', ' ')
-
-        # Track unique nodes and edges
-        unique_nodes = set()
-        unique_edges = set()
-
-        with self.data() as _:
-            # First pass: collect unique node types
-            for node in _.nodes():
-                node_type = fix_value(node.node.data.node_type.__name__)
-                if node_type not in unique_nodes:
-                    unique_nodes.add(node_type)
-                    node_attrs = ['shape=box',  # Visual styling
-                                  'style="rounded,filled"',  # Enable both rounded corners and fill
-                                  'fillcolor=lightblue']  # Node color
-
-                    if node.node_data:  # Add node data if present
-                        for field_name, field_value in node.node_data.__dict__.items():
-                            node_attrs.append(f'{field_name}="{field_value}"')
-
-                    attrs_str = f' [{", ".join(node_attrs)}]'
-                    lines.append(f'  "{node_type}"{attrs_str}')
-
-            # Second pass: collect unique edge relationships
-            for edge in _.edges():
-                edge_type = fix_value(edge.edge.data.edge_type.__name__)
-                from_type = fix_value(edge.from_node().node.data.node_type.__name__)
-                to_type = fix_value(edge.to_node().node.data.node_type.__name__)
-
-                # Create a unique identifier for this type of connection
-                edge_key = (from_type, to_type, edge_type)
-
-                if edge_key not in unique_edges:
-                    unique_edges.add(edge_key)
-                    lines.append(f'  "{from_type}" -> "{to_type}" [label="  {edge_type}"]')
-
-        lines.append('}')
-        return '\n'.join(lines)
+    def to__dot_schema(self):
+        return self.export_dot().to_schema_view()
 
     def to__graphml(self) -> str:                                                               # Export as GraphML
         graphml_ns = "http://graphml.graphdrawing.org/xmlns"                                    # Define namespace

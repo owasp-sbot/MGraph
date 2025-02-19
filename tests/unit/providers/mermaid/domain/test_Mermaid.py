@@ -1,4 +1,6 @@
 from unittest                                                   import TestCase
+from mgraph_db.mgraph.actions.MGraph__Edit                      import MGraph__Edit
+from mgraph_db.mgraph.actions.MGraph__Screenshot                import MGraph__Screenshot
 from mgraph_db.providers.mermaid.domain.Domain__Mermaid__Graph  import Domain__Mermaid__Graph
 from mgraph_db.query.MGraph__Query                              import MGraph__Query
 from osbot_utils.helpers.Obj_Id                                 import is_obj_id
@@ -40,4 +42,6 @@ class test_Mermaid(TestCase):
                                                                                                   directives        = []     )),
                                                                          model_types =__(node_model_type='mgraph_db.providers.mermaid.models.Model__Mermaid__Node.Model__Mermaid__Node',
                                                                                           edge_model_type='mgraph_db.providers.mermaid.models.Model__Mermaid__Edge.Model__Mermaid__Edge'))),
-                                             query_class= full_type_name(MGraph__Query))
+                                             query_class      = full_type_name(MGraph__Query     ),
+                                             edit_class       = full_type_name(MGraph__Edit      ),
+                                             screenshot_class = full_type_name(MGraph__Screenshot))
