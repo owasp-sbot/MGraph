@@ -1,7 +1,6 @@
 import pytest
 import re
 from unittest                                                       import TestCase
-from mgraph_db.mgraph.schemas.Schema__MGraph__Edge__Config          import Schema__MGraph__Edge__Config
 from mgraph_db.mgraph.schemas.Schema__MGraph__Graph__Data           import Schema__MGraph__Graph__Data
 from mgraph_db.mgraph.schemas.Schema__MGraph__Node__Data            import Schema__MGraph__Node__Data
 from mgraph_db.providers.json.schemas.Schema__MGraph__Json__Edge    import Schema__MGraph__Json__Edge
@@ -25,7 +24,6 @@ class test_Schema__MGraph__Json__Graph(TestCase):
                                  graph_id     = _.graph_id  ,
                                  graph_type   = type_full_name(Schema__MGraph__Json__Graph),
                                  schema_types = __(edge_type        = type_full_name(Schema__MGraph__Json__Edge   ),
-                                                   edge_config_type = type_full_name(Schema__MGraph__Edge__Config ),
                                                    graph_data_type  = type_full_name(Schema__MGraph__Graph__Data  ),
                                                    node_type        = type_full_name(Schema__MGraph__Json__Node   ),
                                                    node_data_type   = type_full_name(Schema__MGraph__Node__Data   )),

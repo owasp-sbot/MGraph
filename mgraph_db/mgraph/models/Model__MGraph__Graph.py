@@ -30,7 +30,7 @@ class Model__MGraph__Graph(Type_Safe):
         if edge.to_node_id not in self.data.nodes:
             raise ValueError(f"To node {edge.to_node_id} not found")
 
-        self.data.edges[edge.edge_config.edge_id] = edge
+        self.data.edges[edge.edge_id] = edge
         return self.model_types.edge_model_type(data=edge)
 
     def new_edge(self, **kwargs) -> Model__MGraph__Edge:
@@ -39,6 +39,14 @@ class Model__MGraph__Graph(Type_Safe):
         return self.add_edge(edge)
 
     def new_node(self, **kwargs):
+        if 'node_type' in kwargs and 'node_data' in kwargs:                 # if node_type and node_data is provided, then we have all we need to create the new node
+            node_type = kwargs.get('node_type')
+            node_data = kwargs.get('node_data')
+            del kwargs['node_type']
+            del kwargs['node_data']
+            node      = node_type(node_data=node_data, **kwargs)
+            return self.add_node(node)
+
         if 'node_type' in kwargs:
             node_type              = kwargs.get('node_type')                                    # if we have the node_type here
             node_type__annotations = dict(type_safe_cache.get_class_annotations(node_type))     # get its annotations

@@ -49,7 +49,7 @@ class test_MGraph_Index(TestCase):
         node_1  = Schema__MGraph__Node()
         node_2  = Schema__MGraph__Node()
         edge    = Schema__MGraph__Edge(from_node_id=node_1.node_id, to_node_id=node_2.node_id)
-        edge_id = edge.edge_config.edge_id
+        edge_id = edge.edge_id
 
         with self.mgraph_index as _:
             _.add_node(node_1)
@@ -76,7 +76,7 @@ class test_MGraph_Index(TestCase):
         node_1  = Schema__MGraph__Node()
         node_2  = Schema__MGraph__Node()
         edge    = Schema__MGraph__Edge(from_node_id=node_1.node_id, to_node_id=node_2.node_id)
-        edge_id = edge.edge_config.edge_id
+        edge_id = edge.edge_id
 
         with self.mgraph_index as _:
             _.add_node   (node_1)
@@ -92,7 +92,7 @@ class test_MGraph_Index(TestCase):
         node_1  = Schema__MGraph__Node()
         node_2  = Schema__MGraph__Node()
         edge    = Schema__MGraph__Edge(from_node_id=node_1.node_id, to_node_id=node_2.node_id)
-        edge_id = edge.edge_config.edge_id
+        edge_id = edge.edge_id
 
         with self.mgraph_index as _:
             _.add_node(node_1)
@@ -108,7 +108,7 @@ class test_MGraph_Index(TestCase):
         edge_1 = Schema__MGraph__Edge(from_node_id=node_1.node_id, to_node_id=node_2.node_id)
         node_1_id = node_1.node_id
         node_2_id = node_2.node_id
-        edge_1_id = edge_1.edge_config.edge_id
+        edge_1_id = edge_1.edge_id
 
         with self.mgraph_index as _:
             assert _.index_data.obj()  == __(nodes_types                     = __(),
@@ -156,7 +156,7 @@ class test_MGraph_Index(TestCase):
         edge_1    = Schema__MGraph__Edge(from_node_id=node_1.node_id, to_node_id=node_2.node_id)
         node_1_id = node_1.node_id
         node_2_id = node_2.node_id
-        edge_1_id = edge_1.edge_config.edge_id
+        edge_1_id = edge_1.edge_id
         edge_1_type = edge_1.edge_type.__name__
         node_1_type = node_1.node_type.__name__
 

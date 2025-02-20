@@ -30,10 +30,9 @@ class test_MGraph__Export(TestCase):
                                graph_type   = 'mgraph_db.mgraph.schemas.Schema__MGraph__Graph.Schema__MGraph__Graph' ,
                                nodes        = __()                                           ,
                                schema_types = __(edge_type        = 'mgraph_db.mgraph.schemas.Schema__MGraph__Edge.Schema__MGraph__Edge',
-                                                edge_config_type = 'mgraph_db.mgraph.schemas.Schema__MGraph__Edge__Config.Schema__MGraph__Edge__Config',
-                                                graph_data_type  = 'mgraph_db.mgraph.schemas.Schema__MGraph__Graph__Data.Schema__MGraph__Graph__Data',
-                                                node_type        = 'mgraph_db.mgraph.schemas.Schema__MGraph__Node.Schema__MGraph__Node',
-                                                node_data_type   = 'mgraph_db.mgraph.schemas.Schema__MGraph__Node__Data.Schema__MGraph__Node__Data'))
+                                                 graph_data_type  = 'mgraph_db.mgraph.schemas.Schema__MGraph__Graph__Data.Schema__MGraph__Graph__Data',
+                                                 node_type        = 'mgraph_db.mgraph.schemas.Schema__MGraph__Node.Schema__MGraph__Node',
+                                                 node_data_type   = 'mgraph_db.mgraph.schemas.Schema__MGraph__Node__Data.Schema__MGraph__Node__Data'))
 
     def test_to__json(self):                                                                  # Test minimal JSON export
         node_ids = self.linear_graph.node_ids

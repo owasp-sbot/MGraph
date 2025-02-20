@@ -7,7 +7,6 @@ from mgraph_db.mgraph.models.Model__MGraph__Graph           import Model__MGraph
 from mgraph_db.mgraph.schemas.Schema__MGraph__Edge          import Schema__MGraph__Edge
 from mgraph_db.mgraph.schemas.Schema__MGraph__Graph         import Schema__MGraph__Graph
 from mgraph_db.mgraph.schemas.Schema__MGraph__Node          import Schema__MGraph__Node
-from mgraph_db.mgraph.schemas.Schema__MGraph__Edge__Config  import Schema__MGraph__Edge__Config
 from mgraph_db.mgraph.schemas.Schema__MGraph__Node__Data    import Schema__MGraph__Node__Data
 
 class test_Domain__MGraph__Edge(TestCase):
@@ -27,9 +26,7 @@ class test_Domain__MGraph__Edge(TestCase):
                                                 graph_type   = Schema__MGraph__Graph)
 
         # Create edge configuration and schema
-        self.edge_config = Schema__MGraph__Edge__Config(edge_id        = Obj_Id())
-        self.schema_edge = Schema__MGraph__Edge        (edge_config    = self.edge_config,
-                                                        edge_type      = Schema__MGraph__Edge,
+        self.schema_edge = Schema__MGraph__Edge        (edge_type      = Schema__MGraph__Edge,
                                                         from_node_id   = self.from_schema_node.node_id,
                                                         to_node_id     = self.to_schema_node.node_id)
 

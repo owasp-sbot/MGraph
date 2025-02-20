@@ -7,7 +7,6 @@ from mgraph_db.mgraph.utils.MGraph__Random_Graph                         import 
 from mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Node           import Schema__Mermaid__Node
 from mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Edge           import Schema__Mermaid__Edge
 from mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Node__Data     import Schema__Mermaid__Node__Data
-from mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Edge__Config   import Schema__Mermaid__Edge__Config
 from mgraph_db.providers.mermaid.models.Model__Mermaid__Graph            import Model__Mermaid__Graph
 from mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Graph          import Schema__Mermaid__Graph
 from mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Types import Schema__Mermaid__Types
@@ -37,9 +36,7 @@ class Mermaid__Random_Graph(MGraph__Random_Graph):
                                   to_node  : Schema__Mermaid__Node,
                                   label    : str = None) -> Schema__Mermaid__Edge:
 
-        edge_config = Schema__Mermaid__Edge__Config(edge_id        = Obj_Id()                       )
-        return Schema__Mermaid__Edge               (edge_config    = edge_config                    ,
-                                                    edge_type      = Schema__Mermaid__Edge          ,
+        return Schema__Mermaid__Edge               (edge_type      = Schema__Mermaid__Edge          ,
                                                     from_node_id   = from_node.node_id  ,
                                                     to_node_id     = to_node.node_id    ,
                                                     label          = label or f"Edge {from_node.key} to {to_node.key}")

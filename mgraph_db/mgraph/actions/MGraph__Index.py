@@ -39,7 +39,7 @@ class MGraph__Index(Type_Safe):
 
 
     def add_edge(self, edge: Schema__MGraph__Edge) -> None:                     # Add an edge to the index
-        edge_id      = edge.edge_config.edge_id
+        edge_id      = edge.edge_id
         from_node_id = edge.from_node_id
         to_node_id   = edge.to_node_id
         edge_type    = edge.edge_type.__name__
@@ -93,7 +93,7 @@ class MGraph__Index(Type_Safe):
 
 
     def remove_edge(self, edge: Schema__MGraph__Edge) -> None:          # Remove an edge and all its references from the index
-        edge_id = edge.edge_config.edge_id
+        edge_id = edge.edge_id
 
         if edge_id in self.index_data.edges_to_nodes:
             from_node_id, to_node_id = self.index_data.edges_to_nodes.pop(edge_id)
@@ -129,7 +129,7 @@ class MGraph__Index(Type_Safe):
     #                 self.index_data.edges_by_field[field_name] = {}
     #             if field_value not in self.index_data.edges_by_field[field_name]:
     #                 self.index_data.edges_by_field[field_name][field_value] = set()
-    #             self.index_data.edges_by_field[field_name][field_value].add(edge.edge_config.edge_id)
+    #             self.index_data.edges_by_field[field_name][field_value].add(edge.edge_id)
 
     # def remove_edge_data(self, edge: Schema__MGraph__Edge) -> None:
     #     """Remove indexed edge_data fields"""
@@ -139,7 +139,7 @@ class MGraph__Index(Type_Safe):
     #                 continue
     #             if field_name in self.index_data.edges_by_field:
     #                 if field_value in self.index_data.edges_by_field[field_name]:
-    #                     self.index_data.edges_by_field[field_name][field_value].discard(edge.edge_config.edge_id)
+    #                     self.index_data.edges_by_field[field_name][field_value].discard(edge.edge_id)
 
     def load_index_from_graph(self, graph : Domain__MGraph__Graph) -> None:                                             # Create index from existing graph
         for node_id, node in graph.model.data.nodes.items():                                                            # Add all nodes to index
