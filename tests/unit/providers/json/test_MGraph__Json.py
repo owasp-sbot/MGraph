@@ -17,7 +17,6 @@ class test_MGraph__Json(TestCase):
         assert type(self.mgraph.edit   ()) is not None
         assert type(self.mgraph.export ()) is not None
         assert type(self.mgraph.load()) is not None
-        assert type(self.mgraph.storage()) is not None
 
 
     # def test_url(self):

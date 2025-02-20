@@ -4,7 +4,6 @@ from mgraph_db.mgraph.actions.MGraph__Screenshot    import MGraph__Screenshot
 from mgraph_db.mgraph.domain.Domain__MGraph__Graph  import Domain__MGraph__Graph
 from mgraph_db.mgraph.actions.MGraph__Data          import MGraph__Data
 from mgraph_db.mgraph.actions.MGraph__Edit          import MGraph__Edit
-from mgraph_db.mgraph.actions.MGraph__Storage       import MGraph__Storage
 from mgraph_db.mgraph.actions.MGraph__Index         import MGraph__Index
 from mgraph_db.query.MGraph__Query                  import MGraph__Query
 from osbot_utils.decorators.methods.cache_on_self import cache_on_self
@@ -34,9 +33,6 @@ class MGraph(Type_Safe):                                                        
         mgraph_index = self.index()
         mgraph_query = self.query_class(mgraph_data=mgraph_data, mgraph_index=mgraph_index).setup()
         return mgraph_query
-
-    def storage(self) -> MGraph__Storage:
-        return MGraph__Storage(graph=self.graph)
 
     def screenshot(self, **kwargs):                                                                                     # Access screenshot operations
         return self.screenshot_class(**kwargs, graph=self.graph)
