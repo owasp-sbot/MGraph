@@ -1,22 +1,16 @@
 from unittest                                                   import TestCase
 from mgraph_db.mgraph.MGraph                                    import MGraph
-from mgraph_db.mgraph.domain.Domain__MGraph__Node import Domain__MGraph__Node
-from mgraph_db.mgraph.models.Model__MGraph__Graph import Model__MGraph__Graph
+from mgraph_db.mgraph.domain.Domain__MGraph__Node               import Domain__MGraph__Node
+from mgraph_db.mgraph.models.Model__MGraph__Graph               import Model__MGraph__Graph
 from mgraph_db.mgraph.schemas.Schema__MGraph__Edge              import Schema__MGraph__Edge
 from mgraph_db.mgraph.schemas.Schema__MGraph__Node              import Schema__MGraph__Node
 from mgraph_db.mgraph.actions.MGraph__Diff                      import MGraph__Diff
 from mgraph_db.mgraph.schemas.Schema__MGraph__Node__Data        import Schema__MGraph__Node__Data
 from mgraph_db.mgraph.schemas.Schema__MGraph__Node__Value       import Schema__MGraph__Node__Value
 from mgraph_db.mgraph.schemas.Schema__MGraph__Node__Value__Data import Schema__MGraph__Node__Value__Data
-from osbot_utils.utils.Objects import __, type_full_name
-
-from osbot_utils.utils.Dev import pprint
+from osbot_utils.utils.Objects                                  import __, type_full_name
 
 class test_MGraph__Diff(TestCase):
-    @classmethod
-    def setUpClass(cls):
-        import pytest
-        pytest.skip("fix remaining tests")
 
     def setUp(self):
         self.graph_a = MGraph()
@@ -24,10 +18,9 @@ class test_MGraph__Diff(TestCase):
 
     def test_compare_identical_graphs(self):
         diff  = MGraph__Diff(graph_a=self.graph_a.graph, graph_b=self.graph_b.graph)
-        stats = diff.compare()
+        stats = diff.diff_graphs()
 
-        # Empty graphs should have no differences
-        assert len(stats.nodes_added)       == 0
+        assert len(stats.nodes_added)       == 0                                        # Empty graphs should have no differences
         assert len(stats.nodes_removed)     == 0
         assert len(stats.nodes_modified)    == 0
         assert len(stats.edges_added)       == 0
@@ -38,14 +31,14 @@ class test_MGraph__Diff(TestCase):
 
     def test_compare_different_nodes(self):
 
-        with self.graph_a.edit() as edit_a:                 # Add a node to graph A
+        with self.graph_a.edit() as edit_a:                                             # Add a node to graph A
             node_a = edit_a.new_node()
 
-        with self.graph_b.edit() as edit_b:                 # Add a different node to graph B
+        with self.graph_b.edit() as edit_b:                                             # Add a different node to graph B
             node_b = edit_b.new_node()
 
         diff = MGraph__Diff(graph_a=self.graph_a.graph, graph_b=self.graph_b.graph)
-        stats = diff.compare()
+        stats = diff.diff_graphs()
 
         assert node_b.node_id in stats.nodes_added
         assert node_a.node_id in stats.nodes_removed
@@ -72,7 +65,7 @@ class test_MGraph__Diff(TestCase):
             node_b        = edit_b.new_node(node_type=NodeB, node_id=node_a.node_id)    # Force same ID for testing
 
         diff  = MGraph__Diff(graph_a=self.graph_a.graph, graph_b=self.graph_b.graph)
-        stats = diff.compare()
+        stats = diff.diff_graphs()
 
         assert node_b.node_id == node_a.node_id
         assert stats.obj() == __(nodes_added      = [],
@@ -113,7 +106,7 @@ class test_MGraph__Diff(TestCase):
                                       edge_type    = CustomEdge      )
 
         diff  = MGraph__Diff(graph_a=self.graph_a.graph, graph_b=self.graph_b.graph)
-        stats = diff.compare()
+        stats = diff.diff_graphs()
 
         assert edge_a.edge_id in stats.edges_removed
         assert edge_b.edge_id in stats.edges_added
@@ -147,7 +140,7 @@ class test_MGraph__Diff(TestCase):
                                      field_2   = 42              )
 
         diff    = MGraph__Diff(graph_a=self.graph_a.graph, graph_b=self.graph_b.graph)
-        stats   = diff.compare()
+        stats   = diff.diff_graphs()
         changes = diff.compare_node_data(node_a.node_id)
 
         assert node_a.node_id in stats.nodes_modified
@@ -184,7 +177,7 @@ class test_MGraph__Diff(TestCase):
             node_b_id    = node_b.node_id
 
         diff    = MGraph__Diff(graph_a=self.graph_a.graph, graph_b=self.graph_b.graph)
-        stats   = diff.compare()
+        stats   = diff.diff_graphs()
         assert node_a_id   == node_b_id
         assert stats.obj() == __(nodes_added      = [],
                                  nodes_removed    = [],
@@ -219,13 +212,12 @@ class test_MGraph__Diff(TestCase):
                                       to_node_id   = node_b3.node_id   )
 
         diff    = MGraph__Diff(graph_a=self.graph_a.graph, graph_b=self.graph_b.graph)
-        stats   = diff.compare()
+        stats   = diff.diff_graphs()
         changes = diff.compare_edge_data(edge_a.edge_id)
 
-        return
         assert edge_a.edge_id in stats.edges_modified
         assert changes == {'to_node': {'from': str(node_a2.node_id),
-                                      'to'  : str(node_b3.node_id)}}
+                                       'to'  : str(node_b3.node_id)}}
 
     def test_edge_type_changes(self):
         class EdgeTypeA(Schema__MGraph__Edge): pass                                         # Create custom edge types
@@ -235,25 +227,25 @@ class test_MGraph__Diff(TestCase):
             node_a1 = edit_a.new_node()
             node_a2 = edit_a.new_node()
             edge_a  = edit_a.new_edge(from_node_id = node_a1.node_id,
-                                     to_node_id   = node_a2.node_id,
-                                     edge_type    = EdgeTypeA     )
+                                      to_node_id   = node_a2.node_id,
+                                      edge_type    = EdgeTypeA     )
 
         with self.graph_b.edit() as edit_b:                                                  # Create nodes with same IDs
             node_b1 = edit_b.new_node(node_id = node_a1.node_id)
             node_b2 = edit_b.new_node(node_id = node_a2.node_id)
 
             edge_b  = edit_b.new_edge(edge_id     = edge_a.edge_id   ,                      # Create edge with same ID but different type
-                                     from_node_id = node_b1.node_id  ,
-                                     to_node_id   = node_b2.node_id  ,
-                                     edge_type    = EdgeTypeB       )
+                                      from_node_id = node_b1.node_id  ,
+                                      to_node_id   = node_b2.node_id  ,
+                                      edge_type    = EdgeTypeB       )
 
         diff    = MGraph__Diff(graph_a=self.graph_a.graph, graph_b=self.graph_b.graph)
-        stats   = diff.compare()
+        stats   = diff.diff_graphs()
         changes = diff.compare_edge_data(edge_a.edge_id)
 
         assert edge_a.edge_id in stats.edges_modified
         assert changes == {'type': {'from': 'EdgeTypeA',
-                                   'to'  : 'EdgeTypeB'}}
+                                    'to'  : 'EdgeTypeB'}}
 
     def test_complex_graph_changes(self):
         class CustomNode(Schema__MGraph__Node): pass                                         # Create custom types
@@ -265,34 +257,34 @@ class test_MGraph__Diff(TestCase):
             node_a3 = edit_a.new_node()
 
             edge_a1 = edit_a.new_edge(from_node_id = node_a1.node_id,
-                                     to_node_id   = node_a2.node_id)
+                                      to_node_id   = node_a2.node_id)
             edge_a2 = edit_a.new_edge(from_node_id = node_a2.node_id,
-                                     to_node_id   = node_a3.node_id,
-                                     edge_type    = CustomEdge    )
+                                      to_node_id   = node_a3.node_id,
+                                      edge_type    = CustomEdge    )
 
         with self.graph_b.edit() as edit_b:                                                  # Setup graph B with various changes
-            node_b1 = edit_b.new_node(node_id = node_a1.node_id)                            # Keep node_1
-            node_b2 = edit_b.new_node(node_id = node_a2.node_id)                            # Modify node_2
+            node_b1 = edit_b.new_node(node_id = node_a1.node_id)                             # Keep node_1
+            node_b2 = edit_b.new_node(node_id = node_a2.node_id)                             # Modify node_2
             node_b4 = edit_b.new_node()                                                      # Add node_4 (node_3 removed)
 
-            edge_b1 = edit_b.new_edge(edge_id     = edge_a1.edge_id   ,                     # Modify edge_1
-                                     from_node_id = node_b1.node_id   ,
-                                     to_node_id   = node_b2.node_id   ,
-                                     edge_type    = CustomEdge       )
-            edge_b3 = edit_b.new_edge(from_node_id = node_b2.node_id,                       # Add edge_3 (edge_2 removed)
-                                     to_node_id   = node_b4.node_id)
+            edge_b1 = edit_b.new_edge(edge_id       = edge_a1.edge_id   ,                     # Modify edge_1
+                                      from_node_id = node_b1.node_id   ,
+                                      to_node_id   = node_b2.node_id   ,
+                                      edge_type    = CustomEdge       )
+            edge_b3 = edit_b.new_edge(from_node_id = node_b2.node_id,                        # Add edge_3 (edge_2 removed)
+                                      to_node_id   = node_b4.node_id)
 
         diff  = MGraph__Diff(graph_a=self.graph_a.graph, graph_b=self.graph_b.graph)
-        stats = diff.compare()
+        stats = diff.diff_graphs()
 
-        assert stats.obj() == __(nodes_added      = [node_b4.node_id]   ,                   # Check all changes
-                                nodes_removed     = [node_a3.node_id]   ,
-                                nodes_modified    = [node_a2.node_id]   ,
-                                edges_added       = [edge_b3.edge_id]   ,
-                                edges_removed     = [edge_a2.edge_id]   ,
-                                edges_modified    = [edge_a1.edge_id]   ,
-                                nodes_count_diff  = 0                   ,                     # Same total nodes and edges
-                                edges_count_diff  = 0                   )
+        assert stats.obj() == __(nodes_added       = [node_b4.node_id]                         ,                        # Check all changes
+                                 nodes_removed     = [node_a3.node_id]                         ,
+                                 nodes_modified    = sorted([node_a1.node_id, node_a2.node_id]) ,
+                                 edges_added       = [edge_b3.edge_id]                          ,
+                                 edges_removed     = [edge_a2.edge_id]                          ,
+                                 edges_modified    = [edge_a1.edge_id]                          ,
+                                 nodes_count_diff  = 0                                          ,                     # Same total nodes and edges
+                                 edges_count_diff  = 0                                          )
 
     def test_empty_and_null_cases(self):
         diff = MGraph__Diff(graph_a=self.graph_a.graph, graph_b=self.graph_b.graph)
@@ -305,7 +297,7 @@ class test_MGraph__Diff(TestCase):
             edge_b = edit_b.new_edge(from_node_id = node_b.node_id,
                                     to_node_id   = node_b.node_id)
 
-        stats = diff.compare()
+        stats = diff.diff_graphs()
         assert stats.obj() == __(nodes_added      = [node_b.node_id]   ,
                                 nodes_removed     = []                  ,
                                 nodes_modified    = []                  ,

@@ -97,3 +97,11 @@ class MGraph__Screenshot(Type_Safe):
     def show_edge__ids(self):
         self.export().export_dot().show_edge__ids()
         return self
+
+    def show_node_value(self):
+        self.export().export_dot().show_node__value()
+        return self
+
+    def show_node_type(self):
+        self.export().export_dot().show_node__type()
+        return self

@@ -6,7 +6,7 @@ from mgraph_db.mgraph.actions.MGraph__Data          import MGraph__Data
 from mgraph_db.mgraph.actions.MGraph__Edit          import MGraph__Edit
 from mgraph_db.mgraph.actions.MGraph__Index         import MGraph__Index
 from mgraph_db.query.MGraph__Query                  import MGraph__Query
-from osbot_utils.decorators.methods.cache_on_self import cache_on_self
+from osbot_utils.decorators.methods.cache_on_self   import cache_on_self
 from osbot_utils.type_safe.Type_Safe                import Type_Safe
 
 class MGraph(Type_Safe):                                                                                        # Main MGraph class that users will interact with

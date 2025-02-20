@@ -3,25 +3,18 @@ from typing                                         import Dict, Set, Any
 from mgraph_db.mgraph.domain.Domain__MGraph__Graph  import Domain__MGraph__Graph
 from mgraph_db.mgraph.domain.Domain__MGraph__Node   import Domain__MGraph__Node
 from mgraph_db.mgraph.domain.Domain__MGraph__Edge   import Domain__MGraph__Edge
+from mgraph_db.mgraph.schemas.Schema__MGraph__Diff  import Schema__MGraph__Diff
 from osbot_utils.helpers.Obj_Id                     import Obj_Id
 from osbot_utils.type_safe.Type_Safe                import Type_Safe
 
-@dataclass
-class MGraph__Diff__Stats(Type_Safe):
-    nodes_added         : Set[Obj_Id]
-    nodes_removed       : Set[Obj_Id]
-    nodes_modified      : Set[Obj_Id]
-    edges_added         : Set[Obj_Id]
-    edges_removed       : Set[Obj_Id]
-    edges_modified      : Set[Obj_Id]
-    nodes_count_diff    : int
-    edges_count_diff    : int
+
+
 
 class MGraph__Diff(Type_Safe):
     graph_a: Domain__MGraph__Graph
     graph_b: Domain__MGraph__Graph
 
-    def compare(self) -> MGraph__Diff__Stats:           #Compare two graphs and return detailed statistics about their differences"""
+    def diff_graphs(self) -> Schema__MGraph__Diff:           #Compare two graphs and return detailed statistics about their differences"""
 
         nodes_a = set(self.graph_a.nodes_ids())         # Get sets of node and edge IDs from both graphs
         nodes_b = set(self.graph_b.nodes_ids())
@@ -37,9 +30,8 @@ class MGraph__Diff(Type_Safe):
         for node_id in nodes_common:
             node_a = self.graph_a.node(node_id)
             node_b = self.graph_b.node(node_id)
-            if not self._nodes_equal(node_a, node_b):
+            if not self.nodes_equal(node_a, node_b):
                 nodes_modified.add(node_id)
-
 
         edges_added   = edges_b - edges_a               # Find added and removed edges
         edges_removed = edges_a - edges_b
@@ -50,10 +42,10 @@ class MGraph__Diff(Type_Safe):
         for edge_id in edges_common:
             edge_a = self.graph_a.edge(edge_id)
             edge_b = self.graph_b.edge(edge_id)
-            if not self._edges_equal(edge_a, edge_b):
+            if not self.edges_equal(edge_a, edge_b):
                 edges_modified.add(edge_id)
 
-        return MGraph__Diff__Stats( nodes_added      = sorted(nodes_added        ),
+        return Schema__MGraph__Diff(nodes_added      = sorted(nodes_added),
                                     nodes_removed    = sorted(nodes_removed      ),
                                     nodes_modified   = sorted(nodes_modified     ),
                                     edges_added      = sorted(edges_added        ),
@@ -108,16 +100,14 @@ class MGraph__Diff(Type_Safe):
 
         return changes
 
-    def _nodes_equal(self, node_a: Domain__MGraph__Node, node_b: Domain__MGraph__Node) -> bool:
-        """Compare two nodes for equality"""
+    def nodes_equal(self, node_a: Domain__MGraph__Node, node_b: Domain__MGraph__Node) -> bool:                         # Compare two nodes for equality
         if not node_a or not node_b:
             return False
 
         return (node_a.node_type == node_b.node_type and
                 node_a.node_data == node_b.node_data)
 
-    def _edges_equal(self, edge_a: Domain__MGraph__Edge, edge_b: Domain__MGraph__Edge) -> bool:
-        """Compare two edges for equality"""
+    def edges_equal(self, edge_a: Domain__MGraph__Edge, edge_b: Domain__MGraph__Edge) -> bool:                          # Compare two edges for equality
         if not edge_a or not edge_b:
             return False
 
