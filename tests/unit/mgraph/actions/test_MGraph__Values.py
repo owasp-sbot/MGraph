@@ -24,7 +24,7 @@ class test_MGraph__Values(TestCase):
             with self.mgraph.screenshot(target_file=self.screenshot_file) as screenshot:
                 with screenshot.export().export_dot() as _:
                     #_.show_node__value()
-                    #_.show_edge__ids()
+                    #_.show_edge__id()
                     pass
                 with screenshot as _:
                     _.save_to(self.screenshot_file)
@@ -34,10 +34,10 @@ class test_MGraph__Values(TestCase):
         value_node_1 = self.values.get_or_create(42)                                                    # Create int node
         value_node_2 = self.values.get_or_create(42)                                                    # Get same node
         node_id      = value_node_1.node_id
-        assert self.mgraph.index().values_index.index_data.json() == { 'hash_to_node'  : {'d77fb78183': node_id},
-                                                                       'node_to_hash'  : {node_id   : 'd77fb78183'},
-                                                                       'type_by_value' : {'d77fb78183': 'builtins.int'},
-                                                                       'values_by_type': {int         : ['d77fb78183']}}
+        assert self.mgraph.index().values_index.index_data.json() == { 'hash_to_node'  : {'d77fb78183'  : node_id},
+                                                                       'node_to_hash'  : {node_id       : 'd77fb78183'},
+                                                                       'type_by_value' : {'d77fb78183'  : 'builtins.int'},
+                                                                       'values_by_type': {'builtins.int': ['d77fb78183']}}
         assert self.mgraph.index().index_data.json()              == { 'edges_by_type'                  : {},
                                                                        'edges_to_nodes'                 : {},
                                                                        'edges_types'                    : {},

@@ -72,7 +72,7 @@ class test_MGraph__Time_Series__Edit(TestCase):
 
                     #.set_graph__epsilon(0.5)
 
-                    #.show_edge__ids()
+                    #.show_edge__id()
                     .set_node__font__size(12)                    # Slightly larger font for better readability
                     .set_node__font__name('Arial')
                     .set_edge__font__name('Arial')

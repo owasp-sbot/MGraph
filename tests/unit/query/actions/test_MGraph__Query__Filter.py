@@ -47,7 +47,7 @@
 #
 #         # with self.mgraph.screenshot() as _:
 #         #     _.load_dotenv   ()
-#         #     _.show_edge__ids()
+#         #     _.show_edge__id()
 #         #     _.save_to('test_MGraph__Query__Filter.png').dot()
 #
 #     #self.mgraph.edit().create_edge()

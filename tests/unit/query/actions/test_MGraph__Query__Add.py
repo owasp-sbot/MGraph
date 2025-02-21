@@ -35,7 +35,7 @@ class test_MGraph__Query__Add(TestCase):
 
         # with self.mgraph.screenshot() as _:
         #     _.load_dotenv   ()
-        #     _.show_edge__ids()
+        #     _.show_edge__id()
         #     _.save_to('test_MGraph__Query__Filter.png').dot()
 
 

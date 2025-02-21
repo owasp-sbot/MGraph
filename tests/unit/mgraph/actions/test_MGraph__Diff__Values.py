@@ -1,6 +1,6 @@
 from unittest                                                       import TestCase
 from mgraph_db.mgraph.MGraph                                        import MGraph
-from mgraph_db.mgraph.actions.MGraph__Diff__Values                  import MGraph__Diff__Values, Schema__MGraph__Diff__Values
+from mgraph_db.mgraph.actions.MGraph__Diff__Values                  import MGraph__Diff__Values
 from mgraph_db.mgraph.schemas.Schema__MGraph__Edge                  import Schema__MGraph__Edge
 from mgraph_db.mgraph.schemas.Schema__MGraph__Node__Value           import Schema__MGraph__Node__Value
 from mgraph_db.mgraph.schemas.Schema__MGraph__Node__Value__Data     import Schema__MGraph__Node__Value__Data
@@ -47,8 +47,8 @@ class test_MGraph__Diff__Values(TestCase):
             node_b = edit_b.add_node(Schema__MGraph__Node__Value(node_data=value_data_b))
 
         diff = self.differ.compare([str])
-        assert diff.json() == { 'added_values'  : {str: ['value_a']},
-                                'removed_values': {str: ['value_b']}}
+        assert diff.json() == { 'added_values'  : {'builtins.str': ['value_a']},
+                                'removed_values': {'builtins.str': ['value_b']}}
 
         assert diff.added_values[str]   == {"value_a"}                              # Check values were properly categorized
         assert diff.removed_values[str] == {"value_b"}
@@ -69,8 +69,8 @@ class test_MGraph__Diff__Values(TestCase):
 
         diff = self.differ.compare([str, int])
 
-        assert diff.json() == { 'added_values'  : { str: ['str_a']},
-                                'removed_values': { str: ['str_b']}}
+        assert diff.json() == { 'added_values'  : { 'builtins.str': ['str_a']},
+                                'removed_values': { 'builtins.str': ['str_b']}}
 
         assert str in diff.added_values
         assert str in diff.removed_values
