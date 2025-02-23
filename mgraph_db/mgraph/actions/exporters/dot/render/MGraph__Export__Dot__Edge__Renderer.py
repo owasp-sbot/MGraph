@@ -34,6 +34,10 @@ class MGraph__Export__Dot__Edge__Renderer(MGraph__Export__Dot__Base):
             edge_type = edge.edge.data.edge_type
             type_name = self.type_name__from__type(edge_type)
             label_parts.append(f"  edge_type = '{type_name}'")
+        if self.config.display.edge_type_str:                                       # todo: review this use of _str to create an entry with no label
+            edge_type = edge.edge.data.edge_type
+            type_name = self.type_name__from__type(edge_type)
+            label_parts.append(f"{type_name}")
         if self.config.display.edge_type_full_name:
             type_full_name = edge.edge.data.edge_type.__name__
             label_parts.append(f"  edge_type_full_name = '{type_full_name}'")

@@ -123,8 +123,3 @@ class test_MGraph__Values(TestCase):
         assert retrieved_node.node_id              == value_node.node_id
         assert retrieved_node.node_data.value      == "42"
         assert retrieved_node.node_data.value_type is int
-
-    def test_get_value_type(self):
-        assert self.values.get_value_type(42)       is Schema__MGraph__Node__Value
-        assert self.values.get_value_type("test")   is Schema__MGraph__Node__Value
-        assert self.values.get_value_type([1,2,3])  is None

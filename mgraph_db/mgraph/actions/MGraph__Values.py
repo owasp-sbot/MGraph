@@ -65,8 +65,3 @@ class MGraph__Values(Type_Safe):
         if connected_node_id:
             return self.mgraph_edit.data().node(connected_node_id)
         return None
-
-    def get_value_type(self, value: Union[int, str]) -> Optional[Type[Domain__MGraph__Node]]:
-        if isinstance(value, (int, str)):
-            return Schema__MGraph__Node__Value
-        return None

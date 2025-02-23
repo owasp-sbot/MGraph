@@ -1,4 +1,7 @@
 from typing                                         import Type
+
+from mgraph_db.mgraph.actions.MGraph__Values import MGraph__Values
+
 from mgraph_db.mgraph.actions.MGraph__Export        import MGraph__Export
 from mgraph_db.mgraph.actions.MGraph__Screenshot    import MGraph__Screenshot
 from mgraph_db.mgraph.domain.Domain__MGraph__Graph  import Domain__MGraph__Graph
@@ -33,6 +36,9 @@ class MGraph(Type_Safe):                                                        
         mgraph_index = self.index()
         mgraph_query = self.query_class(mgraph_data=mgraph_data, mgraph_index=mgraph_index).setup()
         return mgraph_query
+
+    def values(self) -> MGraph__Values:
+        return MGraph__Values(mgraph_edit=self.edit())
 
     def screenshot(self, **kwargs):                                                                                     # Access screenshot operations
         return self.screenshot_class(**kwargs, graph=self.graph)
