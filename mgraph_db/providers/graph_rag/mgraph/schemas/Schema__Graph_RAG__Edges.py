@@ -1,0 +1,4 @@
+from mgraph_db.mgraph.schemas.Schema__MGraph__Edge import Schema__MGraph__Edge
+
+
+class Schema__Graph_RAG__Edge__Confidence(Schema__MGraph__Edge): pass

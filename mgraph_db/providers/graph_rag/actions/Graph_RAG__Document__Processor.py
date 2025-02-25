@@ -1,34 +1,17 @@
 from typing                                                                     import Dict, List, Any
-from mgraph_db.providers.graph_rag.schemas.Schema__Graph_RAG__Document__Data    import Schema__Graph_RAG__Document__Data
 from mgraph_db.providers.graph_rag.schemas.Schema__Graph_RAG__Relation__Data    import Schema__Graph_RAG__Relation__Data
 from mgraph_db.providers.graph_rag.testing.MGraph__Graph_Rag__LLM_Cache__Simple import mgraph_llm_cache_simple
 from mgraph_db.providers.llms.utils.API__LLM                                    import API__LLM
 from osbot_utils.helpers.Obj_Id                                                 import Obj_Id
-from osbot_utils.helpers.xml.rss.RSS__Item                                      import RSS__Item
 from osbot_utils.type_safe.Type_Safe                                            import Type_Safe
 from mgraph_db.providers.graph_rag.schemas.Schema__Graph_RAG__Entity            import Schema__Graph_RAG__Entity
 from mgraph_db.providers.graph_rag.schemas.Schema__Graph_RAG__Entity__Data      import Schema__Graph_RAG__Entity__Data
 from mgraph_db.providers.graph_rag.schemas.Schema__Graph_RAG__Relation          import Schema__Graph_RAG__Relation
-from mgraph_db.providers.graph_rag.schemas.Schema__Graph_RAG__Document          import Schema__Graph_RAG__Document
 
 DEFAULT__OPEN_AI__MODEL = 'o3-mini' # "gpt-4o-mini"
 
 class Graph_RAG__Document__Processor(Type_Safe):
     api_llm : API__LLM                                                          # Reference to LLM API client
-
-    # todo: finish this implementation
-    def process_rss_item(self, item: RSS__Item) -> Schema__Graph_RAG__Document:
-        document_data = Schema__Graph_RAG__Document__Data(title      = item.title       ,
-                                                          content    = item.description ,
-                                                          pub_date   = item.pubDate     ,
-                                                          source_url = item.link        ,
-                                                          metadata   = { 'guid'      : item.guid      ,
-                                                                         'categories': item.categories,
-                                                                         'creator'   : item.creator   })
-        return Schema__Graph_RAG__Document(node_data = document_data,
-                                           node_id   = Obj_Id()     ,
-                                           node_type = Schema__Graph_RAG__Document)                                      # Convert RSS item to document node
-
 
     def create_entities_prompt(self, text: str) -> Dict[str, Any]:               # Create structured prompt for entity extraction
         target_model = DEFAULT__OPEN_AI__MODEL

@@ -1,4 +1,7 @@
 from typing                                                 import Type
+
+from mgraph_db.mgraph.domain.Domain__MGraph__Node import Domain__MGraph__Node
+
 from mgraph_db.mgraph.schemas.Schema__MGraph__Node__Value   import Schema__MGraph__Node__Value
 from mgraph_db.mgraph.actions.MGraph__Data                  import MGraph__Data
 from mgraph_db.mgraph.actions.MGraph__Index                 import MGraph__Index
@@ -34,8 +37,11 @@ class MGraph__Edit(Type_Safe):
                     node_2 = node_2,
                     edge_1 = edge_1)
 
-    def connect_nodes(self, from_node: Schema__MGraph__Node, to_node:Schema__MGraph__Node):
-        edge_domain = self.graph.connect_nodes(from_node, to_node)
+    def connect_nodes(self, from_node: Domain__MGraph__Node,
+                            to_node  : Domain__MGraph__Node,
+                            edge_type: Type[Schema__MGraph__Edge] = None
+                       ) -> Domain__MGraph__Edge:
+        edge_domain = self.graph.connect_nodes(from_node=from_node, to_node=to_node, edge_type=edge_type)
         edge_model  = edge_domain.edge
         edge_schema = edge_model.data
         self.index().add_edge(edge_schema)
@@ -54,8 +60,8 @@ class MGraph__Edit(Type_Safe):
                     return self.data().edge(edge_id)
 
             return self.new_edge(edge_type    = edge_type    ,                                     # Create new edge if none exists
-                                from_node_id = from_node_id,
-                                to_node_id   = to_node_id  )
+                                 from_node_id = from_node_id,
+                                 to_node_id   = to_node_id  )
 
     def new_node(self, **kwargs):
         with self.index() as index:
@@ -72,7 +78,7 @@ class MGraph__Edit(Type_Safe):
         node_id = self.index().values_index.get_node_id_by_value(value_type=type(value), value=str(value), key=key)  # First try to find existing value node
         if node_id:
             return self.data().node(node_id)
-        return self.new_node(node_type=Schema__MGraph__Node__Value, value=value, key=key)
+        return self.new_node(node_type=Schema__MGraph__Node__Value, value_type=type(value), value=str(value), key=key)
 
     def delete_node(self, node_id: Obj_Id) -> bool:                      # Remove a node and its connected edges
         node = self.data().node(node_id)

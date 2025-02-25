@@ -1,7 +1,10 @@
 from typing                                              import Dict, Any, List
 from mgraph_db.mgraph.schemas.Schema__MGraph__Node__Data import Schema__MGraph__Node__Data
+from osbot_utils.helpers.Obj_Id import Obj_Id
+
 
 class Schema__Graph_RAG__Entity__Data(Schema__MGraph__Node__Data):
+    entity_id            : Obj_Id
     name                 : str                                                       # Core entity name
     primary_domains      : List[str]                                                # Main domains this entity belongs to
     functional_roles     : List[str]                                                # Specific functions/purposes

@@ -48,9 +48,11 @@ class Domain__MGraph__Graph(Type_Safe):
         return self.mgraph_edge(edge=edge)
 
     def connect_nodes(self, from_node: Domain__MGraph__Node,
-                            to_node  : Domain__MGraph__Node
+                            to_node  : Domain__MGraph__Node,
+                            edge_type: Type[Schema__MGraph__Edge] = None
                        ) -> Domain__MGraph__Edge:                   # Creates an edge between two nodes
-        return self.new_edge(from_node_id = from_node.node_id,
+        return self.new_edge(edge_type    = edge_type ,
+                             from_node_id = from_node.node_id,
                              to_node_id   = to_node.node_id  )
 
     def new_edge(self, **kwargs) -> Domain__MGraph__Edge:

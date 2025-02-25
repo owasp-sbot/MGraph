@@ -1,6 +1,5 @@
 from unittest                                                                   import TestCase
 from mgraph_db.providers.graph_rag.actions.Graph_RAG__Document__Processor       import Graph_RAG__Document__Processor, DEFAULT__OPEN_AI__MODEL
-from mgraph_db.providers.graph_rag.schemas.Schema__Graph_RAG__Document          import Schema__Graph_RAG__Document
 from mgraph_db.providers.graph_rag.schemas.Schema__Graph_RAG__Entity            import Schema__Graph_RAG__Entity
 from mgraph_db.providers.graph_rag.schemas.Schema__Graph_RAG__Entity__Data      import Schema__Graph_RAG__Entity__Data
 from mgraph_db.providers.graph_rag.schemas.Schema__Graph_RAG__Relation          import Schema__Graph_RAG__Relation
@@ -27,17 +26,6 @@ class test_Graph_RAG__Document__Processor(TestCase):
         self.sample_rss_item.categories  = ["tech", "news"]
         self.sample_rss_item.creator     = "Test Author"
 
-    def test_process_rss_item(self):                                                            # Test RSS item processing
-        document = self.processor.process_rss_item(self.sample_rss_item)
-
-        assert type(document)                           is Schema__Graph_RAG__Document           # Verify return type
-        assert document.node_data.title                 == "Test Article"                        # Verify data mapping
-        assert document.node_data.content               == "Test content about technology"
-        assert document.node_data.pub_date              == "2024-01-29"
-        assert document.node_data.source_url            == "https://test.com/article"
-        assert document.node_data.metadata['guid']      == "2ff98947-e431-52c6-a851-60c01d2bbef8"
-        assert document.node_data.metadata['categories'] == ["tech", "news"]
-        assert document.node_data.metadata['creator']    == "Test Author"
 
     def test_create_entities_prompt(self):                                                      # Test prompt creation
         text   = "Sample text for entity extraction"
