@@ -1,5 +1,5 @@
 from unittest                                                                   import TestCase
-from mgraph_db.providers.graph_rag.actions.Graph_RAG__Document__Processor       import Graph_RAG__Document__Processor
+from mgraph_db.providers.graph_rag.actions.Graph_RAG__Document__Processor       import Graph_RAG__Document__Processor, DEFAULT__OPEN_AI__MODEL
 from mgraph_db.providers.graph_rag.schemas.Schema__Graph_RAG__Document          import Schema__Graph_RAG__Document
 from mgraph_db.providers.graph_rag.schemas.Schema__Graph_RAG__Entity            import Schema__Graph_RAG__Entity
 from mgraph_db.providers.graph_rag.schemas.Schema__Graph_RAG__Entity__Data      import Schema__Graph_RAG__Entity__Data
@@ -44,7 +44,7 @@ class test_Graph_RAG__Document__Processor(TestCase):
         prompt = self.processor.create_entities_prompt(text)
 
         assert type(prompt)                    is dict                                          # Verify prompt structure
-        assert prompt['model']                 == "gpt-4o-mini"
+        assert prompt['model']                 == DEFAULT__OPEN_AI__MODEL
         assert prompt['response_format']['type'] == "json_object"
         assert len(prompt['messages'])         == 2
         assert 'functions'                     in prompt

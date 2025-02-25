@@ -1,7 +1,7 @@
-#import requests
-from typing                              import Dict, Any
+from typing                             import Dict, Any
 from osbot_utils.type_safe.Type_Safe    import Type_Safe
 from osbot_utils.utils.Env              import get_env
+from osbot_utils.utils.Http             import POST_json
 from osbot_utils.utils.Json             import json_parse
 
 DEFAULT__LLM__SELECTED_PLATFORM = "OpenAI (Paid)"
@@ -20,14 +20,8 @@ class API__LLM(Type_Safe):
             "Authorization": f"Bearer {self.api_key()}",
             "Content-Type": "application/json"
         }
-
-        response = requests.post(url, headers=headers, json=llm_payload)
-
-        if response.status_code == 200:
-            return response.json()
-        else:
-            print(f"Error: {response.status_code}, {response.text}")
-            return None
+        response = POST_json(url, headers=headers, data=llm_payload)                #todo: add error handling
+        return response
 
     # todo: refactor this into a separate class with better error detection and context specific methods
     def get_json(self, llm_response):
@@ -48,20 +42,3 @@ class API__LLM(Type_Safe):
         if not api_key:
             raise ValueError("{ENV_NAME_OPEN_AI__API_KEY} key not set")
         return api_key
-
-    # todo: add
-    # def execute(self, system_prompts:list, user_prompt: str):
-    #
-    #     with self.llm_execution_simple as _:
-    #         kwargs = dict( llm_platform   = DEFAULT__LLM__SELECTED_PLATFORM,
-    #                        llm_provider   = DEFAULT__LLM__SELECTED_PROVIDER,
-    #                        llm_model      = DEFAULT__LLM__SELECTED_MODEL   ,
-    #                        system_prompts = system_prompts,
-    #                        user_prompt    = user_prompt,
-    #                        stream         = False)
-    #
-    #         result           = _.execute(**kwargs)
-    #         return result
-    #
-    # def get_json(self, result):
-    #     return result
