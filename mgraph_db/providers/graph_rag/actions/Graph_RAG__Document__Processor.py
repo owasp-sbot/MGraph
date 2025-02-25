@@ -133,17 +133,21 @@ class Graph_RAG__Document__Processor(Type_Safe):
         }
 
     def create_entity(self, entity_data: Dict[str, Any]) -> Schema__Graph_RAG__Entity:
-        entity_node_data = Schema__Graph_RAG__Entity__Data(name                 = entity_data['name']                                  ,
-                                                           primary_domains      = entity_data['primary_domains']                       ,
-                                                           functional_roles     = entity_data['functional_roles']                      ,
-                                                           direct_relationships = entity_data['direct_relationships']                  ,
-                                                           domain_relationships = entity_data['domain_relationships']                  ,
-                                                           ecosystem            = entity_data['ecosystem']                             ,
-                                                           confidence           = entity_data.get('confidence', 1.0)                   )
+        try:
+            entity_node_data = Schema__Graph_RAG__Entity__Data(name                 = entity_data.get('name'                , ''),
+                                                               primary_domains      = entity_data.get('primary_domains'     , []),
+                                                               functional_roles     = entity_data.get('functional_roles'    , []),
+                                                               direct_relationships = entity_data.get('direct_relationships', []),
+                                                               domain_relationships = entity_data.get('domain_relationships', {}),
+                                                               ecosystem            = entity_data.get('ecosystem'           , {}),
+                                                               confidence           = entity_data.get('confidence', 1.0)         )
 
-        return Schema__Graph_RAG__Entity(node_data = entity_node_data                  ,
-                                         node_id   = Obj_Id()                          ,
-                                         node_type = Schema__Graph_RAG__Entity)        # Create entity node from extracted data
+            return Schema__Graph_RAG__Entity(node_data = entity_node_data                  ,
+                                             node_id   = Obj_Id()                          ,
+                                             node_type = Schema__Graph_RAG__Entity)        # Create entity node from extracted data
+        except Exception as error:
+            print(f"Error in Graph_RAG__Document__Processor.create_entity : {error}")      # todo: handle better these errors
+            return error
 
     def extract_entities(self, text: str) -> List[Schema__Graph_RAG__Entity]:
         if text in mgraph_llm_cache_simple:
@@ -152,8 +156,17 @@ class Graph_RAG__Document__Processor(Type_Safe):
             llm_payload     = self.create_entities_prompt(text)                                                 # Generate extraction prompt
             llm_response   = self.api_llm.execute(llm_payload=llm_payload)                                          # Call LLM API
 
-        entities_data  = self.api_llm.get_json__entities(llm_response)                                                # Parse JSON response
-        return [self.create_entity(entity) for entity in entities_data]                                     # Convert to typed entities
+        entities_data      = self.api_llm.get_json__entities(llm_response)                                                # Parse JSON response
+        processed_entities = []
+
+        for entity_data in entities_data:
+            entity = self.create_entity(entity_data)
+            if entity is not None:
+                processed_entities.append(entity)  # Store valid entities
+
+        return processed_entities
+
+        #return [self.create_entity(entity) for entity in entities_data]                                     # Convert to typed entities
 
     def create_relations_prompt(self, entities: List[Schema__Graph_RAG__Entity], text: str) -> str:
         entity_names = [e.node_data.name for e in entities]
