@@ -94,12 +94,20 @@ class MGraph__Screenshot(Type_Safe):
         load_dotenv()
         return self
 
-    def show_edge__ids(self):
+    def show_edge_id(self):
         self.export().export_dot().show_edge__id()
         return self
 
+    def show_edge_type(self):
+        self.export().export_dot().show_edge__type__str()
+        return self
+
+    def show_node_id(self):
+        self.export().export_dot().show_node__id()
+        return self
+
     def show_node_value(self):
-        self.export().export_dot().show_node__value()
+        self.export().export_dot().show_node__value__str()
         return self
 
     def show_node_type(self):

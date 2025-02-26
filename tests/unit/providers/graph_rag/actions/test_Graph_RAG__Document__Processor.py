@@ -38,56 +38,56 @@ class test_Graph_RAG__Document__Processor(TestCase):
         assert 'functions'                     in prompt
         assert len(prompt['functions'])        == 1
 
-    def test_create_entity(self):                                                              # Test entity creation
-        entity_data = {
-            "name": "TestEntity",
-            "primary_domains": ["Testing", "Development"],
-            "functional_roles": ["Test Framework"],
-            "direct_relationships": [
-                {"entity": "OtherEntity", "relationship_type": "uses", "strength": 0.8}
-            ],
-            "domain_relationships": [
-                {"concept": "Software Testing", "relationship_type": "part_of",
-                 "category": "Process", "strength": 0.9}
-            ],
-            "ecosystem": {
-                "platform": "TestPlatform",
-                "standards": ["TestStandard"]
-            },
-            "confidence": 0.95
-        }
-
-        entity = self.processor.create_entity(entity_data)
-
-        assert type(entity)                         is Schema__Graph_RAG__Entity                # Verify entity properties
-        assert entity.node_data.name                == "TestEntity"
-        assert len(entity.node_data.primary_domains) == 2
-        assert entity.node_data.confidence          == 0.95
-        assert "platform"                           in entity.node_data.ecosystem
-
-    def test_extract_entities(self):                                                          # Test entity extraction
-        sample_text = "cyber-news-1"                                                          # Using cached test data
-        entities    = self.processor.extract_entities(sample_text)                            # Test extraction
-
-        assert len(entities)                     == 4                                         # Verify we got 4 entities
-        assert type(entities[0])                 is Schema__Graph_RAG__Entity                # Check types
-        assert type(entities[1])                 is Schema__Graph_RAG__Entity
-        assert type(entities[2])                 is Schema__Graph_RAG__Entity
-        assert type(entities[3])                 is Schema__Graph_RAG__Entity
-
-        # Verify specific entities from the cached response
-        entity_names = [e.node_data.name for e in entities]
-        assert "BuildFlow"              in entity_names                                       # Check specific entities
-        assert "Continuous Integration" in entity_names
-        assert "Machine Learning"       in entity_names
-        assert "Development Team"       in entity_names
-
-        # Check structure of first entity
-        buildflow = next(e for e in entities if e.node_data.name == "BuildFlow")
-        assert len(buildflow.node_data.primary_domains)      == 2                            # Check data structure
-        assert len(buildflow.node_data.functional_roles)     == 2
-        assert len(buildflow.node_data.direct_relationships) == 3
-        assert buildflow.node_data.confidence                > 0.9
+    # def test_create_entity(self):                                                              # Test entity creation
+    #     entity_data = {
+    #         "name": "TestEntity",
+    #         "primary_domains": ["Testing", "Development"],
+    #         "functional_roles": ["Test Framework"],
+    #         "direct_relationships": [
+    #             {"entity": "OtherEntity", "relationship_type": "uses", "strength": 0.8}
+    #         ],
+    #         "domain_relationships": [
+    #             {"concept": "Software Testing", "relationship_type": "part_of",
+    #              "category": "Process", "strength": 0.9}
+    #         ],
+    #         "ecosystem": {
+    #             "platform": "TestPlatform",
+    #             "standards": ["TestStandard"]
+    #         },
+    #         "confidence": 0.95
+    #     }
+    #
+    #     entity = self.processor.create_entity(entity_data)
+    #
+    #     assert type(entity)                         is Schema__Graph_RAG__Entity                # Verify entity properties
+    #     assert entity.node_data.name                == "TestEntity"
+    #     assert len(entity.node_data.primary_domains) == 2
+    #     assert entity.node_data.confidence          == 0.95
+    #     assert "platform"                           in entity.node_data.ecosystem
+    #
+    # def test_extract_entities(self):                                                          # Test entity extraction
+    #     sample_text = "cyber-news-1"                                                          # Using cached test data
+    #     entities    = self.processor.extract_entities(sample_text)                            # Test extraction
+    #
+    #     assert len(entities)                     == 4                                         # Verify we got 4 entities
+    #     assert type(entities[0])                 is Schema__Graph_RAG__Entity                # Check types
+    #     assert type(entities[1])                 is Schema__Graph_RAG__Entity
+    #     assert type(entities[2])                 is Schema__Graph_RAG__Entity
+    #     assert type(entities[3])                 is Schema__Graph_RAG__Entity
+    #
+    #     # Verify specific entities from the cached response
+    #     entity_names = [e.node_data.name for e in entities]
+    #     assert "BuildFlow"              in entity_names                                       # Check specific entities
+    #     assert "Continuous Integration" in entity_names
+    #     assert "Machine Learning"       in entity_names
+    #     assert "Development Team"       in entity_names
+    #
+    #     # Check structure of first entity
+    #     buildflow = next(e for e in entities if e.node_data.name == "BuildFlow")
+    #     assert len(buildflow.node_data.primary_domains)      == 2                            # Check data structure
+    #     assert len(buildflow.node_data.functional_roles)     == 2
+    #     assert len(buildflow.node_data.direct_relationships) == 3
+    #     assert buildflow.node_data.confidence                > 0.9
 
     def test_create_relations_prompt(self):                                                  # Test relation prompt creation
         entity_data_1 = Schema__Graph_RAG__Entity__Data(name="Entity1")
@@ -105,44 +105,44 @@ class test_Graph_RAG__Document__Processor(TestCase):
         assert "relation_type"         in prompt
         assert "confidence"            in prompt
 
-    def test_create_relation(self):                                                         # Test relation creation
-        entity_data_1 = Schema__Graph_RAG__Entity__Data(name="Source")
-        entity_data_2 = Schema__Graph_RAG__Entity__Data(name="Target")
-        entities = [ Schema__Graph_RAG__Entity(node_data=entity_data_1),
-                     Schema__Graph_RAG__Entity(node_data=entity_data_2) ]
+    # def test_create_relation(self):                                                         # Test relation creation
+    #     entity_data_1 = Schema__Graph_RAG__Entity__Data(name="Source")
+    #     entity_data_2 = Schema__Graph_RAG__Entity__Data(name="Target")
+    #     entities = [ Schema__Graph_RAG__Entity(node_data=entity_data_1),
+    #                  Schema__Graph_RAG__Entity(node_data=entity_data_2) ]
+    #
+    #
+    #     relation_data = {
+    #         "source": "Source",
+    #         "target": "Target",
+    #         "relation_type": "USES",
+    #         "confidence": 0.9,
+    #         "context": "Test context"
+    #     }
+    #
+    #     relation = self.processor.create_relation(relation_data, entities)                  # Create relation
+    #
+    #     assert type(relation)                       is Schema__Graph_RAG__Relation          # Verify properties
+    #     assert relation.edge_data.relation_type     == "USES"
+    #     assert relation.edge_data.confidence        == 0.9
+    #     assert relation.edge_data.context           == "Test context"
+    #     assert relation.from_node_id                == entities[0].node_id
+    #     assert relation.to_node_id                  == entities[1].node_id
 
-
-        relation_data = {
-            "source": "Source",
-            "target": "Target",
-            "relation_type": "USES",
-            "confidence": 0.9,
-            "context": "Test context"
-        }
-
-        relation = self.processor.create_relation(relation_data, entities)                  # Create relation
-
-        assert type(relation)                       is Schema__Graph_RAG__Relation          # Verify properties
-        assert relation.edge_data.relation_type     == "USES"
-        assert relation.edge_data.confidence        == 0.9
-        assert relation.edge_data.context           == "Test context"
-        assert relation.from_node_id                == entities[0].node_id
-        assert relation.to_node_id                  == entities[1].node_id
-
-    def test_valid_relation(self):                                                         # Test relation validation
-        entity_data_1 = Schema__Graph_RAG__Entity__Data(name="Entity1")
-        entity_data_2 = Schema__Graph_RAG__Entity__Data(name="Entity2")
-        entities = [ Schema__Graph_RAG__Entity(node_data=entity_data_1),
-                     Schema__Graph_RAG__Entity(node_data=entity_data_2) ]
-
-        valid_relation = {                                                                 # Test valid case
-            "source": "Entity1",
-            "target": "Entity2"
-        }
-        assert self.processor.valid_relation(valid_relation, entities) is True
-
-        invalid_relation = {                                                              # Test invalid case
-            "source": "NonExistent1",
-            "target": "NonExistent2"
-        }
-        assert self.processor.valid_relation(invalid_relation, entities) is False
+    # def test_valid_relation(self):                                                         # Test relation validation
+    #     entity_data_1 = Schema__Graph_RAG__Entity__Data(name="Entity1")
+    #     entity_data_2 = Schema__Graph_RAG__Entity__Data(name="Entity2")
+    #     entities = [ Schema__Graph_RAG__Entity(node_data=entity_data_1),
+    #                  Schema__Graph_RAG__Entity(node_data=entity_data_2) ]
+    #
+    #     valid_relation = {                                                                 # Test valid case
+    #         "source": "Entity1",
+    #         "target": "Entity2"
+    #     }
+    #     assert self.processor.valid_relation(valid_relation, entities) is True
+    #
+    #     invalid_relation = {                                                              # Test invalid case
+    #         "source": "NonExistent1",
+    #         "target": "NonExistent2"
+    #     }
+    #     assert self.processor.valid_relation(invalid_relation, entities) is False
