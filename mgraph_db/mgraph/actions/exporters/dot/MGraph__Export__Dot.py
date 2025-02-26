@@ -151,15 +151,16 @@ class MGraph__Export__Dot(MGraph__Export__Base):
 
 
 
-    def set_node__style          (self, style    : str  ): self.config.node.shape.style      = style    ; return self
+    def set_node__style           (self, style    : str  ): self.config.node.shape.style      = style    ; return self
 
-    def set_graph__layout_engine (self, engine   : str  ): self.config.graph.layout_engine   = engine   ; return self
-    def set_graph__margin        (self, value    : float): self.config.graph.margin          = value    ; return self
-    def set_graph__node_sep      (self, value    : float): self.config.graph.node_sep        = value    ; return self
-    def set_graph__rank_sep      (self, value    : float): self.config.graph.rank_sep        = value    ; return self
-    def set_graph__rank_dir      (self, direction: str  ): self.config.graph.rank_dir        = direction; return self
-    def set_graph__splines       (self, value    : float): self.config.graph.splines         = value    ; return self
-    def set_graph__epsilon       (self, value    : float): self.config.graph.epsilon         = value    ; return self
+    def set_graph__layout_engine  (self, engine   : str  ): self.config.graph.layout_engine   = engine   ; return self
+    def set_graph__margin         (self, value    : float): self.config.graph.margin          = value    ; return self
+    def set_graph__node_sep       (self, value    : float): self.config.graph.node_sep        = value    ; return self
+    def set_graph__rank_sep       (self, value    : float): self.config.graph.rank_sep        = value    ; return self
+    def set_graph__rank_dir       (self, direction: str  ): self.config.graph.rank_dir        = direction; return self
+    def set_graph__splines        (self, value    : float): self.config.graph.splines         = value    ; return self
+    def set_graph__epsilon        (self, value    : float): self.config.graph.epsilon         = value    ; return self
+    def set_graph__spring_constant(self, value    : float): self.config.graph.spring_constant = value    ; return self
 
     def set_graph__title             (self, value    : str  ): self.config.graph.title             = value    ; return self
     def set_graph__title__font__size (self, value    : float): self.config.graph.title__font.size  = value    ; return self
@@ -167,6 +168,18 @@ class MGraph__Export__Dot(MGraph__Export__Base):
     def set_graph__title__font__name (self, value    : str  ): self.config.graph.title__font.name  = value    ; return self
     def set_graph__background__color (self, value    : str  ): self.config.graph.background_color  = value    ; return self
 
+    def set_graph__overlap           (self, value   : str  ): self.config.graph.overlap   = value     ; return self
+    def set_graph__overlap__false    (self,                ): self.config.graph.overlap   = 'false'   ; return self
+    def set_graph__overlap__scale    (self,                ): self.config.graph.overlap   = 'scale'   ; return self
+    def set_graph__overlap__prism    (self,                ): self.config.graph.overlap   = 'prism'   ; return self
+    def set_graph__overlap__prism1000 (self,               ): self.config.graph.overlap   = 'prism1000' ; return self
+    def set_graph__overlap__vpsc      (self,               ): self.config.graph.overlap   = 'vpsc'      ; return self
+    def set_graph__overlap__ortho     (self,               ): self.config.graph.overlap   = 'ortho'     ; return self
+    def set_graph__overlap__orthoxy   (self,               ): self.config.graph.overlap   = 'orthoxy'   ; return self
+    def set_graph__overlap__orthoyx   (self,               ): self.config.graph.overlap   = 'orthoyx'   ; return self
+    def set_graph__overlap__ipsep     (self,               ): self.config.graph.overlap   = 'ipsep'     ; return self
+    def set_graph__overlap__compress  (self,               ): self.config.graph.overlap   = 'compress'  ; return self
+    def set_graph__overlap__true      (self,               ): self.config.graph.overlap   = 'true'      ; return self  # Default behavior
 
     def set_graph__layout_engine__dot   (self): return self.set_graph__layout_engine(MGraph__Export__Dot__Layout__Engine.DOT   .value)
     def set_graph__layout_engine__neato (self): return self.set_graph__layout_engine(MGraph__Export__Dot__Layout__Engine.NEATO .value)

@@ -10,16 +10,19 @@ from osbot_utils.type_safe.Type_Safe                      import Type_Safe
 # todo: move the data fields into a new class Schema__MGraph__Builder__Data
 
 class MGraph__Builder(Type_Safe):
-    mgraph_edit   : MGraph__Edit                                # Reference to the MGraph__Edit instance
-    node__current : Domain__MGraph__Node        = None          # Current active node
-    node__history : List[Domain__MGraph__Node]                  # History of visited nodes
-    edge__current : Domain__MGraph__Edge        = None          # Current active edge
-    edge__history : List[Domain__MGraph__Edge]                  # History of created edges
-    node__root    : Domain__MGraph__Node        = None          # Root node of the current build
+    mgraph_edit             : MGraph__Edit                                # Reference to the MGraph__Edit instance
+    config__unique_values   : bool = False
+    node__current           : Domain__MGraph__Node        = None          # Current active node
+    node__history           : List[Domain__MGraph__Node]                  # History of visited nodes
+    edge__current           : Domain__MGraph__Edge        = None          # Current active edge
+    edge__history           : List[Domain__MGraph__Edge]                  # History of created edges
+    node__root              : Domain__MGraph__Node        = None          # Root node of the current build
 
     # Node Operations -------------------------------------------------------
 
     def add_node(self, value, **kwargs) -> 'MGraph__Builder':   # Add a new value node and make it the current context.
+        if self.config__unique_values:
+            kwargs['key'] = Obj_Id()
         node = self.mgraph_edit.new_value(value, **kwargs)
         return self.register_node(node)
 
@@ -88,7 +91,8 @@ class MGraph__Builder(Type_Safe):
             if not target_node:
                 raise ValueError(f"Node with ID {target} not found")
         else:
-
+            if self.config__unique_values:
+                kwargs['key'] = Obj_Id()
             target_node = self.mgraph_edit.new_value(target, **kwargs)                  # If target is a value, create a new node for it
 
 
@@ -105,8 +109,11 @@ class MGraph__Builder(Type_Safe):
     # Navigation Operations -------------------------------------------------
 
     def node_up(self) -> 'MGraph__Builder':                             # Navigate up to the previous node in history.
-        if self.node__history:
-            self.node__current = self.node__history.pop()
+        if len(self.node__history) >= 2:                                # Pop the current node (which is at the top of the history)
+            self.node__history.pop()
+            self.node__current = self.node__history[-1]                 # Now the top of history is the previous node, so assign it to current
+        elif len(self.node__history) == 1:                              # Special case: only one item in history, pop it but don't change current
+            self.node__history.pop()
         return self
 
     def edge_up(self) -> 'MGraph__Builder':                             # Navigate to the previous edge in history.
@@ -120,6 +127,9 @@ class MGraph__Builder(Type_Safe):
                 self.node__history.append(self.node__current)
             self.node__current = self.node__root
         return self
+
+    def up(self):
+        return self.node_up()
 
     # Utility Methods -------------------------------------------------------
 
