@@ -14,23 +14,23 @@ class test_Schema__Mermaid__Graph(TestCase):
     def setUp(self):                                                                # Initialize test data
         self.schema_types  = Schema__Mermaid__Types()
         self.graph_data    = Schema__Mermaid__Graph__Config(allow_circle_edges   = True,
-                                                          allow_duplicate_edges= False,
-                                                          graph_title         = "Test Graph")
-        self.node          = Schema__Mermaid__Node         (node_data = Schema__Mermaid__Node__Data()   ,
-                                                            node_type   = Schema__Mermaid__Node                                   ,
-                                                            key         = Safe_Id("node_1")                                       ,
-                                                            label       = "Test Node"                                             )
-        self.edge          = Schema__Mermaid__Edge         (edge_config  = Schema__Mermaid__Edge__Config(edge_id= Obj_Id()   ),
-                                                            edge_type    = Schema__Mermaid__Edge                                   ,
-                                                            from_node_id = Obj_Id()                                           ,
-                                                            to_node_id   = Obj_Id()                                           ,
-                                                            label        = "Test Edge"                                             )
-        self.graph          = Schema__Mermaid__Graph       (schema_types = self.schema_types,
-                                                            edges        = {self.edge.edge_config.edge_id: self.edge},
-                                                            nodes        = {self.node.node_id: self.node},
-                                                            graph_data   = self.graph_data,
-                                                            graph_type   = Schema__Mermaid__Graph,
-                                                            mermaid_code = ["graph TD", "A --> B"])
+                                                            allow_duplicate_edges= False,
+                                                            graph_title         = "Test Graph")
+        self.node          = Schema__Mermaid__Node         (node_data = Schema__Mermaid__Node__Data()     ,
+                                                            node_type   = Schema__Mermaid__Node           ,
+                                                            key         = Safe_Id("node_1")               ,
+                                                            label       = "Test Node"                     )
+        self.edge          = Schema__Mermaid__Edge         (edge_config  = Schema__Mermaid__Edge__Config(),
+                                                            edge_type    = Schema__Mermaid__Edge          ,
+                                                            from_node_id = Obj_Id()                       ,
+                                                            to_node_id   = Obj_Id()                       ,
+                                                            label        = "Test Edge"                    )
+        self.graph          = Schema__Mermaid__Graph       (schema_types = self.schema_types              ,
+                                                            edges        = {self.edge.edge_id: self.edge} ,
+                                                            nodes        = {self.node.node_id: self.node} ,
+                                                            graph_data   = self.graph_data                ,
+                                                            graph_type   = Schema__Mermaid__Graph         ,
+                                                            mermaid_code = ["graph TD", "A --> B"]        )
 
     def test_init(self):                                                            # Tests basic initialization and type checking
         assert type(self.graph)              is Schema__Mermaid__Graph

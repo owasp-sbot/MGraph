@@ -21,10 +21,11 @@ class MGraph__Export__Dot__Node__Renderer(MGraph__Export__Dot__Base):
         node_type = node.node.data.node_type
 
         # Start with base node configuration
-        if self.config.node.shape.type:       attrs['shape'] = f'shape="{self.config.node.shape.type}"'
-        if self.config.node.shape.width:      attrs['width'] = f'width={self.config.node.shape.width}'
-        if self.config.node.shape.height:     attrs['height'] = f'height={self.config.node.shape.height}'
-        if self.config.node.shape.fixed_size: attrs['fixedsize'] = 'true'
+        if self.config.node.shape.type       : attrs['shape'    ] = f'shape="{self.config.node.shape.type}"'
+        if self.config.node.shape.width      : attrs['width'    ] = f'width={self.config.node.shape.width}'
+        if self.config.node.shape.height     : attrs['height'   ] = f'height={self.config.node.shape.height}'
+        if self.config.node.shape.fixed_size : attrs['fixedsize'] = 'true'
+        if self.config.node.shape.rounded    : styles.add('rounded')
         if self.config.node.shape.fill_color:
             styles.add('filled')
             attrs['fillcolor'] = f'fillcolor="{self.config.node.shape.fill_color}"'
@@ -145,29 +146,28 @@ class MGraph__Export__Dot__Node__Renderer(MGraph__Export__Dot__Base):
         return [f'style="{",".join(sorted(styles))}"'] if styles else []
 
     def create_node_label_attributes(self, node: Domain__MGraph__Node) -> List[str]:
-        if hasattr(node.node_data, 'value'):                                                  # Only proceed for nodes with value data
-            label_parts = []
-
-            if self.config.display.node_value:                                                # Add value if requested
-                label_parts.append(str(node.node_data.value))
-
-            if self.config.display.node_value_type:                                           # Add value_type if requested
-                type_name = self.type_name__from__type(node.node_data.value_type)
-                label_parts.append(f"{type_name}")
-
-            if self.config.display.node_value_key:                                            # Add key if requested
-                label_parts.append(f"{node.node_data.key}")
-
-            if label_parts:                                                                   # Combine all parts
-                return [f'label="{" ".join(label_parts)}"']
-
-        elif self.config.display.node_type_full_name:                                        # Fall back to type display if no value
-            type_full_name = node.node.data.node_type.__name__
-            return [f'label="{type_full_name}"']
-        elif self.config.display.node_type:
+        label_parts = []
+        if self.config.display.node_id:                                                       # Add node_id if requested
+            label_parts.append(f"node_id='{node.node_id}'")
+        if self.config.display.node_type:
             node_type = node.node.data.node_type
             type_name = self.type_name__from__type(node_type)
-            return [f'label="{type_name}"']
+            label_parts.append(f"node_type='{type_name}'")
+        if self.config.display.node_type_full_name:
+            type_full_name = node.node.data.node_type.__name__
+            label_parts.append(f"node_type_full_name='{type_full_name}'")
+        if hasattr(node.node_data, 'value'):                                                  # Only proceed for nodes with value data
+            if self.config.display.node_value_str:                                                # Add value if requested
+                label_parts.append(f"{node.node_data.value}")
+            if self.config.display.node_value:                                                # Add value if requested
+                label_parts.append(f"node_value='{node.node_data.value}'")
+            if self.config.display.node_value_type:                                           # Add value_type if requested
+                type_name = self.type_name__from__type(node.node_data.value_type)
+                label_parts.append(f"node_value_type='{type_name}'")
+            if self.config.display.node_value_key:                                            # Add key if requested
+                label_parts.append(f"node_value_key='{node.node_data.key}'")
+        if label_parts:  # Combine all parts
+            return [f'label="{"\l".join(label_parts)}\l"']
         return []
 
     def format_node_definition(self, node_id: str, attrs: List[str]) -> str:

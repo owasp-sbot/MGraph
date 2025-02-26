@@ -45,7 +45,7 @@ class test__Mermaid__Edit(TestCase):
             to_node_key      =  'to_key'
             label            = 'an_label'
             edge             = _.add_edge(from_node_key=from_node_key, to_node_key=to_node_key, label=label)
-            edge_id          =  edge.edge_config.edge_id
+            edge_id          =  edge.edge_id
             nodes__by_key    = _.data().nodes__by_key()
             from_node        = nodes__by_key.get(from_node_key)
             to_node          = nodes__by_key.get(to_node_key  )
@@ -58,10 +58,11 @@ class test__Mermaid__Edit(TestCase):
             assert from_node.key         == from_node_key
             assert to_node  .key         == to_node_key
             assert edge.edge.obj() == __(data         =__(label        = label,
-                                                          edge_config  = __(edge_id          = edge_id ,
-                                                                            output_node_from = False   ,
+                                                          edge_id      = edge_id                       ,
+                                                          edge_config  = __(output_node_from = False   ,
                                                                             output_node_to   = False   ,
                                                                             edge_mode        = ''      ),
+                                                          edge_label   = None                           ,
                                                           edge_type    = 'mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Edge.Schema__Mermaid__Edge',
                                                           edge_data    = __()                           ,
                                                           from_node_id = from_node.node_id              ,

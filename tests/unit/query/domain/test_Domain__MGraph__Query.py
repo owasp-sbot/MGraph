@@ -24,7 +24,7 @@ class test_Domain__MGraph__Query(TestCase):
     #
     #     with self.mgraph.screenshot() as _:
     #         _.load_dotenv   ()
-    #         _.show_edge__ids()
+    #         _.show_edge__id()
     #         _.save_to('test_Domain__MGraph__Query.png').dot()
 
     def test_setup(self):

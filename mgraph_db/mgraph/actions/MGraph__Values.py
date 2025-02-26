@@ -1,4 +1,4 @@
-from typing import Union, Type, Tuple, Optional, Any
+from typing                                                           import Union, Type, Tuple, Optional, Any
 from mgraph_db.mgraph.actions.MGraph__Edit                            import MGraph__Edit
 from mgraph_db.mgraph.domain.Domain__MGraph__Edge                     import Domain__MGraph__Edge
 from mgraph_db.mgraph.domain.Domain__MGraph__Node                     import Domain__MGraph__Node
@@ -64,9 +64,4 @@ class MGraph__Values(Type_Safe):
                                                                                           edge_type = edge_type.__name__)
         if connected_node_id:
             return self.mgraph_edit.data().node(connected_node_id)
-        return None
-
-    def get_value_type(self, value: Union[int, str]) -> Optional[Type[Domain__MGraph__Node]]:
-        if isinstance(value, (int, str)):
-            return Schema__MGraph__Node__Value
         return None

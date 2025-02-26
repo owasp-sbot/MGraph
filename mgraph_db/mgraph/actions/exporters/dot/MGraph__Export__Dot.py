@@ -70,6 +70,9 @@ class MGraph__Export__Dot(MGraph__Export__Base):
 
         lines.append('}')
         self.dot_code =  '\n'.join(lines)
+        if self.config.render.print_dot_code:
+            print()
+            print(self.dot_code)
         return self.dot_code
 
 
@@ -102,6 +105,8 @@ class MGraph__Export__Dot(MGraph__Export__Base):
             self.config.type.value_fonts[value_type] = MGraph__Export__Dot__Config__Font()
         return self.config.type.value_fonts[value_type]
 
+    def print_dot_code           (self): self.config.render.print_dot_code = True ; return self
+
     def set_edge__color          (self, color    : str  ): self.config.edge.color      = color       ; return self
     def set_edge__font__size     (self, size     : int  ): self.config.edge.font.size  = size        ; return self
     def set_edge__font__color    (self, color    : str  ): self.config.edge.font.color = color       ; return self
@@ -128,18 +133,34 @@ class MGraph__Export__Dot(MGraph__Export__Base):
     def set_node__shape__height  (self, height   : float): self.config.node.shape.height     = height   ; return self
     def set_node__shape__fixed   (self                  ): self.config.node.shape.fixed_size = True     ; return self
 
-    def set_node__shape__type     (self, shape    : str  ): self.config.node.shape.type      = shape    ; return self
-    def set_node__shape__type__box(self,                 ): self.config.node.shape.type      = 'box'    ; return self
+    def set_node__shape__type                (self, shape    : str  ): self.config.node.shape.type = shape          ; return self
+    def set_node__shape__type__box           (self,                 ): self.config.node.shape.type = 'box'          ; return self
+    def set_node__shape__type__circle        (self,                 ): self.config.node.shape.type = 'circle'       ; return self
+    def set_node__shape__type__ellipse       (self,                 ): self.config.node.shape.type = 'ellipse'      ; return self
+    def set_node__shape__type__point         (self,                 ): self.config.node.shape.type = 'point'        ; return self
+    def set_node__shape__type__diamond       (self,                 ): self.config.node.shape.type = 'diamond'      ; return self
+    def set_node__shape__type__plaintext     (self,                 ): self.config.node.shape.type = 'plaintext'    ; return self
+    def set_node__shape__type__polygon       (self,                 ): self.config.node.shape.type = 'polygon'      ; return self
+    def set_node__shape__type__star          (self,                 ): self.config.node.shape.type = 'star'         ; return self
+    def set_node__shape__type__triangle      (self,                 ): self.config.node.shape.type = 'triangle'     ; return self
+    def set_node__shape__type__trapezium     (self,                 ): self.config.node.shape.type = 'trapezium'    ; return self
+    def set_node__shape__type__parallelogram (self,                 ): self.config.node.shape.type = 'parallelogram'; return self
+    def set_node__shape__type__house         (self,                 ): self.config.node.shape.type = 'house'        ; return self
+    def set_node__shape__type__hexagon       (self,                 ): self.config.node.shape.type = 'hexagon'      ; return self
+    def set_node__shape__type__octagon       (self,                 ): self.config.node.shape.type = 'octagon'      ; return self
 
-    def set_node__style          (self, style    : str  ): self.config.node.shape.style      = style    ; return self
 
-    def set_graph__layout_engine (self, engine   : str  ): self.config.graph.layout_engine   = engine   ; return self
-    def set_graph__margin        (self, value    : float): self.config.graph.margin          = value    ; return self
-    def set_graph__node_sep      (self, value    : float): self.config.graph.node_sep        = value    ; return self
-    def set_graph__rank_sep      (self, value    : float): self.config.graph.rank_sep        = value    ; return self
-    def set_graph__rank_dir      (self, direction: str  ): self.config.graph.rank_dir        = direction; return self
-    def set_graph__splines       (self, value    : float): self.config.graph.splines         = value    ; return self
-    def set_graph__epsilon       (self, value    : float): self.config.graph.epsilon         = value    ; return self
+
+    def set_node__style           (self, style    : str  ): self.config.node.shape.style      = style    ; return self
+
+    def set_graph__layout_engine  (self, engine   : str  ): self.config.graph.layout_engine   = engine   ; return self
+    def set_graph__margin         (self, value    : float): self.config.graph.margin          = value    ; return self
+    def set_graph__node_sep       (self, value    : float): self.config.graph.node_sep        = value    ; return self
+    def set_graph__rank_sep       (self, value    : float): self.config.graph.rank_sep        = value    ; return self
+    def set_graph__rank_dir       (self, direction: str  ): self.config.graph.rank_dir        = direction; return self
+    def set_graph__splines        (self, value    : float): self.config.graph.splines         = value    ; return self
+    def set_graph__epsilon        (self, value    : float): self.config.graph.epsilon         = value    ; return self
+    def set_graph__spring_constant(self, value    : float): self.config.graph.spring_constant = value    ; return self
 
     def set_graph__title             (self, value    : str  ): self.config.graph.title             = value    ; return self
     def set_graph__title__font__size (self, value    : float): self.config.graph.title__font.size  = value    ; return self
@@ -147,6 +168,18 @@ class MGraph__Export__Dot(MGraph__Export__Base):
     def set_graph__title__font__name (self, value    : str  ): self.config.graph.title__font.name  = value    ; return self
     def set_graph__background__color (self, value    : str  ): self.config.graph.background_color  = value    ; return self
 
+    def set_graph__overlap           (self, value   : str  ): self.config.graph.overlap   = value     ; return self
+    def set_graph__overlap__false    (self,                ): self.config.graph.overlap   = 'false'   ; return self
+    def set_graph__overlap__scale    (self,                ): self.config.graph.overlap   = 'scale'   ; return self
+    def set_graph__overlap__prism    (self,                ): self.config.graph.overlap   = 'prism'   ; return self
+    def set_graph__overlap__prism1000 (self,               ): self.config.graph.overlap   = 'prism1000' ; return self
+    def set_graph__overlap__vpsc      (self,               ): self.config.graph.overlap   = 'vpsc'      ; return self
+    def set_graph__overlap__ortho     (self,               ): self.config.graph.overlap   = 'ortho'     ; return self
+    def set_graph__overlap__orthoxy   (self,               ): self.config.graph.overlap   = 'orthoxy'   ; return self
+    def set_graph__overlap__orthoyx   (self,               ): self.config.graph.overlap   = 'orthoyx'   ; return self
+    def set_graph__overlap__ipsep     (self,               ): self.config.graph.overlap   = 'ipsep'     ; return self
+    def set_graph__overlap__compress  (self,               ): self.config.graph.overlap   = 'compress'  ; return self
+    def set_graph__overlap__true      (self,               ): self.config.graph.overlap   = 'true'      ; return self  # Default behavior
 
     def set_graph__layout_engine__dot   (self): return self.set_graph__layout_engine(MGraph__Export__Dot__Layout__Engine.DOT   .value)
     def set_graph__layout_engine__neato (self): return self.set_graph__layout_engine(MGraph__Export__Dot__Layout__Engine.NEATO .value)
@@ -165,10 +198,18 @@ class MGraph__Export__Dot(MGraph__Export__Base):
     def set_graph__rank_dir__bt         (self): return self.set_graph__rank_dir('BT'      )
     def set_graph__rank_dir__rl         (self): return self.set_graph__rank_dir('RL'      )
 
-    def show_edge__ids               (self): self.config.display.edge_ids            = True      ; return self
+    def show_edge__id                (self): self.config.display.edge_id             = True      ; return self
+    def show_edge__predicate         (self): self.config.display.edge_predicate      = True      ; return self
+    def show_edge__predicate__str    (self): self.config.display.edge_predicate_str  = True      ; return self
     def show_edge__type              (self): self.config.display.edge_type           = True      ; return self
     def show_edge__type_full_name    (self): self.config.display.edge_type_full_name = True      ; return self
+    def show_edge__type__str         (self): self.config.display.edge_type_str       = True      ; return self
+
+
+    def show_node__id                (self): self.config.display.node_id             = True      ; return self
     def show_node__value             (self): self.config.display.node_value          = True      ; return self
+
+    def show_node__value__str        (self): self.config.display.node_value_str      = True; return self
     def show_node__value__key        (self): self.config.display.node_value_key      = True      ; return self
     def show_node__value__type       (self): self.config.display.node_value_type     = True      ; return self
     def show_node__type              (self): self.config.display.node_type           = True      ; return self

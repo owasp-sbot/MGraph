@@ -7,7 +7,7 @@ from osbot_utils.helpers.Obj_Id import Obj_Id
 class test_Schema__Mermaid__Edge(TestCase):
 
     def setUp(self):                                                                # Initialize test data
-        self.edge_config = Schema__Mermaid__Edge__Config(edge_id = Obj_Id())
+        self.edge_config = Schema__Mermaid__Edge__Config()
 
         self.edge = Schema__Mermaid__Edge(edge_config  = self.edge_config         ,
                                           edge_type    = Schema__Mermaid__Edge    ,
@@ -42,4 +42,4 @@ class test_Schema__Mermaid__Edge(TestCase):
         restored = Schema__Mermaid__Edge.from_json(json_data)
         assert restored.label       == self.edge.label
         assert restored.edge_type   == self.edge.edge_type
-        assert restored.edge_config.edge_id == self.edge.edge_config.edge_id
+        assert restored.edge_id == self.edge.edge_id

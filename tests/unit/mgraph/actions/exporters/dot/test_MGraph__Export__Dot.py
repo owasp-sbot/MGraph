@@ -35,7 +35,7 @@ class test_MGraph__Export__Dot(TestCase):
     def test_init(self):                                                               # Test initialization
         config = MGraph__Export__Dot__Config()
         config.display.node_value = True
-        config.display.edge_ids = False
+        config.display.edge_id = False
         config.node.font.name = "Times"
         config.node.font.size = 12
 
@@ -43,7 +43,7 @@ class test_MGraph__Export__Dot(TestCase):
 
         assert exporter.graph                          == self.domain_graph
         assert exporter.config.display.node_value      is True
-        assert exporter.config.display.edge_ids        is False
+        assert exporter.config.display.edge_id is False
         assert exporter.config.node.font.name          == "Times"
         assert exporter.config.node.font.size          == 12
 
@@ -69,8 +69,8 @@ class test_MGraph__Export__Dot(TestCase):
 
         # Test with show_value=True
         self.exporter.config.display.node_value = True
-        node_data = self.exporter.create_node_data(self.domain_graph.node(node_id))
-        assert 'label="A"'               in node_data['attrs']
+        node_data                               = self.exporter.create_node_data(self.domain_graph.node(node_id))
+        assert 'label="node_value=\'A\'\\l"'    in node_data['attrs']
 
     def test_create_edge_data(self):                                                   # Test edge data creation
         edge_1_id = self.edges_ids[0]
@@ -84,7 +84,7 @@ class test_MGraph__Export__Dot(TestCase):
         assert edge_data['type']   == 'Schema__MGraph__Edge'
 
     def test_format_output(self):                                                      # Test DOT output formatting
-        self.exporter.show_edge__ids()
+        self.exporter.show_edge__id()
         self.exporter.process_graph()                                                  # Process graph first
         dot_output = self.exporter.format_output()
 
@@ -99,8 +99,8 @@ class test_MGraph__Export__Dot(TestCase):
                           f'  "{self.nodes_ids[0]}"\n'
                           f'  "{self.nodes_ids[1]}"\n'
                           f'  "{self.nodes_ids[2]}"\n'
-                          f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[1]}" [label="  {self.edges_ids[0]}"]\n'
-                          f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[2]}" [label="  {self.edges_ids[1]}"]\n'
+                          f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[1]}" [label="  edge_id = \'{self.edges_ids[0]}\'\\l"]\n'
+                          f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[2]}" [label="  edge_id = \'{self.edges_ids[1]}\'\\l"]\n'
                           '}')
         assert dot_output == expected_output
 
@@ -119,7 +119,7 @@ class test_MGraph__Export__Dot(TestCase):
     def test_custom_config(self):                                                      # Test custom configuration
         config = MGraph__Export__Dot__Config()
         config.display.node_value = True
-        config.display.edge_ids = False
+        config.display.edge_id = False
         config.node.font.name = "Courier"
         config.node.font.size = 14
         config.graph.rank_sep = 1.2
@@ -129,7 +129,7 @@ class test_MGraph__Export__Dot(TestCase):
         output = exporter.format_output()
 
         # With show_value=True, should include label attributes
-        assert 'label="A"' in output                                                   # First node's value
+        assert 'label="node_value=\'A\'\\l"' in output                                                   # First node's value
 
         # With show_edge_ids=False, should not include edge IDs in labels
         for edge_id in self.edges_ids:
@@ -143,14 +143,14 @@ class test_MGraph__Export__Dot(TestCase):
             if value == "B":
                 node_view_data['attrs'] = ['shape=box'    , 'style=filled', 'fillcolor=yellow']
 
-        self.exporter.show_edge__ids()
+        self.exporter.show_edge__id()
         dot_output = self.exporter.process_graph()                                                                      # first check the result without the custom_node_handler
         expected_output = ('digraph {\n'
                           f'  "{self.nodes_ids[0]}"\n'
                           f'  "{self.nodes_ids[1]}"\n'
                           f'  "{self.nodes_ids[2]}"\n'
-                          f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[1]}" [label="  {self.edges_ids[0]}"]\n'
-                          f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[2]}" [label="  {self.edges_ids[1]}"]\n'
+                          f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[1]}" [label="  edge_id = \'{self.edges_ids[0]}\'\\l"]\n'
+                          f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[2]}" [label="  edge_id = \'{self.edges_ids[1]}\'\\l"]\n'
                           '}')
         assert dot_output == expected_output
 
@@ -160,8 +160,8 @@ class test_MGraph__Export__Dot(TestCase):
                           f'  "{self.nodes_ids[0]}" [shape=diamond, style=filled, fillcolor=red]\n'
                           f'  "{self.nodes_ids[1]}" [shape=box, style=filled, fillcolor=yellow]\n'
                           f'  "{self.nodes_ids[2]}"\n'
-                          f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[1]}" [label="  {self.edges_ids[0]}"]\n'
-                          f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[2]}" [label="  {self.edges_ids[1]}"]\n'
+                          f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[1]}" [label="  edge_id = \'{self.edges_ids[0]}\'\\l"]\n'
+                          f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[2]}" [label="  edge_id = \'{self.edges_ids[1]}\'\\l"]\n'
                           '}')
         assert dot_output == expected_output
 
@@ -170,14 +170,14 @@ class test_MGraph__Export__Dot(TestCase):
             if from_node.node_data.value == "A" and to_node.node_data.value == "B":
                 edge_view_data['attrs'] = ['color=blue', 'penwidth=2.0', 'label="A to B"']
 
-        self.exporter.show_edge__ids()
+        self.exporter.show_edge__id()
         dot_output = self.exporter.process_graph()                                          # first check the result without the custom_node_handler
         expected_output = ('digraph {\n'
                           f'  "{self.nodes_ids[0]}"\n'
                           f'  "{self.nodes_ids[1]}"\n'
                           f'  "{self.nodes_ids[2]}"\n'
-                          f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[1]}" [label="  {self.edges_ids[0]}"]\n'
-                          f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[2]}" [label="  {self.edges_ids[1]}"]\n'
+                          f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[1]}" [label="  edge_id = \'{self.edges_ids[0]}\'\\l"]\n'
+                          f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[2]}" [label="  edge_id = \'{self.edges_ids[1]}\'\\l"]\n'
                           '}')
         assert dot_output == expected_output
 
@@ -188,7 +188,7 @@ class test_MGraph__Export__Dot(TestCase):
                           f'  "{self.nodes_ids[1]}"\n'
                           f'  "{self.nodes_ids[2]}"\n'
                           f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[1]}" [color=blue, penwidth=2.0, label="A to B"]\n'
-                          f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[2]}" [label="  {self.edges_ids[1]}"]\n'
+                          f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[2]}" [label="  edge_id = \'{self.edges_ids[1]}\'\\l"]\n'
                           '}')
         assert dot_output == expected_output
 
@@ -201,7 +201,7 @@ class test_MGraph__Export__Dot(TestCase):
             if all(node.node_data for node in [from_node, to_node]):
                 edge_view_data['attrs'] =  [f'label="{from_node.node_data.value} -> {to_node.node_data.value}"']
 
-        self.exporter.show_edge__ids()
+        self.exporter.show_edge__id()
         self.exporter.on_add_node = node_handler                                         # Set both callbacks
         self.exporter.on_add_edge = edge_handler
         self.exporter.process_graph()                                                    # Process the graph

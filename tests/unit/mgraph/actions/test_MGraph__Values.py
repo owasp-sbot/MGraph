@@ -2,7 +2,6 @@ from unittest                                                import TestCase
 from mgraph_db.mgraph.MGraph                                 import MGraph
 from mgraph_db.mgraph.actions.MGraph__Values                 import MGraph__Values
 from mgraph_db.mgraph.schemas.Schema__MGraph__Edge           import Schema__MGraph__Edge
-from mgraph_db.mgraph.schemas.Schema__MGraph__Node__Value    import Schema__MGraph__Node__Value
 from osbot_utils.utils.Env                                   import load_dotenv
 
 
@@ -24,7 +23,7 @@ class test_MGraph__Values(TestCase):
             with self.mgraph.screenshot(target_file=self.screenshot_file) as screenshot:
                 with screenshot.export().export_dot() as _:
                     #_.show_node__value()
-                    #_.show_edge__ids()
+                    #_.show_edge__id()
                     pass
                 with screenshot as _:
                     _.save_to(self.screenshot_file)
@@ -34,11 +33,15 @@ class test_MGraph__Values(TestCase):
         value_node_1 = self.values.get_or_create(42)                                                    # Create int node
         value_node_2 = self.values.get_or_create(42)                                                    # Get same node
         node_id      = value_node_1.node_id
-        assert self.mgraph.index().values_index.index_data.json() == { 'hash_to_node'  : {'d77fb78183': node_id},
-                                                                       'node_to_hash'  : {node_id   : 'd77fb78183'},
-                                                                       'type_by_value' : {'d77fb78183': 'builtins.int'},
-                                                                       'values_by_type': {int         : ['d77fb78183']}}
-        assert self.mgraph.index().index_data.json()              == { 'edges_by_type'                  : {},
+        assert self.mgraph.index().values_index.index_data.json() == { 'hash_to_node'  : {'d77fb78183'  : node_id},
+                                                                       'node_to_hash'  : {node_id       : 'd77fb78183'},
+                                                                       'type_by_value' : {'d77fb78183'  : 'builtins.int'},
+                                                                       'values_by_type': {'builtins.int': ['d77fb78183']}}
+        assert self.mgraph.index().index_data.json()              == { 'edges_by_incoming_label'        : {},
+                                                                       'edges_by_outgoing_label'        : {},
+                                                                       'edges_by_predicate'             : {},
+                                                                       'edges_by_type'                  : {},
+                                                                       'edges_predicates'               : {},
                                                                        'edges_to_nodes'                 : {},
                                                                        'edges_types'                    : {},
                                                                        'nodes_by_type'                  : {'Schema__MGraph__Node__Value': [node_id]},
@@ -123,8 +126,3 @@ class test_MGraph__Values(TestCase):
         assert retrieved_node.node_id              == value_node.node_id
         assert retrieved_node.node_data.value      == "42"
         assert retrieved_node.node_data.value_type is int
-
-    def test_get_value_type(self):
-        assert self.values.get_value_type(42)       is Schema__MGraph__Node__Value
-        assert self.values.get_value_type("test")   is Schema__MGraph__Node__Value
-        assert self.values.get_value_type([1,2,3])  is None

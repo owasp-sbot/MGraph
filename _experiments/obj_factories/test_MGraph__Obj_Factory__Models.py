@@ -1,10 +1,8 @@
 from unittest                                                       import TestCase
-from mgraph_db.mgraph.schemas.Schema__MGraph__Edge__Config          import Schema__MGraph__Edge__Config
 from mgraph_db.mgraph.schemas.Schema__MGraph__Graph__Data           import Schema__MGraph__Graph__Data
 from mgraph_db.mgraph.schemas.Schema__MGraph__Node__Data            import Schema__MGraph__Node__Data
 from osbot_utils.testing.performance.Performance_Measure__Session   import Performance_Measure__Session
 from osbot_utils.utils.Objects                                      import __, type_full_name
-from mgraph_db.mgraph.actions.MGraph__Obj_Factory__Models           import MGraph__Obj_Factory__Models
 from mgraph_db.mgraph.models.Model__MGraph__Edge                    import Model__MGraph__Edge
 from mgraph_db.mgraph.models.Model__MGraph__Graph                   import Model__MGraph__Graph
 from mgraph_db.mgraph.models.Model__MGraph__Node                    import Model__MGraph__Node

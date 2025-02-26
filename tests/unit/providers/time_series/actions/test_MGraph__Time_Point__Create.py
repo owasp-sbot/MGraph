@@ -39,7 +39,7 @@ class test_MGraph__Time_Point__Create(TestCase):
                     _.show_node__value()
                     #_.show_node__type()
                     #_.show_edge__type()
-                    #_.show_edge__ids()
+                    #_.show_edge__id()
                     _.set_edge_to_node__type_fill_color(Schema__MGraph__Time_Series__Edge__Second, 'azure')
                 with screenshot as _:
                     _.save_to(self.screenshot_file)

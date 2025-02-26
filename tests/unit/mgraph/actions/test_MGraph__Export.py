@@ -30,22 +30,36 @@ class test_MGraph__Export(TestCase):
                                graph_type   = 'mgraph_db.mgraph.schemas.Schema__MGraph__Graph.Schema__MGraph__Graph' ,
                                nodes        = __()                                           ,
                                schema_types = __(edge_type        = 'mgraph_db.mgraph.schemas.Schema__MGraph__Edge.Schema__MGraph__Edge',
-                                                edge_config_type = 'mgraph_db.mgraph.schemas.Schema__MGraph__Edge__Config.Schema__MGraph__Edge__Config',
-                                                graph_data_type  = 'mgraph_db.mgraph.schemas.Schema__MGraph__Graph__Data.Schema__MGraph__Graph__Data',
-                                                node_type        = 'mgraph_db.mgraph.schemas.Schema__MGraph__Node.Schema__MGraph__Node',
-                                                node_data_type   = 'mgraph_db.mgraph.schemas.Schema__MGraph__Node__Data.Schema__MGraph__Node__Data'))
+                                                 graph_data_type  = 'mgraph_db.mgraph.schemas.Schema__MGraph__Graph__Data.Schema__MGraph__Graph__Data',
+                                                 node_type        = 'mgraph_db.mgraph.schemas.Schema__MGraph__Node.Schema__MGraph__Node',
+                                                 node_data_type   = 'mgraph_db.mgraph.schemas.Schema__MGraph__Node__Data.Schema__MGraph__Node__Data'))
 
     def test_to__json(self):                                                                  # Test minimal JSON export
         node_ids = self.linear_graph.node_ids
         edge_ids = self.linear_graph.edge_ids
         with self.linear_graph.graph.export() as _:
-            assert _.to__json() == {'edges': { edge_ids[0]: {'from_node_id': node_ids[0],    # First edge
-                                                             'to_node_id'  : node_ids[1]},
-                                               edge_ids[1]: {'from_node_id': node_ids[1],    # Second edge
-                                                             'to_node_id'  : node_ids[2]}},
-                                   'nodes': { node_ids[0]: {},                               # First node
-                                              node_ids[1]: {},                               # Second node
-                                              node_ids[2]: {}}}                              # Third node
+            assert _.to__json() == {'edges': { edge_ids[0]: { 'edge_data'  : {}                     ,
+                                                              'edge_id'     : edge_ids[0]           ,
+                                                              'edge_label'  : None                  ,
+                                                              'edge_type'   : '@schema_mgraph_edge' ,
+                                                              'from_node_id': node_ids[0]           ,    # First edge
+                                                              'to_node_id'  : node_ids[1]}          ,
+                                               edge_ids[1]: { 'edge_data'   : {}                    ,
+                                                              'edge_id'     : edge_ids[1]           ,
+                                                              'edge_label'  : None                  ,
+                                                              'edge_type'   : '@schema_mgraph_edge' ,
+                                                              'from_node_id': node_ids[1],    # Second edge
+                                                              'to_node_id'  : node_ids[2]}},
+                                    'graph_id': _.graph.graph_id(),
+                                    'nodes': { node_ids[0]: { 'node_data': {}                    ,
+                                                              'node_id': node_ids[0]             ,
+                                                              'node_type': '@schema_mgraph_node' },                               # First node
+                                                node_ids[1]: { 'node_data': {}                    ,
+                                                              'node_id': node_ids[1]             ,
+                                                              'node_type': '@schema_mgraph_node' },                               # Second node
+                                                node_ids[2]: { 'node_data': {}                    ,
+                                                               'node_id': node_ids[2]             ,
+                                                               'node_type': '@schema_mgraph_node' }}}                              # Third node
 
     def test_to__xml(self):                                                                  # Test XML export
         with self.linear_graph.graph.export() as _:
@@ -192,7 +206,7 @@ class test_MGraph__Export(TestCase):
 
     def test_to__dot(self):                                                                  # Test DOT graph export
         with self.linear_graph.graph.export() as _:
-            _.export_dot().show_edge__ids()
+            _.export_dot().show_edge__id()
             dot = _.to__dot()
             assert dot.startswith('digraph {')
             assert dot.endswith('}')
@@ -200,7 +214,7 @@ class test_MGraph__Export(TestCase):
                 assert f'"{node_id}"' in dot
             with self.linear_graph.graph.data() as data:
                 for edge in data.edges():
-                    assert f'"{edge.from_node_id()}" -> "{edge.to_node_id()}" [label="  {edge.edge_id}"]' in dot
+                    assert f'"{edge.from_node_id()}" -> "{edge.to_node_id()}" [label="  edge_id = \'{edge.edge_id}\'\\l"]' in dot
 
 
         node_ids = self.linear_graph.node_ids                                                # Verify expected structure using actual IDs
@@ -210,8 +224,8 @@ digraph {{
   "{node_ids[0]}"
   "{node_ids[1]}"
   "{node_ids[2]}"
-  "{node_ids[0]}" -> "{node_ids[1]}" [label="  {edge_ids[0]}"]
-  "{node_ids[1]}" -> "{node_ids[2]}" [label="  {edge_ids[1]}"]
+  "{node_ids[0]}" -> "{node_ids[1]}" [label="  edge_id = \'{edge_ids[0]}\'\\l"]
+  "{node_ids[1]}" -> "{node_ids[2]}" [label="  edge_id = \'{edge_ids[1]}\'\\l"]
 }}'''
         assert dot == expected_dot
 

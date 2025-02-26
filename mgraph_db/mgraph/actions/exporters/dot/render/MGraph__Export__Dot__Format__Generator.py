@@ -11,12 +11,14 @@ class MGraph__Export__Dot__Format__Generator(MGraph__Export__Dot__Base):
         graph_attrs = []
         if self.config.graph.background_color : graph_attrs.append(f'bgcolor="{self.config.graph.background_color}"')
         if self.config.graph.layout_engine    : graph_attrs.append(f'layout="{self.config.graph.layout_engine}"'    )
+        if self.config.graph.overlap          : graph_attrs.append(f'overlap="{self.config.graph.overlap}"'         )
         if self.config.graph.margin           : graph_attrs.append(f'margin="{self.config.graph.margin}"'           )
         if self.config.graph.rank_dir         : graph_attrs.append(f'rankdir="{self.config.graph.rank_dir}"'        )
         if self.config.graph.rank_sep         : graph_attrs.append(f'ranksep={self.config.graph.rank_sep}'          )
         if self.config.graph.node_sep         : graph_attrs.append(f'nodesep={self.config.graph.node_sep}'          )
         if self.config.graph.splines          : graph_attrs.append(f'splines="{self.config.graph.splines}"'         )
         if self.config.graph.epsilon          : graph_attrs.append(f'epsilon="{self.config.graph.epsilon}"'         )
+        if self.config.graph.spring_constant  : graph_attrs.append(f'K="{self.config.graph.spring_constant}"'       )
 
         if self.config.graph.title            : graph_attrs.append(f'label="{    self.config.graph.title}" labelloc="t"') # adds label to the top
         if self.config.graph.title__font.size : graph_attrs.append(f'fontsize="{ self.config.graph.title__font.size}"' )

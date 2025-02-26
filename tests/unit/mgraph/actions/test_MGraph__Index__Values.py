@@ -43,7 +43,7 @@ class test_MGraph__Index__Values(TestCase):
             assert _.index_data.json() == { 'hash_to_node'  : { expected_hash : value_node_id    },
                                             'node_to_hash'  : { value_node_id : expected_hash    },
                                             'type_by_value' : { expected_hash : 'builtins.str'   },
-                                            'values_by_type': { str           :  [expected_hash]}}
+                                            'values_by_type': { 'builtins.str':  [expected_hash]}}
 
             assert value_type           is str
             assert value_node.node_id   in _.index_data.node_to_hash
@@ -56,8 +56,8 @@ class test_MGraph__Index__Values(TestCase):
     def test_add_value_node__multiple_types(self):                              # Test different value types
         def create_value_node(value):
             node = Schema__MGraph__Node__Value()
-            node.node_data = Schema__MGraph__Node__Value__Data(value=str(value),
-                                                               value_type=type(value))
+            node.node_data = Schema__MGraph__Node__Value__Data(value      = str (value),
+                                                               value_type = type(value))
             return node
 
         with self.value_index as _:
@@ -88,18 +88,18 @@ class test_MGraph__Index__Values(TestCase):
             assert 'edf89b586a'   == str_md5(float_hash_str)[:SIZE__VALUE_HASH]
             assert 'd05ad75c59'   == str_md5(bool_hash_str )[:SIZE__VALUE_HASH]
 
-            assert _.index_data.json() == { 'hash_to_node' : { 'd05ad75c59'    : bool_node_id    ,
-                                                               'd77fb78183'    : int_node_id     ,
-                                                               'edf89b586a'    : float_node_id   },
-                                            'node_to_hash'  : { bool_node_id   : 'd05ad75c59'    ,
-                                                                float_node_id  : 'edf89b586a'    ,
-                                                                int_node_id    : 'd77fb78183'    },
-                                            'type_by_value' : { 'd05ad75c59'   : 'builtins.bool' ,
-                                                                'd77fb78183'   : 'builtins.int'  ,
-                                                                'edf89b586a'   : 'builtins.float'},
-                                            'values_by_type': { float          : ['edf89b586a'   ],
-                                                                bool           : ['d05ad75c59'   ],
-                                                                int            : ['d77fb78183'   ]}}
+            assert _.index_data.json() == { 'hash_to_node' : { 'd05ad75c59'     : bool_node_id    ,
+                                                               'd77fb78183'     : int_node_id     ,
+                                                               'edf89b586a'     : float_node_id   },
+                                            'node_to_hash'  : { bool_node_id    : 'd05ad75c59'    ,
+                                                                float_node_id   : 'edf89b586a'    ,
+                                                                int_node_id     : 'd77fb78183'    },
+                                            'type_by_value' : { 'd05ad75c59'    : 'builtins.bool' ,
+                                                                'd77fb78183'    : 'builtins.int'  ,
+                                                                'edf89b586a'    : 'builtins.float'},
+                                            'values_by_type': { 'builtins.float': ['edf89b586a'   ],
+                                                                'builtins.bool' : ['d05ad75c59'   ],
+                                                                'builtins.int'  : ['d77fb78183'   ]}}
 
     def test_add_value_node__special_characters(self):                           # Test special character handling
         value = "test::value::with::colons"
@@ -170,10 +170,10 @@ class test_MGraph__Index__Values(TestCase):
             assert hash_value in _.index_data.values_by_type[str]
             assert hash_value in _.index_data.type_by_value
 
-            assert _.index_data.json() == { 'hash_to_node'  : {'c056cc97b9'  : value_node_id   },
-                                            'node_to_hash'  : {value_node_id : 'c056cc97b9'    },
-                                            'type_by_value' : {'c056cc97b9'  : 'builtins.str'  },
-                                            'values_by_type': { str          : ['c056cc97b9'  ]}}
+            assert _.index_data.json() == { 'hash_to_node'  : {'c056cc97b9'   : value_node_id   },
+                                            'node_to_hash'  : {value_node_id  : 'c056cc97b9'    },
+                                            'type_by_value' : {'c056cc97b9'   : 'builtins.str'  },
+                                            'values_by_type': { 'builtins.str': ['c056cc97b9'  ]}}
 
             # Remove node
             _.remove_value_node(value_node)

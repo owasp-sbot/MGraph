@@ -1,6 +1,7 @@
 from typing                                               import Type, Set, Any, Dict, Optional
 from mgraph_db.mgraph.actions.MGraph__Index__Values       import MGraph__Index__Values
 from mgraph_db.mgraph.schemas.Schema__MGraph__Node__Value import Schema__MGraph__Node__Value
+from osbot_utils.helpers.Safe_Id                          import Safe_Id
 from osbot_utils.utils.Dev                                import pprint
 from mgraph_db.mgraph.domain.Domain__MGraph__Graph        import Domain__MGraph__Graph
 from mgraph_db.mgraph.schemas.Schema__MGraph__Node        import Schema__MGraph__Node
@@ -39,12 +40,14 @@ class MGraph__Index(Type_Safe):
 
 
     def add_edge(self, edge: Schema__MGraph__Edge) -> None:                     # Add an edge to the index
-        edge_id      = edge.edge_config.edge_id
+        edge_id      = edge.edge_id
         from_node_id = edge.from_node_id
         to_node_id   = edge.to_node_id
         edge_type    = edge.edge_type.__name__
 
-        self.index_data.edges_types[edge_id] = edge_type
+        self.add_edge_label(edge)
+
+        self.index_data.edges_types   [edge_id] = edge_type
         self.index_data.edges_to_nodes[edge_id] = (from_node_id, to_node_id)
 
 
@@ -73,6 +76,30 @@ class MGraph__Index(Type_Safe):
         self.index_data.nodes_to_incoming_edges[to_node_id].add(edge_id)
 
 
+    def add_edge_label(self, edge) -> None:
+        if edge.edge_label:
+            edge_id = edge.edge_id
+
+            if edge.edge_label.predicate:                                   # Index by predicate
+                predicate = edge.edge_label.predicate
+                self.index_data.edges_predicates[edge_id] = predicate       # Store edge_id to predicate mapping
+
+                if predicate not in self.index_data.edges_by_predicate:     # Store predicate to edge_id mapping
+                    self.index_data.edges_by_predicate[predicate] = set()
+                self.index_data.edges_by_predicate[predicate].add(edge_id)
+
+            if edge.edge_label.incoming:                                    # Index by incoming label
+                incoming = edge.edge_label.incoming
+                if incoming not in self.index_data.edges_by_incoming_label:
+                    self.index_data.edges_by_incoming_label[incoming] = set()
+                self.index_data.edges_by_incoming_label[incoming].add(edge_id)
+
+            if edge.edge_label.outgoing:                                    # Index by outgoing label
+                outgoing = edge.edge_label.outgoing
+                if outgoing not in self.index_data.edges_by_outgoing_label:
+                    self.index_data.edges_by_outgoing_label[outgoing] = set()
+                self.index_data.edges_by_outgoing_label[outgoing].add(edge_id)
+
     def remove_node(self, node: Schema__MGraph__Node) -> None:  # Remove a node and all its references from the index"""
         node_id = node.node_id
 
@@ -93,7 +120,9 @@ class MGraph__Index(Type_Safe):
 
 
     def remove_edge(self, edge: Schema__MGraph__Edge) -> None:          # Remove an edge and all its references from the index
-        edge_id = edge.edge_config.edge_id
+        edge_id = edge.edge_id
+
+        self.remove_edge_label(edge)
 
         if edge_id in self.index_data.edges_to_nodes:
             from_node_id, to_node_id = self.index_data.edges_to_nodes.pop(edge_id)
@@ -116,6 +145,34 @@ class MGraph__Index(Type_Safe):
             if not self.index_data.edges_by_type[edge_type]:
                 del self.index_data.edges_by_type[edge_type]
 
+    def remove_edge_label(self, edge) -> None:
+        edge_id = edge.edge_id
+
+        if edge.edge_label and edge.edge_label.predicate:                           # Remove from predicate indexes
+            predicate = edge.edge_label.predicate
+            if predicate in self.index_data.edges_by_predicate:
+                self.index_data.edges_by_predicate[predicate].discard(edge_id)
+                if not self.index_data.edges_by_predicate[predicate]:
+                    del self.index_data.edges_by_predicate[predicate]
+
+            if edge_id in self.index_data.edges_predicates:
+                del self.index_data.edges_predicates[edge_id]
+
+        if edge.edge_label and edge.edge_label.incoming:                            # Remove from incoming label index
+            incoming = edge.edge_label.incoming
+            if incoming in self.index_data.edges_by_incoming_label:
+                self.index_data.edges_by_incoming_label[incoming].discard(edge_id)
+                if not self.index_data.edges_by_incoming_label[incoming]:
+                    del self.index_data.edges_by_incoming_label[incoming]
+
+        if edge.edge_label and edge.edge_label.outgoing:                            # Remove from outgoing label index
+            outgoing = edge.edge_label.outgoing
+            if outgoing in self.index_data.edges_by_outgoing_label:
+                self.index_data.edges_by_outgoing_label[outgoing].discard(edge_id)
+                if not self.index_data.edges_by_outgoing_label[outgoing]:
+                    del self.index_data.edges_by_outgoing_label[outgoing]
+
+
 
     # todo: see if we need this capability (which is to store in the index the data from the edge's data).
     #       I removed it becasue there was no use that needed this
@@ -129,7 +186,7 @@ class MGraph__Index(Type_Safe):
     #                 self.index_data.edges_by_field[field_name] = {}
     #             if field_value not in self.index_data.edges_by_field[field_name]:
     #                 self.index_data.edges_by_field[field_name][field_value] = set()
-    #             self.index_data.edges_by_field[field_name][field_value].add(edge.edge_config.edge_id)
+    #             self.index_data.edges_by_field[field_name][field_value].add(edge.edge_id)
 
     # def remove_edge_data(self, edge: Schema__MGraph__Edge) -> None:
     #     """Remove indexed edge_data fields"""
@@ -139,7 +196,7 @@ class MGraph__Index(Type_Safe):
     #                 continue
     #             if field_name in self.index_data.edges_by_field:
     #                 if field_value in self.index_data.edges_by_field[field_name]:
-    #                     self.index_data.edges_by_field[field_name][field_value].discard(edge.edge_config.edge_id)
+    #                     self.index_data.edges_by_field[field_name][field_value].discard(edge.edge_id)
 
     def load_index_from_graph(self, graph : Domain__MGraph__Graph) -> None:                                             # Create index from existing graph
         for node_id, node in graph.model.data.nodes.items():                                                            # Add all nodes to index
@@ -254,6 +311,45 @@ class MGraph__Index(Type_Safe):
 
     def get_edges_by_type(self, edge_type: Type[Schema__MGraph__Edge]) -> Set[Obj_Id]:      # Get all edges of a specific type
         return self.index_data.edges_by_type.get(edge_type.__name__, set())
+
+    #### helpers for edge's labels # todo: look at refactoring these getters into a helper class
+    def get_edges_by_predicate(self, predicate : Safe_Id) -> Set[Obj_Id]: # Get all edges with specific predicate
+        return self.index_data.edges_by_predicate.get(predicate, set())
+
+
+    def get_edges_by_incoming_label(self, label : Safe_Id) -> Set[Obj_Id]:# Get edges with specific incoming label
+        return self.index_data.edges_by_incoming_label.get(label, set())
+
+    def get_edges_by_outgoing_label(self, label : Safe_Id) -> Set[Obj_Id]: # Get edges with specific outgoing label
+        return self.index_data.edges_by_outgoing_label.get(label, set())
+
+
+    def get_node_outgoing_edges_by_predicate(self, node_id  : Obj_Id  ,     # Node to get edges from
+                                                   predicate: Safe_Id       # Predicate to filter by
+                                              ) -> Set[Obj_Id]:
+        outgoing_edges  = self.get_node_id_outgoing_edges(node_id)
+        predicate_edges = self.get_edges_by_predicate(predicate)
+        return outgoing_edges.intersection(predicate_edges)
+
+
+    def get_node_incoming_edges_by_predicate(self, node_id  : Obj_Id  ,     # Node to get edges to
+                                                   predicate: Safe_Id       # Predicate to filter by
+                                              ) -> Set[Obj_Id]:
+        incoming_edges  = self.get_node_id_incoming_edges(node_id)
+        predicate_edges = self.get_edges_by_predicate(predicate)
+        return incoming_edges.intersection(predicate_edges)
+
+
+    def get_nodes_by_predicate(self, from_node_id: Obj_Id  ,                # Source node
+                                     predicate   : Safe_Id                  # Predicate to traverse
+                                ) -> Set[Obj_Id]:                           # Returns target nodes
+        edge_ids = self.get_node_outgoing_edges_by_predicate(from_node_id, predicate)
+        result = set()
+        for edge_id in edge_ids:
+            _, to_node_id = self.index_data.edges_to_nodes.get(edge_id, (None, None))
+            if to_node_id:
+                result.add(to_node_id)
+        return result
 
     # todo: refactor this to something like raw__edges_to_nodes , ...
     #       in fact once we add the main helper methods (like edges_ids__from__node_id) see if these methods are still needed

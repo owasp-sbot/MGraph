@@ -27,16 +27,30 @@ class MGraph__Export__Dot__Edge__Renderer(MGraph__Export__Dot__Base):
         return attrs
 
     def create_edge_label_attributes(self, edge: Domain__MGraph__Edge) -> List[str]:
-        if self.config.display.edge_type_full_name:
-            type_full_name = edge.edge.data.edge_type.__name__
-            return [f'label="{type_full_name}"']
-        elif self.config.display.edge_type:
+        label_parts = []
+        if self.config.display.edge_id:
+            label_parts.append(f"  edge_id = '{edge.edge_id}'")
+        if self.config.display.edge_type:
             edge_type = edge.edge.data.edge_type
             type_name = self.type_name__from__type(edge_type)
-            return [f'label="  {type_name}"']
-        elif self.config.display.edge_ids:
-            return [f'label="  {edge.edge_id}"']
-        return []
+            label_parts.append(f"  edge_type = '{type_name}'")
+        if self.config.display.edge_type_str:                                       # todo: review this use of _str to create an entry with no label
+            edge_type = edge.edge.data.edge_type
+            type_name = self.type_name__from__type(edge_type)
+            label_parts.append(f"{type_name}")
+        if self.config.display.edge_type_full_name:
+            type_full_name = edge.edge.data.edge_type.__name__
+            label_parts.append(f"  edge_type_full_name = '{type_full_name}'")
+        if self.config.display.edge_predicate:
+            if edge.edge.data.edge_label:
+                label_parts.append(f"  predicate = '{edge.edge.data.edge_label.predicate}'")
+        if self.config.display.edge_predicate_str:
+            if edge.edge.data.edge_label:
+                label_parts.append(f"{edge.edge.data.edge_label.predicate}")
+
+        if label_parts:  # Combine all parts
+            return [f'label="{"\l".join(label_parts)}\l"']
+        return label_parts
 
     def format_edge_definition(self, source: str, target: str, attrs: List[str]) -> str:
         attrs_str = f' [{", ".join(attrs)}]' if attrs else ''

@@ -1,7 +1,6 @@
 from unittest                                 import TestCase
 from mgraph_db.mgraph.actions.MGraph__Data    import MGraph__Data
 from mgraph_db.mgraph.actions.MGraph__Edit    import MGraph__Edit
-from mgraph_db.mgraph.actions.MGraph__Storage import MGraph__Storage
 from mgraph_db.mgraph.MGraph                  import MGraph
 from mgraph_db.mgraph.actions.MGraph__Index   import MGraph__Index
 
@@ -25,8 +24,3 @@ class test_MGraph(TestCase):
     def test_index(self):
         with self.graph.index() as _:
             assert type(_) is MGraph__Index
-
-    def test_storage(self):
-        with self.graph.storage() as _:
-            assert type(_) is MGraph__Storage
-            assert _.graph == self.graph.graph

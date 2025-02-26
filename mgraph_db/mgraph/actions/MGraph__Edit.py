@@ -1,13 +1,15 @@
-from typing                                         import Type
-from mgraph_db.mgraph.actions.MGraph__Data          import MGraph__Data
-from mgraph_db.mgraph.actions.MGraph__Index         import MGraph__Index
-from mgraph_db.mgraph.domain.Domain__MGraph__Edge   import Domain__MGraph__Edge
-from mgraph_db.mgraph.domain.Domain__MGraph__Graph  import Domain__MGraph__Graph
-from mgraph_db.mgraph.schemas.Schema__MGraph__Edge  import Schema__MGraph__Edge
-from mgraph_db.mgraph.schemas.Schema__MGraph__Node  import Schema__MGraph__Node
-from osbot_utils.decorators.methods.cache_on_self   import cache_on_self
-from osbot_utils.helpers.Obj_Id                     import Obj_Id
-from osbot_utils.type_safe.Type_Safe                import Type_Safe
+from typing                                                 import Type
+from mgraph_db.mgraph.domain.Domain__MGraph__Node           import Domain__MGraph__Node
+from mgraph_db.mgraph.schemas.Schema__MGraph__Node__Value   import Schema__MGraph__Node__Value
+from mgraph_db.mgraph.actions.MGraph__Data                  import MGraph__Data
+from mgraph_db.mgraph.actions.MGraph__Index                 import MGraph__Index
+from mgraph_db.mgraph.domain.Domain__MGraph__Edge           import Domain__MGraph__Edge
+from mgraph_db.mgraph.domain.Domain__MGraph__Graph          import Domain__MGraph__Graph
+from mgraph_db.mgraph.schemas.Schema__MGraph__Edge          import Schema__MGraph__Edge
+from mgraph_db.mgraph.schemas.Schema__MGraph__Node          import Schema__MGraph__Node
+from osbot_utils.decorators.methods.cache_on_self           import cache_on_self
+from osbot_utils.helpers.Obj_Id                             import Obj_Id
+from osbot_utils.type_safe.Type_Safe                        import Type_Safe
 
 
 class MGraph__Edit(Type_Safe):
@@ -33,8 +35,11 @@ class MGraph__Edit(Type_Safe):
                     node_2 = node_2,
                     edge_1 = edge_1)
 
-    def connect_nodes(self, from_node: Schema__MGraph__Node, to_node:Schema__MGraph__Node):
-        edge_domain = self.graph.connect_nodes(from_node, to_node)
+    def connect_nodes(self, from_node: Domain__MGraph__Node,
+                            to_node  : Domain__MGraph__Node,
+                            edge_type: Type[Schema__MGraph__Edge] = None
+                       ) -> Domain__MGraph__Edge:
+        edge_domain = self.graph.connect_nodes(from_node=from_node, to_node=to_node, edge_type=edge_type)
         edge_model  = edge_domain.edge
         edge_schema = edge_model.data
         self.index().add_edge(edge_schema)
@@ -53,8 +58,8 @@ class MGraph__Edit(Type_Safe):
                     return self.data().edge(edge_id)
 
             return self.new_edge(edge_type    = edge_type    ,                                     # Create new edge if none exists
-                                from_node_id = from_node_id,
-                                to_node_id   = to_node_id  )
+                                 from_node_id = from_node_id,
+                                 to_node_id   = to_node_id  )
 
     def new_node(self, **kwargs):
         with self.index() as index:
@@ -66,6 +71,12 @@ class MGraph__Edit(Type_Safe):
         edge = self.graph.new_edge(**kwargs)                             # Create new edge
         self.index().add_edge(edge.edge.data)                           # Add to index
         return edge
+
+    def new_value(self, value, key=None):                               # get or create value (since the values have to be unique)
+        node_id = self.index().values_index.get_node_id_by_value(value_type=type(value), value=str(value), key=key)  # First try to find existing value node
+        if node_id:
+            return self.data().node(node_id)
+        return self.new_node(node_type=Schema__MGraph__Node__Value, value_type=type(value), value=str(value), key=key)
 
     def delete_node(self, node_id: Obj_Id) -> bool:                      # Remove a node and its connected edges
         node = self.data().node(node_id)

@@ -1,7 +1,6 @@
 from unittest                                                       import TestCase
 from mgraph_db.mgraph.models.Model__MGraph__Edge                    import Model__MGraph__Edge
 from mgraph_db.mgraph.schemas.Schema__MGraph__Edge                  import Schema__MGraph__Edge
-from mgraph_db.mgraph.schemas.Schema__MGraph__Edge__Config          import Schema__MGraph__Edge__Config
 from mgraph_db.mgraph.schemas.Schema__MGraph__Graph__Data           import Schema__MGraph__Graph__Data
 from mgraph_db.providers.simple.models.Model__Simple__Graph         import Model__Simple__Graph
 from mgraph_db.providers.simple.models.Model__Simple__Node          import Model__Simple__Node
@@ -17,7 +16,6 @@ from mgraph_db.mgraph.domain.Domain__MGraph__Graph                  import Domai
 from mgraph_db.mgraph.actions.MGraph__Data                          import MGraph__Data
 from mgraph_db.mgraph.actions.MGraph__Edit                          import MGraph__Edit
 from mgraph_db.mgraph.actions.MGraph__Export                        import MGraph__Export
-from mgraph_db.mgraph.actions.MGraph__Storage                       import MGraph__Storage
 from mgraph_db.providers.simple.MGraph__Simple                      import MGraph__Simple
 from mgraph_db.providers.simple.domain.Domain__Simple__Graph        import Domain__Simple__Graph
 
@@ -46,10 +44,6 @@ class test_MGraph__Simple(TestCase):
         with self.mgraph_simple.export() as _:
             assert type(_) is MGraph__Export
 
-    def test_storage_method(self):                                              # Test storage method returns correct type
-        with self.mgraph_simple.storage() as _:
-            assert type(_) is MGraph__Storage
-
     def test_edit_new_node(self):                                               # Test creating a new node
         with self.mgraph_simple.edit() as edit:
             node     = edit.new_node()
@@ -75,8 +69,7 @@ class test_MGraph__Simple(TestCase):
                                                                                                                   'value': None},
                                                                                                     'node_id'  : node_id,
                                                                                                     'node_type' : type_full_name(Schema__Simple__Node    )}},
-                                                                       'schema_types': {'edge_config_type': type_full_name(Schema__MGraph__Edge__Config ),
-                                                                                        'edge_type'       : type_full_name(Schema__MGraph__Edge         ),
+                                                                       'schema_types': {'edge_type'       : type_full_name(Schema__MGraph__Edge         ),
                                                                                         'graph_data_type' : type_full_name(Schema__MGraph__Graph__Data  ),
                                                                                         'node_data_type'  : type_full_name(Schema__Simple__Node__Data   ),
                                                                                         'node_type'       : type_full_name(Schema__Simple__Node         )}},

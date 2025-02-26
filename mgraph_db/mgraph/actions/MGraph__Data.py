@@ -36,3 +36,7 @@ class MGraph__Data(Type_Safe):
 
     def nodes_ids(self):
         return list(self.graph.nodes_ids())
+
+    def stats(self):
+        return dict(nodes_ids = len(self.nodes_ids()),
+                    edges_ids = len(self.edges_ids()))

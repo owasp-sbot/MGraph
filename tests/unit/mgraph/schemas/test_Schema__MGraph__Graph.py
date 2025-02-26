@@ -5,7 +5,6 @@ from mgraph_db.mgraph.schemas.Schema__MGraph__Graph__Data    import Schema__MGra
 from mgraph_db.mgraph.schemas.Schema__MGraph__Node           import Schema__MGraph__Node
 from mgraph_db.mgraph.schemas.Schema__MGraph__Node__Data     import Schema__MGraph__Node__Data
 from mgraph_db.mgraph.schemas.Schema__MGraph__Edge           import Schema__MGraph__Edge
-from mgraph_db.mgraph.schemas.Schema__MGraph__Edge__Config   import Schema__MGraph__Edge__Config
 from osbot_utils.helpers.Obj_Id import Obj_Id
 
 
@@ -20,13 +19,11 @@ class test_Schema__MGraph__Graph(TestCase):
         self.node_data     = Schema__MGraph__Node__Data    ()
         self.node          = Schema__MGraph__Node          (node_data      = self.node_data,
                                                             node_type      = Simple_Node)
-        self.edge_config   = Schema__MGraph__Edge__Config  (edge_id        = Obj_Id()            )
-        self.edge          = Schema__MGraph__Edge          (edge_config    = self.edge_config    ,
-                                                            edge_type      = Schema__MGraph__Edge,
+        self.edge          = Schema__MGraph__Edge          (edge_type      = Schema__MGraph__Edge,
                                                             from_node_id   = Obj_Id()            ,
                                                             to_node_id     = Obj_Id()            )
         self.graph         = Schema__MGraph__Graph         (schema_types   = self.schema_types,
-                                                            edges          = {self.edge.edge_config.edge_id: self.edge},
+                                                            edges          = {self.edge.edge_id: self.edge},
                                                             graph_data     = self.graph_data,
                                                             graph_type     = Schema__MGraph__Graph,
                                                             nodes          = {self.node.node_id: self.node}, )
@@ -37,13 +34,13 @@ class test_Schema__MGraph__Graph(TestCase):
         assert len(self.graph.nodes)                           == 1
         assert len(self.graph.edges)                           == 1
         assert self.graph.nodes[self.node.node_id            ] == self.node
-        assert self.graph.edges[self.edge.edge_config.edge_id] == self.edge
+        assert self.graph.edges[self.edge.edge_id            ] == self.edge
 
     def test_type_safety_validation(self):    # Tests type safety validations
         with self.assertRaises(ValueError) as context:
             Schema__MGraph__Graph(
                 nodes        = "not-a-dict",
-                edges        = {self.edge.edge_config.edge_id: self.edge},
+                edges        = {self.edge.edge_id: self.edge},
                 graph_config = self.graph_data,
                 graph_type   = Schema__MGraph__Graph
             )
@@ -52,7 +49,7 @@ class test_Schema__MGraph__Graph(TestCase):
         with self.assertRaises(ValueError) as context:
             Schema__MGraph__Graph(
                 nodes        = {self.node.node_id            : self.node    },
-                edges        = {self.edge.edge_config.edge_id: "not-an-edge"},
+                edges        = {self.edge.edge_id: "not-an-edge"},
                 graph_config = self.graph_data,
                 graph_type   = Schema__MGraph__Graph
             )
@@ -61,16 +58,14 @@ class test_Schema__MGraph__Graph(TestCase):
     def test_multiple_nodes_and_edges(self):    # Tests graph with multiple nodes and edges
         node_data_2   = Schema__MGraph__Node__Data  (                                    )
         node_2        = Schema__MGraph__Node        (node_data    = node_data_2          )
-        edge_config_2 = Schema__MGraph__Edge__Config(edge_id      = Obj_Id()             )
-        edge_2        = Schema__MGraph__Edge        (edge_config  = edge_config_2        ,
-                                                     edge_type    = Schema__MGraph__Edge ,
+        edge_2        = Schema__MGraph__Edge        (edge_type    = Schema__MGraph__Edge ,
                                                      from_node_id = self.node.node_id    ,
                                                      to_node_id   = node_2.node_id       )
 
         graph = Schema__MGraph__Graph               (nodes        = { self.node.node_id : self.node             ,
                                                                       node_2.node_id    : node_2               },
-                                                     edges        = { self.edge.edge_config.edge_id : self.edge ,
-                                                                      edge_2.edge_config.edge_id    : edge_2   },
+                                                     edges        = { self.edge.edge_id : self.edge ,
+                                                                      edge_2.edge_id    : edge_2   },
                                                      graph_data   = self.graph_data                             ,
                                                      graph_type   = Schema__MGraph__Graph                       )
 

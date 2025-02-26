@@ -1,6 +1,5 @@
 from unittest                                                          import TestCase
 from mgraph_db.mgraph.domain.Domain__MGraph__Node                      import Domain__MGraph__Node
-from mgraph_db.mgraph.schemas.Schema__MGraph__Edge__Config             import Schema__MGraph__Edge__Config
 from mgraph_db.mgraph.schemas.Schema__MGraph__Graph__Data              import Schema__MGraph__Graph__Data
 from mgraph_db.mgraph.schemas.Schema__MGraph__Node__Data               import Schema__MGraph__Node__Data
 from mgraph_db.providers.json.domain.Domain__MGraph__Json__Edge        import Domain__MGraph__Json__Edge
@@ -33,7 +32,6 @@ class test_Domain__MGraph__Json__Graph(TestCase):
                                                    edge_domain_type = full_type_name(Domain__MGraph__Json__Edge)),
                                  graph_type   = full_type_name(Domain__MGraph__Json__Graph)                            ,
                                  model        = __(data             = __(schema_types    = __(edge_type        = full_type_name(Schema__MGraph__Json__Edge   ),
-                                                                                              edge_config_type = full_type_name(Schema__MGraph__Edge__Config ),
                                                                                               graph_data_type  = full_type_name(Schema__MGraph__Graph__Data  ),
                                                                                               node_type        = full_type_name(Schema__MGraph__Json__Node   ),
                                                                                               node_data_type   = full_type_name(Schema__MGraph__Node__Data   )),

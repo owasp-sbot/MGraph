@@ -18,12 +18,13 @@ class test_Mermaid__Edge(TestCase):
             assert is_obj_id(_.to_node_id  ) is True
             assert _.graph                   == self.graph
             assert _.obj()                   == __(edge = __(data=__(label='',
-                                                                    edge_config  = __(output_node_from = False,
-                                                                                      output_node_to   = False,
-                                                                                      edge_mode        = '',
-                                                                                      edge_id          = _.edge_config.edge_id),
-                                                                    edge_type    = 'mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Edge.Schema__Mermaid__Edge',
-                                                                    edge_data    = __()           ,
-                                                                    from_node_id = _.from_node_id ,
-                                                                    to_node_id   = _.to_node_id   )),
+                                                                     edge_config  = __(output_node_from = False,
+                                                                                       output_node_to   = False,
+                                                                                       edge_mode        = ''   ),
+                                                                     edge_id      = _.edge_id                   ,
+                                                                     edge_label   = None                        ,
+                                                                     edge_type    = 'mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Edge.Schema__Mermaid__Edge',
+                                                                     edge_data    = __()           ,
+                                                                     from_node_id = _.from_node_id ,
+                                                                     to_node_id   = _.to_node_id   )),
                                                    graph = self.graph.obj())

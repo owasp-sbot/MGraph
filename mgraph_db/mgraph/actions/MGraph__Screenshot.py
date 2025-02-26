@@ -1,11 +1,11 @@
-from typing                                        import Type
-from mgraph_db.mgraph.actions.MGraph__Export       import MGraph__Export
-from mgraph_db.mgraph.domain.Domain__MGraph__Graph import Domain__MGraph__Graph
-from osbot_utils.decorators.methods.cache_on_self  import cache_on_self
-from osbot_utils.type_safe.Type_Safe               import Type_Safe
-from osbot_utils.utils.Env import get_env, not_in_github_action, load_dotenv
-from osbot_utils.utils.Files                       import file_create_from_bytes
-from osbot_utils.utils.Http                        import url_join_safe, POST_json_get_bytes
+from typing                                         import Type
+from mgraph_db.mgraph.actions.MGraph__Export        import MGraph__Export
+from mgraph_db.mgraph.domain.Domain__MGraph__Graph  import Domain__MGraph__Graph
+from osbot_utils.decorators.methods.cache_on_self   import cache_on_self
+from osbot_utils.type_safe.Type_Safe                import Type_Safe
+from osbot_utils.utils.Env                          import get_env, not_in_github_action, load_dotenv
+from osbot_utils.utils.Files                        import file_create_from_bytes
+from osbot_utils.utils.Http                         import url_join_safe, POST_json_get_bytes
 
 ENV_NAME__URL__MGRAPH_DB_SERVERLESS     = 'URL__MGRAPH_DB_SERVERLESS'
 PATH__RENDER_MATPLOTLIB                 = '/matplotlib/render-graph'
@@ -94,6 +94,22 @@ class MGraph__Screenshot(Type_Safe):
         load_dotenv()
         return self
 
-    def show_edge__ids(self):
-        self.export().export_dot().show_edge__ids()
+    def show_edge_id(self):
+        self.export().export_dot().show_edge__id()
+        return self
+
+    def show_edge_type(self):
+        self.export().export_dot().show_edge__type__str()
+        return self
+
+    def show_node_id(self):
+        self.export().export_dot().show_node__id()
+        return self
+
+    def show_node_value(self):
+        self.export().export_dot().show_node__value__str()
+        return self
+
+    def show_node_type(self):
+        self.export().export_dot().show_node__type()
         return self

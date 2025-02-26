@@ -6,7 +6,6 @@ from mgraph_db.mgraph.models.Model__MGraph__Edge           import Model__MGraph_
 from mgraph_db.mgraph.schemas.Schema__MGraph__Node         import Schema__MGraph__Node
 from mgraph_db.mgraph.schemas.Schema__MGraph__Node__Data   import Schema__MGraph__Node__Data
 from mgraph_db.mgraph.schemas.Schema__MGraph__Edge         import Schema__MGraph__Edge
-from mgraph_db.mgraph.schemas.Schema__MGraph__Edge__Config import Schema__MGraph__Edge__Config
 from osbot_utils.helpers.Obj_Id                            import Obj_Id
 
 
@@ -44,15 +43,11 @@ class test_Domain__MGraph__Node(TestCase):
     def test_models__edges(self):                                                                    # Tests retrieving all connected edges
         node_1_id = self.graph.new_node().node_id
         # Create test edges
-        edge_config_1 = Schema__MGraph__Edge__Config(edge_id=Obj_Id())
-        edge_1        = Schema__MGraph__Edge        (edge_config  = edge_config_1,
-                                                     from_node_id = self.node.node_id,
+        edge_1        = Schema__MGraph__Edge        (from_node_id = self.node.node_id,
                                                      to_node_id   = node_1_id,
                                                      edge_type    = Schema__MGraph__Edge)
 
-        edge_config_2 = Schema__MGraph__Edge__Config(edge_id=Obj_Id())
-        edge_2        = Schema__MGraph__Edge        (edge_config  = edge_config_2,
-                                                     from_node_id = node_1_id,
+        edge_2        = Schema__MGraph__Edge        (from_node_id = node_1_id,
                                                      to_node_id   = self.node.node_id,
                                                      edge_type    = Schema__MGraph__Edge)
 
@@ -63,23 +58,19 @@ class test_Domain__MGraph__Node(TestCase):
         # Test edge retrieval
         connected_edges = self.node.models__edges()
         assert len(connected_edges) == 2
-        assert any(edge.edge_id() == edge_config_1.edge_id for edge in connected_edges)
-        assert any(edge.edge_id() == edge_config_2.edge_id for edge in connected_edges)
+        assert any(edge.edge_id() == edge_1.edge_id for edge in connected_edges)
+        assert any(edge.edge_id() == edge_2.edge_id for edge in connected_edges)
 
     def test_models__from_edges(self):                                                               # Tests retrieving outgoing edges
         node_1_id = self.graph.new_node().node_id
         # Create test edges
-        edge_config_1 = Schema__MGraph__Edge__Config(edge_id=Obj_Id())
-        outgoing_edge = Schema__MGraph__Edge        (edge_config  = edge_config_1,
-                                                    from_node_id = self.node.node_id,
-                                                    to_node_id   = node_1_id,
-                                                    edge_type    = Schema__MGraph__Edge)
+        outgoing_edge = Schema__MGraph__Edge        (from_node_id = self.node.node_id,
+                                                     to_node_id   = node_1_id,
+                                                     edge_type    = Schema__MGraph__Edge)
 
-        edge_config_2 = Schema__MGraph__Edge__Config(edge_id=Obj_Id())
-        incoming_edge = Schema__MGraph__Edge        (edge_config  = edge_config_2,
-                                                    from_node_id = node_1_id,
-                                                    to_node_id   = self.node.node_id,
-                                                    edge_type    = Schema__MGraph__Edge)
+        incoming_edge = Schema__MGraph__Edge        (from_node_id = node_1_id,
+                                                     to_node_id   = self.node.node_id,
+                                                     edge_type    = Schema__MGraph__Edge)
 
         # Add edges to graph
         self.graph.add_edge(outgoing_edge)
@@ -88,20 +79,16 @@ class test_Domain__MGraph__Node(TestCase):
         # Test outgoing edge retrieval
         outgoing_edges = self.node.models__from_edges()
         assert len(outgoing_edges) == 1
-        assert outgoing_edges[0].edge_id() == edge_config_1.edge_id
+        assert outgoing_edges[0].edge_id() == outgoing_edge.edge_id
 
     def test_models__to_edges(self):                                                                 # Tests retrieving incoming edges
         node_1_id = self.graph.new_node().node_id
         # Create test edges
-        edge_config_1 = Schema__MGraph__Edge__Config(edge_id=Obj_Id())
-        outgoing_edge = Schema__MGraph__Edge        (edge_config  = edge_config_1,
-                                                    from_node_id = self.node.node_id,
-                                                    to_node_id   = node_1_id,
-                                                    edge_type    = Schema__MGraph__Edge)
+        outgoing_edge = Schema__MGraph__Edge        (from_node_id = self.node.node_id,
+                                                     to_node_id   = node_1_id,
+                                                     edge_type    = Schema__MGraph__Edge)
 
-        edge_config_2 = Schema__MGraph__Edge__Config(edge_id=Obj_Id())
-        incoming_edge = Schema__MGraph__Edge        (edge_config  = edge_config_2,
-                                                    from_node_id = node_1_id,
+        incoming_edge = Schema__MGraph__Edge        (from_node_id = node_1_id,
                                                     to_node_id   = self.node.node_id,
                                                     edge_type    = Schema__MGraph__Edge)
 
@@ -112,7 +99,7 @@ class test_Domain__MGraph__Node(TestCase):
         # Test incoming edge retrieval
         incoming_edges = self.node.models__to_edges()
         assert len(incoming_edges) == 1
-        assert incoming_edges[0].edge_id() == edge_config_2.edge_id
+        assert incoming_edges[0].edge_id() == incoming_edge.edge_id
 
     def test_model__node_from_edge(self):                                                           # Tests retrieving connected nodes from edge
         # Create another node to connect to
@@ -123,9 +110,7 @@ class test_Domain__MGraph__Node(TestCase):
         self.graph.add_node(other_schema_node)
 
         # Create edge connecting nodes
-        edge_config = Schema__MGraph__Edge__Config(edge_id=Obj_Id())
-        edge        = Schema__MGraph__Edge        (edge_config  = edge_config,
-                                                  from_node_id = self.node.node_id,
+        edge        = Schema__MGraph__Edge        (from_node_id = self.node.node_id,
                                                   to_node_id   = other_schema_node.node_id,
                                                   edge_type    = Schema__MGraph__Edge)
         model_edge  = Model__MGraph__Edge         (data        = edge)
