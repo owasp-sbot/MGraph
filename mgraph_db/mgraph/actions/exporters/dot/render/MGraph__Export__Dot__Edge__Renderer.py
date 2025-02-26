@@ -41,6 +41,12 @@ class MGraph__Export__Dot__Edge__Renderer(MGraph__Export__Dot__Base):
         if self.config.display.edge_type_full_name:
             type_full_name = edge.edge.data.edge_type.__name__
             label_parts.append(f"  edge_type_full_name = '{type_full_name}'")
+        if self.config.display.edge_predicate:
+            if edge.edge.data.edge_label:
+                label_parts.append(f"  predicate = '{edge.edge.data.edge_label.predicate}'")
+        if self.config.display.edge_predicate_str:
+            if edge.edge.data.edge_label:
+                label_parts.append(f"{edge.edge.data.edge_label.predicate}")
 
         if label_parts:  # Combine all parts
             return [f'label="{"\l".join(label_parts)}\l"']

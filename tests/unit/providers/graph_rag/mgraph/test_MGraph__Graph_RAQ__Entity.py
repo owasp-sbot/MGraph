@@ -1,4 +1,7 @@
 from unittest                                                               import TestCase
+
+from mgraph_db.mgraph.domain.Domain__MGraph__Node import Domain__MGraph__Node
+
 from mgraph_db.providers.graph_rag.mgraph                                   import MGraph__Graph_RAQ__Entity
 from mgraph_db.providers.graph_rag.mgraph.schemas.Schema__Graph_RAG__Edges import Schema__Graph_RAG__Edge__Confidence, \
     Schema__Graph_RAG__Edge__Direct_Relationship, Schema__Graph_RAG__Edge__Relationship_Type, \
@@ -56,21 +59,22 @@ class test_MGraph__Graph_RAQ__Entity(TestCase):
 
     def test_create_graph(self):
         for entity in self.entities:
-        #entity : Schema__Graph_RAG__Entity =
             assert type(entity) is Schema__Graph_RAG__Entity
 
             with self.mgraph_entity.edit() as _:
                 ## pprint(entity.json())
                 root_node                  = _.new_value(entity.name)
-                #node__confidence           = _.new_value(entity.confidence)
-                #_.connect_nodes(root_node, node__confidence          , Schema__Graph_RAG__Edge__Confidence          )
+                assert type(root_node)     is Domain__MGraph__Node
+                node__confidence           = _.new_value(entity.confidence)
+                _.connect_nodes(root_node, node__confidence          , Schema__Graph_RAG__Edge__Confidence          )
 
                 for direct_relationship in entity.direct_relationships:
                     node__entity = _.new_value(direct_relationship.entity)
+                    _.connect_nodes(root_node, node__entity)
                     _.connect_nodes(root_node, node__entity, Schema__Graph_RAG__Edge__Entity)
                     node__relationship_type   = _.new_value(direct_relationship.relationship_type)
                     _.connect_nodes(node__entity, node__relationship_type, Schema__Graph_RAG__Edge__Relationship_Type)
-                    #pprint(_.graph.model.data.json())
+
                     return
                     node__strength = _.new_value(direct_relationship.strength)
                     _.connect_nodes(node__entity, node__strength          , Schema__Graph_RAG__Edge__Strength         )
@@ -80,7 +84,6 @@ class test_MGraph__Graph_RAQ__Entity(TestCase):
                     #pprint(direct_relationship.json())
             #assert _.data().stats() == {'edges_ids': 1, 'nodes_ids': 2}
             for domain_relationship in entity.domain_relationships:
-                pprint(domain_relationship.json())
                 node__concept = _.new_value(domain_relationship.concept)
                 node__category = _.new_value(domain_relationship.category)
                 _.connect_nodes(root_node, node__concept, Schema__Graph_RAG__Edge__Concept)

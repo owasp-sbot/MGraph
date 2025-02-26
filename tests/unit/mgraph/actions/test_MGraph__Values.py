@@ -2,7 +2,6 @@ from unittest                                                import TestCase
 from mgraph_db.mgraph.MGraph                                 import MGraph
 from mgraph_db.mgraph.actions.MGraph__Values                 import MGraph__Values
 from mgraph_db.mgraph.schemas.Schema__MGraph__Edge           import Schema__MGraph__Edge
-from mgraph_db.mgraph.schemas.Schema__MGraph__Node__Value    import Schema__MGraph__Node__Value
 from osbot_utils.utils.Env                                   import load_dotenv
 
 

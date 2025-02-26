@@ -1,5 +1,6 @@
 from typing                                         import Type
 
+from mgraph_db.mgraph.actions.MGraph__Builder import MGraph__Builder
 from mgraph_db.mgraph.actions.MGraph__Values import MGraph__Values
 
 from mgraph_db.mgraph.actions.MGraph__Export        import MGraph__Export
@@ -17,6 +18,9 @@ class MGraph(Type_Safe):                                                        
     query_class     : Type[MGraph__Query     ]
     edit_class      : Type[MGraph__Edit      ]
     screenshot_class: Type[MGraph__Screenshot]
+
+    def builder(self) -> MGraph__Builder:
+        return MGraph__Builder(mgraph_edit=self.edit())
 
     def data(self) -> MGraph__Data:
         return MGraph__Data(graph=self.graph)

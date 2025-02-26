@@ -1,7 +1,7 @@
 from typing                                               import Type, Set, Any, Dict, Optional
 from mgraph_db.mgraph.actions.MGraph__Index__Values       import MGraph__Index__Values
 from mgraph_db.mgraph.schemas.Schema__MGraph__Node__Value import Schema__MGraph__Node__Value
-from osbot_utils.helpers.Safe_Id import Safe_Id
+from osbot_utils.helpers.Safe_Id                          import Safe_Id
 from osbot_utils.utils.Dev                                import pprint
 from mgraph_db.mgraph.domain.Domain__MGraph__Graph        import Domain__MGraph__Graph
 from mgraph_db.mgraph.schemas.Schema__MGraph__Node        import Schema__MGraph__Node
