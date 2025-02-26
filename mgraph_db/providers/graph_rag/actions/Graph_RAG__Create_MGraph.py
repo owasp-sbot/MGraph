@@ -1,6 +1,6 @@
-from mgraph_db.providers.graph_rag.mgraph import MGraph__Graph_RAQ__Entity
-from osbot_utils.helpers.Obj_Id import Obj_Id
-from osbot_utils.type_safe.Type_Safe import Type_Safe
+from mgraph_db.providers.graph_rag.mgraph       import MGraph__Graph_RAQ__Entity
+from osbot_utils.helpers.Obj_Id                 import Obj_Id
+from osbot_utils.type_safe.Type_Safe            import Type_Safe
 
 
 class Graph_RAG__Create_MGraph(Type_Safe):
@@ -58,3 +58,23 @@ class Graph_RAG__Create_MGraph(Type_Safe):
                 _.up()
 
         return mgraph_entity
+
+    def export_mgraph_to_png(self, mgraph_entity):
+        with mgraph_entity.screenshot() as _:
+            with _.export().export_dot() as dot:
+                dot.set_graph__rank_dir__lr()
+                #dot.set_graph__layout_engine__sfdp()
+                #dot.set_graph__spring_constant(2)
+                #dot.set_graph__overlap__prism1()
+                dot.set_node__shape__type__box()
+                dot.set_node__shape__rounded()
+                dot.show_edge__predicate__str()
+                #dot.print_dot_code()
+
+            #_.save_to(f'{self.__class__.__name__}.png')
+            _.show_node_value()
+            #_.show_edge_type()
+
+            #_.show_node_type()
+            png_bytes = _.dot()
+            return png_bytes
