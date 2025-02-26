@@ -1,17 +1,12 @@
 from unittest                                                               import TestCase
-
-from mgraph_db.mgraph.domain.Domain__MGraph__Node import Domain__MGraph__Node
-
+from mgraph_db.mgraph.domain.Domain__MGraph__Node                           import Domain__MGraph__Node
 from mgraph_db.providers.graph_rag.mgraph                                   import MGraph__Graph_RAQ__Entity
-from mgraph_db.providers.graph_rag.mgraph.schemas.Schema__Graph_RAG__Edges import Schema__Graph_RAG__Edge__Confidence, \
-    Schema__Graph_RAG__Edge__Direct_Relationship, Schema__Graph_RAG__Edge__Relationship_Type, \
-    Schema__Graph_RAG__Edge__Strength, Schema__Graph_RAG__Edge__Domain_Relationship, Schema__Graph_RAG__Edge__Concept, \
-    Schema__Graph_RAG__Edge__Category, Schema__Graph_RAG__Edge__Entity
+from mgraph_db.providers.graph_rag.mgraph.schemas.Schema__Graph_RAG__Edges  import Schema__Graph_RAG__Edge__Confidence, Schema__Graph_RAG__Edge__Relationship_Type, Schema__Graph_RAG__Edge__Strength, Schema__Graph_RAG__Edge__Concept, Schema__Graph_RAG__Edge__Category, Schema__Graph_RAG__Edge__Entity
 from mgraph_db.providers.graph_rag.schemas.Schema__Graph_RAG__Entity        import Schema__Graph_RAG__Entity
 from mgraph_db.providers.graph_rag.actions.Graph_RAG__Document__Processor   import Graph_RAG__Document__Processor
-from osbot_utils.utils.Dev import pprint
 from osbot_utils.utils.Env                                                  import load_dotenv
 
+from osbot_utils.utils.Dev import pprint
 
 class test_MGraph__Graph_RAQ__Entity(TestCase):
 
@@ -23,7 +18,7 @@ class test_MGraph__Graph_RAQ__Entity(TestCase):
         cls.processor    = Graph_RAG__Document__Processor()
         cls.llm_entities = cls.processor.extract_entities(cls.sample_text)       # create test entities
         cls.entities     = cls.llm_entities.entities
-        cls.create_png   = True
+        cls.create_png   = False
 
     def setUp(self):
         self.mgraph_entity = MGraph__Graph_RAQ__Entity()

@@ -1,11 +1,11 @@
-from typing                                         import List, Optional, Type, Any, Union
-from mgraph_db.mgraph.domain.Domain__MGraph__Edge  import Domain__MGraph__Edge
-from mgraph_db.mgraph.domain.Domain__MGraph__Node  import Domain__MGraph__Node
-from mgraph_db.mgraph.schemas.Schema__MGraph__Edge import Schema__MGraph__Edge
-from mgraph_db.mgraph.actions.MGraph__Edit         import MGraph__Edit
+from typing                                               import List, Optional, Type, Any, Union
+from mgraph_db.mgraph.domain.Domain__MGraph__Edge         import Domain__MGraph__Edge
+from mgraph_db.mgraph.domain.Domain__MGraph__Node         import Domain__MGraph__Node
+from mgraph_db.mgraph.schemas.Schema__MGraph__Edge        import Schema__MGraph__Edge
+from mgraph_db.mgraph.actions.MGraph__Edit                import MGraph__Edit
 from mgraph_db.mgraph.schemas.Schema__MGraph__Edge__Label import Schema__MGraph__Edge__Label
-from osbot_utils.helpers.Obj_Id                    import Obj_Id
-from osbot_utils.type_safe.Type_Safe               import Type_Safe
+from osbot_utils.helpers.Obj_Id                           import Obj_Id
+from osbot_utils.type_safe.Type_Safe                      import Type_Safe
 
 # todo: move the data fields into a new class Schema__MGraph__Builder__Data
 
