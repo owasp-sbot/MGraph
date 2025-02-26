@@ -1,15 +1,9 @@
 from unittest                                                               import TestCase
-
-from mgraph_db.providers.graph_rag.mgraph import MGraph__Graph_RAQ__Entity
-from mgraph_db.providers.graph_rag.mgraph.schemas.Schema__Graph_RAG__Edges import Schema__Graph_RAG__Edge__Confidence
-from mgraph_db.providers.graph_rag.schemas.Schema__Graph_RAG__Entity__Data import Schema__Graph_RAG__Entity__Data
-
+from mgraph_db.providers.graph_rag.mgraph                                   import MGraph__Graph_RAQ__Entity
+from mgraph_db.providers.graph_rag.mgraph.schemas.Schema__Graph_RAG__Edges  import Schema__Graph_RAG__Edge__Confidence
 from mgraph_db.providers.graph_rag.schemas.Schema__Graph_RAG__Entity        import Schema__Graph_RAG__Entity
 from mgraph_db.providers.graph_rag.actions.Graph_RAG__Document__Processor   import Graph_RAG__Document__Processor
-
-from osbot_utils.utils.Dev                                                  import pprint
-from osbot_utils.utils.Env import load_dotenv, not_in_github_action
-from osbot_utils.utils.Http import current_host_online
+from osbot_utils.utils.Env                                                  import load_dotenv
 
 
 class test_MGraph__Graph_RAQ__Entity(TestCase):
@@ -45,13 +39,13 @@ class test_MGraph__Graph_RAQ__Entity(TestCase):
     def test_setUpClass(self):
         assert len(self.entities) == 4
         with self.entities[0] as entity_data:
-            assert type(entity_data) is Schema__Graph_RAG__Entity__Data
+            assert type(entity_data) is Schema__Graph_RAG__Entity
 
 
 
     def test_create_graph(self):
-        entity : Schema__Graph_RAG__Entity__Data = self.entities[0]
-        assert type(entity) is Schema__Graph_RAG__Entity__Data
+        entity : Schema__Graph_RAG__Entity = self.entities[0]
+        assert type(entity) is Schema__Graph_RAG__Entity
 
         with self.mgraph_entity.edit() as _:
             ## pprint(entity.json())

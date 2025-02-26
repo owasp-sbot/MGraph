@@ -1,15 +1,10 @@
-from typing                                                                     import Dict, List, Any
-
-from mgraph_db.providers.graph_rag.schemas.Schema__Graph_RAG__LLM__Entities import Schema__Graph_RAG__LLM__Entities
-from mgraph_db.providers.graph_rag.schemas.Schema__Graph_RAG__Relation__Data    import Schema__Graph_RAG__Relation__Data
+from typing                                                                     import Dict, Any
+from mgraph_db.providers.graph_rag.schemas.Schema__Graph_RAG__LLM__Entities     import Schema__Graph_RAG__LLM__Entities
 from mgraph_db.providers.graph_rag.testing.MGraph__Graph_Rag__LLM_Cache__Simple import mgraph_llm_cache_simple
 from mgraph_db.providers.llms.utils.API__LLM                                    import API__LLM
-from osbot_utils.context_managers.capture_duration import capture_duration
-from osbot_utils.helpers.Obj_Id                                                 import Obj_Id
+from osbot_utils.context_managers.capture_duration                              import capture_duration
 from osbot_utils.type_safe.Type_Safe                                            import Type_Safe
 from mgraph_db.providers.graph_rag.schemas.Schema__Graph_RAG__Entity            import Schema__Graph_RAG__Entity
-from mgraph_db.providers.graph_rag.schemas.Schema__Graph_RAG__Entity__Data      import Schema__Graph_RAG__Entity__Data
-from mgraph_db.providers.graph_rag.schemas.Schema__Graph_RAG__Relation          import Schema__Graph_RAG__Relation
 
 DEFAULT__OPEN_AI__MODEL = "gpt-4o-mini" # 'o3-mini'
 
@@ -141,7 +136,7 @@ class Graph_RAG__Document__Processor(Type_Safe):
         entities          = []
 
         for entity_data in entities_data:
-            entity = Schema__Graph_RAG__Entity__Data.from_json(entity_data)
+            entity = Schema__Graph_RAG__Entity.from_json(entity_data)
             entities.append(entity)
 
         llm_entities = Schema__Graph_RAG__LLM__Entities( entities              = entities                     ,
@@ -152,19 +147,19 @@ class Graph_RAG__Document__Processor(Type_Safe):
 
         #return [self.create_entity(entity) for entity in entities_data]                                     # Convert to typed entities
 
-    def create_relations_prompt(self, entities: List[Schema__Graph_RAG__Entity], text: str) -> str:
-        entity_names = [e.node_data.name for e in entities]
-        return f"""Analyze the relationships between these entities in the text:
-        Entities: {entity_names}
-        
-        Text: {text}
-        
-        Return as JSON list of relations with:
-        - source: source entity name
-        - target: target entity name  
-        - relation_type: type of relationship
-        - confidence: confidence score (0-1)
-        - context: relevant text context"""                                  # Create LLM prompt for relation extraction
+    # def create_relations_prompt(self, entities: List[Schema__Graph_RAG__Entity__Data], text: str) -> str:
+    #     entity_names = [e.name for e in entities]
+    #     return f"""Analyze the relationships between these entities in the text:
+    #     Entities: {entity_names}
+    #
+    #     Text: {text}
+    #
+    #     Return as JSON list of relations with:
+    #     - source: source entity name
+    #     - target: target entity name
+    #     - relation_type: type of relationship
+    #     - confidence: confidence score (0-1)
+    #     - context: relevant text context"""                                  # Create LLM prompt for relation extraction
 
     # def create_relation(self, relation_data: Dict[str, Any],
     #                           entities: List[Schema__Graph_RAG__Entity]

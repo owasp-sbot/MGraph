@@ -1,8 +1,5 @@
 from unittest                                                                   import TestCase
 from mgraph_db.providers.graph_rag.actions.Graph_RAG__Document__Processor       import Graph_RAG__Document__Processor, DEFAULT__OPEN_AI__MODEL
-from mgraph_db.providers.graph_rag.schemas.Schema__Graph_RAG__Entity            import Schema__Graph_RAG__Entity
-from mgraph_db.providers.graph_rag.schemas.Schema__Graph_RAG__Entity__Data      import Schema__Graph_RAG__Entity__Data
-from mgraph_db.providers.graph_rag.schemas.Schema__Graph_RAG__Relation          import Schema__Graph_RAG__Relation
 from mgraph_db.providers.llms.utils.API__LLM                                    import API__LLM
 from osbot_utils.helpers.xml.rss.RSS__Item                                      import RSS__Item
 from osbot_utils.utils.Env                                                      import load_dotenv
@@ -89,21 +86,21 @@ class test_Graph_RAG__Document__Processor(TestCase):
     #     assert len(buildflow.node_data.direct_relationships) == 3
     #     assert buildflow.node_data.confidence                > 0.9
 
-    def test_create_relations_prompt(self):                                                  # Test relation prompt creation
-        entity_data_1 = Schema__Graph_RAG__Entity__Data(name="Entity1")
-        entity_data_2 = Schema__Graph_RAG__Entity__Data(name="Entity2")
-        entities = [ Schema__Graph_RAG__Entity(node_data=entity_data_1),
-                     Schema__Graph_RAG__Entity(node_data=entity_data_2) ]
-
-        text = "Test text for relations"
-
-        prompt = self.processor.create_relations_prompt(entities, text)                      # Create prompt
-
-        assert type(prompt)            is str                                                # Verify prompt content
-        assert "Entity1"               in prompt
-        assert "Entity2"               in prompt
-        assert "relation_type"         in prompt
-        assert "confidence"            in prompt
+    # def test_create_relations_prompt(self):                                                  # Test relation prompt creation
+    #     entity_data_1 = Schema__Graph_RAG__Entity__Data(name="Entity1")
+    #     entity_data_2 = Schema__Graph_RAG__Entity__Data(name="Entity2")
+    #     entities = [ Schema__Graph_RAG__Entity(node_data=entity_data_1),
+    #                  Schema__Graph_RAG__Entity(node_data=entity_data_2) ]
+    #
+    #     text = "Test text for relations"
+    #
+    #     prompt = self.processor.create_relations_prompt(entities, text)                      # Create prompt
+    #
+    #     assert type(prompt)            is str                                                # Verify prompt content
+    #     assert "Entity1"               in prompt
+    #     assert "Entity2"               in prompt
+    #     assert "relation_type"         in prompt
+    #     assert "confidence"            in prompt
 
     # def test_create_relation(self):                                                         # Test relation creation
     #     entity_data_1 = Schema__Graph_RAG__Entity__Data(name="Source")
