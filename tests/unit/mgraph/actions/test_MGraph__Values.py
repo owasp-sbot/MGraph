@@ -38,7 +38,11 @@ class test_MGraph__Values(TestCase):
                                                                        'node_to_hash'  : {node_id       : 'd77fb78183'},
                                                                        'type_by_value' : {'d77fb78183'  : 'builtins.int'},
                                                                        'values_by_type': {'builtins.int': ['d77fb78183']}}
-        assert self.mgraph.index().index_data.json()              == { 'edges_by_type'                  : {},
+        assert self.mgraph.index().index_data.json()              == { 'edges_by_incoming_label'        : {},
+                                                                       'edges_by_outgoing_label'        : {},
+                                                                       'edges_by_predicate'             : {},
+                                                                       'edges_by_type'                  : {},
+                                                                       'edges_predicates'               : {},
                                                                        'edges_to_nodes'                 : {},
                                                                        'edges_types'                    : {},
                                                                        'nodes_by_type'                  : {'Schema__MGraph__Node__Value': [node_id]},

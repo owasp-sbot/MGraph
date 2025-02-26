@@ -40,11 +40,13 @@ class test_MGraph__Export(TestCase):
         with self.linear_graph.graph.export() as _:
             assert _.to__json() == {'edges': { edge_ids[0]: { 'edge_data'  : {}                     ,
                                                               'edge_id'     : edge_ids[0]           ,
+                                                              'edge_label'  : None                  ,
                                                               'edge_type'   : '@schema_mgraph_edge' ,
                                                               'from_node_id': node_ids[0]           ,    # First edge
                                                               'to_node_id'  : node_ids[1]}          ,
-                                               edge_ids[1]: { 'edge_data'   : {}                     ,
+                                               edge_ids[1]: { 'edge_data'   : {}                    ,
                                                               'edge_id'     : edge_ids[1]           ,
+                                                              'edge_label'  : None                  ,
                                                               'edge_type'   : '@schema_mgraph_edge' ,
                                                               'from_node_id': node_ids[1],    # Second edge
                                                               'to_node_id'  : node_ids[2]}},

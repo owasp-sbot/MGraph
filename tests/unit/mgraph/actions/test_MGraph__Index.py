@@ -1,7 +1,9 @@
 from unittest                                                   import TestCase
+from mgraph_db.mgraph.schemas.Schema__MGraph__Edge__Label       import Schema__MGraph__Edge__Label
 from mgraph_db.mgraph.schemas.Schema__MGraph__Node__Value       import Schema__MGraph__Node__Value
 from mgraph_db.mgraph.schemas.Schema__MGraph__Node__Value__Data import Schema__MGraph__Node__Value__Data
 from mgraph_db.providers.simple.MGraph__Simple__Test_Data       import MGraph__Simple__Test_Data
+from osbot_utils.helpers.Safe_Id                                import Safe_Id
 from osbot_utils.utils.Objects                                  import __
 from osbot_utils.testing.Temp_File                              import Temp_File
 from mgraph_db.mgraph.MGraph                                    import MGraph
@@ -20,14 +22,18 @@ class test_MGraph_Index(TestCase):
         with self.mgraph_index as _:
             assert type(_           ) is MGraph__Index
             assert type(_.index_data) is Schema__MGraph__Index__Data
-            assert _.json()           == { 'index_data'  : { 'edges_to_nodes'                 : {} ,
-                                                             'edges_by_type'                  : {} ,
-                                                             'edges_types'                    : {} ,
-                                                             'nodes_by_type'                  : {} ,
-                                                             'nodes_to_incoming_edges_by_type': {} ,
-                                                             'nodes_to_incoming_edges'        : {} ,
-                                                             'nodes_to_outgoing_edges'        : {} ,
-                                                             'nodes_to_outgoing_edges_by_type': {} ,
+            assert _.json()           == { 'index_data'  : { 'edges_by_incoming_label'        : {},
+                                                             'edges_by_outgoing_label'        : {},
+                                                             'edges_by_predicate'             : {},
+                                                             'edges_by_type'                  : {},
+                                                             'edges_predicates'               : {},
+                                                             'edges_to_nodes'                 : {},
+                                                             'edges_types'                    : {},
+                                                             'nodes_by_type'                  : {},
+                                                             'nodes_to_incoming_edges_by_type': {},
+                                                             'nodes_to_incoming_edges'        : {},
+                                                             'nodes_to_outgoing_edges'        : {},
+                                                             'nodes_to_outgoing_edges_by_type': {},
                                                              'nodes_types'                    : {}},
                                            'values_index': { 'index_data': { 'hash_to_node'   : {},
                                                                              'node_to_hash'   : {},
@@ -111,22 +117,31 @@ class test_MGraph_Index(TestCase):
         edge_1_id = edge_1.edge_id
 
         with self.mgraph_index as _:
-            assert _.index_data.obj()  == __(nodes_types                     = __(),
+            assert _.index_data.obj()  == __(edges_to_nodes                  = __(),
+                                             edges_by_type                   = __(),
+                                             edges_by_predicate              = __(),
+                                             edges_by_incoming_label         = __(),
+                                             edges_by_outgoing_label         = __(),
+                                             edges_predicates                = __(),
+                                             nodes_types                     = __(),
                                              edges_types                     = __(),
                                              nodes_to_outgoing_edges         = __(),
                                              nodes_to_incoming_edges         = __(),
                                              nodes_to_incoming_edges_by_type = __(),
                                              nodes_to_outgoing_edges_by_type = __(),
-                                             edges_to_nodes                  = __(),
-                                             nodes_by_type                   = __(),
-                                             edges_by_type                   = __())
+                                             nodes_by_type                   = __())
+
             _.add_node(node_1)
             _.add_node(node_2)
             _.add_edge(edge_1)
             nodes_by_type = list(_.index_data.nodes_by_type['Schema__MGraph__Node'])            # we need to get this value since nodes_by_type is a list and the order can change
             assert node_1_id           in nodes_by_type
             assert node_2_id           in nodes_by_type
-            assert _.index_data.json() == { 'edges_to_nodes'                 : { edge_1_id: [node_1_id, node_2_id]},
+            assert _.index_data.json() == { 'edges_by_incoming_label'        : {},
+                                            'edges_by_outgoing_label'        : {},
+                                            'edges_by_predicate'             : {},
+                                            'edges_predicates'               : {},
+                                            'edges_to_nodes'                 : { edge_1_id: [node_1_id, node_2_id]},
                                             'edges_by_type'                  : {'Schema__MGraph__Edge': [edge_1_id]},
                                             'edges_types'                    : { edge_1_id: 'Schema__MGraph__Edge'},
                                             'nodes_by_type'                  : {'Schema__MGraph__Node': nodes_by_type },
@@ -172,8 +187,13 @@ class test_MGraph_Index(TestCase):
         nodes_by_type = list(index.index_data.nodes_by_type['Schema__MGraph__Node'])
         assert node_1_id               in nodes_by_type
         assert node_2_id               in nodes_by_type
-        assert index.index_data.json() ==  {  'edges_to_nodes'                 : { edge_1_id: [node_1_id, node_2_id] },
+        assert index.index_data.json() ==  {  'edges_by_incoming_label'        : {},
+                                              'edges_by_outgoing_label'        : {},
+                                              'edges_by_predicate'             : {},
                                               'edges_by_type'                  : { edge_1_type: [edge_1_id]          },
+                                              'edges_predicates'               : {},
+                                              'edges_to_nodes'                 : { edge_1_id: [node_1_id, node_2_id] },
+
                                               'edges_types'                    : { edge_1_id: 'Schema__MGraph__Edge' },
                                               'nodes_by_type'                  : { node_1_type: nodes_by_type        },
                                               'nodes_to_incoming_edges'        : { node_1_id: []                     ,
@@ -252,3 +272,150 @@ class test_MGraph_Index(TestCase):
 
             connected_nodes = _.get_nodes_connected_to_value("non_existent")                   # Test with non-existent value
             assert len(connected_nodes) == 0
+
+    def test_add_edge_with_label(self):                                                     # Test adding an edge with label and verifying index structures
+
+        node_1 = Schema__MGraph__Node()                                                     # Create test nodes and edge
+        node_2 = Schema__MGraph__Node()
+
+        edge_label = Schema__MGraph__Edge__Label(predicate    = Safe_Id('created_by'),         # Create an edge with a label
+                                                 incoming     = Safe_Id('creator_of'),
+                                                 outgoing     = Safe_Id('created'   ))
+        edge        = Schema__MGraph__Edge      (from_node_id = node_1.node_id      ,
+                                                 to_node_id   = node_2.node_id      ,
+                                                 edge_label   = edge_label          )
+
+        with self.mgraph_index as _:
+            _.add_node(node_1)
+            _.add_node(node_2)
+            _.add_edge(edge  )
+
+            assert edge.edge_id in _.index_data.edges_by_type[edge.edge_type.__name__]          # Verify regular edge indexing still works
+
+
+            assert 'created_by' in _.index_data.edges_by_predicate                              # Verify predicate indexing
+            assert edge.edge_id in _.index_data.edges_by_predicate['created_by']
+            assert _.index_data.edges_predicates[edge.edge_id] == 'created_by'
+
+            assert 'creator_of' in _.index_data.edges_by_incoming_label                         # Verify directional label indexing
+            assert edge.edge_id in _.index_data.edges_by_incoming_label['creator_of']
+
+            assert 'created' in _.index_data.edges_by_outgoing_label
+            assert edge.edge_id in _.index_data.edges_by_outgoing_label['created']
+
+    def test_remove_edge_with_label(self):                                                      # Test removing an edge with label and ensuring all indexes are cleaned up
+        node_1 = Schema__MGraph__Node()                                                         # Create test nodes and edge with label
+        node_2 = Schema__MGraph__Node()
+
+        edge_label = Schema__MGraph__Edge__Label(predicate    = Safe_Id('supports'    ),
+                                                 incoming     = Safe_Id('supported_by'),
+                                                 outgoing     = Safe_Id('supports'    ))
+        edge = Schema__MGraph__Edge             (from_node_id = node_1.node_id         ,
+                                                 to_node_id   = node_2.node_id         ,
+                                                 edge_label   = edge_label             )
+
+        with self.mgraph_index as _:
+            _.add_node(node_1)
+            _.add_node(node_2)
+            _.add_edge(edge)
+
+            assert 'supports'     in _.index_data.edges_by_predicate                            # Verify the edge was indexed correctly
+            assert 'supported_by' in _.index_data.edges_by_incoming_label
+
+            _.remove_edge(edge)                                                                 # Now remove the edge
+
+            assert 'supports'     not in _.index_data.edges_by_predicate                        # Verify all index entries were cleaned up
+            assert 'supported_by' not in _.index_data.edges_by_incoming_label
+            assert edge.edge_id   not in _.index_data.edges_predicates
+
+    def test_multiple_edges_with_same_predicate(self):                                          # Test indexing multiple edges with the same predicate
+
+        # Create test nodes
+        node_1 = Schema__MGraph__Node()
+        node_2 = Schema__MGraph__Node()
+        node_3 = Schema__MGraph__Node()
+
+        # Create two edges with the same predicate
+        edge_label_1 = Schema__MGraph__Edge__Label(predicate = Safe_Id('references'))
+        edge_label_2 = Schema__MGraph__Edge__Label(predicate = Safe_Id('references'))
+
+        edge_1 = Schema__MGraph__Edge(from_node_id = node_1.node_id,
+                                     to_node_id   = node_2.node_id,
+                                     edge_label   = edge_label_1)
+
+        edge_2 = Schema__MGraph__Edge(from_node_id = node_2.node_id,
+                                     to_node_id   = node_3.node_id,
+                                     edge_label   = edge_label_2)
+
+        with self.mgraph_index as _:
+            _.add_node(node_1)
+            _.add_node(node_2)
+            _.add_node(node_3)
+            _.add_edge(edge_1)
+            _.add_edge(edge_2)
+
+            # Verify both edges are indexed under the same predicate
+            assert 'references' in _.index_data.edges_by_predicate
+            assert len(_.index_data.edges_by_predicate['references']) == 2
+            assert edge_1.edge_id in _.index_data.edges_by_predicate['references']
+            assert edge_2.edge_id in _.index_data.edges_by_predicate['references']
+
+            # Remove one edge and verify the other remains indexed
+            _.remove_edge(edge_1)
+            assert 'references' in _.index_data.edges_by_predicate
+            assert len(_.index_data.edges_by_predicate['references']) == 1
+            assert edge_2.edge_id in _.index_data.edges_by_predicate['references']
+
+    def test_query_helpers_for_predicates(self):                                    #  Test helper methods for querying edges by predicates
+        # Create test data
+        node_1 = Schema__MGraph__Node()
+        node_2 = Schema__MGraph__Node()
+        node_3 = Schema__MGraph__Node()
+
+        edge_label_1 = Schema__MGraph__Edge__Label(predicate = Safe_Id('depends_on'))
+        edge_label_2 = Schema__MGraph__Edge__Label(predicate = Safe_Id('depends_on'))
+        edge_label_3 = Schema__MGraph__Edge__Label(predicate = Safe_Id('contains'))
+
+        edge_1 = Schema__MGraph__Edge(from_node_id = node_1.node_id,
+                                     to_node_id   = node_2.node_id,
+                                     edge_label   = edge_label_1)
+
+        edge_2 = Schema__MGraph__Edge(from_node_id = node_1.node_id,
+                                     to_node_id   = node_3.node_id,
+                                     edge_label   = edge_label_2)
+
+        edge_3 = Schema__MGraph__Edge(from_node_id = node_2.node_id,
+                                     to_node_id   = node_3.node_id,
+                                     edge_label   = edge_label_3)
+
+        with self.mgraph_index as _:
+            _.add_node(node_1)
+            _.add_node(node_2)
+            _.add_node(node_3)
+            _.add_edge(edge_1)
+            _.add_edge(edge_2)
+            _.add_edge(edge_3)
+
+            # Test get_edges_by_predicate
+            depends_on_edges = _.get_edges_by_predicate('depends_on')
+            assert len(depends_on_edges) == 2
+            assert edge_1.edge_id in depends_on_edges
+            assert edge_2.edge_id in depends_on_edges
+
+            contains_edges = _.get_edges_by_predicate('contains')
+            assert len(contains_edges) == 1
+            assert edge_3.edge_id in contains_edges
+
+            # Test get_node_outgoing_edges_by_predicate
+            node1_depends_on_edges = _.get_node_outgoing_edges_by_predicate(node_1.node_id, 'depends_on')
+            assert len(node1_depends_on_edges) == 2
+            assert edge_1.edge_id in node1_depends_on_edges
+            assert edge_2.edge_id in node1_depends_on_edges
+
+            node2_contains_edges = _.get_node_outgoing_edges_by_predicate(node_2.node_id, 'contains')
+            assert len(node2_contains_edges) == 1
+            assert edge_3.edge_id in node2_contains_edges
+
+            # Test with non-existent predicate
+            non_existent_edges = _.get_edges_by_predicate('non_existent')
+            assert len(non_existent_edges) == 0
