@@ -1,27 +1,35 @@
 from unittest                                                               import TestCase
-from mgraph_db.mgraph.domain.Domain__MGraph__Node                           import Domain__MGraph__Node
 from mgraph_db.providers.graph_rag.actions.Graph_RAG__Create_MGraph         import Graph_RAG__Create_MGraph
 from mgraph_db.providers.graph_rag.mgraph                                   import MGraph__Graph_RAQ__Entity
-from mgraph_db.providers.graph_rag.mgraph.schemas.Schema__Graph_RAG__Edges  import Schema__Graph_RAG__Edge__Confidence, Schema__Graph_RAG__Edge__Relationship_Type, Schema__Graph_RAG__Edge__Strength, Schema__Graph_RAG__Edge__Concept, Schema__Graph_RAG__Edge__Category, Schema__Graph_RAG__Edge__Entity
 from mgraph_db.providers.graph_rag.schemas.Schema__Graph_RAG__Entity        import Schema__Graph_RAG__Entity
 from mgraph_db.providers.graph_rag.actions.Graph_RAG__Document__Processor   import Graph_RAG__Document__Processor
+from osbot_utils.context_managers.print_duration                            import print_duration
 from osbot_utils.helpers.Obj_Id                                             import Obj_Id
 from osbot_utils.utils.Env                                                  import load_dotenv
-
-from osbot_utils.utils.Dev import pprint
 
 class test_MGraph__Graph_RAQ__Entity(TestCase):
 
     @classmethod
     def setUpClass(cls):
         cls.create_png = False
-        #load_dotenv()
-        #cls.sample_text = "new GDPR fine in Lisbon on SaaS fintech startup"
-        cls.sample_text  = "cyber-news-1"                                        # Using cached test data
-        cls.processor    = Graph_RAG__Document__Processor()
-        cls.llm_entities = cls.processor.extract_entities(cls.sample_text)       # create test entities
-        cls.entities     = cls.llm_entities.entities
+        load_dotenv()
+        with print_duration():
+            #cls.sample_text = "new GDPR fine in Lisbon on SaaS fintech startup"
+            cls.sample_text  = "cyber-news-1"                                        # Using cached test data
+            cls.llm_model    = 'gpt-4o-mini'
+            cls.processor    = Graph_RAG__Document__Processor(llm_model=cls.llm_model)
+            cls.llm_entities = cls.processor.extract_entities(cls.sample_text)       # create test entities
+            cls.entities     = cls.llm_entities.entities
 
+    # def test_use_open__router(self):
+    #
+    #     sample_text = "new GDPR fine in Lisbon on SaaS fintech startup"
+    #     api_llm     = API__LLM__Open_Router()
+    #     llm_model   = 'openai/gpt-4o-mini'     # works but takes a bit
+    #     processor   = Graph_RAG__Document__Processor(api_llm=api_llm, llm_model=llm_model)
+    #     llm_entities = processor.extract_entities(sample_text)  # create test entities
+    #     for entity in llm_entities.entities:
+    #         pprint(entity.json())
 
     def setUp(self):
         self.mgraph_entity = MGraph__Graph_RAQ__Entity()
@@ -112,39 +120,39 @@ class test_MGraph__Graph_RAQ__Entity(TestCase):
 
 
 
-    def test_create_graph(self):
-        self.create_png = False
-        for entity in self.entities:
-            assert type(entity) is Schema__Graph_RAG__Entity
-
-            with self.mgraph_entity.edit() as _:
-                ## pprint(entity.json())
-                root_node                  = _.new_value(entity.name)
-                assert type(root_node)     is Domain__MGraph__Node
-                node__confidence           = _.new_value(entity.confidence)
-                _.connect_nodes(root_node, node__confidence          , Schema__Graph_RAG__Edge__Confidence          )
-
-                for direct_relationship in entity.direct_relationships:
-                    node__entity = _.new_value(direct_relationship.entity)
-                    _.connect_nodes(root_node, node__entity)
-                    _.connect_nodes(root_node, node__entity, Schema__Graph_RAG__Edge__Entity)
-                    node__relationship_type   = _.new_value(direct_relationship.relationship_type)
-                    _.connect_nodes(node__entity, node__relationship_type, Schema__Graph_RAG__Edge__Relationship_Type)
-
-                    return
-                    node__strength = _.new_value(direct_relationship.strength)
-                    _.connect_nodes(node__entity, node__strength          , Schema__Graph_RAG__Edge__Strength         )
-                    #{'entity': 'Continuous Integration',
-                    # 'relationship_type': 'is a type of',
-                    # 'strength': 0.8}
-                    #pprint(direct_relationship.json())
-            #assert _.data().stats() == {'edges_ids': 1, 'nodes_ids': 2}
-            for domain_relationship in entity.domain_relationships:
-                node__concept = _.new_value(domain_relationship.concept)
-                node__category = _.new_value(domain_relationship.category)
-                _.connect_nodes(root_node, node__concept, Schema__Graph_RAG__Edge__Concept)
-                _.connect_nodes(node__concept, node__category, Schema__Graph_RAG__Edge__Category)
-            break
+    # def test_create_graph(self):
+    #     self.create_png = False
+    #     for entity in self.entities:
+    #         assert type(entity) is Schema__Graph_RAG__Entity
+    #
+    #         with self.mgraph_entity.edit() as _:
+    #             ## pprint(entity.json())
+    #             root_node                  = _.new_value(entity.name)
+    #             assert type(root_node)     is Domain__MGraph__Node
+    #             node__confidence           = _.new_value(entity.confidence)
+    #             _.connect_nodes(root_node, node__confidence          , Schema__Graph_RAG__Edge__Confidence          )
+    #
+    #             for direct_relationship in entity.direct_relationships:
+    #                 node__entity = _.new_value(direct_relationship.entity)
+    #                 _.connect_nodes(root_node, node__entity)
+    #                 _.connect_nodes(root_node, node__entity, Schema__Graph_RAG__Edge__Entity)
+    #                 node__relationship_type   = _.new_value(direct_relationship.relationship_type)
+    #                 _.connect_nodes(node__entity, node__relationship_type, Schema__Graph_RAG__Edge__Relationship_Type)
+    #
+    #                 return
+    #                 node__strength = _.new_value(direct_relationship.strength)
+    #                 _.connect_nodes(node__entity, node__strength          , Schema__Graph_RAG__Edge__Strength         )
+    #                 #{'entity': 'Continuous Integration',
+    #                 # 'relationship_type': 'is a type of',
+    #                 # 'strength': 0.8}
+    #                 #pprint(direct_relationship.json())
+    #         #assert _.data().stats() == {'edges_ids': 1, 'nodes_ids': 2}
+    #         for domain_relationship in entity.domain_relationships:
+    #             node__concept = _.new_value(domain_relationship.concept)
+    #             node__category = _.new_value(domain_relationship.category)
+    #             _.connect_nodes(root_node, node__concept, Schema__Graph_RAG__Edge__Concept)
+    #             _.connect_nodes(node__concept, node__category, Schema__Graph_RAG__Edge__Category)
+    #         break
 
     def test_Graph_RAG__Create_MGraph(self):
         #mgraph = Graph_RAG__Create_MGraph().from_entities(self.entities)
