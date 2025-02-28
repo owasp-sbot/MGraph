@@ -1,6 +1,6 @@
 import pytest
 from unittest                                                       import TestCase
-from osbot_utils.utils.Misc import str_md5, lower
+from osbot_utils.utils.Misc                                         import str_md5, lower
 from mgraph_db.mgraph.MGraph                                        import MGraph
 from mgraph_db.mgraph.actions.MGraph__Index__Values                 import MGraph__Index__Values, SIZE__VALUE_HASH
 from mgraph_db.mgraph.schemas.Schema__MGraph__Node__Value           import Schema__MGraph__Node__Value
