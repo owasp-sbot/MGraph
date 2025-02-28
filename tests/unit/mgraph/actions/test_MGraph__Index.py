@@ -247,8 +247,11 @@ class test_MGraph_Index(TestCase):
         edge_2     = Test_Edge           (from_node_id=node_2.node_id, to_node_id=value_node.node_id)
         edge_3     = Schema__MGraph__Edge(from_node_id=node_3.node_id, to_node_id=value_node.node_id)
 
+        print()
+        print()
         with self.mgraph_index as _:
-            _.values_index.add_value_node(value_node)
+            #_.values_index.add_value_node(value_node)
+            #_.add_node(value_node)
             _.add_node(value_node)                                                                      # Add all nodes and edges
             _.add_node(node_1)
             _.add_node(node_2)
@@ -257,14 +260,14 @@ class test_MGraph_Index(TestCase):
             _.add_edge(edge_2)
             _.add_edge(edge_3)
 
-            connected_nodes = _.get_nodes_connected_to_value(value)                     # Test without edge type filter
+            connected_nodes = _.get_nodes_connected_to_value(value, node_type=Value_Node)                     # Test without edge type filter
 
             assert len(connected_nodes) == 3
             assert node_1.node_id       in connected_nodes
             assert node_2.node_id       in connected_nodes
             assert node_3.node_id       in connected_nodes
 
-            connected_nodes = _.get_nodes_connected_to_value("test_value", Test_Edge)          # Test with edge type filter
+            connected_nodes = _.get_nodes_connected_to_value("test_value", Test_Edge, node_type=Value_Node)          # Test with edge type filter
             assert len(connected_nodes) == 2
             assert node_1.node_id       in connected_nodes
             assert node_2.node_id       in connected_nodes

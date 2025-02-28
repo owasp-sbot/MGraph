@@ -1,7 +1,6 @@
 from typing                                              import Type
 from mgraph_db.mgraph.actions.MGraph__Data               import MGraph__Data
 from mgraph_db.mgraph.actions.MGraph__Index              import MGraph__Index
-from mgraph_db.mgraph.domain.Domain__MGraph__Graph       import Domain__MGraph__Graph
 from mgraph_db.query.models.Model__MGraph__Query__Views  import Model__MGraph__Query__Views
 from osbot_utils.helpers.Obj_Id                          import Obj_Id
 from osbot_utils.type_safe.Type_Safe                     import Type_Safe

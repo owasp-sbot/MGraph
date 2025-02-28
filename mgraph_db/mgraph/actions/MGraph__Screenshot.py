@@ -107,7 +107,7 @@ class MGraph__Screenshot(Type_Safe):
         return self
 
     def show_node_value(self):
-        self.export().export_dot().show_node__value__str()
+        self.export().export_dot().show_node__value()
         return self
 
     def show_node_type(self):

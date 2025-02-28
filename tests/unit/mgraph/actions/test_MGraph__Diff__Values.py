@@ -27,7 +27,7 @@ class test_MGraph__Diff__Values(TestCase):
         values = self.differ.get_values_by_type(self.graph_a, str)
         assert len(values)              == 1
         assert list(values.values())[0] == "test"
-        assert values                   == {'0a8021b872': 'test'}
+        assert values                   == {'a987e948e2': 'test'}
 
     def test_compare_identical_graphs(self):                                          # Test comparing identical graphs
         diff = self.differ.compare([str])                                            # Compare with no values

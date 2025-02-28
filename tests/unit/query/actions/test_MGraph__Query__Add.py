@@ -1,4 +1,5 @@
 from unittest                                                                   import TestCase
+from mgraph_db.mgraph.domain.Domain__MGraph__Node                               import Domain__MGraph__Node
 from mgraph_db.mgraph.MGraph                                                    import MGraph
 from mgraph_db.mgraph.domain.Domain__MGraph__Graph                              import Domain__MGraph__Graph
 from mgraph_db.mgraph.models.Model__MGraph__Graph                               import Model__MGraph__Graph
@@ -97,15 +98,20 @@ class test_MGraph__Query__Add(TestCase):
     def test_add_node_with_value(self):                                                                 # Test adding node by value
         add_action = self.add_action
 
-        value_node                      = self.graph.new_node(node_type=Schema__MGraph__Node__Value)    # Create value node
-        value_node.node_data.value      = "test_value"
-        value_node.node_data.value_type = str
+        new_node_kwargs =  dict(node_type  = Schema__MGraph__Node__Value,
+                                value      = "test_value",
+                                value_type = str)
+        value_node      = self.graph.new_node(**new_node_kwargs)    # Create value node
+
         self.query.mgraph_index.values_index.add_value_node(value_node)                                 # Add value to index
+
 
         result = add_action.add_node_with_value("test_value")                                           # Test adding by value
 
-        assert result == add_action                                                                     # Verify result
+        assert type(value_node) is Domain__MGraph__Node
+        assert result           == add_action                                                                     # Verify result
         current_nodes, _ = self.query.get_current_ids()
+
         assert value_node.node_id in current_nodes
 
         add_action.add_node_with_value("non_existent_value")                                            # Test adding non-existent value
@@ -305,14 +311,14 @@ class test_MGraph__Query__Add(TestCase):
 
     def test_combined_add_operations(self):                                           # Test combining different add operations
         with self.mgraph.edit() as _:                                                  # Create test data
-            value_node = _.new_node(node_type=Schema__MGraph__Node__Value)
-            value_node.node_data.value = "test_value"
-            value_node.node_data.value_type = str
+            new_node_kwargs = dict(node_type  = Schema__MGraph__Node__Value,
+                                   value      = "test_value"               ,
+                                   value_type = str                        )
+
+            value_node = _.new_node(**new_node_kwargs)
 
             node_2 = _.new_node()
             edge = _.new_edge(from_node_id=value_node.node_id, to_node_id=node_2.node_id)
-
-            self.query.mgraph_index.values_index.add_value_node(value_node)            # Add to value index
 
         result = (self.add_action.add_node_with_value("test_value")                   # Combine different add operations
                                  .add_nodes_ids({node_2.node_id})

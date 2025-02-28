@@ -152,22 +152,34 @@ class MGraph__Export__Dot__Node__Renderer(MGraph__Export__Dot__Base):
         if self.config.display.node_type:
             node_type = node.node.data.node_type
             type_name = self.type_name__from__type(node_type)
-            label_parts.append(f"node_type='{type_name}'")
+            label_part = type_name
+            if self.config.render.label_show_var_name:
+                label_part = f"node_type='{label_part}'"
+            label_parts.append(label_part)
         if self.config.display.node_type_full_name:
             type_full_name = node.node.data.node_type.__name__
             label_parts.append(f"node_type_full_name='{type_full_name}'")
         if hasattr(node.node_data, 'value'):                                                  # Only proceed for nodes with value data
-            if self.config.display.node_value_str:                                                # Add value if requested
-                label_parts.append(f"{node.node_data.value}")
+            #if self.config.display.node_value_str:                                                # Add value if requested
+            #    label_parts.append(f"{node.node_data.value}")
             if self.config.display.node_value:                                                # Add value if requested
-                label_parts.append(f"node_value='{node.node_data.value}'")
+                label_part = node.node_data.value                                             # todo: refactor out this logic (since it is repeated multiple times and we are reusing a local variable)
+                if self.config.render.label_show_var_name:
+                    label_part = f"node_value='{label_part}'"
+                label_parts.append(label_part)
             if self.config.display.node_value_type:                                           # Add value_type if requested
                 type_name = self.type_name__from__type(node.node_data.value_type)
                 label_parts.append(f"node_value_type='{type_name}'")
             if self.config.display.node_value_key:                                            # Add key if requested
-                label_parts.append(f"node_value_key='{node.node_data.key}'")
+                label_part = node.node_data.key                                             # todo: refactor out this logic (since it is repeated multiple times and we are reusing a local variable)
+                if self.config.render.label_show_var_name:
+                    label_part = f"node_value_key='{label_part}'"
+                label_parts.append(label_part)
         if label_parts:  # Combine all parts
-            return [f'label="{"\l".join(label_parts)}\l"']
+            if len(label_parts)==1:
+                return [f'label="{label_parts[0]}"']
+            else:
+                return [f'label="{"\l".join(label_parts)}\l"']
         return []
 
     def format_node_definition(self, node_id: str, attrs: List[str]) -> str:

@@ -17,7 +17,7 @@ class MGraph__Export(Type_Safe):
         return MGraph__Data(graph=self.graph)
 
     @cache_on_self
-    def export_dot(self):
+    def export_dot(self) -> MGraph__Export__Dot:
         return MGraph__Export__Dot(graph=self.graph)
 
     def to__mgraph_json(self):                                                                  # Export full graph data

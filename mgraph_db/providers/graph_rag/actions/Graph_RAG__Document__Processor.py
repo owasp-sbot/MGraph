@@ -1,12 +1,18 @@
 from typing                                                                     import Dict, Any
+
+from mgraph_db.mgraph.actions.MGraph__Index__Values import SIZE__VALUE_HASH
+
 from mgraph_db.providers.graph_rag.schemas.Schema__Graph_RAG__LLM__Entities     import Schema__Graph_RAG__LLM__Entities
 from mgraph_db.providers.graph_rag.testing.MGraph__Graph_Rag__LLM_Cache__Simple import mgraph_llm_cache_simple
 from mgraph_db.providers.llms.utils.API__LLM                                    import API__LLM
 from osbot_utils.context_managers.capture_duration                              import capture_duration
+from osbot_utils.helpers.Obj_Id import Obj_Id
 from osbot_utils.type_safe.Type_Safe                                            import Type_Safe
 from mgraph_db.providers.graph_rag.schemas.Schema__Graph_RAG__Entity            import Schema__Graph_RAG__Entity
+from osbot_utils.utils.Misc import str_md5
 
 DEFAULT__OPEN_AI__MODEL = "gpt-4o-mini" # 'o3-mini'
+SIZE__TEXT__HASH        = 10
 
 class Graph_RAG__Document__Processor(Type_Safe):
     api_llm   : API__LLM                                                          # Reference to LLM API client
@@ -323,7 +329,8 @@ class Graph_RAG__Document__Processor(Type_Safe):
     #         print(f"Error in Graph_RAG__Document__Processor.create_entity : {error}")      # todo: handle better these errors
     #         return error
 
-    def extract_entities(self, text: str) -> Schema__Graph_RAG__LLM__Entities:
+    def extract_entities(self, text: str, source_id: Obj_Id=None) -> Schema__Graph_RAG__LLM__Entities:
+        text_id = Obj_Id()
         with capture_duration() as duration__llm_request:
             if text in mgraph_llm_cache_simple:
                 llm_payload  = None
@@ -334,9 +341,12 @@ class Graph_RAG__Document__Processor(Type_Safe):
 
         entities_data     = self.api_llm.get_json__entities(llm_response)                                                # Parse JSON response
         entities          = []
-
+        text_hash         = str_md5(text  )[:SIZE__TEXT__HASH]
         for entity_data in entities_data:
-            entity = Schema__Graph_RAG__Entity.from_json(entity_data)
+            entity           = Schema__Graph_RAG__Entity.from_json(entity_data)
+            entity.text_hash = text_hash
+            entity.text_id   = text_id
+            entity.source_id = source_id
             entities.append(entity)
 
         llm_entities = Schema__Graph_RAG__LLM__Entities( entities              = entities                     ,

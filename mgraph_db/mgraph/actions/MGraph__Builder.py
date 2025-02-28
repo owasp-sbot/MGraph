@@ -1,4 +1,7 @@
 from typing                                               import List, Optional, Type, Any, Union
+
+from mgraph_db.mgraph.schemas.Schema__MGraph__Node import Schema__MGraph__Node
+
 from mgraph_db.mgraph.domain.Domain__MGraph__Edge         import Domain__MGraph__Edge
 from mgraph_db.mgraph.domain.Domain__MGraph__Node         import Domain__MGraph__Node
 from mgraph_db.mgraph.schemas.Schema__MGraph__Edge        import Schema__MGraph__Edge
@@ -79,26 +82,34 @@ class MGraph__Builder(Type_Safe):
         return self
 
     # todo: refactor with connect_to and add support for outgoing and incomming label
-    def add_predicate(self, predicate: str, target: Any, edge_type: Type[Schema__MGraph__Edge] = None, **kwargs) -> 'MGraph__Builder':  # Add a semantic relationship with a predicate between the current node and target."""
+    def add_predicate(self, predicate: str                              ,
+                            target   : Any                              ,
+                            edge_type: Type[Schema__MGraph__Edge] = None,
+                            node_type: Type[Schema__MGraph__Node] = None,
+                            **kwargs) -> 'MGraph__Builder':  # Add a semantic relationship with a predicate between the current node and target."""
         if not self.node__current:
             raise ValueError("No current node set. Use add_node() or set_current() first.")
 
-        # Create the target node if needed
-        if isinstance(target, Domain__MGraph__Node):
+        target_node = None
+        if isinstance(target, Domain__MGraph__Node):                                    # check if target is a node already
             target_node = target
-        elif isinstance(target, Obj_Id):
-            target_node = self.mgraph_edit.data().node(target)
-            if not target_node:
-                raise ValueError(f"Node with ID {target} not found")
-        else:
+        elif isinstance(target, Obj_Id):                                                # if target is an Obj_Id, see if points to an existing node (and if so used it)
+            obj_id_node = self.mgraph_edit.data().node(target)
+            if obj_id_node:
+                target_node =  obj_id_node
+        if not target_node:                                                             # else use target as value node
             if self.config__unique_values:
                 kwargs['key'] = Obj_Id()
-            target_node = self.mgraph_edit.new_value(target, **kwargs)                  # If target is a value, create a new node for it
+            target_node = self.mgraph_edit.new_value(target, node_type=node_type, **kwargs)
 
 
-        domain_edge = self.mgraph_edit.connect_nodes(from_node = self.node__current,             # Create edge between current node and target
-                                                     to_node   = target_node       ,
-                                                     edge_type = edge_type         )
+        # domain_edge = self.mgraph_edit.connect_nodes(from_node = self.node__current,             # Create edge between current node and target
+        #                                              to_node   = target_node       ,
+        #                                              edge_type = edge_type         )
+        domain_edge = self.mgraph_edit.get_or_create_edge(edge_type    = edge_type                 ,
+                                                          from_node_id = self.node__current.node_id,             # Create edge between current node and target
+                                                          to_node_id   = target_node       .node_id)
+
         edge_data   = domain_edge.edge.data
         edge_label  = Schema__MGraph__Edge__Label(predicate=predicate)
         edge_data.edge_label = edge_label                                               # todo refactor this to use a helper method to set an edge label's value

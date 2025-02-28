@@ -1,11 +1,10 @@
-from unittest                                                               import TestCase
-from mgraph_db.providers.graph_rag.actions.Graph_RAG__Create_MGraph         import Graph_RAG__Create_MGraph
-from mgraph_db.providers.graph_rag.mgraph                                   import MGraph__Graph_RAQ__Entity
-from mgraph_db.providers.graph_rag.schemas.Schema__Graph_RAG__Entity        import Schema__Graph_RAG__Entity
-from mgraph_db.providers.graph_rag.actions.Graph_RAG__Document__Processor   import Graph_RAG__Document__Processor
-from osbot_utils.context_managers.print_duration                            import print_duration
-from osbot_utils.helpers.Obj_Id                                             import Obj_Id
-from osbot_utils.utils.Env                                                  import load_dotenv
+from unittest                                                              import TestCase
+from mgraph_db.providers.graph_rag.actions.Graph_RAG__Create_MGraph        import Graph_RAG__Create_MGraph
+from mgraph_db.providers.graph_rag.schemas.Schema__Graph_RAG__Entity       import Schema__Graph_RAG__Entity
+from mgraph_db.providers.graph_rag.actions.Graph_RAG__Document__Processor  import Graph_RAG__Document__Processor
+from osbot_utils.context_managers.print_duration                           import print_duration
+from osbot_utils.helpers.Obj_Id                                            import Obj_Id
+from osbot_utils.utils.Env                                                 import load_dotenv
 
 class test_MGraph__Graph_RAQ__Entity(TestCase):
 
@@ -21,6 +20,62 @@ class test_MGraph__Graph_RAQ__Entity(TestCase):
             cls.llm_entities = cls.processor.extract_entities(cls.sample_text)       # create test entities
             cls.entities     = cls.llm_entities.entities
 
+    def setUp(self):
+        self.graph_rag                         = Graph_RAG__Create_MGraph().setup()
+        self.items_to_add                      = 14
+        self.graph_rag.config__add_group_nodes = False
+        self.collapse_group_nodes              = False
+        self.use_layout_engine__sfdp           = False
+
+    def tearDown(self):
+        # with self.mgraph_entity as _:
+        #     pprint(_.export().to__json())
+        if self.create_png:
+            with self.graph_rag as _:
+                load_dotenv()
+                _.screenshot__create_file(f'{self.__class__.__name__}.png')
+                #_.save_to(f'{self.__class__.__name__}.png')
+
+
+
+    def test_setUpClass(self):
+        assert len(self.entities) == 4
+        with self.entities[0] as entity_data:
+            assert type(entity_data) is Schema__Graph_RAG__Entity
+
+    def test_add_entity(self):
+        self.graph_rag.add_entity(self.entities[0])
+        assert self.graph_rag.mgraph_entity.data().stats() == {'edges_ids': 14, 'nodes_ids': 15}
+
+    def test_add_entities(self):
+        self.graph_rag.add_entities(self.entities)
+        assert self.graph_rag.mgraph_entity.data().stats() == {'edges_ids': 52, 'nodes_ids': 40}
+
+    def test_add_entities__multiple_texts(self):
+        processor = Graph_RAG__Document__Processor()
+        def text_to_entities(text):
+            source_id    = Obj_Id()
+            llm_entities = processor.extract_entities(text, source_id=source_id)
+            entities     = llm_entities.entities
+            return entities
+
+        text_1     = "cyber-news-1"                         # Using cached test data
+        text_2     = "cyber-news-3"                         # Using cached test data
+        text_3     = "cyber-news-3"                         # Using cached test data
+        entities_1 = text_to_entities(text_1)
+        entities_2 = text_to_entities(text_2)
+        entities_3 = text_to_entities(text_3)
+
+        all_entities     = (entities_1 + entities_2 + entities_3)[0:self.items_to_add]
+        for entity in all_entities:
+            self.graph_rag.add_entity(entity)
+
+        self.create_png = False
+
+        assert self.graph_rag.mgraph_entity.data().stats() == {'edges_ids': 93, 'nodes_ids': 62}
+
+
+
     # def test_use_open__router(self):
     #
     #     sample_text = "new GDPR fine in Lisbon on SaaS fintech startup"
@@ -31,92 +86,60 @@ class test_MGraph__Graph_RAQ__Entity(TestCase):
     #     for entity in llm_entities.entities:
     #         pprint(entity.json())
 
-    def setUp(self):
-        self.mgraph_entity = MGraph__Graph_RAQ__Entity()
-
-    def tearDown(self):
-        # with self.mgraph_entity as _:
-        #     pprint(_.export().to__json())
-        if self.create_png:
-            with self.mgraph_entity.screenshot() as _:
-                with _.export().export_dot() as dot:
-                    dot.set_graph__rank_dir__lr()
-                    #dot.set_graph__layout_engine__sfdp()
-                    #dot.set_graph__spring_constant(2)
-                    #dot.set_graph__overlap__prism1()
-                    dot.set_node__shape__type__box()
-                    dot.set_node__shape__rounded()
-                    dot.show_edge__predicate__str()
-                    #dot.print_dot_code()
-
-                load_dotenv()
-                _.save_to(f'{self.__class__.__name__}.png')
-                _.show_node_value()
-                #_.show_edge_type()
-
-                #_.show_node_type()
-                _.dot()
-                # if current_host_online():
-                # else:
-                #     print('Currenly offline, so not creating png')
 
 
-    def test_setUpClass(self):
-        assert len(self.entities) == 4
-        with self.entities[0] as entity_data:
-            assert type(entity_data) is Schema__Graph_RAG__Entity
 
-    def test_create_graph__with_builder(self):
-        self.create_png = False
-        with self.mgraph_entity.builder() as _:
-            _.config__unique_values = False
-            _.add_node('Text')
-            for entity in self.entities:
-                _.root()
-
-                _.add_predicate('entity', entity.name)
-                #_.add_predicate('confidence ', entity.confidence).up()
-
-                # adding direct relationships
-                _.add_predicate('direct', 'relationships', key=Obj_Id())
-                for direct_relationship in entity.direct_relationships:
-                   _.add_predicate(direct_relationship.relationship_type, direct_relationship.entity, key=Obj_Id())
-                   _.up()
-                _.up()
-
-                # adding domain relationships
-                _.add_predicate('domain', 'relationships', key=Obj_Id())
-                for domain_relationship in entity.domain_relationships:
-                    _.add_predicate(domain_relationship.relationship_type, domain_relationship.concept, key=Obj_Id())
-                    _.up()
-                _.up()
-                _.add_predicate('has', 'functional_roles', key=Obj_Id())
-                for role in entity.functional_roles:
-                    _.add_predicate('role', role).up()
-                _.up()
-
-                _.add_predicate('has', 'primary_domains', key=Obj_Id())
-                for domain in entity.primary_domains:
-                    _.add_predicate('domain', domain).up()
-                _.up()
-                # adding ecosystem
-                if entity.ecosystem.platforms:
-                    _.add_predicate('uses', 'platforms', key=Obj_Id())
-                    for platform in entity.ecosystem.platforms:
-                        _.add_predicate('platform', platform).up()
-                    _.up()
-                if entity.ecosystem.standards:
-                    _.add_predicate('uses', 'standards', key=Obj_Id())
-                    for standard in entity.ecosystem.standards:
-                        _.add_predicate('standard', standard).up()
-                    _.up()
-                if entity.ecosystem.technologies:
-                    _.add_predicate('uses', 'technologies', key=Obj_Id())
-                    for technology in entity.ecosystem.technologies:
-                        _.add_predicate('technology', technology).up()
-                    _.up()
-
-                _.up()
+    # def test_create_graph__with_builder(self):
+    #     self.create_png = False
+    #     with self.mgraph_entity.builder() as _:
+    #         _.config__unique_values = False
+    #         _.add_node('Text')
+    #         for entity in self.entities:
+    #             _.root()
+    #
+    #             _.add_predicate('entity', entity.name)
+    #             #_.add_predicate('confidence ', entity.confidence).up()
+    #
+    #             # adding direct relationships
+    #             _.add_predicate('direct', 'relationships', key=Obj_Id())
+    #             for direct_relationship in entity.direct_relationships:
+    #                _.add_predicate(direct_relationship.relationship_type, direct_relationship.entity, key=Obj_Id())
+    #                _.up()
+    #             _.up()
+    #
+    #             # adding domain relationships
+    #             _.add_predicate('domain', 'relationships', key=Obj_Id())
+    #             for domain_relationship in entity.domain_relationships:
+    #                 _.add_predicate(domain_relationship.relationship_type, domain_relationship.concept, key=Obj_Id())
+    #                 _.up()
+    #             _.up()
+    #             _.add_predicate('has', 'functional_roles', key=Obj_Id())
+    #             for role in entity.functional_roles:
+    #                 _.add_predicate('role', role).up()
+    #             _.up()
+    #
+    #             _.add_predicate('has', 'primary_domains', key=Obj_Id())
+    #             for domain in entity.primary_domains:
+    #                 _.add_predicate('domain', domain).up()
+    #             _.up()
+    #             # adding ecosystem
+    #             if entity.ecosystem.platforms:
+    #                 _.add_predicate('uses', 'platforms', key=Obj_Id())
+    #                 for platform in entity.ecosystem.platforms:
+    #                     _.add_predicate('platform', platform).up()
+    #                 _.up()
+    #             if entity.ecosystem.standards:
+    #                 _.add_predicate('uses', 'standards', key=Obj_Id())
+    #                 for standard in entity.ecosystem.standards:
+    #                     _.add_predicate('standard', standard).up()
+    #                 _.up()
+    #             if entity.ecosystem.technologies:
+    #                 _.add_predicate('uses', 'technologies', key=Obj_Id())
+    #                 for technology in entity.ecosystem.technologies:
+    #                     _.add_predicate('technology', technology).up()
+    #                 _.up()
+    #
+    #             _.up()
 
 
 
@@ -154,7 +177,3 @@ class test_MGraph__Graph_RAQ__Entity(TestCase):
     #             _.connect_nodes(node__concept, node__category, Schema__Graph_RAG__Edge__Category)
     #         break
 
-    def test_Graph_RAG__Create_MGraph(self):
-        #mgraph = Graph_RAG__Create_MGraph().from_entities(self.entities)
-        self.mgraph_entity = Graph_RAG__Create_MGraph().from_entities(self.entities)
-        self.create_png = False

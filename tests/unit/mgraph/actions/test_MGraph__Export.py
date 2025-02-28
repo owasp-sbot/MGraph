@@ -206,6 +206,7 @@ class test_MGraph__Export(TestCase):
 
     def test_to__dot(self):                                                                  # Test DOT graph export
         with self.linear_graph.graph.export() as _:
+            _.export_dot().config.render.label_show_var_name = True
             _.export_dot().show_edge__id()
             dot = _.to__dot()
             assert dot.startswith('digraph {')
@@ -214,7 +215,7 @@ class test_MGraph__Export(TestCase):
                 assert f'"{node_id}"' in dot
             with self.linear_graph.graph.data() as data:
                 for edge in data.edges():
-                    assert f'"{edge.from_node_id()}" -> "{edge.to_node_id()}" [label="  edge_id = \'{edge.edge_id}\'\\l"]' in dot
+                    assert f'"{edge.from_node_id()}" -> "{edge.to_node_id()}" [label="  edge_id = \'{edge.edge_id}\'"]' in dot
 
 
         node_ids = self.linear_graph.node_ids                                                # Verify expected structure using actual IDs
@@ -224,8 +225,8 @@ digraph {{
   "{node_ids[0]}"
   "{node_ids[1]}"
   "{node_ids[2]}"
-  "{node_ids[0]}" -> "{node_ids[1]}" [label="  edge_id = \'{edge_ids[0]}\'\\l"]
-  "{node_ids[1]}" -> "{node_ids[2]}" [label="  edge_id = \'{edge_ids[1]}\'\\l"]
+  "{node_ids[0]}" -> "{node_ids[1]}" [label="  edge_id = \'{edge_ids[0]}\'"]
+  "{node_ids[1]}" -> "{node_ids[2]}" [label="  edge_id = \'{edge_ids[1]}\'"]
 }}'''
         assert dot == expected_dot
 

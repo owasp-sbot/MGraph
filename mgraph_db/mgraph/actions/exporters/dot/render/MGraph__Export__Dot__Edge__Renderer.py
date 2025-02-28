@@ -49,7 +49,10 @@ class MGraph__Export__Dot__Edge__Renderer(MGraph__Export__Dot__Base):
                 label_parts.append(f"{edge.edge.data.edge_label.predicate}")
 
         if label_parts:  # Combine all parts
-            return [f'label="{"\l".join(label_parts)}\l"']
+            if len(label_parts) == 1:
+                return [f'label="{label_parts[0]}"']
+            else:
+                return [f'label="{"\l".join(label_parts)}\l"']
         return label_parts
 
     def format_edge_definition(self, source: str, target: str, attrs: List[str]) -> str:

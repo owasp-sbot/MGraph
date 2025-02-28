@@ -25,6 +25,7 @@ class test_MGraph__Export__Dot(TestCase):
         self.edges_ids    = self.simple_graph.edges_ids()
         self.domain_graph = self.simple_graph.graph
         self.exporter     = MGraph__Export__Dot(graph=self.domain_graph)               # Create DOT exporter
+        self.exporter.config.render.label_show_var_name = True                         # use this default since a good number of the tests below used it
 
     def tearDown(self):
         if self.create_screenshot:
@@ -69,8 +70,9 @@ class test_MGraph__Export__Dot(TestCase):
 
         # Test with show_value=True
         self.exporter.config.display.node_value = True
+        self.exporter.config.render.label_show_var_name = True
         node_data                               = self.exporter.create_node_data(self.domain_graph.node(node_id))
-        assert 'label="node_value=\'A\'\\l"'    in node_data['attrs']
+        assert 'label="node_value=\'A\'"'    in node_data['attrs']
 
     def test_create_edge_data(self):                                                   # Test edge data creation
         edge_1_id = self.edges_ids[0]
@@ -99,8 +101,8 @@ class test_MGraph__Export__Dot(TestCase):
                           f'  "{self.nodes_ids[0]}"\n'
                           f'  "{self.nodes_ids[1]}"\n'
                           f'  "{self.nodes_ids[2]}"\n'
-                          f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[1]}" [label="  edge_id = \'{self.edges_ids[0]}\'\\l"]\n'
-                          f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[2]}" [label="  edge_id = \'{self.edges_ids[1]}\'\\l"]\n'
+                          f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[1]}" [label="  edge_id = \'{self.edges_ids[0]}\'"]\n'
+                          f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[2]}" [label="  edge_id = \'{self.edges_ids[1]}\'"]\n'
                           '}')
         assert dot_output == expected_output
 
@@ -125,11 +127,12 @@ class test_MGraph__Export__Dot(TestCase):
         config.graph.rank_sep = 1.2
 
         exporter = MGraph__Export__Dot(graph=self.domain_graph, config=config)
+        exporter.config.render.label_show_var_name = True
         exporter.process_graph()                                                       # Process graph first
         output = exporter.format_output()
 
         # With show_value=True, should include label attributes
-        assert 'label="node_value=\'A\'\\l"' in output                                                   # First node's value
+        assert 'label="node_value=\'A\'"' in output                                                   # First node's value
 
         # With show_edge_ids=False, should not include edge IDs in labels
         for edge_id in self.edges_ids:
@@ -149,8 +152,8 @@ class test_MGraph__Export__Dot(TestCase):
                           f'  "{self.nodes_ids[0]}"\n'
                           f'  "{self.nodes_ids[1]}"\n'
                           f'  "{self.nodes_ids[2]}"\n'
-                          f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[1]}" [label="  edge_id = \'{self.edges_ids[0]}\'\\l"]\n'
-                          f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[2]}" [label="  edge_id = \'{self.edges_ids[1]}\'\\l"]\n'
+                          f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[1]}" [label="  edge_id = \'{self.edges_ids[0]}\'"]\n'
+                          f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[2]}" [label="  edge_id = \'{self.edges_ids[1]}\'"]\n'
                           '}')
         assert dot_output == expected_output
 
@@ -160,8 +163,8 @@ class test_MGraph__Export__Dot(TestCase):
                           f'  "{self.nodes_ids[0]}" [shape=diamond, style=filled, fillcolor=red]\n'
                           f'  "{self.nodes_ids[1]}" [shape=box, style=filled, fillcolor=yellow]\n'
                           f'  "{self.nodes_ids[2]}"\n'
-                          f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[1]}" [label="  edge_id = \'{self.edges_ids[0]}\'\\l"]\n'
-                          f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[2]}" [label="  edge_id = \'{self.edges_ids[1]}\'\\l"]\n'
+                          f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[1]}" [label="  edge_id = \'{self.edges_ids[0]}\'"]\n'
+                          f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[2]}" [label="  edge_id = \'{self.edges_ids[1]}\'"]\n'
                           '}')
         assert dot_output == expected_output
 
@@ -176,8 +179,8 @@ class test_MGraph__Export__Dot(TestCase):
                           f'  "{self.nodes_ids[0]}"\n'
                           f'  "{self.nodes_ids[1]}"\n'
                           f'  "{self.nodes_ids[2]}"\n'
-                          f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[1]}" [label="  edge_id = \'{self.edges_ids[0]}\'\\l"]\n'
-                          f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[2]}" [label="  edge_id = \'{self.edges_ids[1]}\'\\l"]\n'
+                          f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[1]}" [label="  edge_id = \'{self.edges_ids[0]}\'"]\n'
+                          f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[2]}" [label="  edge_id = \'{self.edges_ids[1]}\'"]\n'
                           '}')
         assert dot_output == expected_output
 
@@ -188,7 +191,7 @@ class test_MGraph__Export__Dot(TestCase):
                           f'  "{self.nodes_ids[1]}"\n'
                           f'  "{self.nodes_ids[2]}"\n'
                           f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[1]}" [color=blue, penwidth=2.0, label="A to B"]\n'
-                          f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[2]}" [label="  edge_id = \'{self.edges_ids[1]}\'\\l"]\n'
+                          f'  "{self.nodes_ids[0]}" -> "{self.nodes_ids[2]}" [label="  edge_id = \'{self.edges_ids[1]}\'"]\n'
                           '}')
         assert dot_output == expected_output
 

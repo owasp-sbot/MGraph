@@ -34,7 +34,7 @@ class MGraph__Index(Type_Safe):
             self.index_data.nodes_by_type[node_type] = set()
         self.index_data.nodes_by_type[node_type].add(node_id)
 
-        if node.node_type is Schema__MGraph__Node__Value:                           # if the data is a value
+        if node.node_type and issubclass(node.node_type, Schema__MGraph__Node__Value):                           # if the data is a value
             self.values_index.add_value_node(node)                        # add it to the index
 
 
@@ -256,11 +256,14 @@ class MGraph__Index(Type_Safe):
     # todo refactor this to names like edges__from__node , nodes_from_node
 
     def get_nodes_connected_to_value(self, value     : Any ,
-                                           edge_type : Optional[Type[Schema__MGraph__Edge]] = None
+                                           edge_type : Type[Schema__MGraph__Edge       ] = None ,
+                                           node_type : Type[Schema__MGraph__Node__Value] = None
                                       ) -> Set[Obj_Id]:                                             # Get nodes connected to a value node through optional edge type
         value_type = type(value)
-        node_id    = self.values_index.get_node_id_by_value(value_type=value_type, value=value)     # Find value node
-        if not node_id:                                                                             # No matching value found
+        if node_type is None:
+            node_type = Schema__MGraph__Node__Value
+        node_id    = self.values_index.get_node_id_by_value(value_type=value_type, value=value, node_type=node_type)     # Find value node
+        if not node_id:                                                                                                 # No matching value found
             return set()
 
         connected_nodes = set()                                                                     # Find nodes connected to this value node through edges
