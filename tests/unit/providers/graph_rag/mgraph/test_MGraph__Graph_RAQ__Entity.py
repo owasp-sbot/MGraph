@@ -10,7 +10,7 @@ class test_MGraph__Graph_RAQ__Entity(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.create_png = True
+        cls.create_png = False
         load_dotenv()
         #cls.sample_text = "new GDPR fine in Lisbon on SaaS fintech startup"
         cls.sample_text  = "cyber-news-1"                                        # Using cached test data
