@@ -2,7 +2,7 @@ from unittest                                                              impor
 from mgraph_db.providers.graph_rag.actions.Graph_RAG__Create_MGraph        import Graph_RAG__Create_MGraph
 from mgraph_db.providers.graph_rag.schemas.Schema__Graph_RAG__Entity       import Schema__Graph_RAG__Entity
 from mgraph_db.providers.graph_rag.actions.Graph_RAG__Document__Processor  import Graph_RAG__Document__Processor
-from osbot_utils.context_managers.print_duration                           import print_duration
+
 from osbot_utils.helpers.Obj_Id                                            import Obj_Id
 from osbot_utils.utils.Env                                                 import load_dotenv
 
@@ -10,15 +10,14 @@ class test_MGraph__Graph_RAQ__Entity(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.create_png = False
+        cls.create_png = True
         load_dotenv()
-        with print_duration():
-            #cls.sample_text = "new GDPR fine in Lisbon on SaaS fintech startup"
-            cls.sample_text  = "cyber-news-1"                                        # Using cached test data
-            cls.llm_model    = 'gpt-4o-mini'
-            cls.processor    = Graph_RAG__Document__Processor(llm_model=cls.llm_model)
-            cls.llm_entities = cls.processor.extract_entities(cls.sample_text)       # create test entities
-            cls.entities     = cls.llm_entities.entities
+        #cls.sample_text = "new GDPR fine in Lisbon on SaaS fintech startup"
+        cls.sample_text  = "cyber-news-1"                                        # Using cached test data
+        cls.llm_model    = 'gpt-4o-mini'
+        cls.processor    = Graph_RAG__Document__Processor(llm_model=cls.llm_model)
+        cls.llm_entities = cls.processor.extract_entities(cls.sample_text)       # create test entities
+        cls.entities     = cls.llm_entities.entities
 
     def setUp(self):
         self.graph_rag                         = Graph_RAG__Create_MGraph().setup()

@@ -5,7 +5,7 @@ from mgraph_db.mgraph.actions.MGraph__Index__Values import SIZE__VALUE_HASH
 from mgraph_db.providers.graph_rag.schemas.Schema__Graph_RAG__LLM__Entities     import Schema__Graph_RAG__LLM__Entities
 from mgraph_db.providers.graph_rag.testing.MGraph__Graph_Rag__LLM_Cache__Simple import mgraph_llm_cache_simple
 from mgraph_db.providers.llms.utils.API__LLM                                    import API__LLM
-from osbot_utils.context_managers.capture_duration                              import capture_duration
+from osbot_utils.helpers.duration.decorators.capture_duration                   import capture_duration
 from osbot_utils.helpers.Obj_Id import Obj_Id
 from osbot_utils.type_safe.Type_Safe                                            import Type_Safe
 from mgraph_db.providers.graph_rag.schemas.Schema__Graph_RAG__Entity            import Schema__Graph_RAG__Entity

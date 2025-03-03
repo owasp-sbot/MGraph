@@ -1,12 +1,9 @@
-from typing                                         import Union
-
-from osbot_utils.context_managers.print_duration import print_duration
-
-from osbot_utils.utils.Json                         import json_file_create, json_file_load
-from mgraph_db.providers.json.MGraph__Json          import MGraph__Json
-from osbot_utils.context_managers.capture_duration  import capture_duration
-from osbot_utils.utils.Http                         import GET_json
-from osbot_utils.type_safe.Type_Safe                import Type_Safe
+from typing                                                     import Union
+from osbot_utils.helpers.duration.decorators.capture_duration   import capture_duration
+from osbot_utils.utils.Json                                     import json_file_create, json_file_load
+from mgraph_db.providers.json.MGraph__Json                      import MGraph__Json
+from osbot_utils.utils.Http                                     import GET_json
+from osbot_utils.type_safe.Type_Safe                            import Type_Safe
 
 class Model__Perf_Test__Duration(Type_Safe):
     duration__save_mgraph_json: float

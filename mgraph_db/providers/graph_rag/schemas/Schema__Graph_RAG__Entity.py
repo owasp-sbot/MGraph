@@ -3,7 +3,6 @@ from mgraph_db.mgraph.schemas.Schema__MGraph__Node__Data                        
 from mgraph_db.providers.graph_rag.schemas.Schema__Graph_RAG__Entity__Direct_Relationship   import Schema__Graph_RAG__Entity__Direct_Relationship
 from mgraph_db.providers.graph_rag.schemas.Schema__Graph_RAG__Entity__Domain_Relationship   import Schema__Graph_RAG__Entity__Domain_Relationship
 from mgraph_db.providers.graph_rag.schemas.Schema__Graph_RAG__Entity__Ecosystem             import Schema__Graph_RAG__Entity__Ecosystem
-
 from osbot_utils.helpers.Obj_Id                                                             import Obj_Id
 
 

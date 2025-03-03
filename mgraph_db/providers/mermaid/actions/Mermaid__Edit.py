@@ -1,4 +1,3 @@
-from typing                                                                 import Dict
 from mgraph_db.providers.mermaid.domain.Domain__Mermaid__Node               import Domain__Mermaid__Node
 from mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Render__Config    import Schema__Mermaid__Render__Config
 from osbot_utils.utils.Misc                                                 import random_text
@@ -36,6 +35,8 @@ class Mermaid__Edit(MGraph__Edit):
         return edge
 
     def add_node(self, **kwargs) -> Domain__Mermaid__Node:                          # todo: see if we need this method
+        if 'key' in kwargs and type(kwargs['key']) is str:
+            kwargs['key'] = Safe_Id(kwargs['key'])                                  # todo: figure out best way todo this, but the test test_example_* use this a lot (with pure str)
         return self.new_node(**kwargs)
 
     @cache_on_self
@@ -43,8 +44,8 @@ class Mermaid__Edit(MGraph__Edit):
         return Mermaid__Data(graph=self.graph)                  # todo: look at the best way to do this (i.e. give access to this class the info inside data)
 
     def new_edge(self) -> Domain__Mermaid__Edge:
-        from_node_key = random_text('node', lowercase=True)
-        to_node_key   = random_text('node', lowercase=True)
+        from_node_key = Safe_Id(random_text('node', lowercase=True))
+        to_node_key   = Safe_Id(random_text('node', lowercase=True))
         return self.add_edge(from_node_key, to_node_key)
 
     def render_config(self) -> Schema__Mermaid__Render__Config:         # todo: review this since we really should be able to access the Mermaid__Render__Config outside the Mermaid__Render object

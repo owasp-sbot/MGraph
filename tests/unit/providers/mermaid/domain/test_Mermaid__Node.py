@@ -93,7 +93,7 @@ class test_Mermaid_Node(TestCase):
 
     def test__config__wrap_with_quotes(self):
         data_obj  = self.mermaid_node_data
-        data_obj.key   = 'id'
+        data_obj.key   = Safe_Id('id')
         data_obj.label = 'id'
         node_obj  = self.mermaid_node.wrap_with_quotes()
         assert type(data_obj ) is Schema__Mermaid__Node
@@ -113,23 +113,23 @@ class test_Mermaid_Node(TestCase):
         assert Schema__Mermaid__Node.from_json(data_obj.json()).json() == data_obj.json()
 
         with MGraph__Mermaid() as _:
-            _.edit().new_node(key='id')
+            _.edit().new_node(key=Safe_Id('id'))
             assert _.code() == 'graph LR\n    id["id"]\n'
 
         #return
         with MGraph__Mermaid() as _:
-            _.edit().new_node(key='id').wrap_with_quotes(False)
+            _.edit().new_node(key=Safe_Id('id')).wrap_with_quotes(False)
             assert _.code() == 'graph LR\n    id[id]\n'
 
         mermaid = MGraph__Mermaid()
-        new_node = mermaid.edit().new_node(key='id')
+        new_node = mermaid.edit().new_node(key=Safe_Id('id'))
         new_node.wrap_with_quotes(False)
 
         assert type(new_node) == Domain__Mermaid__Node
         assert mermaid.code() == 'graph LR\n    id[id]\n'
 
     def test_new_node(self):
-        key_value = 'this-is-an-key'
+        key_value = Safe_Id('this-is-an-key')
         with MGraph__Mermaid() as _:
             assert _.edit().new_node(key=key_value).key == key_value
             assert _.render().code() == f'graph LR\n    {key_value}["{key_value}"]\n'

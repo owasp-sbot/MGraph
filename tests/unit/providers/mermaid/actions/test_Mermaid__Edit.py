@@ -7,7 +7,7 @@ from mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Diagram__Type     impo
 from mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Node__Data        import Schema__Mermaid__Node__Data
 from osbot_utils.helpers.Obj_Id                                             import is_obj_id
 from osbot_utils.helpers.Safe_Id                                            import Safe_Id
-from osbot_utils.utils.Objects                                              import __, obj
+from osbot_utils.utils.Objects                                              import __
 from mgraph_db.providers.mermaid.domain.Domain__Mermaid__Node               import Domain__Mermaid__Node
 from mgraph_db.mgraph.actions.MGraph__Edit                                  import MGraph__Edit
 from mgraph_db.providers.mermaid.actions.Mermaid__Edit                      import Mermaid__Edit
@@ -32,7 +32,7 @@ class test__Mermaid__Edit(TestCase):
         with self.mermaid__edit as _:
             _.set_diagram_type(Schema__Mermaid__Diagram__Type.flowchart)
             _.add_directive   ('init: {"flowchart": {"htmlLabels": false}} ')
-            _.new_node        (key='markdown', label='This **is** _Markdown_').markdown()
+            _.new_node        (key=Safe_Id('markdown'), label='This **is** _Markdown_').markdown()
 
         with self.mermaid__render as _:
             assert _.code() ==  ('%%{init: {"flowchart": {"htmlLabels": false}} }%%\n'
@@ -41,8 +41,8 @@ class test__Mermaid__Edit(TestCase):
 
     def test_add_edge(self):
         with self.mermaid__edit as _:
-            from_node_key    = 'from_key'
-            to_node_key      =  'to_key'
+            from_node_key    = Safe_Id('from_key')
+            to_node_key      = Safe_Id('to_key'  )
             label            = 'an_label'
             edge             = _.add_edge(from_node_key=from_node_key, to_node_key=to_node_key, label=label)
             edge_id          =  edge.edge_id
@@ -88,7 +88,7 @@ class test__Mermaid__Edit(TestCase):
                                                              node_type   = 'mgraph_db.providers.mermaid.schemas.Schema__Mermaid__Node.Schema__Mermaid__Node')),
                                              graph = _.graph.model.obj())
 
-        node_2 = _.new_node(key='an-key', label = 'an-label')
+        node_2 = _.new_node(key=Safe_Id('an-key'), label = 'an-label')
         assert node_2.node.data.obj() == __(key       = 'an-key'               ,
                                             label     = 'an-label'             ,
                                             node_data = node_2.node_data.obj() ,

@@ -68,14 +68,9 @@ class MGraph__Export(Type_Safe):
         return self.format_xml(root, indent='  ')
 
     def to__dot(self, show_value=False, show_edge_ids=True) -> str:                       # Export as DOT graph
-        # dot_exporter = MGraph__Export__Dot(graph  = self.graph                        ,
-        #                                   config = MGraph__Export__Dot__Config(
-        #                                             show_value    = show_value   ,
-        #                                             show_edge_ids = show_edge_ids))
         return self.export_dot().process_graph()
-        #return dot_exporter.format_output()
 
-    def to__dot_types(self):
+    def to__dot_types(self):                        # todo: a) see if we still need this, and if we do, fix this method since to_types_view doesn't exist any more
         return self.export_dot().to_types_view()
 
     def to__dot_schema(self):

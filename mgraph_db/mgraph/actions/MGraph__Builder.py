@@ -1,14 +1,13 @@
-from typing                                               import List, Optional, Type, Any, Union
-
-from mgraph_db.mgraph.schemas.Schema__MGraph__Node import Schema__MGraph__Node
-
-from mgraph_db.mgraph.domain.Domain__MGraph__Edge         import Domain__MGraph__Edge
-from mgraph_db.mgraph.domain.Domain__MGraph__Node         import Domain__MGraph__Node
-from mgraph_db.mgraph.schemas.Schema__MGraph__Edge        import Schema__MGraph__Edge
-from mgraph_db.mgraph.actions.MGraph__Edit                import MGraph__Edit
-from mgraph_db.mgraph.schemas.Schema__MGraph__Edge__Label import Schema__MGraph__Edge__Label
-from osbot_utils.helpers.Obj_Id                           import Obj_Id
-from osbot_utils.type_safe.Type_Safe                      import Type_Safe
+from typing                                                 import List, Optional, Type, Any, Union
+from mgraph_db.mgraph.schemas.Schema__MGraph__Node          import Schema__MGraph__Node
+from mgraph_db.mgraph.domain.Domain__MGraph__Edge           import Domain__MGraph__Edge
+from mgraph_db.mgraph.domain.Domain__MGraph__Node           import Domain__MGraph__Node
+from mgraph_db.mgraph.schemas.Schema__MGraph__Edge          import Schema__MGraph__Edge
+from mgraph_db.mgraph.actions.MGraph__Edit                  import MGraph__Edit
+from mgraph_db.mgraph.schemas.Schema__MGraph__Edge__Label   import Schema__MGraph__Edge__Label
+from osbot_utils.helpers.Obj_Id                             import Obj_Id
+from osbot_utils.helpers.Safe_Id                            import Safe_Id
+from osbot_utils.type_safe.Type_Safe                        import Type_Safe
 
 # todo: move the data fields into a new class Schema__MGraph__Builder__Data
 
@@ -111,7 +110,7 @@ class MGraph__Builder(Type_Safe):
                                                           to_node_id   = target_node       .node_id)
 
         edge_data   = domain_edge.edge.data
-        edge_label  = Schema__MGraph__Edge__Label(predicate=predicate)
+        edge_label  = Schema__MGraph__Edge__Label(predicate=Safe_Id(predicate))
         edge_data.edge_label = edge_label                                               # todo refactor this to use a helper method to set an edge label's value
 
         return self.register_edge(domain_edge, target_node)
