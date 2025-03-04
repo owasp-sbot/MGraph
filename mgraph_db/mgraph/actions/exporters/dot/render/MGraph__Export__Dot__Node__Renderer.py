@@ -179,7 +179,7 @@ class MGraph__Export__Dot__Node__Renderer(MGraph__Export__Dot__Base):
             if len(label_parts)==1:
                 return [f'label="{label_parts[0]}"']
             else:
-                return [f'label="{"\l".join(label_parts)}\\l"']
+                return [f'label="{"\\l".join(label_parts)}\\l"']
         return []
 
     def format_node_definition(self, node_id: str, attrs: List[str]) -> str:
